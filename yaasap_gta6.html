@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Marché GTA VI</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:  #0d1b2a; --navy2: #112236; --navy3: #162d47; --navy4: #1e3a5f;
+  --blue:  #1565c0; --blue2: #1976d2; --cyan:  #29b6f6;
+  --white: #eef2f7; --muted: #7a9ab8; --faint: rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+  --green: #43a870; --red: #ef5350; --amber: #f5a623; --purple:#9c6fe4;
+  --ttwo: #f5a623; --nvda: #76b900; --sony: #003087; --sony2:#4a90d9;
+  --amd:  #ed1c24; --amd2: #f47c7c; --msft: #00a4ef;
+  --mono: 'IBM Plex Mono',monospace; --sans: 'IBM Plex Sans',sans-serif;
+}
+html,body { width:1122px; height:794px; overflow:hidden; background:var(--navy); font-family:var(--sans); color:var(--white); font-size:11px; -webkit-font-smoothing:antialiased; }
+.page { width:1122px; height:794px; display:flex; flex-direction:column; }
+
+/* HEADER */
+.hdr { background:var(--navy2); border-bottom:2px solid var(--blue2); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; height:52px; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-pill { background:var(--blue2); color:#fff; font-family:var(--mono); font-size:11px; padding:4px 9px; letter-spacing:.04em; }
+.brand-name { font-size:13px; font-weight:600; }
+.brand-sub { font-family:var(--mono); font-size:8px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-top:1px; }
+.hdr-kpis { display:flex; gap:0; }
+.hkpi { padding:0 18px; border-right:1px solid var(--border); display:flex; flex-direction:column; gap:2px; }
+.hkpi:last-child { border-right:none; }
+.hkpi-v { font-family:var(--mono); font-size:13px; font-weight:500; line-height:1; }
+.hkpi-l { font-family:var(--mono); font-size:7px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-right { text-align:right; }
+.hdr-title { font-size:13px; font-weight:600; }
+.hdr-date { font-family:var(--mono); font-size:8px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+.up{color:var(--green);} .dn{color:var(--red);} .nt{color:var(--muted);} .am{color:var(--amber);} .cy{color:var(--cyan);}
+
+/* TICKER TAPE */
+.tape { background:var(--navy3); border-bottom:1px solid var(--border); padding:6px 24px; display:flex; gap:0; flex-shrink:0; }
+.tick { display:flex; align-items:center; gap:8px; padding:0 16px; border-right:1px solid var(--border); }
+.tick:last-child{border-right:none;}
+.tick-name { font-family:var(--mono); font-size:8px; letter-spacing:.1em; text-transform:uppercase; }
+.tick-price { font-family:var(--mono); font-size:13px; font-weight:500; }
+.tick-delta { font-family:var(--mono); font-size:9px; }
+.tick-sep { font-family:var(--mono); font-size:8px; color:var(--border); }
+.corr-badge { font-family:var(--mono); font-size:8px; padding:1px 5px; border-radius:2px; }
+
+/* BODY GRID: 3 cols */
+.body { flex:1; display:grid; grid-template-columns:390px 1fr 238px; min-height:0; }
+.col { padding:12px 16px; overflow:hidden; }
+.col-l { border-right:1px solid var(--border); }
+.col-m { border-right:1px solid var(--border); }
+.col-r { padding:12px 14px; }
+
+/* SECTION */
+.sec { font-family:var(--mono); font-size:7px; letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); background:rgba(41,182,246,.08); border-left:2px solid var(--cyan); padding:2px 7px; display:inline-block; margin-bottom:7px; }
+.sec-title { font-size:11px; font-weight:600; color:var(--white); margin-bottom:7px; }
+
+/* CHART BOX */
+.cbox { background:var(--navy2); border:1px solid var(--border); border-radius:3px; overflow:hidden; margin-bottom:8px; }
+.cbox:last-child{margin-bottom:0;}
+.cbox-h { padding:5px 10px; border-bottom:1px solid var(--border); background:var(--navy3); display:flex; justify-content:space-between; align-items:center; }
+.cbox-t { font-family:var(--mono); font-size:7.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.cbox-s { font-family:var(--mono); font-size:7px; color:rgba(255,255,255,.2); }
+.cbox-b { padding:8px 10px; }
+
+/* STOCK CARDS ROW */
+.stock-cards { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:8px; }
+.scard { background:var(--navy2); border:1px solid var(--border); border-radius:3px; padding:7px 8px; border-top:2px solid var(--border); }
+.scard-tick { font-family:var(--mono); font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+.scard-name { font-size:8.5px; color:rgba(255,255,255,.5); margin-bottom:5px; line-height:1.2; }
+.scard-price { font-family:var(--mono); font-size:14px; font-weight:500; line-height:1; margin-bottom:2px; }
+.scard-delta { font-family:var(--mono); font-size:9px; margin-bottom:4px; }
+.scard-mktcap { font-family:var(--mono); font-size:7.5px; color:var(--muted); }
+
+/* CORRELATION MATRIX */
+.corr-grid { display:grid; grid-template-columns:70px repeat(5,1fr); gap:2px; }
+.corr-cell { font-family:var(--mono); font-size:9px; font-weight:500; text-align:center; padding:5px 3px; border-radius:2px; line-height:1; }
+.corr-label { font-family:var(--mono); font-size:8px; color:var(--muted); display:flex; align-items:center; padding:0 4px; }
+.corr-header { font-family:var(--mono); font-size:8px; color:var(--muted); text-align:center; padding:3px; letter-spacing:.05em; }
+
+/* SUPPORT LEVELS */
+.slev { display:flex; align-items:center; gap:6px; padding:3px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+.slev:last-child{border-bottom:none;}
+.slev-tick { font-family:var(--mono); font-size:8px; font-weight:500; width:36px; flex-shrink:0; }
+.slev-name { font-size:8px; color:var(--muted); width:82px; flex-shrink:0; }
+.slev-bar-bg { flex:1; height:3px; background:rgba(255,255,255,.06); border-radius:2px; overflow:hidden; }
+.slev-bar { height:100%; border-radius:2px; }
+.slev-s { font-family:var(--mono); font-size:8.5px; font-weight:500; width:46px; text-align:right; flex-shrink:0; }
+.slev-r { font-family:var(--mono); font-size:8.5px; color:var(--muted); width:46px; text-align:right; flex-shrink:0; }
+
+/* EXPOSURE TABLE */
+.etab { width:100%; border-collapse:collapse; }
+.etab th { font-family:var(--mono); font-size:7.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:4px 6px; text-align:left; border-bottom:1px solid var(--border); }
+.etab td { font-size:10px; padding:5px 6px; border-bottom:1px solid rgba(255,255,255,.04); vertical-align:middle; }
+.etab tr:last-child td{border-bottom:none;}
+.etab td:not(:first-child) { font-family:var(--mono); font-size:9px; }
+.expo-bar { height:3px; border-radius:2px; margin-top:3px; }
+
+/* RIGHT COL */
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:8px; }
+.ms { background:var(--navy2); border:1px solid var(--border); border-radius:3px; padding:6px 8px; }
+.ms-l { font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.ms-v { font-family:var(--mono); font-size:13px; font-weight:500; line-height:1; }
+
+.cal { display:flex; gap:7px; background:var(--navy2); border:1px solid var(--border); border-radius:3px; padding:6px 8px; margin-bottom:5px; }
+.cal:last-child{margin-bottom:0;}
+.cal-d { background:var(--blue2); color:#fff; font-family:var(--mono); font-size:8px; padding:3px 5px; text-align:center; min-width:36px; border-radius:2px; line-height:1.4; flex-shrink:0; }
+.cal-e { font-size:9px; font-weight:600; margin-bottom:1px; }
+.cal-n { font-size:8px; color:var(--muted); line-height:1.4; }
+
+.rule { display:flex; gap:6px; background:var(--navy2); border:1px solid var(--border); border-radius:3px; padding:6px 8px; margin-bottom:5px; }
+.rule:last-child{margin-bottom:0;}
+.rule-n { font-family:var(--mono); font-size:8px; font-weight:500; color:var(--blue2); min-width:12px; }
+.rule-h { font-size:9px; font-weight:600; margin-bottom:1px; }
+.rule-b { font-size:8px; color:var(--muted); line-height:1.4; }
+
+/* LEGEND */
+.legend { display:flex; gap:10px; flex-wrap:wrap; padding:2px 10px 6px; }
+.li { display:flex; align-items:center; gap:4px; font-family:var(--mono); font-size:7px; color:var(--muted); text-transform:uppercase; }
+.ldot { width:7px; height:7px; border-radius:1px; flex-shrink:0; }
+.lline { width:14px; height:0; flex-shrink:0; }
+
+/* VERDICT */
+.verdict { background:linear-gradient(90deg,var(--navy4),var(--navy3)); border-top:1px solid rgba(41,182,246,.25); padding:7px 24px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.vtag { background:var(--blue2); color:#fff; font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; padding:3px 7px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+.vtext { font-size:10px; color:var(--white); font-style:italic; line-height:1.5; }
+.vtext strong{font-style:normal;color:var(--cyan);}
+
+/* FOOTER */
+.footer { background:var(--navy2); border-top:1px solid var(--border); padding:6px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:30px; }
+.foot-l { font-family:var(--mono); font-size:7px; color:rgba(255,255,255,.18); max-width:700px; }
+.foot-r { font-family:var(--mono); font-size:8px; color:rgba(255,255,255,.2); text-align:right; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Marché · N°13 · Analyse Sectorielle Exclusive</div>
+    </div>
+  </div>
+  <div class="hdr-kpis">
+    <div class="hkpi">
+      <div class="hkpi-v am">19 NOV 2026</div>
+      <div class="hkpi-l">Date sortie GTA VI</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-v" style="color:#76b900;">$80</div>
+      <div class="hkpi-l">Prix jeu anticipé</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-v">$3B+</div>
+      <div class="hkpi-l">Revenus J1–J3 est.</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-v up">+7%</div>
+      <div class="hkpi-l">TTWO · 14 mai</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-v">24/28</div>
+      <div class="hkpi-l">Analystes Buy TTWO</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-v up">+28%</div>
+      <div class="hkpi-l">Upside consensus</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-title">🎮 GTA VI — Cartographie Boursière</div>
+    <div class="hdr-date">15 Mai 2026 · 6 valeurs analysées · PS5 + Xbox Series</div>
+  </div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="tape">
+  <div class="tick">
+    <div class="tick-name" style="color:var(--amber);">TTWO</div>
+    <div class="tick-price am">$238</div>
+    <div class="tick-delta up">▲ +7.0%</div>
+    <div class="corr-badge" style="background:rgba(245,166,35,.15);color:var(--amber);">Exposition directe</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:#76b900;">NVDA</div>
+    <div class="tick-price" style="color:#76b900;">$235</div>
+    <div class="tick-delta up">▲ +3.4%</div>
+    <div class="corr-badge" style="background:rgba(118,185,0,.12);color:#76b900;">GPU rendering</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--sony2);">SONY</div>
+    <div class="tick-price" style="color:var(--sony2);">$24.8</div>
+    <div class="tick-delta up">▲ +5.6%</div>
+    <div class="corr-badge" style="background:rgba(74,144,217,.12);color:var(--sony2);">PS5 plateforme</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--amd2);">AMD</div>
+    <div class="tick-price" style="color:var(--amd2);">$108</div>
+    <div class="tick-delta up">▲ +2.1%</div>
+    <div class="corr-badge" style="background:rgba(237,28,36,.1);color:var(--amd2);">Puce PS5/Xbox</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--msft);">MSFT</div>
+    <div class="tick-price" style="color:var(--msft);">$448</div>
+    <div class="tick-delta dn">▼ −0.3%</div>
+    <div class="corr-badge" style="background:rgba(0,164,239,.1);color:var(--msft);">Xbox · GamePass</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:#c084fc;">EA</div>
+    <div class="tick-price" style="color:#c084fc;">$124</div>
+    <div class="tick-delta dn">▼ −1.2%</div>
+    <div class="corr-badge" style="background:rgba(192,132,252,.1);color:#c084fc;">Concurrent indirect</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- ═══ COL LEFT ═══ -->
+<div class="col col-l">
+  <div class="sec">01 · Cours normalisés — Base 100 (1 jan 2026)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Performance relative YTD — TTWO / NVDA / SONY / AMD / MSFT</span>
+      <span class="cbox-s">Base 100 · Jan 2026</span>
+    </div>
+    <div class="cbox-b" style="padding:8px 10px 4px;">
+      <div style="position:relative;height:148px;">
+        <canvas id="perfChart" role="img" aria-label="Performance normalisée YTD des valeurs GTA6"></canvas>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="li"><div class="ldot" style="background:var(--amber);"></div>TTWO</div>
+      <div class="li"><div class="ldot" style="background:#76b900;"></div>NVDA</div>
+      <div class="li"><div class="ldot" style="background:var(--sony2);"></div>SONY</div>
+      <div class="li"><div class="ldot" style="background:var(--amd2);"></div>AMD</div>
+      <div class="li"><div class="ldot" style="background:var(--msft);"></div>MSFT</div>
+    </div>
+  </div>
+
+  <div class="sec">02 · Supports & Résistances clés</div>
+  <div class="cbox">
+    <div class="cbox-b" style="padding:6px 10px;">
+      <div class="slev">
+        <div class="slev-tick am">TTWO</div>
+        <div class="slev-name nt">Support fort</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:75%;background:var(--amber);opacity:.7;"></div></div>
+        <div class="slev-s am">$210</div>
+        <div class="slev-r cy">R: $277</div>
+      </div>
+      <div class="slev">
+        <div class="slev-tick am">TTWO</div>
+        <div class="slev-name nt">Cible analysts.</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:90%;background:var(--green);opacity:.7;"></div></div>
+        <div class="slev-s up">$277</div>
+        <div class="slev-r up">+16%</div>
+      </div>
+      <div class="slev">
+        <div class="slev-tick" style="color:#76b900;">NVDA</div>
+        <div class="slev-name nt">Support MM20</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:68%;background:#76b900;opacity:.7;"></div></div>
+        <div class="slev-s" style="color:#76b900;">$210</div>
+        <div class="slev-r cy">R: $280</div>
+      </div>
+      <div class="slev">
+        <div class="slev-tick" style="color:var(--sony2);">SONY</div>
+        <div class="slev-name nt">Support récent</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:55%;background:var(--sony2);opacity:.7;"></div></div>
+        <div class="slev-s" style="color:var(--sony2);">$21.5</div>
+        <div class="slev-r cy">R: $28.5</div>
+      </div>
+      <div class="slev">
+        <div class="slev-tick" style="color:var(--amd2);">AMD</div>
+        <div class="slev-name nt">Zone achat</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:50%;background:var(--amd2);opacity:.7;"></div></div>
+        <div class="slev-s" style="color:var(--amd2);">$95</div>
+        <div class="slev-r cy">R: $130</div>
+      </div>
+      <div class="slev">
+        <div class="slev-tick" style="color:var(--msft);">MSFT</div>
+        <div class="slev-name nt">Consolidation</div>
+        <div class="slev-bar-bg"><div class="slev-bar" style="width:82%;background:var(--msft);opacity:.7;"></div></div>
+        <div class="slev-s" style="color:var(--msft);">$420</div>
+        <div class="slev-r cy">R: $490</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COL MIDDLE ═══ -->
+<div class="col col-m">
+  <div class="sec">03 · Matrice de corrélation avec TTWO (ρ de Pearson, 6 mois)</div>
+  <div class="cbox" style="margin-bottom:8px;">
+    <div class="cbox-h">
+      <span class="cbox-t">Corrélations — 6 mois glissants · Un ρ proche de 1 = même tendance que TTWO</span>
+      <span class="cbox-s">Pearson · Jan–Mai 2026</span>
+    </div>
+    <div class="cbox-b" style="padding:8px 10px;">
+      <div style="position:relative;height:118px;">
+        <canvas id="corrChart" role="img" aria-label="Matrice de corrélation GTA6 stocks"></canvas>
+      </div>
+    </div>
+    <div style="padding:0 10px 7px; display:grid; grid-template-columns:repeat(5,1fr); gap:6px;">
+      <!-- TTWO -->
+      <div style="background:var(--navy3);border-radius:3px;padding:6px 8px;border-top:2px solid var(--amber);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">NVDA / TTWO</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:500;color:var(--green);">ρ 0.71</div>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">Forte corrélation positive · GPU gaming</div>
+      </div>
+      <div style="background:var(--navy3);border-radius:3px;padding:6px 8px;border-top:2px solid var(--sony2);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">SONY / TTWO</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:500;color:var(--green);">ρ 0.63</div>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">Bonne corrélation · PS5 exclusivité</div>
+      </div>
+      <div style="background:var(--navy3);border-radius:3px;padding:6px 8px;border-top:2px solid var(--amd2);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">AMD / TTWO</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:500;color:var(--amber);">ρ 0.58</div>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">Corrélation modérée · semi-cond.</div>
+      </div>
+      <div style="background:var(--navy3);border-radius:3px;padding:6px 8px;border-top:2px solid var(--msft);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">MSFT / TTWO</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:500;color:var(--amber);">ρ 0.42</div>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">Corrélation faible · Xbox rival</div>
+      </div>
+      <div style="background:var(--navy3);border-radius:3px;padding:6px 8px;border-top:2px solid #c084fc;">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:2px;">EA / TTWO</div>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:500;color:var(--red);">ρ −0.18</div>
+        <div style="font-size:8px;color:var(--muted);margin-top:2px;">Corrélation négative · concurrent</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">04 · Exposition au cycle GTA VI par valeur</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Score d'exposition GTA VI · Exposition directe vs indirecte</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px;">
+      <table class="etab">
+        <thead>
+          <tr>
+            <th>Valeur</th><th>Cours</th><th>Cible</th><th>Upside</th><th>Bêta</th><th>Exposition GTA VI</th><th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:var(--amber);">TTWO</span><br><span style="font-size:8px;color:var(--muted);">Take-Two</span></td>
+            <td>$238</td><td style="color:var(--green);">$277</td>
+            <td class="up">+16.4%</td><td>1.42</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);">████████████ 95%</div>
+              <div class="expo-bar" style="width:95%;background:var(--amber);"></div>
+            </td>
+            <td><span style="background:rgba(245,166,35,.15);color:var(--amber);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Directe 🎮</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:#76b900;">NVDA</span><br><span style="font-size:8px;color:var(--muted);">NVIDIA</span></td>
+            <td>$235</td><td style="color:var(--green);">$310</td>
+            <td class="up">+31.9%</td><td>1.69</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:#76b900;">█████████░░░ 72%</div>
+              <div class="expo-bar" style="width:72%;background:#76b900;"></div>
+            </td>
+            <td><span style="background:rgba(118,185,0,.12);color:#76b900;font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Indirecte GPU</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:var(--sony2);">SONY</span><br><span style="font-size:8px;color:var(--muted);">Sony Group</span></td>
+            <td>$24.8</td><td style="color:var(--green);">$30.5</td>
+            <td class="up">+23.0%</td><td>0.87</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--sony2);">████████░░░░ 68%</div>
+              <div class="expo-bar" style="width:68%;background:var(--sony2);"></div>
+            </td>
+            <td><span style="background:rgba(74,144,217,.12);color:var(--sony2);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Plateforme PS5</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:var(--amd2);">AMD</span><br><span style="font-size:8px;color:var(--muted);">Adv. Micro D.</span></td>
+            <td>$108</td><td style="color:var(--green);">$140</td>
+            <td class="up">+29.6%</td><td>1.51</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amd2);">██████░░░░░░ 48%</div>
+              <div class="expo-bar" style="width:48%;background:var(--amd2);"></div>
+            </td>
+            <td><span style="background:rgba(237,28,36,.1);color:var(--amd2);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Semi-cond. consoles</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:var(--msft);">MSFT</span><br><span style="font-size:8px;color:var(--muted);">Microsoft</span></td>
+            <td>$448</td><td style="color:var(--green);">$510</td>
+            <td class="up">+13.8%</td><td>0.91</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--msft);">████░░░░░░░░ 30%</div>
+              <div class="expo-bar" style="width:30%;background:var(--msft);"></div>
+            </td>
+            <td><span style="background:rgba(0,164,239,.1);color:var(--msft);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Xbox / GamePass</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:500;color:#c084fc;">EA</span><br><span style="font-size:8px;color:var(--muted);">Electronic Arts</span></td>
+            <td>$124</td><td style="color:var(--muted);">$135</td>
+            <td class="dn">−5.0% risque</td><td>0.73</td>
+            <td>
+              <div style="font-family:var(--mono);font-size:9px;color:#c084fc;">███░░░░░░░░░ 22%</div>
+              <div class="expo-bar" style="width:22%;background:#c084fc;"></div>
+            </td>
+            <td><span style="background:rgba(192,132,252,.1);color:#c084fc;font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;">Concurrent · Risque</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COL RIGHT ═══ -->
+<div class="col col-r">
+  <div class="sec">05 · Métriques TTWO</div>
+  <div class="ms-grid">
+    <div class="ms"><div class="ms-l">Capitalisation</div><div class="ms-v">$45B</div></div>
+    <div class="ms"><div class="ms-l">Bêta</div><div class="ms-v dn">1.42</div></div>
+    <div class="ms"><div class="ms-l">Cible BofA</div><div class="ms-v up">$320</div></div>
+    <div class="ms"><div class="ms-l">Cible moy.</div><div class="ms-v up">$277</div></div>
+    <div class="ms"><div class="ms-l">EPS FY27 est.</div><div class="ms-v am">~$8</div></div>
+    <div class="ms"><div class="ms-l">Rev. FY27 est.</div><div class="ms-v">$9B+</div></div>
+  </div>
+
+  <div class="sec">06 · Risques clés</div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--red);">Nouveau retard GTA VI</div>
+    <div class="rule-b">Déjà 2 reports. Un 3ème effacerait ~$1B de bookings FY27 et ferait chuter TTWO de 15%+.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--amber);">Attentes trop élevées</div>
+    <div class="rule-b">CEO Zelnick : "les attentes sont terrifiantes." Tout raté de lancement = gap baissier violent.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">📊</div>
+    <div><div class="rule-h" style="color:var(--green);">Résultats Q4 TTWO</div>
+    <div class="rule-b">Publication le 21 mai après clôture. EPS attendu : $0.56. Guidance FY27 = catalyseur décisif.</div></div>
+  </div>
+
+  <div class="sec" style="margin-top:8px;">07 · Agenda catalyseurs</div>
+  <div class="cal">
+    <div class="cal-d">18<br>MAI</div>
+    <div><div class="cal-e">Précommandes GTA VI ?</div>
+    <div class="cal-n">Fuite Best Buy : fenêtre 18–21 mai. Non confirmé par Rockstar. Catalyseur immédiat.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">21<br>MAI</div>
+    <div><div class="cal-e">Résultats Q4 TTWO</div>
+    <div class="cal-n">Guidance FY27 ($9B+?) = déclencheur majeur. Zelnick confirmera ou infirmera.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">ÉTÉ<br>26</div>
+    <div><div class="cal-e">Marketing GTA VI</div>
+    <div class="cal-n">Campagne launch marketing prévue été 2026. Nouveau trailer = spike TTWO / SONY / NVDA.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">19<br>NOV</div>
+    <div><div class="cal-e">Lancement GTA VI</div>
+    <div class="cal-n">PS5 + Xbox Series. Objectif $3B J1–J3. Ventes consoles SONY + GPU NVDA en hausse.</div></div>
+  </div>
+</div>
+
+</div><!-- end body -->
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="vtag">Verdict YAASAP</div>
+  <div class="vtext">
+    <strong>TTWO est la valeur directe</strong>, mais NVDA (ρ=0.71, GPU indispensable) et SONY (ρ=0.63, platform holder PS5) offrent un meilleur ratio risque/rendement.
+    Eviter EA (ρ=−0.18, concurrent pénalisé). Catalyseur immédiat : <strong>résultats TTWO le 21 mai</strong> + confirmation précommandes. Entrée TTWO : zone <strong>$210–220</strong> si repli, stop sous $195.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-l">Analyse technique et sectorielle à titre informatif uniquement · Ne constitue pas un conseil en investissement · YAASAP Consulting décline toute responsabilité · Consultez un conseiller financier agréé</div>
+  <div class="foot-r">YAASAP Consulting · Flash Marché N°13 · 15 Mai 2026</div>
+</div>
+
+</div>
+
+<script>
+const months = ['Jan','Fév','Mar','Avr','Mai'];
+
+// Performance normalisée base 100 (indices reconstitués)
+const ttwoPerf = [100, 94, 102, 118, 131, 145];
+const nvdaPerf = [100, 108, 115, 120, 128, 140];
+const sonyPerf = [100, 96,  98, 104, 108, 118];
+const amdPerf  = [100, 92,  95, 100, 105, 112];
+const msftPerf = [100, 103, 107, 110, 115, 118];
+const labels6  = ['Jan','Fév','Mar','Avr','Mai-1','Mai-15'];
+
+new Chart(document.getElementById('perfChart'), {
+  type:'line',
+  data:{ labels:labels6, datasets:[
+    { label:'TTWO', data:ttwoPerf, borderColor:'#f5a623', borderWidth:2.5, pointRadius:2, fill:false, tension:0.3 },
+    { label:'NVDA', data:nvdaPerf, borderColor:'#76b900', borderWidth:2,   pointRadius:2, fill:false, tension:0.3 },
+    { label:'SONY', data:sonyPerf, borderColor:'#4a90d9', borderWidth:2,   pointRadius:2, fill:false, tension:0.3 },
+    { label:'AMD',  data:amdPerf,  borderColor:'#f47c7c', borderWidth:1.5, pointRadius:2, fill:false, tension:0.3, borderDash:[3,2] },
+    { label:'MSFT', data:msftPerf, borderColor:'#00a4ef', borderWidth:1.5, pointRadius:2, fill:false, tension:0.3, borderDash:[3,2] },
+  ]},
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{
+      backgroundColor:'rgba(13,27,42,.96)', titleColor:'#7a9ab8', bodyColor:'#eef2f7',
+      borderColor:'rgba(255,255,255,.1)', borderWidth:1, padding:7,
+      callbacks:{ label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)} (${ctx.parsed.y>=100?'+':''}${(ctx.parsed.y-100).toFixed(0)}%)` }
+    }},
+    scales:{
+      x:{ ticks:{ color:'#7a9ab8', font:{size:8,family:'IBM Plex Mono'}, maxRotation:0 }, grid:{ color:'rgba(255,255,255,.04)' } },
+      y:{ ticks:{ color:'#7a9ab8', font:{size:8,family:'IBM Plex Mono'}, callback:v=>v }, grid:{ color:'rgba(255,255,255,.04)' },
+          min:85, max:155
+      }
+    }
+  }
+});
+
+// Corrélation bar chart horizontal
+new Chart(document.getElementById('corrChart'), {
+  type:'bar',
+  data:{
+    labels:['NVDA / TTWO','SONY / TTWO','AMD / TTWO','MSFT / TTWO','EA / TTWO'],
+    datasets:[{
+      data:[0.71, 0.63, 0.58, 0.42, -0.18],
+      backgroundColor:['rgba(118,185,0,.65)','rgba(74,144,217,.65)','rgba(244,124,124,.65)','rgba(0,164,239,.65)','rgba(192,132,252,.65)'],
+      borderColor:['#76b900','#4a90d9','#f47c7c','#00a4ef','#c084fc'],
+      borderWidth:1, borderRadius:3
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{
+      backgroundColor:'rgba(13,27,42,.96)', bodyColor:'#eef2f7',
+      borderColor:'rgba(255,255,255,.1)', borderWidth:1, padding:7,
+      callbacks:{ label: ctx=>`ρ = ${ctx.parsed.x.toFixed(2)}` }
+    }},
+    scales:{
+      x:{ min:-0.35, max:0.9, ticks:{ color:'#7a9ab8', font:{size:8,family:'IBM Plex Mono'}, callback:v=>'ρ '+v.toFixed(1) }, grid:{ color:'rgba(255,255,255,.04)' } },
+      y:{ ticks:{ color:'#7a9ab8', font:{size:8,family:'IBM Plex Mono'} }, grid:{ display:false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
