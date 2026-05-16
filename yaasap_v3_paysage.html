@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Marché MRNA</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #0d1b2a;
+  --navy2:  #112236;
+  --navy3:  #162d47;
+  --navy4:  #1e3a5f;
+  --blue:   #1565c0;
+  --blue2:  #1976d2;
+  --cyan:   #29b6f6;
+  --white:  #eef2f7;
+  --muted:  #7a9ab8;
+  --faint:  rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.08);
+  --green:  #2e7d52;
+  --green2: #43a870;
+  --red:    #c62828;
+  --red2:   #ef5350;
+  --amber:  #f5a623;
+  --mono:   'IBM Plex Mono', monospace;
+  --sans:   'IBM Plex Sans', sans-serif;
+}
+
+html, body {
+  width: 1122px;
+  height: 794px;
+  overflow: hidden;
+  background: var(--navy);
+  font-family: var(--sans);
+  color: var(--white);
+  font-size: 11px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  width: 1122px;
+  height: 794px;
+  display: flex;
+  flex-direction: column;
+  background: var(--navy);
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--navy2);
+  border-bottom: 2px solid var(--blue2);
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  height: 52px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-pill {
+  background: var(--blue2);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 9px;
+  letter-spacing: 0.04em;
+}
+.brand-name { font-size: 13px; font-weight: 600; color: var(--white); letter-spacing: 0.02em; }
+.brand-sub { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 1px; }
+.header-center {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.hkpi { text-align: center; }
+.hkpi-v { font-family: var(--mono); font-size: 14px; font-weight: 500; line-height: 1; }
+.hkpi-l { font-family: var(--mono); font-size: 7px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.hsep { width: 1px; height: 28px; background: var(--border); }
+.header-right { text-align: right; }
+.header-ticker { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--white); }
+.header-date { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+.up { color: var(--green2); }
+.dn { color: var(--red2); }
+.nt { color: var(--muted); }
+.am { color: var(--amber); }
+.cy { color: var(--cyan); }
+
+/* ── BODY ── */
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 420px 1fr 240px;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.col { padding: 14px 18px; overflow: hidden; }
+.col-left  { border-right: 1px solid var(--border); }
+.col-mid   { border-right: 1px solid var(--border); }
+.col-right { padding: 14px 16px; }
+
+/* ── SECTION LABELS ── */
+.sec {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(41,182,246,0.08);
+  border-left: 2px solid var(--cyan);
+  padding: 2px 7px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.sec-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+/* ── CHART BOXES ── */
+.cbox {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.cbox:last-child { margin-bottom: 0; }
+.cbox-head {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--navy3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cbox-title { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.cbox-sub   { font-family: var(--mono); font-size: 7px; color: rgba(255,255,255,0.2); }
+.cbox-body  { padding: 8px 10px; }
+
+/* ── LEVEL BARS ── */
+.lv-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.lv-row:last-child { border-bottom: none; }
+.lv-name { font-family: var(--mono); font-size: 8px; color: var(--muted); width: 108px; flex-shrink: 0; letter-spacing: 0.03em; white-space: nowrap; }
+.lv-bar-bg { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.lv-bar { height: 100%; border-radius: 2px; }
+.lv-price { font-family: var(--mono); font-size: 9.5px; font-weight: 500; width: 50px; text-align: right; flex-shrink: 0; }
+
+/* ── SCENARIOS ── */
+.sc {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--border);
+  border-radius: 0 3px 3px 0;
+  margin-bottom: 7px;
+  overflow: hidden;
+}
+.sc:last-child { margin-bottom: 0; }
+.sc-g { border-left-color: var(--green2); }
+.sc-a { border-left-color: var(--amber); }
+.sc-b { border-left-color: var(--cyan); }
+.sc-head {
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.sc-name { font-size: 10px; font-weight: 600; color: var(--white); }
+.badge {
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.bg { background: rgba(67,168,112,0.15); color: var(--green2); }
+.ba { background: rgba(245,166,35,0.15); color: var(--amber); }
+.bb { background: rgba(41,182,246,0.15); color: var(--cyan); }
+.sc-body {
+  padding: 7px 10px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 6px;
+}
+.sk { display: flex; flex-direction: column; gap: 2px; }
+.sk-l { font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.sk-v { font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1; }
+.sc-note {
+  padding: 5px 10px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  font-size: 9px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── RIGHT COL MINI STATS ── */
+.ms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+.ms {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 7px 9px;
+}
+.ms-l { font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.ms-v { font-family: var(--mono); font-size: 14px; font-weight: 500; line-height: 1; }
+
+/* ── RULES ── */
+.rule {
+  display: flex;
+  gap: 8px;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 7px 9px;
+  margin-bottom: 6px;
+  align-items: flex-start;
+}
+.rule:last-child { margin-bottom: 0; }
+.rule-n { font-family: var(--mono); font-size: 9px; font-weight: 500; color: var(--blue2); min-width: 14px; margin-top: 1px; }
+.rule-h { font-size: 9.5px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+.rule-b { font-size: 8.5px; color: var(--muted); line-height: 1.4; }
+
+/* ── CALENDAR ── */
+.cal {
+  display: flex;
+  gap: 8px;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 7px 9px;
+  margin-bottom: 6px;
+  align-items: flex-start;
+}
+.cal:last-child { margin-bottom: 0; }
+.cal-d {
+  background: var(--blue2);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 500;
+  padding: 4px 6px;
+  text-align: center;
+  min-width: 38px;
+  border-radius: 2px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+.cal-e { font-size: 9.5px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+.cal-n { font-size: 8.5px; color: var(--muted); line-height: 1.4; }
+
+/* ── LEGEND ── */
+.legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 0 10px 6px; }
+.li { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 7px; letter-spacing: 0.05em; color: var(--muted); text-transform: uppercase; }
+.ldash { width: 14px; height: 0; flex-shrink: 0; }
+.ldot  { width: 8px; height: 8px; border-radius: 1px; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  padding: 7px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  height: 36px;
+}
+.footer-disc { font-family: var(--mono); font-size: 7px; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; max-width: 700px; line-height: 1.4; }
+.footer-brand { font-family: var(--mono); font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; text-align: right; white-space: nowrap; }
+
+/* ── VERDICT STRIP ── */
+.verdict-strip {
+  background: linear-gradient(90deg, var(--navy4), var(--navy3));
+  border-top: 1px solid rgba(41,182,246,0.25);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.verdict-tag {
+  background: var(--blue2);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.verdict-text { font-size: 10px; color: var(--white); font-style: italic; line-height: 1.5; }
+.verdict-text strong { font-style: normal; color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Marché · N°12 · Analyse Technique Exclusive</div>
+    </div>
+  </div>
+  <div class="header-center">
+    <div class="hkpi"><div class="hkpi-v">$50.42</div><div class="hkpi-l">Cours actuel</div></div>
+    <div class="hsep"></div>
+    <div class="hkpi"><div class="hkpi-v dn">−5.35%</div><div class="hkpi-l">Sur 1 jour</div></div>
+    <div class="hsep"></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#e8c060;">$59.55</div><div class="hkpi-l">Plus haut 2S</div></div>
+    <div class="hsep"></div>
+    <div class="hkpi"><div class="hkpi-v am">$46–49</div><div class="hkpi-l">Zone achat BB</div></div>
+    <div class="hsep"></div>
+    <div class="hkpi"><div class="hkpi-v">$51.00</div><div class="hkpi-l">MM20 (médiane)</div></div>
+    <div class="hsep"></div>
+    <div class="hkpi"><div class="hkpi-v up">+97%</div><div class="hkpi-l">Perf. 1 an</div></div>
+  </div>
+  <div class="header-right">
+    <div class="header-ticker">NASDAQ : MRNA</div>
+    <div class="header-date">15 Mai 2026 · Moderna, Inc.</div>
+  </div>
+</div>
+
+<!-- ══ BODY ══ -->
+<div class="body">
+
+  <!-- ─ COL LEFT : Cours + Volume + Niveaux ─ -->
+  <div class="col col-left">
+    <div class="sec">01 · Cours & Bollinger</div>
+
+    <div class="cbox">
+      <div class="cbox-head">
+        <span class="cbox-title">MRNA Close + BB (±2σ) — 1 au 14 mai 2026</span>
+        <span class="cbox-sub">Données journalières · NASDAQ</span>
+      </div>
+      <div class="cbox-body" style="padding:8px 10px 4px;">
+        <div style="position:relative;height:145px;">
+          <canvas id="bbChart" role="img" aria-label="Cours Moderna avec bandes de Bollinger mai 2026"></canvas>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="li"><div class="ldash" style="border-top:2px solid #2196f3;"></div>Cours</div>
+        <div class="li"><div class="ldash" style="border-top:1px dashed #43a870;"></div>BB Sup (+2σ)</div>
+        <div class="li"><div class="ldash" style="border-top:1px dashed #29b6f6;"></div>MM20</div>
+        <div class="li"><div class="ldash" style="border-top:1px dashed #ef5350;"></div>BB Inf (−2σ)</div>
+        <div class="li"><div class="ldot" style="background:rgba(245,166,35,0.3);border:1px dashed #f5a623;"></div>Zone achat</div>
+      </div>
+    </div>
+
+    <div class="cbox">
+      <div class="cbox-head">
+        <span class="cbox-title">Volume journalier (M titres)</span>
+        <span class="cbox-sub">Pic 8 mai = 3× vol. moyen</span>
+      </div>
+      <div class="cbox-body" style="padding:6px 10px;">
+        <div style="position:relative;height:52px;">
+          <canvas id="volChart" role="img" aria-label="Volume Moderna mai 2026"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec" style="margin-top:4px;">02 · Niveaux clés</div>
+    <div class="cbox">
+      <div class="cbox-body" style="padding:6px 10px;">
+        <div class="lv-row">
+          <div class="lv-name">Résistance absolue</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:#1a2010;"></div></div>
+          <div class="lv-price nt">$59.55</div>
+        </div>
+        <div class="lv-row">
+          <div class="lv-name">BB Supérieure (+2σ)</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:97%;background:var(--green2);"></div></div>
+          <div class="lv-price up">~$59.00</div>
+        </div>
+        <div class="lv-row" style="background:rgba(33,150,243,0.04);margin:0 -10px;padding:4px 10px;">
+          <div class="lv-name" style="color:var(--white);font-weight:500;">▶ Cours actuel</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:80%;background:var(--blue2);"></div></div>
+          <div class="lv-price" style="color:var(--white);">$50.42</div>
+        </div>
+        <div class="lv-row">
+          <div class="lv-name">MM20 — Médiane</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:79%;background:var(--cyan);opacity:0.6;"></div></div>
+          <div class="lv-price cy">~$51.00</div>
+        </div>
+        <div class="lv-row" style="background:rgba(245,166,35,0.04);margin:0 -10px;padding:4px 10px;">
+          <div class="lv-name" style="color:var(--amber);">⬛ Zone achat cible</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:63%;background:rgba(245,166,35,0.55);"></div></div>
+          <div class="lv-price am">$46–49</div>
+        </div>
+        <div class="lv-row">
+          <div class="lv-name">BB Inférieure (−2σ)</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:52%;background:var(--red2);opacity:0.7;"></div></div>
+          <div class="lv-price dn">~$43.50</div>
+        </div>
+        <div class="lv-row">
+          <div class="lv-name">Support absolu</div>
+          <div class="lv-bar-bg"><div class="lv-bar" style="width:49%;background:#2a1010;"></div></div>
+          <div class="lv-price nt">$43.68</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ COL MID : Scénarios + Perf ─ -->
+  <div class="col col-mid">
+    <div class="sec">03 · Scénarios tradables</div>
+
+    <div class="sc sc-g">
+      <div class="sc-head">
+        <div class="sc-name">S1 — Achat sur support</div>
+        <div class="badge bg">Prudent · R/R 1.75</div>
+      </div>
+      <div class="sc-body">
+        <div class="sk"><div class="sk-l">Entrée</div><div class="sk-v am">$47–49</div></div>
+        <div class="sk"><div class="sk-l">Stop-loss</div><div class="sk-v dn">$43.50</div></div>
+        <div class="sk"><div class="sk-l">Cible 1</div><div class="sk-v up">$51</div></div>
+        <div class="sk"><div class="sk-l">Cible 2</div><div class="sk-v up">$57</div></div>
+      </div>
+      <div class="sc-note">Déclenché par : repli calme post-spike. Confirmer sur chandelier journalier. Phase de digestion en cours.</div>
+    </div>
+
+    <div class="sc sc-a">
+      <div class="sc-head">
+        <div class="sc-name">S2 — Breakout MM20</div>
+        <div class="badge ba">Momentum · R/R 2.0</div>
+      </div>
+      <div class="sc-body">
+        <div class="sk"><div class="sk-l">Entrée</div><div class="sk-v am">$52.50</div></div>
+        <div class="sk"><div class="sk-l">Stop-loss</div><div class="sk-v dn">$49.50</div></div>
+        <div class="sk"><div class="sk-l">Cible</div><div class="sk-v up">$57–59</div></div>
+        <div class="sk"><div class="sk-l">Signal</div><div class="sk-v cy" style="font-size:9px;">Clôture &gt;$52</div></div>
+      </div>
+      <div class="sc-note">Déclenché par : news clinique positive, FDA mRNA-1010 (août) ou recrudescence hantavirus dans les médias.</div>
+    </div>
+
+    <div class="sc sc-b">
+      <div class="sc-head">
+        <div class="sc-name">S3 — Squeeze BB</div>
+        <div class="badge bb">Avancé · Directionnel</div>
+      </div>
+      <div class="sc-body">
+        <div class="sk"><div class="sk-l">Breakout</div><div class="sk-v am">$54+</div></div>
+        <div class="sk"><div class="sk-l">Stop</div><div class="sk-v dn">$51</div></div>
+        <div class="sk"><div class="sk-l">Target</div><div class="sk-v up">$59</div></div>
+        <div class="sk"><div class="sk-l">Range</div><div class="sk-v nt" style="font-size:9px;">$48–$54</div></div>
+      </div>
+      <div class="sc-note">Surveiller resserrement des bandes sur 3–5 séances. Sortie du range = signal directionnel puissant.</div>
+    </div>
+
+    <div class="sec" style="margin-top:10px;">04 · Performance</div>
+    <div class="cbox">
+      <div class="cbox-head">
+        <span class="cbox-title">Variation par période — MRNA</span>
+        <span class="cbox-sub">Au 14 mai 2026</span>
+      </div>
+      <div class="cbox-body" style="padding:8px 10px;">
+        <div style="position:relative;height:100px;">
+          <canvas id="perfChart" role="img" aria-label="Performance Moderna par période"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ COL RIGHT : Fondamentaux + Règles + Agenda ─ -->
+  <div class="col col-right">
+    <div class="sec">05 · Fondamentaux</div>
+    <div class="ms-grid">
+      <div class="ms"><div class="ms-l">Capitalisation</div><div class="ms-v">$20B</div></div>
+      <div class="ms"><div class="ms-l">Bêta</div><div class="ms-v dn">1.36</div></div>
+      <div class="ms"><div class="ms-l">52S High</div><div class="ms-v">$59.55</div></div>
+      <div class="ms"><div class="ms-l">52S Low</div><div class="ms-v">$22.28</div></div>
+      <div class="ms"><div class="ms-l">Vol. moyen</div><div class="ms-v">6.3M</div></div>
+      <div class="ms"><div class="ms-l">Perf. 1 an</div><div class="ms-v up">+97%</div></div>
+    </div>
+
+    <div class="sec">06 · Gestion du risque</div>
+    <div class="rule">
+      <div class="rule-n">01</div>
+      <div>
+        <div class="rule-h">Stop-loss obligatoire</div>
+        <div class="rule-b">Bêta 1.36 = −15% sur une seule news. Stop systématique sous $43.68 sans exception.</div>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-n">02</div>
+      <div>
+        <div class="rule-h">Ne pas acheter le spike</div>
+        <div class="rule-b">Phase de digestion = meilleure fenêtre. Pas à $59. Attendre $46–49.</div>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-n">03</div>
+      <div>
+        <div class="rule-h">Position ≤ 8% portefeuille</div>
+        <div class="rule-b">Sur 10K€ : max 800€ engagés. Risque calculé avant l'entrée, pas après.</div>
+      </div>
+    </div>
+
+    <div class="sec" style="margin-top:10px;">07 · Agenda catalyseurs</div>
+    <div class="cal">
+      <div class="cal-d">30<br>JUIL</div>
+      <div>
+        <div class="cal-e">Résultats T2 2026</div>
+        <div class="cal-n">T1 : $389M (+54% vs estim). Volatilité forte attendue. Réduire avant.</div>
+      </div>
+    </div>
+    <div class="cal">
+      <div class="cal-d">~05<br>AOÛT</div>
+      <div>
+        <div class="cal-e">Décision FDA mRNA-1010</div>
+        <div class="cal-n">Vaccin grippe ARNm +26.6% vs GSK. Catalyseur majeur si approbation.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end body -->
+
+<!-- ══ VERDICT STRIP ══ -->
+<div class="verdict-strip">
+  <div class="verdict-tag">Verdict YAASAP</div>
+  <div class="verdict-text">
+    MRNA est un <strong>trade tactique, pas un investissement de conviction</strong>. La plateforme ARNm est réelle, le spike hantavirus était émotionnel.
+    Attendre <strong>$46–49</strong>, entrer avec stop à $43.50, laisser <strong>FDA (août)</strong> et <strong>résultats T2 (30 juil.)</strong> faire le travail.
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div class="footer-disc">
+    Analyse technique uniquement · Document non contractuel · Ne constitue pas un conseil en investissement · YAASAP Consulting décline toute responsabilité quant aux décisions prises sur la base de ce document · Consultez un conseiller financier agréé
+  </div>
+  <div class="footer-brand">YAASAP Consulting · Flash Marché N°12 · 15 Mai 2026</div>
+</div>
+
+</div><!-- end page -->
+
+<script>
+const labels = ['1/5','2/5','5/5','6/5','7/5','8/5','9/5','12/5','13/5','14/5'];
+const closes = [44.80,45.60,46.20,48.54,53.27,56.17,54.35,53.27,50.42,50.42];
+const n = closes.length;
+const mean = closes.reduce((a,b)=>a+b,0)/n;
+const std  = Math.sqrt(closes.reduce((s,v)=>s+Math.pow(v-mean,2),0)/n);
+const bbU  = closes.map(()=>+(mean+2*std).toFixed(2));
+const bbL  = closes.map(()=>+(mean-2*std).toFixed(2));
+const bbM  = closes.map(()=>+mean.toFixed(2));
+const buyH = closes.map(()=>49);
+const buyL = closes.map(()=>46);
+
+const gridColor = 'rgba(255,255,255,0.05)';
+const tickFont  = { size:8, family:'IBM Plex Mono' };
+const tickColor = '#7a9ab8';
+
+// ── BOLLINGER ──
+new Chart(document.getElementById('bbChart'), {
+  type:'line',
+  data:{ labels, datasets:[
+    { data:bbU, borderColor:'#43a870', borderWidth:1, borderDash:[4,3], pointRadius:0, fill:false, tension:0, label:'BB+' },
+    { data:bbM, borderColor:'#29b6f6', borderWidth:1, borderDash:[3,3], pointRadius:0, fill:false, tension:0, label:'MM20' },
+    { data:bbL, borderColor:'#ef5350', borderWidth:1, borderDash:[4,3], pointRadius:0, fill:false, tension:0, label:'BB-' },
+    { data:buyH, borderColor:'rgba(245,166,35,0.45)', borderWidth:1, borderDash:[5,3], pointRadius:0,
+      fill:'+1', backgroundColor:'rgba(245,166,35,0.06)', tension:0, label:'ZH' },
+    { data:buyL, borderColor:'rgba(245,166,35,0.45)', borderWidth:1, borderDash:[5,3], pointRadius:0, fill:false, tension:0, label:'ZL' },
+    { data:closes, borderColor:'#2196f3', backgroundColor:'rgba(33,150,243,0.07)',
+      borderWidth:2.5, pointRadius:3.5,
+      pointBackgroundColor:closes.map((v,i)=>v===Math.max(...closes)?'#ef5350':v===Math.min(...closes)?'#43a870':'#2196f3'),
+      pointBorderColor:'#0d1b2a', pointBorderWidth:1,
+      fill:true, tension:0.35, label:'Cours', order:0 }
+  ]},
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{
+      backgroundColor:'rgba(13,27,42,0.96)', titleColor:'#7a9ab8',
+      bodyColor:'#eef2f7', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, padding:8,
+      callbacks:{ label: ctx => ['ZH','ZL'].includes(ctx.dataset.label)?null:`${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}` }
+    }},
+    scales:{
+      x:{ ticks:{ color:tickColor, font:tickFont, maxRotation:0 }, grid:{ color:gridColor } },
+      y:{ min:36, max:66, ticks:{ color:tickColor, font:tickFont, callback:v=>'$'+v, stepSize:5 }, grid:{ color:gridColor } }
+    }
+  }
+});
+
+// ── VOLUME ──
+const vols = [2.1,2.8,3.2,4.5,8.1,18.4,7.2,5.9,7.5,5.1];
+new Chart(document.getElementById('volChart'), {
+  type:'bar',
+  data:{ labels, datasets:[{
+    data:vols,
+    backgroundColor:vols.map((v,i)=>v===Math.max(...vols)?'rgba(239,83,80,0.75)':closes[i]>=(closes[i-1]||closes[i])?'rgba(67,168,112,0.55)':'rgba(239,83,80,0.45)'),
+    borderWidth:0, borderRadius:2, label:'Vol'
+  }]},
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(13,27,42,0.96)', bodyColor:'#eef2f7', borderColor:'rgba(255,255,255,0.1)', borderWidth:1 }},
+    scales:{
+      x:{ ticks:{ color:tickColor, font:tickFont, maxRotation:0 }, grid:{ display:false } },
+      y:{ ticks:{ color:tickColor, font:tickFont, callback:v=>v+'M' }, grid:{ color:gridColor } }
+    }
+  }
+});
+
+// ── PERFORMANCE HORIZONTALE ──
+const perfData = [-5.35, 7.5, -0.73, -21.5, 97.0];
+const perfLabels = ['1 jour','1 sem.','1 mois','3 mois','1 an'];
+new Chart(document.getElementById('perfChart'), {
+  type:'bar',
+  data:{ labels:perfLabels, datasets:[{
+    data:perfData,
+    backgroundColor:perfData.map(v=>v>=0?'rgba(67,168,112,0.65)':'rgba(239,83,80,0.65)'),
+    borderColor:perfData.map(v=>v>=0?'#43a870':'#ef5350'),
+    borderWidth:1, borderRadius:2, label:'Perf'
+  }]},
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{
+      backgroundColor:'rgba(13,27,42,0.96)', bodyColor:'#eef2f7',
+      borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
+      callbacks:{ label:ctx=>`${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toFixed(2)}%` }
+    }},
+    scales:{
+      x:{ min:-35, max:115, ticks:{ color:tickColor, font:tickFont, callback:v=>v+'%' }, grid:{ color:gridColor } },
+      y:{ ticks:{ color:tickColor, font:tickFont }, grid:{ display:false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
