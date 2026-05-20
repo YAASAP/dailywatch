@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Énergie N°17</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#faf8f4; --bg2:#f3efe8; --bg3:#ece7dd; --bg4:#e4ddd0;
+  --ink:#1a1612; --ink2:#3d3628; --ink3:#6b5f4a; --muted:#9a8e7a;
+  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.14);
+  --gold:#b8952a; --gold2:#d4aa40; --gold3:#f0c956;
+  --goldbg:rgba(184,149,42,0.10); --goldbd:rgba(184,149,42,0.30);
+  --green:#2a7a4b; --red:#c0392b;
+  /* Oil majors colors */
+  --tte:#0055a4;    /* TotalEnergies bleu france */
+  --tte2:#e8000d;   /* rouge accent */
+  --xom:#d52b1e;    /* ExxonMobil rouge */
+  --cvx:#0e4c96;    /* Chevron bleu */
+  --shel:#e8000d;   /* Shell rouge */
+  --bp:#009900;     /* BP vert */
+  --cop:#f47920;    /* ConocoPhillips orange */
+  --eqnr:#ee1c25;   /* Equinor rouge */
+  --brent:#7b2fbe;  /* Brent = violet */
+  --mono:'SF Mono','Cascadia Code','Consolas','Courier New',monospace;
+  --sans:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+html,body { width:1122px; height:794px; overflow:hidden; background:var(--bg); font-family:var(--sans); color:var(--ink); font-size:10.5px; -webkit-font-smoothing:antialiased; }
+.page { width:1122px; height:794px; display:flex; flex-direction:column; }
+
+/* HEADER */
+.hdr { background:var(--ink); border-bottom:3px solid var(--gold2); padding:9px 24px; display:flex; align-items:center; justify-content:space-between; height:50px; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-pill { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:11px; font-weight:700; padding:3px 9px; letter-spacing:.04em; }
+.brand-name { font-size:13px; font-weight:700; color:#fff; }
+.brand-sub { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; margin-top:1px; }
+.hdr-kpis { display:flex; }
+.hkpi { padding:0 13px; border-right:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; gap:1px; }
+.hkpi:last-child { border-right:none; }
+.hkpi-v { font-family:var(--mono); font-size:13px; font-weight:600; line-height:1; color:#fff; }
+.hkpi-l { font-family:var(--mono); font-size:7px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-right { text-align:right; }
+.hdr-title { font-size:13px; font-weight:700; color:var(--gold3); }
+.hdr-date { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.3); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+.up{color:var(--green);} .dn{color:var(--red);} .nt{color:var(--muted);} .gd{color:var(--gold);}
+
+/* TICKER TAPE */
+.tape { background:var(--bg2); border-bottom:1px solid var(--border2); padding:5px 24px; display:flex; flex-shrink:0; }
+.tick { display:flex; align-items:center; gap:7px; padding:0 13px; border-right:1px solid var(--border2); }
+.tick:last-child { border-right:none; }
+.tick-name { font-family:var(--mono); font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.tick-price { font-family:var(--mono); font-size:13px; font-weight:600; }
+.tick-delta { font-family:var(--mono); font-size:9px; }
+.tick-badge { font-family:var(--mono); font-size:7px; padding:1px 5px; border-radius:2px; border:1px solid; white-space:nowrap; }
+
+/* BODY */
+.body { flex:1; display:grid; grid-template-columns:420px 1fr 230px; min-height:0; }
+.col { padding:11px 15px; overflow:hidden; }
+.col-l { border-right:1px solid var(--border2); background:var(--bg); }
+.col-m { border-right:1px solid var(--border2); background:var(--bg); }
+.col-r { padding:11px 13px; background:var(--bg2); }
+
+/* SECTION */
+.sec { font-family:var(--mono); font-size:6.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); background:var(--goldbg); border-left:2px solid var(--gold2); padding:2px 6px; display:inline-block; margin-bottom:6px; }
+
+/* CARD */
+.cbox { background:#fff; border:1px solid var(--border2); border-radius:3px; overflow:hidden; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cbox:last-child { margin-bottom:0; }
+.cbox-h { padding:4px 10px; border-bottom:1px solid var(--border); background:var(--bg2); display:flex; justify-content:space-between; align-items:center; }
+.cbox-t { font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); }
+.cbox-s { font-family:var(--mono); font-size:6.5px; color:var(--muted); }
+.cbox-b { padding:7px 10px; }
+
+/* TTE SPOTLIGHT */
+.tte-card { background:#fff; border:1px solid var(--border2); border-radius:4px; overflow:hidden; margin-bottom:7px; box-shadow:0 2px 6px rgba(0,0,0,.08); border-top:3px solid var(--tte); }
+.tte-header { background:linear-gradient(135deg,#0055a4,#0e3d7a); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; }
+.tte-logo { font-family:var(--mono); font-size:18px; font-weight:700; color:#fff; letter-spacing:-.01em; }
+.tte-logo span { color:var(--gold3); }
+.tte-price-block { text-align:right; }
+.tte-price { font-family:var(--mono); font-size:22px; font-weight:700; color:#fff; line-height:1; }
+.tte-delta { font-family:var(--mono); font-size:9px; margin-top:2px; }
+.tte-body { padding:10px 14px; }
+.tte-kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin-bottom:8px; }
+.tte-kpi { background:var(--bg2); border-radius:3px; padding:5px 6px; border:1px solid var(--border); }
+.tte-kl { font-family:var(--mono); font-size:6.5px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:2px; }
+.tte-kv { font-family:var(--mono); font-size:12px; font-weight:600; line-height:1; }
+.tte-desc { font-size:8px; color:var(--ink3); line-height:1.55; border-top:1px solid var(--border); padding-top:7px; }
+.tte-desc strong { color:var(--ink); font-weight:600; }
+
+/* BB LEVELS */
+.bb-levels { display:flex; flex-direction:column; gap:4px; }
+.bb-row { display:flex; align-items:center; gap:7px; }
+.bb-label { font-family:var(--mono); font-size:7.5px; color:var(--muted); width:120px; flex-shrink:0; }
+.bb-bg { flex:1; height:5px; background:var(--bg3); border-radius:2px; overflow:hidden; }
+.bb-bar { height:100%; border-radius:2px; }
+.bb-price { font-family:var(--mono); font-size:9px; font-weight:600; width:44px; text-align:right; flex-shrink:0; }
+
+/* COMPARATIF TABLE */
+.ctab { width:100%; border-collapse:collapse; }
+.ctab th { font-family:var(--mono); font-size:7px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:3px 6px; text-align:left; border-bottom:1px solid var(--border2); background:var(--bg2); }
+.ctab td { font-size:9px; padding:4px 6px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:middle; }
+.ctab tr:last-child td { border-bottom:none; }
+.ctab td:not(:first-child) { font-family:var(--mono); font-size:8.5px; }
+.star { color:var(--gold); font-size:10px; }
+.expo-bar { height:3px; border-radius:2px; margin-top:2px; }
+
+/* CORR BADGES */
+.corr-badges { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; padding:4px 10px 8px; }
+.cbdg { border-radius:3px; padding:5px 7px; border:1px solid var(--border2); background:var(--bg2); border-top-width:2px; }
+.cbdg-l { font-family:var(--mono); font-size:7px; color:var(--muted); margin-bottom:2px; }
+.cbdg-v { font-family:var(--mono); font-size:13px; font-weight:600; line-height:1; }
+.cbdg-d { font-size:7px; color:var(--muted); margin-top:2px; line-height:1.3; }
+
+/* RIGHT COL */
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:7px; }
+.ms { background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.ms-l { font-family:var(--mono); font-size:6.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.ms-v { font-family:var(--mono); font-size:12px; font-weight:600; line-height:1; color:var(--ink); }
+.rule { display:flex; gap:6px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; margin-bottom:5px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.rule:last-child { margin-bottom:0; }
+.rule-n { font-family:var(--mono); font-size:9px; font-weight:700; color:var(--gold); min-width:12px; }
+.rule-h { font-size:9px; font-weight:700; margin-bottom:1px; }
+.rule-b { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+.cal { display:flex; gap:6px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; margin-bottom:5px; }
+.cal:last-child { margin-bottom:0; }
+.cal-d { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:700; padding:3px 5px; text-align:center; min-width:34px; border-radius:2px; line-height:1.4; flex-shrink:0; }
+.cal-e { font-size:8.5px; font-weight:700; color:var(--ink); margin-bottom:1px; }
+.cal-n { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+.legend { display:flex; gap:8px; flex-wrap:wrap; padding:2px 10px 5px; }
+.li { display:flex; align-items:center; gap:3px; font-family:var(--mono); font-size:6.5px; color:var(--muted); text-transform:uppercase; }
+.ldot { width:6px; height:6px; border-radius:1px; flex-shrink:0; }
+.verdict { background:var(--ink2); border-top:2px solid var(--gold2); padding:7px 24px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.vtag { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+.vtext { font-size:9.5px; color:rgba(255,255,255,.85); font-style:italic; line-height:1.6; }
+.vtext strong { font-style:normal; color:var(--gold3); }
+.footer { background:var(--bg3); border-top:1px solid var(--border2); padding:5px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:26px; }
+.foot-l { font-family:var(--mono); font-size:6px; color:var(--muted); max-width:700px; }
+.foot-r { font-family:var(--mono); font-size:7.5px; color:var(--ink3); text-align:right; }
+.foot-r span { color:var(--gold); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Énergie · N°17 · Oil & Gas — Majors Sous-cotées · Focus TotalEnergies</div>
+    </div>
+  </div>
+  <div class="hdr-kpis">
+    <div class="hkpi"><div class="hkpi-v" style="color:var(--gold3);">$110</div><div class="hkpi-l">Brent avril 2026</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">+51%</div><div class="hkpi-l">Bénéfice TTE Q1</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">$8.6B</div><div class="hkpi-l">Cash-flow TTE Q1</div></div>
+    <div class="hkpi"><div class="hkpi-v">8.28x</div><div class="hkpi-l">PER est. TTE 2026</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:var(--gold3);">5.2%</div><div class="hkpi-l">Rendement TTE</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">+50.8%</div><div class="hkpi-l">TTE performance 1 an</div></div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-title">🛢️ Oil & Gas — Majors Sous-valorisées</div>
+    <div class="hdr-date">20 Mai 2026 · Brent $110 · Tensions Moyen-Orient · GNL</div>
+  </div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="tape">
+  <div class="tick">
+    <div class="tick-name" style="color:var(--tte);">TTE ★</div>
+    <div class="tick-price" style="color:var(--tte);">€80.3</div>
+    <div class="tick-delta up">▲ +50.8% / an</div>
+    <div class="tick-badge" style="background:rgba(0,85,164,.1);color:var(--tte);border-color:rgba(0,85,164,.3);">PER 8.3x · Div. 5.2%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--xom);">XOM</div>
+    <div class="tick-price" style="color:var(--xom);">$114</div>
+    <div class="tick-delta up">▲ div. 2.6%</div>
+    <div class="tick-badge" style="background:rgba(213,43,30,.08);color:var(--xom);border-color:rgba(213,43,30,.2);">PER 16.6x</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--cvx);">CVX</div>
+    <div class="tick-price" style="color:var(--cvx);">$196</div>
+    <div class="tick-delta up">▲ +17.9% upside</div>
+    <div class="tick-badge" style="background:rgba(14,76,150,.08);color:var(--cvx);border-color:rgba(14,76,150,.2);">PER 34x · Div. 3.8%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--shel);">SHEL</div>
+    <div class="tick-price" style="color:var(--shel);">£30+</div>
+    <div class="tick-delta up">▲ rachat actif</div>
+    <div class="tick-badge" style="background:rgba(232,0,13,.08);color:var(--shel);border-color:rgba(232,0,13,.2);">Div. 3.7%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--bp);">BP</div>
+    <div class="tick-price" style="color:var(--bp);">$35</div>
+    <div class="tick-delta dn">▼ rachat suspendu</div>
+    <div class="tick-badge" style="background:rgba(0,153,0,.08);color:var(--bp);border-color:rgba(0,153,0,.2);">PER 149x · à éviter</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--cop);">COP</div>
+    <div class="tick-price" style="color:var(--cop);">$89</div>
+    <div class="tick-delta up">▲ Strong Buy</div>
+    <div class="tick-badge" style="background:rgba(244,121,32,.1);color:var(--cop);border-color:rgba(244,121,32,.3);">PER 11.9x · Div. 3.5%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--brent);">BRENT</div>
+    <div class="tick-price" style="color:var(--brent);">$110</div>
+    <div class="tick-delta up">▲ +50% YTD</div>
+    <div class="tick-badge" style="background:rgba(123,47,190,.1);color:var(--brent);border-color:rgba(123,47,190,.3);">Tensions géopol.</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- COL LEFT : TTE Spotlight -->
+<div class="col col-l">
+  <div class="sec">01 · FOCUS — TotalEnergies (TTE) — La major la mieux positionnée</div>
+
+  <div class="tte-card">
+    <div class="tte-header">
+      <div>
+        <div class="tte-logo">Total<span>Energies</span></div>
+        <div style="font-family:var(--mono);font-size:7px;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase;margin-top:2px;">CAC40 · Euronext Paris · NYSE: TTE</div>
+      </div>
+      <div class="tte-price-block">
+        <div class="tte-price">€80.28</div>
+        <div class="tte-delta up">▲ +50.82% sur 1 an · Capi. €182.7B</div>
+      </div>
+    </div>
+    <div class="tte-body">
+      <div class="tte-kpis">
+        <div class="tte-kpi"><div class="tte-kl">PER est. 2026</div><div class="tte-kv" style="color:var(--green);">8.28x</div></div>
+        <div class="tte-kpi"><div class="tte-kl">PER est. 2027</div><div class="tte-kv" style="color:var(--green);">9.67x</div></div>
+        <div class="tte-kpi"><div class="tte-kl">Dividende</div><div class="tte-kv gd">5.2%</div></div>
+        <div class="tte-kpi"><div class="tte-kl">Cible moy.</div><div class="tte-kv">€81</div></div>
+        <div class="tte-kpi"><div class="tte-kl">Bénéf. Q1</div><div class="tte-kv up">+51%</div></div>
+      </div>
+      <div class="tte-desc">
+        <strong>Résultats Q1 2026 exceptionnels :</strong> Bénéfice net ajusté $5.4B (+29% YoY), cash-flow $8.6B (+23%). <strong>Croissance organique +4%</strong> malgré la perte de 15% de production au Moyen-Orient (Qatar, Irak, EAU). Plus forte croissance parmi les grandes majors. Dividende relevé à <strong>€0.90/trimestre (+5.9%)</strong>, rachat €1.5B au T2. <strong>Production renouvelable +20% YoY</strong>, capacité installée 35.6 GW. GNL : accord 2 Mt/an sur 20 ans avec Alaska LNG. CA 2025 : $201B (6e rang mondial). <strong>Objectif 100 GW renouvelable d'ici 2030.</strong> Endettement sain : ratio 15.5%.
+      </div>
+    </div>
+  </div>
+
+  <!-- Bandes de Bollinger TTE -->
+  <div class="sec">02 · Analyse technique TTE — Bandes de Bollinger (BB ±2σ)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Niveaux BB — TTE Euronext Paris · mai 2026</span>
+      <span class="cbox-s">Support : €72 · Zone achat : €74–78</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px;">
+      <div class="bb-levels">
+        <div class="bb-row">
+          <div class="bb-label nt">Résistance absolue</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:100%;background:var(--bg3);"></div></div>
+          <div class="bb-price nt">€87</div>
+        </div>
+        <div class="bb-row">
+          <div class="bb-label" style="color:var(--green);">BB Supérieure (+2σ)</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:92%;background:var(--green);opacity:.5;"></div></div>
+          <div class="bb-price up">~€86</div>
+        </div>
+        <div class="bb-row" style="background:rgba(0,85,164,.04);margin:0 -10px;padding:3px 10px;">
+          <div class="bb-label" style="color:var(--tte);font-weight:600;">▶ Cours actuel</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:77%;background:var(--tte);opacity:.6;"></div></div>
+          <div class="bb-price" style="color:var(--tte);">€80.3</div>
+        </div>
+        <div class="bb-row">
+          <div class="bb-label" style="color:#0070c0;">MM20 (médiane)</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:72%;background:#0070c0;opacity:.5;"></div></div>
+          <div class="bb-price" style="color:#0070c0;">~€77</div>
+        </div>
+        <div class="bb-row" style="background:var(--goldbg);margin:0 -10px;padding:3px 10px;">
+          <div class="bb-label gd">⬛ Zone achat cible</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:64%;background:var(--gold2);opacity:.6;"></div></div>
+          <div class="bb-price gd">€74–78</div>
+        </div>
+        <div class="bb-row">
+          <div class="bb-label dn">BB Inférieure (−2σ)</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:52%;background:var(--red);opacity:.5;"></div></div>
+          <div class="bb-price dn">~€72</div>
+        </div>
+        <div class="bb-row">
+          <div class="bb-label nt">Support absolu</div>
+          <div class="bb-bg"><div class="bb-bar" style="width:48%;background:var(--bg4);"></div></div>
+          <div class="bb-price nt">€70</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COL MIDDLE : Charts + Comparatif majors -->
+<div class="col col-m">
+  <div class="sec">03 · Performance YTD normalisée — Base 100 (jan 2026)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">TTE / XOM / CVX / COP / SHEL / Brent · Jan–Mai 2026</span>
+      <span class="cbox-s">Brent +50% = supercycle en cours</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px 3px;">
+      <div style="position:relative;height:108px;">
+        <canvas id="perfChart"></canvas>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="li"><div class="ldot" style="background:var(--tte);"></div>TTE</div>
+      <div class="li"><div class="ldot" style="background:var(--xom);"></div>XOM</div>
+      <div class="li"><div class="ldot" style="background:var(--cvx);"></div>CVX</div>
+      <div class="li"><div class="ldot" style="background:var(--cop);"></div>COP</div>
+      <div class="li"><div class="ldot" style="background:var(--shel);"></div>SHEL</div>
+      <div class="li"><div class="ldot" style="background:var(--brent);border-radius:50%;"></div>Brent</div>
+    </div>
+  </div>
+
+  <div class="sec">04 · Corrélations avec le Brent (ρ Pearson, 6 mois)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">ρ Pearson — Sensibilité au cours du pétrole · Jan–Mai 2026</span>
+      <span class="cbox-s">TTE = meilleure corrélation + diversification GNL/ENR</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px 3px;">
+      <div style="position:relative;height:75px;">
+        <canvas id="corrChart"></canvas>
+      </div>
+    </div>
+    <div class="corr-badges">
+      <div class="cbdg" style="border-top-color:var(--tte);">
+        <div class="cbdg-l">TTE / Brent</div>
+        <div class="cbdg-v up">ρ 0.89</div>
+        <div class="cbdg-d">Très forte · GNL+pétrole</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--xom);">
+        <div class="cbdg-l">XOM / Brent</div>
+        <div class="cbdg-v up">ρ 0.85</div>
+        <div class="cbdg-d">Forte · intégré US</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--cvx);">
+        <div class="cbdg-l">CVX / Brent</div>
+        <div class="cbdg-v up">ρ 0.81</div>
+        <div class="cbdg-d">Forte · Permian</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--cop);">
+        <div class="cbdg-l">COP / Brent</div>
+        <div class="cbdg-v gd">ρ 0.76</div>
+        <div class="cbdg-d">Bonne · E&P pur</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--bp);">
+        <div class="cbdg-l">BP / Brent</div>
+        <div class="cbdg-v dn">ρ 0.41</div>
+        <div class="cbdg-d">Faible · dette/restructur.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">05 · Comparatif majors — PER · Dividende · Upside · Qualité</div>
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Métriques comparatives — 6 majors · données mai 2026</span></div>
+    <div class="cbox-b" style="padding:0;">
+      <table class="ctab">
+        <thead><tr><th>Major</th><th>Cours</th><th>PER TTM</th><th>PER Fwd</th><th>Div.</th><th>Upside</th><th>FCF</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr style="background:rgba(0,85,164,.04);">
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--tte);">TTE ★</span><span style="font-size:7.5px;color:var(--muted);"> TotalEnergies</span></td>
+            <td>€80.3</td>
+            <td><span style="color:var(--green);">—</span></td>
+            <td><span style="color:var(--green);font-weight:600;">8.28x ★</span></td>
+            <td style="color:var(--gold);">5.2%</td>
+            <td class="up">~+1%</td>
+            <td class="up">$8.6B</td>
+            <td><span style="background:var(--goldbg);color:var(--tte);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid var(--goldbd);">Meilleure valeur</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--cop);">COP</span><span style="font-size:7.5px;color:var(--muted);"> ConocoPhillips</span></td>
+            <td>$89</td>
+            <td style="color:var(--green);">11.9x</td>
+            <td style="color:var(--green);">10.5x</td>
+            <td style="color:var(--gold);">3.5%</td>
+            <td class="up">+20%</td>
+            <td class="up">solide</td>
+            <td><span style="background:rgba(244,121,32,.1);color:var(--cop);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid rgba(244,121,32,.3);">Strong Buy</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--xom);">XOM</span><span style="font-size:7.5px;color:var(--muted);"> ExxonMobil</span></td>
+            <td>$114</td>
+            <td>16.6x</td>
+            <td>14.0x</td>
+            <td>2.6%</td>
+            <td class="up">+15%</td>
+            <td>fort</td>
+            <td><span style="background:rgba(213,43,30,.08);color:var(--xom);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid rgba(213,43,30,.2);">Buy modéré</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--cvx);">CVX</span><span style="font-size:7.5px;color:var(--muted);"> Chevron</span></td>
+            <td>$196</td>
+            <td>33.2x</td>
+            <td>18.0x</td>
+            <td>3.8%</td>
+            <td class="up">+17.9%</td>
+            <td>fort</td>
+            <td><span style="background:rgba(14,76,150,.08);color:var(--cvx);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid rgba(14,76,150,.2);">Strong Buy</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--shel);">SHEL</span><span style="font-size:7.5px;color:var(--muted);"> Shell</span></td>
+            <td>£30+</td>
+            <td>—</td>
+            <td>10.5x</td>
+            <td>3.7%</td>
+            <td class="up">+12%</td>
+            <td>fort</td>
+            <td><span style="background:rgba(232,0,13,.08);color:var(--shel);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid rgba(232,0,13,.2);">Rachat actif</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--bp);">BP</span><span style="font-size:7.5px;color:var(--muted);"> BP plc</span></td>
+            <td>$35</td>
+            <td style="color:var(--red);">148x ⚠</td>
+            <td style="color:var(--muted);">—</td>
+            <td>5.4%</td>
+            <td class="dn">risque</td>
+            <td class="dn">tendu</td>
+            <td><span style="background:rgba(0,153,0,.08);color:var(--red);font-family:var(--mono);font-size:7px;padding:1px 5px;border-radius:2px;border:1px solid rgba(192,57,43,.2);">Éviter · dette</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- COL RIGHT -->
+<div class="col col-r">
+  <div class="sec">06 · Métriques TTE (Q1 2026)</div>
+  <div class="ms-grid">
+    <div class="ms"><div class="ms-l">Bénéfice Q1</div><div class="ms-v up">$5.4B</div></div>
+    <div class="ms"><div class="ms-l">Cash-flow Q1</div><div class="ms-v up">$8.6B</div></div>
+    <div class="ms"><div class="ms-l">CA 2025</div><div class="ms-v">$201B</div></div>
+    <div class="ms"><div class="ms-l">Prod. renouv.</div><div class="ms-v up">35.6 GW</div></div>
+    <div class="ms"><div class="ms-l">Gearing</div><div class="ms-v">15.5%</div></div>
+    <div class="ms"><div class="ms-l">Croiss. organ.</div><div class="ms-v up">+4%</div></div>
+  </div>
+
+  <div class="sec">07 · Risques sectoriels</div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--red);">Chute du Brent</div>
+    <div class="rule-b">Si Brent retombe à $60–70 : rachats TTE réduits à $750M/trim., marges comprimées. Risque principal du secteur.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--gold);">Perte production MO</div>
+    <div class="rule-b">15% production TTE immobilisée (Qatar/Irak/EAU). Escalade = risque négatif, résolution = catalyseur positif.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">✓</div>
+    <div><div class="rule-h" style="color:var(--green);">Transition énergétique</div>
+    <div class="rule-b">TTE = seule major avec objectif 100 GW ENR 2030. Integrated Power $545M résultat Q1. Diversification = prime de valorisation.</div></div>
+  </div>
+  <div class="rule" style="margin-bottom:7px;">
+    <div class="rule-n">✓</div>
+    <div><div class="rule-h" style="color:var(--green);">GNL : contrat Alaska 20 ans</div>
+    <div class="rule-b">2 Mt/an sur 20 ans finalisé. TTE = 2e producteur mondial GNL. Revenus récurrents et résilients.</div></div>
+  </div>
+
+  <div class="sec">08 · Agenda catalyseurs</div>
+  <div class="cal">
+    <div class="cal-d">JUIN<br>2026</div>
+    <div><div class="cal-e">AGM TotalEnergies</div>
+    <div class="cal-n">Vote dividende solde FY2025. Confirmation guidance 2026 et politique de rachat T3.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">JUIL<br>2026</div>
+    <div><div class="cal-e">Résultats Q2 TTE + solde div.</div>
+    <div class="cal-n">Paiement du solde dividende 2025. Q2 avec Brent >$100 = résultats potentiellement records.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">H2<br>2026</div>
+    <div><div class="cal-e">Résolution conf. MO ?</div>
+    <div class="cal-n">Remise en service Qatar/Irak/EAU (+15% prod.). Déclencheur de rerating majeur pour TTE.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">2030</div>
+    <div><div class="cal-e">Objectif 100 GW ENR</div>
+    <div class="cal-n">TTE vise neutralité carbone 2050. Chaque GW renouvelable = réduction décote ESG.</div></div>
+  </div>
+</div>
+
+</div><!-- end body -->
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="vtag">Verdict YAASAP</div>
+  <div class="vtext">
+    <strong>TotalEnergies est la meilleure valeur du secteur</strong> : PER 8.28x, dividende 5.2% trimestriel, bénéfice Q1 +51%, cash-flow $8.6B, et la seule major avec un plan transition crédible (100 GW ENR 2030). <strong>Zone d'achat : €74–78</strong> (retour sur MM20), stop sous €70. Résistance à casser : €86. ConocoPhillips (COP) est le second choix : PER 11.9x, Strong Buy, ρ Brent 0.76. <strong>Éviter BP</strong> : PER 148x, rachat suspendu, dette non résorbée. La corrélation TTE/Brent à ρ=0.89 en fait un proxy direct sur le supercycle pétrolier, avec bonus GNL et ENR.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-l">Analyse technique et fondamentale à titre informatif · Ne constitue pas un conseil en investissement · YAASAP Consulting décline toute responsabilité · Sources : TotalEnergies IR, Boursorama, Ideal-Investisseur, Zonebourse, Yahoo Finance, TipRanks (mai 2026)</div>
+  <div class="foot-r">YAASAP Consulting · <span>Flash Énergie N°17</span> · 20 Mai 2026</div>
+</div>
+
+</div><!-- end page -->
+
+<script>
+const labels6=['Jan','Fév','Mar','Avr','Mai-1','Mai-20'];
+const gc='rgba(0,0,0,0.05)', tc='#9a8e7a', tf={size:7.5,family:'Consolas,monospace'};
+
+// Performance normalisée base 100
+new Chart(document.getElementById('perfChart'),{
+  type:'line',
+  data:{labels:labels6,datasets:[
+    {label:'Brent', data:[100,112,128,150,148,150], borderColor:'#7b2fbe',borderWidth:2,pointRadius:2,fill:false,tension:0.35,borderDash:[5,3]},
+    {label:'TTE',   data:[100,108,118,130,145,151], borderColor:'#0055a4',borderWidth:2.5,pointRadius:2.5,fill:false,tension:0.35},
+    {label:'XOM',   data:[100,105,112,118,122,125], borderColor:'#d52b1e',borderWidth:2,pointRadius:2,fill:false,tension:0.35},
+    {label:'CVX',   data:[100,106,114,122,130,135], borderColor:'#0e4c96',borderWidth:2,pointRadius:2,fill:false,tension:0.35},
+    {label:'COP',   data:[100,103,108,114,118,120], borderColor:'#f47920',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35,borderDash:[3,2]},
+    {label:'SHEL',  data:[100,104,110,116,120,123], borderColor:'#e8000d',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35,borderDash:[3,2]},
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,22,18,.92)',titleColor:tc,bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6,
+      callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)} (${ctx.parsed.y>=100?'+':''}${(ctx.parsed.y-100).toFixed(0)}%)`}}},
+    scales:{
+      x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},
+      y:{min:92,max:158,ticks:{color:tc,font:tf},grid:{color:gc}}
+    }
+  }
+});
+
+// Corrélations
+new Chart(document.getElementById('corrChart'),{
+  type:'bar',
+  data:{labels:['TTE/Brent','XOM/Brent','CVX/Brent','COP/Brent','BP/Brent'],
+    datasets:[{data:[0.89,0.85,0.81,0.76,0.41],
+      backgroundColor:['rgba(0,85,164,.55)','rgba(213,43,30,.55)','rgba(14,76,150,.55)','rgba(244,121,32,.55)','rgba(0,153,0,.45)'],
+      borderColor:['#0055a4','#d52b1e','#0e4c96','#f47920','#009900'],
+      borderWidth:1,borderRadius:3
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,22,18,.92)',bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6,
+      callbacks:{label:ctx=>`ρ = ${ctx.parsed.x.toFixed(2)}`}}},
+    scales:{
+      x:{min:0,max:1.0,ticks:{color:tc,font:tf,callback:v=>'ρ '+v.toFixed(1)},grid:{color:gc}},
+      y:{ticks:{color:tc,font:tf},grid:{display:false}}
+    }
+  }
+});
+</script>
+</body>
+</html>
