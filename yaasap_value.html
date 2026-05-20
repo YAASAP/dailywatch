@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Valeur N°16</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#faf8f4; --bg2:#f3efe8; --bg3:#ece7dd; --bg4:#e4ddd0;
+  --ink:#1a1612; --ink2:#3d3628; --ink3:#6b5f4a; --muted:#9a8e7a;
+  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.14);
+  --gold:#b8952a; --gold2:#d4aa40; --gold3:#f0c956;
+  --goldbg:rgba(184,149,42,0.10); --goldbd:rgba(184,149,42,0.30);
+  --green:#2a7a4b; --green2:#3da066; --red:#c0392b; --red2:#e05545;
+  /* Stock colors */
+  --msft:#0070c0; --baba:#e6520e; --pfe:#003087;
+  --vz:#cd040b; --stld:#2e7d52; --wms:#7b2fbe;
+  --mono:'SF Mono','Cascadia Code','Consolas','Courier New',monospace;
+  --sans:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+html,body { width:1122px; height:794px; overflow:hidden; background:var(--bg); font-family:var(--sans); color:var(--ink); font-size:10.5px; -webkit-font-smoothing:antialiased; }
+.page { width:1122px; height:794px; display:flex; flex-direction:column; }
+
+/* HEADER */
+.hdr { background:var(--ink); border-bottom:3px solid var(--gold2); padding:9px 24px; display:flex; align-items:center; justify-content:space-between; height:50px; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-pill { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:11px; font-weight:700; padding:3px 9px; letter-spacing:.04em; }
+.brand-name { font-size:13px; font-weight:700; color:#fff; }
+.brand-sub { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; margin-top:1px; }
+.hdr-kpis { display:flex; }
+.hkpi { padding:0 14px; border-right:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; gap:1px; }
+.hkpi:last-child { border-right:none; }
+.hkpi-v { font-family:var(--mono); font-size:13px; font-weight:600; line-height:1; color:#fff; }
+.hkpi-l { font-family:var(--mono); font-size:7px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-right { text-align:right; }
+.hdr-title { font-size:13px; font-weight:700; color:var(--gold3); }
+.hdr-date { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.3); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+.up{color:var(--green);} .dn{color:var(--red);} .nt{color:var(--muted);} .gd{color:var(--gold);}
+
+/* TICKER TAPE */
+.tape { background:var(--bg2); border-bottom:1px solid var(--border2); padding:5px 24px; display:flex; align-items:center; flex-shrink:0; gap:0; }
+.tick { display:flex; align-items:center; gap:7px; padding:0 14px; border-right:1px solid var(--border2); }
+.tick:last-child { border-right:none; }
+.tick-name { font-family:var(--mono); font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.tick-price { font-family:var(--mono); font-size:13px; font-weight:600; }
+.tick-per { font-family:var(--mono); font-size:8px; }
+.tick-upside { font-family:var(--mono); font-size:9px; font-weight:600; }
+.tick-badge { font-family:var(--mono); font-size:7px; padding:1px 5px; border-radius:2px; border:1px solid; white-space:nowrap; }
+
+/* BODY */
+.body { flex:1; display:grid; grid-template-columns:390px 1fr 240px; min-height:0; }
+.col { padding:11px 15px; overflow:hidden; }
+.col-l { border-right:1px solid var(--border2); background:var(--bg); }
+.col-m { border-right:1px solid var(--border2); background:var(--bg); }
+.col-r { padding:11px 13px; background:var(--bg2); }
+
+/* SECTION */
+.sec { font-family:var(--mono); font-size:6.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); background:var(--goldbg); border-left:2px solid var(--gold2); padding:2px 6px; display:inline-block; margin-bottom:6px; }
+
+/* CARD */
+.cbox { background:#fff; border:1px solid var(--border2); border-radius:3px; overflow:hidden; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cbox:last-child { margin-bottom:0; }
+.cbox-h { padding:4px 10px; border-bottom:1px solid var(--border); background:var(--bg2); display:flex; justify-content:space-between; align-items:center; }
+.cbox-t { font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); }
+.cbox-s { font-family:var(--mono); font-size:6.5px; color:var(--muted); }
+.cbox-b { padding:7px 10px; }
+
+/* STOCK CARDS */
+.scards { display:flex; flex-direction:column; gap:6px; }
+.scard { background:#fff; border:1px solid var(--border2); border-radius:3px; padding:8px 10px; border-left-width:3px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+.scard-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:5px; }
+.scard-left {}
+.scard-ticker { font-family:var(--mono); font-size:12px; font-weight:700; line-height:1; }
+.scard-name { font-size:8px; color:var(--muted); margin-top:2px; }
+.scard-right { text-align:right; }
+.scard-price { font-family:var(--mono); font-size:16px; font-weight:700; color:var(--ink); line-height:1; }
+.scard-delta { font-family:var(--mono); font-size:8px; margin-top:1px; }
+.scard-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin-bottom:5px; }
+.scard-m { background:var(--bg2); border-radius:2px; padding:4px 5px; }
+.scard-ml { font-family:var(--mono); font-size:6.5px; color:var(--muted); letter-spacing:.05em; text-transform:uppercase; margin-bottom:1px; }
+.scard-mv { font-family:var(--mono); font-size:11px; font-weight:600; line-height:1; }
+.scard-why { font-size:8px; color:var(--ink3); line-height:1.45; border-top:1px solid var(--border); padding-top:5px; }
+.scard-why strong { color:var(--ink); font-weight:600; }
+
+/* CHART items */
+.legend { display:flex; gap:8px; flex-wrap:wrap; padding:2px 10px 5px; }
+.li { display:flex; align-items:center; gap:3px; font-family:var(--mono); font-size:6.5px; color:var(--muted); text-transform:uppercase; }
+.ldot { width:6px; height:6px; border-radius:1px; flex-shrink:0; }
+
+/* PER COMPARISON TABLE */
+.per-table { width:100%; border-collapse:collapse; }
+.per-table th { font-family:var(--mono); font-size:7px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:3px 6px; text-align:left; border-bottom:1px solid var(--border2); background:var(--bg2); }
+.per-table td { font-size:9px; padding:4px 6px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:middle; }
+.per-table tr:last-child td { border-bottom:none; }
+.per-table td:not(:first-child) { font-family:var(--mono); font-size:8.5px; }
+.per-bar-bg { width:80px; height:5px; background:var(--bg3); border-radius:2px; display:inline-block; vertical-align:middle; overflow:hidden; }
+.per-bar { height:100%; border-radius:2px; display:block; }
+.vs-badge { font-family:var(--mono); font-size:7px; padding:1px 5px; border-radius:2px; white-space:nowrap; }
+
+/* RIGHT COL */
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:7px; }
+.ms { background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.ms-l { font-family:var(--mono); font-size:6.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.ms-v { font-family:var(--mono); font-size:12px; font-weight:600; line-height:1; color:var(--ink); }
+
+.rule { display:flex; gap:6px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; margin-bottom:5px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.rule:last-child { margin-bottom:0; }
+.rule-n { font-family:var(--mono); font-size:9px; font-weight:700; color:var(--gold); min-width:12px; }
+.rule-h { font-size:9px; font-weight:700; margin-bottom:1px; }
+.rule-b { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+
+.cal { display:flex; gap:6px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 8px; margin-bottom:5px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.cal:last-child { margin-bottom:0; }
+.cal-d { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:700; padding:3px 5px; text-align:center; min-width:34px; border-radius:2px; line-height:1.4; flex-shrink:0; }
+.cal-e { font-size:8.5px; font-weight:700; color:var(--ink); margin-bottom:1px; }
+.cal-n { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+
+/* VERDICT */
+.verdict { background:var(--ink2); border-top:2px solid var(--gold2); padding:7px 24px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.vtag { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+.vtext { font-size:9.5px; color:rgba(255,255,255,.85); font-style:italic; line-height:1.6; }
+.vtext strong { font-style:normal; color:var(--gold3); }
+
+/* FOOTER */
+.footer { background:var(--bg3); border-top:1px solid var(--border2); padding:5px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:26px; }
+.foot-l { font-family:var(--mono); font-size:6px; color:var(--muted); max-width:700px; }
+.foot-r { font-family:var(--mono); font-size:7.5px; color:var(--ink3); text-align:right; }
+.foot-r span { color:var(--gold); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Valeur · N°16 · Analyse Value — Sous-cotation & Fondamentaux</div>
+    </div>
+  </div>
+  <div class="hdr-kpis">
+    <div class="hkpi"><div class="hkpi-v" style="color:var(--gold3);">6</div><div class="hkpi-l">Valeurs sélectionnées</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">8.9x</div><div class="hkpi-l">PER fwd min (PFE)</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">+33%</div><div class="hkpi-l">Upside moy. consensus</div></div>
+    <div class="hkpi"><div class="hkpi-v">S&amp;P 500</div><div class="hkpi-l">PER moyen 21x</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">5/6</div><div class="hkpi-l">Strong Buy consensus</div></div>
+    <div class="hkpi"><div class="hkpi-v">Buffett</div><div class="hkpi-l">Critères utilisés</div></div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-title">📉→📈 Actions Sous-cotées — Correction Injustifiée</div>
+    <div class="hdr-date">20 Mai 2026 · PER · DCF · GF Score · Fondamentaux</div>
+  </div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="tape">
+  <div class="tick">
+    <div class="tick-name" style="color:var(--msft);">MSFT</div>
+    <div class="tick-price" style="color:var(--msft);">$424</div>
+    <div class="tick-per nt">PER 25x</div>
+    <div class="tick-upside up">▲ +33%</div>
+    <div class="tick-badge" style="background:rgba(0,112,192,.08);color:var(--msft);border-color:rgba(0,112,192,.25);">−19% vs hist. moy.</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--pfe);">PFE</div>
+    <div class="tick-price" style="color:var(--pfe);">$25.7</div>
+    <div class="tick-per nt">PER fwd 8.9x</div>
+    <div class="tick-upside up">▲ +118%</div>
+    <div class="tick-badge" style="background:rgba(0,48,135,.08);color:var(--pfe);border-color:rgba(0,48,135,.25);">Div. 6.4%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--baba);">BABA</div>
+    <div class="tick-price" style="color:var(--baba);">$135</div>
+    <div class="tick-per nt">PER fwd 19x</div>
+    <div class="tick-upside up">▲ +41%</div>
+    <div class="tick-badge" style="background:rgba(230,82,14,.08);color:var(--baba);border-color:rgba(230,82,14,.25);">Rachats −1.7%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--vz);">VZ</div>
+    <div class="tick-price" style="color:var(--vz);">$43</div>
+    <div class="tick-per nt">PER 10x</div>
+    <div class="tick-upside up">▲ +18%</div>
+    <div class="tick-badge" style="background:rgba(205,4,11,.08);color:var(--vz);border-color:rgba(205,4,11,.25);">Div. 6.5%</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--stld);">STLD</div>
+    <div class="tick-price" style="color:var(--stld);">$235</div>
+    <div class="tick-per nt">PER sous DCF</div>
+    <div class="tick-upside up">▲ +58%</div>
+    <div class="tick-badge" style="background:rgba(46,125,82,.08);color:var(--stld);border-color:rgba(46,125,82,.25);">EPS +20.7%/an</div>
+  </div>
+  <div class="tick">
+    <div class="tick-name" style="color:var(--wms);">WMS</div>
+    <div class="tick-price" style="color:var(--wms);">$23</div>
+    <div class="tick-per nt">PER 19x</div>
+    <div class="tick-upside up">▲ +25%</div>
+    <div class="tick-badge" style="background:rgba(123,47,190,.08);color:var(--wms);border-color:rgba(123,47,190,.25);">−17% vs secteur</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- COL LEFT : Fiches valeurs -->
+<div class="col col-l">
+  <div class="sec">01 · Fiches valeurs — Correction à tort, fondamentaux intacts</div>
+
+  <div class="scards">
+    <!-- MSFT -->
+    <div class="scard" style="border-left-color:var(--msft);">
+      <div class="scard-top">
+        <div class="scard-left">
+          <div class="scard-ticker" style="color:var(--msft);">MSFT <span style="font-size:9px;font-weight:400;color:var(--muted);">Microsoft Corporation</span></div>
+          <div class="scard-name">GF Score 95/100 · Wedbush Outperform · 32 analystes Buy</div>
+        </div>
+        <div class="scard-right">
+          <div class="scard-price">$424</div>
+          <div class="scard-delta dn">−laggard IA vs peers</div>
+        </div>
+      </div>
+      <div class="scard-metrics">
+        <div class="scard-m"><div class="scard-ml">PER TTM</div><div class="scard-mv" style="color:var(--green);">25.0x</div></div>
+        <div class="scard-m"><div class="scard-ml">PER fwd</div><div class="scard-mv" style="color:var(--green);">21.8x</div></div>
+        <div class="scard-m"><div class="scard-ml">GF Value</div><div class="scard-mv" style="color:var(--gold);">$550</div></div>
+        <div class="scard-m"><div class="scard-ml">Upside</div><div class="scard-mv up">+33%</div></div>
+      </div>
+      <div class="scard-why"><strong>Correction injustifiée :</strong> PER 25x vs historique 31x (−19%). Azure +35%, Copilot pénètre les 400M users Office. La sous-performance vs NVDA est une question de narrative, pas de fondamentaux. DCF : $570 (Simply Wall St). Cible Wedbush $575.</div>
+    </div>
+
+    <!-- PFE -->
+    <div class="scard" style="border-left-color:var(--pfe);">
+      <div class="scard-top">
+        <div class="scard-left">
+          <div class="scard-ticker" style="color:var(--pfe);">PFE <span style="font-size:9px;font-weight:400;color:var(--muted);">Pfizer Inc.</span></div>
+          <div class="scard-name">DCF value $61 vs cours $26 · Dividende sécurisé · Pipeline oncologie</div>
+        </div>
+        <div class="scard-right">
+          <div class="scard-price">$25.7</div>
+          <div class="scard-delta dn">−63% depuis pic 2021</div>
+        </div>
+      </div>
+      <div class="scard-metrics">
+        <div class="scard-m"><div class="scard-ml">PER TTM</div><div class="scard-mv" style="color:var(--green);">19.3x</div></div>
+        <div class="scard-m"><div class="scard-ml">PER fwd</div><div class="scard-mv" style="color:var(--green);">8.9x</div></div>
+        <div class="scard-m"><div class="scard-ml">Dividende</div><div class="scard-mv" style="color:var(--gold);">6.4%</div></div>
+        <div class="scard-m"><div class="scard-ml">DCF upside</div><div class="scard-mv up">+118%</div></div>
+      </div>
+      <div class="scard-why"><strong>Correction post-COVID exagérée :</strong> Le marché punit le recul des revenus COVID, ignorant le pipeline : 20 essais pivotaux 2026, Padcev oncologie (+47% réduction risque), Vyndamax exclusivité jusqu'à 2031, Rev Q1 $14.5B (+5.4%). Séagen $43B intégré.</div>
+    </div>
+
+    <!-- BABA -->
+    <div class="scard" style="border-left-color:var(--baba);">
+      <div class="scard-top">
+        <div class="scard-left">
+          <div class="scard-ticker" style="color:var(--baba);">BABA <span style="font-size:9px;font-weight:400;color:var(--muted);">Alibaba Group</span></div>
+          <div class="scard-name">41 analystes Strong Buy · DCF $182 vs $135 · Zhenwu AI chip</div>
+        </div>
+        <div class="scard-right">
+          <div class="scard-price">$135</div>
+          <div class="scard-delta dn">−50% vs ATH · risque géo.</div>
+        </div>
+      </div>
+      <div class="scard-metrics">
+        <div class="scard-m"><div class="scard-ml">PER TTM</div><div class="scard-mv" style="color:var(--green);">21.7x</div></div>
+        <div class="scard-m"><div class="scard-ml">PER fwd</div><div class="scard-mv" style="color:var(--green);">19.1x</div></div>
+        <div class="scard-m"><div class="scard-ml">Rachat</div><div class="scard-mv" style="color:var(--gold);">−1.7%</div></div>
+        <div class="scard-m"><div class="scard-ml">Cible moy.</div><div class="scard-mv up">$191</div></div>
+      </div>
+      <div class="scard-why"><strong>Décote géopolitique injustifiée :</strong> PER fwd 19x pour un leader cloud/e-commerce avec $105B free cash flow. Rev $1.02T FY2026 (+2.7%). Programme rachat actif. Nouveau chip IA Zhenwu M890 (3× son prédécesseur). Beta 0.49 = faible volatilité.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COL MIDDLE : Graphiques + Tableau PER comparatif -->
+<div class="col col-m">
+  <div class="sec">02 · Performance relative YTD vs S&P 500 — Base 100</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Amplitude de correction — Valeurs vs S&P 500 · Jan–Mai 2026</span>
+      <span class="cbox-s">Opportunité d'entrée identifiée sur tous</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px 3px;">
+      <div style="position:relative;height:110px;">
+        <canvas id="perfChart"></canvas>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="li"><div class="ldot" style="background:#888;"></div>S&P 500</div>
+      <div class="li"><div class="ldot" style="background:var(--msft);"></div>MSFT</div>
+      <div class="li"><div class="ldot" style="background:var(--pfe);"></div>PFE</div>
+      <div class="li"><div class="ldot" style="background:var(--baba);"></div>BABA</div>
+      <div class="li"><div class="ldot" style="background:var(--vz);"></div>VZ</div>
+      <div class="li"><div class="ldot" style="background:var(--stld);"></div>STLD</div>
+      <div class="li"><div class="ldot" style="background:var(--wms);"></div>WMS</div>
+    </div>
+  </div>
+
+  <div class="sec">03 · Comparaison PER — Cours vs Secteur vs Historique</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Discount PER actuel vs moyenne sectorielle et historique 5 ans</span>
+      <span class="cbox-s">Plus la barre est courte = plus sous-évalué</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px 3px;">
+      <div style="position:relative;height:95px;">
+        <canvas id="perChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">04 · Tableau synthétique — Métriques value complètes</div>
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">PER · DCF · Upside · Dividende · Raison de la correction</span></div>
+    <div class="cbox-b" style="padding:0;">
+      <table class="per-table">
+        <thead><tr><th>Ticker</th><th>Cours</th><th>PER TTM</th><th>PER Fwd</th><th>DCF / Cible</th><th>Upside</th><th>Div.</th><th>Raison correction</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--msft);">MSFT</span></td>
+            <td>$424</td>
+            <td><span style="color:var(--green);">25.0x</span> <span class="vs-badge" style="background:rgba(42,122,75,.08);color:var(--green);border:1px solid rgba(42,122,75,.2);">−19% hist.</span></td>
+            <td style="color:var(--green);">21.8x</td>
+            <td style="color:var(--green);">$570</td>
+            <td class="up">+33%</td>
+            <td class="nt">0.8%</td>
+            <td style="font-size:8px;color:var(--ink3);">Laggard IA narrative, Azure sous-estimé</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--pfe);">PFE</span></td>
+            <td>$25.7</td>
+            <td><span style="color:var(--green);">19.3x</span> <span class="vs-badge" style="background:rgba(42,122,75,.08);color:var(--green);border:1px solid rgba(42,122,75,.2);">−9% secteur</span></td>
+            <td style="color:var(--green);">8.9x ★</td>
+            <td style="color:var(--green);">$62</td>
+            <td class="up">+118%</td>
+            <td style="color:var(--gold);">6.4%</td>
+            <td style="font-size:8px;color:var(--ink3);">Post-COVID, peur brevets, marché punit temporaire</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--baba);">BABA</span></td>
+            <td>$135</td>
+            <td><span style="color:var(--green);">21.7x</span></td>
+            <td style="color:var(--green);">19.1x</td>
+            <td style="color:var(--green);">$182</td>
+            <td class="up">+41%</td>
+            <td class="nt">—</td>
+            <td style="font-size:8px;color:var(--ink3);">Décote géopolitique Chine, ignorer la trésorerie</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--vz);">VZ</span></td>
+            <td>$43</td>
+            <td><span style="color:var(--green);">10.0x</span> <span class="vs-badge" style="background:rgba(42,122,75,.08);color:var(--green);border:1px solid rgba(42,122,75,.2);">−52% S&P</span></td>
+            <td style="color:var(--green);">9.5x</td>
+            <td style="color:var(--green);">$50</td>
+            <td class="up">+18%</td>
+            <td style="color:var(--gold);">6.5%</td>
+            <td style="font-size:8px;color:var(--ink3);">Peur de la dette, 5G redeploiement sous-estimé</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--stld);">STLD</span></td>
+            <td>$235</td>
+            <td><span style="color:var(--green);">PER bas</span></td>
+            <td style="color:var(--green);">—</td>
+            <td style="color:var(--green);">$371</td>
+            <td class="up">+58%</td>
+            <td style="color:var(--gold);">1.8%</td>
+            <td style="font-size:8px;color:var(--ink3);">Cyclique acier mal aimé, tarifs Trump ignorés +</td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--wms);">WMS</span></td>
+            <td>$23</td>
+            <td><span style="color:var(--green);">19.2x</span> <span class="vs-badge" style="background:rgba(42,122,75,.08);color:var(--green);border:1px solid rgba(42,122,75,.2);">−17% sect.</span></td>
+            <td style="color:var(--green);">18.5x</td>
+            <td style="color:var(--green);">$29</td>
+            <td class="up">+25%</td>
+            <td class="nt">1.2%</td>
+            <td style="font-size:8px;color:var(--ink3);">Infrastructure ignorée par le marché IA-focused</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- COL RIGHT -->
+<div class="col col-r">
+  <div class="sec">05 · 3 autres valeurs à suivre</div>
+
+  <!-- VZ card -->
+  <div class="cbox" style="margin-bottom:6px;">
+    <div class="cbox-h" style="border-left:3px solid var(--vz);">
+      <span class="cbox-t" style="color:var(--vz);">VZ — Verizon</span>
+      <span style="font-family:var(--mono);font-size:8px;color:var(--green);">PER 10x · Div. 6.5%</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 9px;">
+      <div style="font-size:8px;color:var(--ink3);line-height:1.5;"><strong style="color:var(--ink);">Correction :</strong> Peur de la dette long terme (D/E 1.7x). Mais free cash flow $17B/an couvre largement dividende. Déploiement 5G mmWave en accélération. PER 10x pour un monopole télécoms = opportunité claire.</div>
+    </div>
+  </div>
+
+  <!-- STLD card -->
+  <div class="cbox" style="margin-bottom:6px;">
+    <div class="cbox-h" style="border-left:3px solid var(--stld);">
+      <span class="cbox-t" style="color:var(--stld);">STLD — Steel Dynamics</span>
+      <span style="font-family:var(--mono);font-size:8px;color:var(--green);">DCF $371 · EPS +20%/an</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 9px;">
+      <div style="font-size:8px;color:var(--ink3);line-height:1.5;"><strong style="color:var(--ink);">Correction :</strong> Cyclique acier boudé par le marché IA. Mais infrastructures US (+Chips Act) = supercycle de la demande acier. Cours $235 vs DCF $371 = décote 37%. Rachats actifs + dividende croissant.</div>
+    </div>
+  </div>
+
+  <!-- WMS card -->
+  <div class="cbox" style="margin-bottom:7px;">
+    <div class="cbox-h" style="border-left:3px solid var(--wms);">
+      <span class="cbox-t" style="color:var(--wms);">WMS — Adv. Drainage Sys.</span>
+      <span style="font-family:var(--mono);font-size:8px;color:var(--green);">PER 19x −17% sect.</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 9px;">
+      <div style="font-size:8px;color:var(--ink3);line-height:1.5;"><strong style="color:var(--ink);">Correction :</strong> Infrastructure hydraulique ignorée dans la rotation tech. Strong Buy consensus, cible $29 (+25%). PER 19.2x vs secteur industriels 23.3x = décote 17%. Bénéficiaire direct des plans infra Biden/Trump.</div>
+    </div>
+  </div>
+
+  <div class="sec">06 · Critères de sélection utilisés</div>
+  <div class="rule">
+    <div class="rule-n">①</div>
+    <div><div class="rule-h">PER < moyenne historique −15%</div>
+    <div class="rule-b">ou PER fwd < médiane sectorielle. Compression multiple non justifiée par les fondamentaux.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">②</div>
+    <div><div class="rule-h">DCF > cours actuel +20%</div>
+    <div class="rule-b">Modèle DCF sur flux futurs > cours = marge de sécurité (critère Graham/Buffett).</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">③</div>
+    <div><div class="rule-h">GF Score ≥ 74/100</div>
+    <div class="rule-b">Qualité business intrinsèque confirmée. MSFT 95/100, BABA 86/100, PFE 74/100.</div></div>
+  </div>
+  <div class="rule" style="margin-bottom:7px;">
+    <div class="rule-n">④</div>
+    <div><div class="rule-h">Raison de correction identifiable</div>
+    <div class="rule-b">Sentiment ≠ fondamentaux. Erreur narrative, peur temporaire, rotation sectorielle.</div></div>
+  </div>
+
+  <div class="sec">07 · Catalyseurs de revalorisation</div>
+  <div class="cal">
+    <div class="cal-d">28<br>MAI</div>
+    <div><div class="cal-e">Résultats MSFT Q3 FY26</div>
+    <div class="cal-n">Azure cible +35-38%. Adoption Copilot M365 = déclencheur de rerating.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">JUN<br>2026</div>
+    <div><div class="cal-e">PFE — Données Padcev Phase 3</div>
+    <div class="cal-n">Essai cancer vessie. Résultats positifs = rerating immédiat du titre.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">H2<br>2026</div>
+    <div><div class="cal-e">BABA — Cotation Hong Kong + AI</div>
+    <div class="cal-n">Chip Zhenwu + déconsolidation divisions = catalyst de réduction décote.</div></div>
+  </div>
+</div>
+
+</div><!-- end body -->
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="vtag">Verdict YAASAP</div>
+  <div class="vtext">
+    <strong>PFE est le cas le plus frappant</strong> : PER forward 8.9x, DCF à $62 pour un cours de $26, dividende 6.4% — la correction post-COVID a créé une anomalie de valorisation. <strong>MSFT est le lagger injustifié</strong> : PER 25x vs historique 31x, Azure en accélération, cible consensus $565. <strong>BABA offre la décote géopolitique la plus extrême</strong> : $135 vs DCF $182, 41 analystes Strong Buy.
+    Pour les profils défensifs : VZ (6.5% dividende, PER 10x) et STLD (DCF +58%) sont les meilleures opportunités cycliques. <strong>Entrée progressive recommandée</strong> — ces valeurs peuvent rester sous-cotées 12–18 mois avant rerating.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-l">Analyse fondamentale et technique à titre informatif uniquement · Ne constitue pas un conseil en investissement · YAASAP Consulting décline toute responsabilité · Consultez un conseiller financier agréé · Sources : GuruFocus, Simply Wall St, Morningstar, Yahoo Finance, Seeking Alpha (mai 2026)</div>
+  <div class="foot-r">YAASAP Consulting · <span>Flash Valeur N°16</span> · 20 Mai 2026</div>
+</div>
+
+</div><!-- end page -->
+
+<script>
+const labels6=['Jan','Fév','Mar','Avr','Mai-1','Mai-20'];
+const gc='rgba(0,0,0,0.05)', tc='#9a8e7a', tf={size:7.5,family:'Consolas,monospace'};
+
+// Performance relative YTD base 100
+new Chart(document.getElementById('perfChart'),{
+  type:'line',
+  data:{labels:labels6,datasets:[
+    {label:'S&P 500',data:[100,101,104,107,110,112],borderColor:'#888',borderWidth:1.5,pointRadius:1.5,fill:false,tension:0.3,borderDash:[4,3]},
+    {label:'MSFT',  data:[100,97, 96, 98,100,101], borderColor:'#0070c0',borderWidth:2,pointRadius:2,fill:false,tension:0.3},
+    {label:'PFE',   data:[100,96, 95, 94, 96, 98], borderColor:'#003087',borderWidth:2,pointRadius:2,fill:false,tension:0.3},
+    {label:'BABA',  data:[100,104,108,112,115,114], borderColor:'#e6520e',borderWidth:2,pointRadius:2,fill:false,tension:0.3},
+    {label:'VZ',    data:[100,99, 100,101,102,103], borderColor:'#cd040b',borderWidth:1.5,pointRadius:1.5,fill:false,tension:0.3,borderDash:[3,2]},
+    {label:'STLD',  data:[100,98, 96, 97, 98, 99],  borderColor:'#2e7d52',borderWidth:1.5,pointRadius:1.5,fill:false,tension:0.3,borderDash:[3,2]},
+    {label:'WMS',   data:[100,96, 94, 93, 95, 96],  borderColor:'#7b2fbe',borderWidth:1.5,pointRadius:1.5,fill:false,tension:0.3,borderDash:[3,2]},
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,22,18,.92)',titleColor:tc,bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6,
+      callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)} (${ctx.parsed.y>=100?'+':''}${(ctx.parsed.y-100).toFixed(0)}%)`}}},
+    scales:{
+      x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},
+      y:{min:88,max:118,ticks:{color:tc,font:tf},grid:{color:gc},
+        title:{display:true,text:'Base 100',color:tc,font:{size:7}}}
+    }
+  }
+});
+
+// PER comparaison groupé
+new Chart(document.getElementById('perChart'),{
+  type:'bar',
+  data:{
+    labels:['MSFT','PFE','BABA','VZ','STLD','WMS'],
+    datasets:[
+      {label:'PER actuel',  data:[25.0,19.3,21.7,10.0,12.0,19.2],
+       backgroundColor:['rgba(0,112,192,.55)','rgba(0,48,135,.55)','rgba(230,82,14,.55)','rgba(205,4,11,.55)','rgba(46,125,82,.55)','rgba(123,47,190,.55)'],
+       borderColor:['#0070c0','#003087','#e6520e','#cd040b','#2e7d52','#7b2fbe'],
+       borderWidth:1,borderRadius:2
+      },
+      {label:'PER historique 5 ans',data:[31.9,18.7,21.7,11.2,16.0,23.3],
+       backgroundColor:'rgba(184,149,42,0.18)',
+       borderColor:'rgba(184,149,42,0.7)',
+       borderWidth:1.5,borderRadius:2,borderDash:[3,2]
+      },
+      {label:'Médiane secteur',data:[30.2,21.9,22.3,11.5,18.0,23.3],
+       backgroundColor:'rgba(0,0,0,0.06)',
+       borderColor:'rgba(0,0,0,0.25)',
+       borderWidth:1,borderRadius:2
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{
+      display:true,
+      position:'top',
+      labels:{font:{size:7.5,family:'Consolas,monospace'},color:tc,boxWidth:10,padding:8}
+    },tooltip:{backgroundColor:'rgba(26,22,18,.92)',bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6}},
+    scales:{
+      x:{ticks:{color:tc,font:tf},grid:{display:false}},
+      y:{ticks:{color:tc,font:tf,callback:v=>v+'x'},grid:{color:gc},max:38}
+    }
+  }
+});
+</script>
+</body>
+</html>
