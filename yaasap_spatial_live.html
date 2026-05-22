@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes N°18 — Secteur Spatial · Live</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper:  #f9f6f0;
+  --paper2: #f2ede4;
+  --paper3: #e8e1d5;
+  --ink:    #1c1814;
+  --ink2:   #3a342c;
+  --ink3:   #6a5f52;
+  --ink4:   #9a8f82;
+  --rule:   rgba(0,0,0,0.10);
+  --rule2:  rgba(0,0,0,0.06);
+  --accent: #8b3a1a;
+  --green:  #1e5c32;
+  --amber:  #8a5c00;
+  --space:  #0d1f3c;
+  --rklb:   #1a6b3c;
+  --asts:   #1a4a8a;
+  --lunr:   #6b3a8a;
+  --sats:   #8a4a00;
+  --ba:     #8a1a1a;
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans:  system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --mono:  'Courier New', Courier, monospace;
+}
+
+body {
+  background: var(--paper);
+  font-family: var(--sans);
+  color: var(--ink);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--paper);
+  border-bottom: 3px double var(--rule);
+  padding: 14px 32px 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.pub-name {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.pub-name em { font-style: italic; color: var(--space); }
+.pub-tagline { font-size: 9px; color: var(--ink4); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 3px; }
+.masthead-meta { text-align: center; }
+.issue-line {
+  font-size: 9px; color: var(--ink3); letter-spacing: 0.1em;
+  text-transform: uppercase; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule); padding: 3px 12px;
+}
+.masthead-right { text-align: right; }
+.live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; color: var(--green);
+  background: rgba(30,92,50,.08); border: 1px solid rgba(30,92,50,.25);
+  border-radius: 3px; padding: 3px 8px; margin-bottom: 4px;
+}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+.last-update { font-family: var(--mono); font-size: 9px; color: var(--ink4); }
+
+/* ── TICKER TAPE ── */
+.ticker-tape {
+  background: var(--space);
+  overflow: hidden;
+  padding: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+.ticker-inner {
+  display: flex;
+  gap: 0;
+  animation: scroll-left 40s linear infinite;
+  white-space: nowrap;
+}
+.ticker-inner:hover { animation-play-state: paused; }
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.tick-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 20px;
+  border-right: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.85);
+}
+.tick-sym { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; opacity:.6; }
+.tick-price { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.tick-delta { font-family: var(--mono); font-size: 10px; }
+.t-up-t { color: #7eff9e; }
+.t-dn-t { color: #ff8080; }
+.tick-loading { color: rgba(255,255,255,.3); font-style: italic; font-size: 11px; padding: 0 20px; }
+
+/* ── MAIN LAYOUT ── */
+.container { max-width: 1300px; margin: 0 auto; padding: 20px 24px 40px; }
+
+/* ── SECTION RULE ── */
+.section-rule {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px; margin-top: 4px;
+}
+.section-rule::before { content:''; width:20px; height:2px; background:var(--space); flex-shrink:0; }
+.section-rule-text { font-size: 8.5px; font-weight: 700; letter-spacing:.18em; text-transform:uppercase; color:var(--space); }
+.section-rule::after { content:''; flex:1; height:1px; background:var(--rule); }
+
+/* ── IPO ALERT BANNER ── */
+.ipo-banner {
+  background: linear-gradient(135deg, var(--space), #1a3a6c);
+  color: #fff;
+  border-radius: 4px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ipo-banner-title { font-family: var(--serif); font-size: 18px; font-style: italic; opacity: .9; }
+.ipo-kpis { display: flex; gap: 20px; flex-wrap: wrap; }
+.ipo-kpi { text-align: center; }
+.ipo-kpi-v { font-family: var(--mono); font-size: 20px; font-weight: 700; line-height: 1; color: #f0c956; }
+.ipo-kpi-l { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; opacity: .55; margin-top: 2px; }
+.ipo-countdown {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  border-radius: 3px; padding: 6px 14px; color: #f0c956;
+}
+
+/* ── STOCK GRID ── */
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.stock-card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid;
+  border-radius: 3px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  transition: box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+.stock-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,.1); }
+.stock-card.loading::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--space), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+.card-ticker { font-family: var(--mono); font-size: 12px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+.card-name { font-size: 9px; color: var(--ink4); margin-bottom: 8px; }
+.card-price { font-family: var(--mono); font-size: 22px; font-weight: 700; line-height: 1; color: var(--ink); margin-bottom: 3px; }
+.card-change {
+  display: flex; gap: 6px; align-items: baseline; margin-bottom: 8px;
+}
+.card-chg-abs { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+.card-chg-pct { font-family: var(--mono); font-size: 11px; }
+.card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.card-meta-item { }
+.cml { font-size: 7.5px; color: var(--ink4); letter-spacing: .06em; text-transform: uppercase; }
+.cmv { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink2); }
+.card-corr {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--rule2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.corr-label { font-size: 7.5px; color: var(--ink4); letter-spacing:.06em; text-transform:uppercase; }
+.corr-val { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+.corr-bar-bg { height: 3px; background: var(--paper2); border-radius: 2px; overflow:hidden; margin-top: 4px; }
+.corr-bar { height: 100%; border-radius: 2px; }
+.spcx-card {
+  background: linear-gradient(135deg, var(--space), #1a3566);
+  color: #fff;
+  border-top-color: #f0c956 !important;
+}
+.spcx-card .card-price { color: #f0c956; }
+.spcx-card .card-name { color: rgba(255,255,255,.55); }
+.spcx-card .card-ticker { color: rgba(255,255,255,.9); }
+.spcx-card .cml { color: rgba(255,255,255,.45); }
+.spcx-card .cmv { color: rgba(255,255,255,.85); }
+.spcx-card .corr-label { color: rgba(255,255,255,.45); }
+.spcx-card .card-meta { border-top-color: rgba(255,255,255,.1); }
+
+/* ── SCENARIOS ── */
+.scenarios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.scenario-card {
+  border: 1px solid var(--rule);
+  border-top: 3px solid;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.scenario-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.sc-title { font-size: 12px; font-weight: 700; }
+.sc-proba-badge {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 2px;
+}
+.scenario-table { width: 100%; border-collapse: collapse; }
+.scenario-table th {
+  font-size: 8px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink4); padding: 5px 10px; text-align: left;
+  border-bottom: 1px solid var(--rule2); background: var(--paper2);
+}
+.scenario-table td {
+  padding: 5px 10px; font-size: 11px;
+  border-bottom: 1px solid var(--rule2); vertical-align: middle;
+}
+.scenario-table tr:last-child td { border-bottom: none; }
+.scenario-table td.mono { font-family: var(--mono); font-size: 10.5px; }
+.scenario-table .live-price { font-family: var(--mono); font-size: 10px; color: var(--ink4); }
+
+/* ── CORRELATIONS CHART ── */
+.corr-section {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.corr-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 7px 0; border-bottom: 1px solid var(--rule2);
+}
+.corr-row:last-child { border-bottom: none; }
+.corr-ticker-col { font-family: var(--mono); font-size: 11px; font-weight: 700; width: 50px; flex-shrink: 0; }
+.corr-desc { font-size: 10px; color: var(--ink3); width: 220px; flex-shrink: 0; }
+.corr-bar-wrap { flex: 1; position: relative; height: 14px; display: flex; align-items: center; }
+.corr-track { position: absolute; left: 0; right: 0; height: 4px; background: var(--paper2); border-radius: 2px; }
+.corr-fill { position: absolute; height: 4px; border-radius: 2px; transition: width .6s ease; }
+.corr-zero { position: absolute; width: 1px; background: rgba(0,0,0,.2); height: 14px; top: 0; }
+.corr-num { font-family: var(--mono); font-size: 14px; font-weight: 700; width: 52px; text-align: right; flex-shrink: 0; }
+.corr-qual { font-size: 9px; width: 100px; flex-shrink: 0; padding-left: 8px; }
+
+/* ── FOOTNOTE ── */
+.footnote {
+  background: var(--paper2);
+  border-top: 1px solid var(--rule);
+  padding: 10px 24px;
+  font-size: 9px;
+  color: var(--ink4);
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+}
+.footer-brand { font-family: var(--serif); font-size: 12px; font-weight: 700; color: var(--ink3); margin-bottom: 3px; }
+.footer-brand em { font-style: italic; color: var(--space); }
+
+/* ── UTILITIES ── */
+.up { color: var(--green); }
+.dn { color: var(--accent); }
+.am { color: var(--amber); }
+.sp { color: var(--space); }
+.flex { display: flex; }
+.gap-8 { gap: 8px; }
+.mt-4 { margin-top: 4px; }
+.skeleton {
+  background: linear-gradient(90deg, var(--paper2), var(--paper3), var(--paper2));
+  background-size: 200%;
+  animation: skel 1.2s infinite;
+  border-radius: 2px;
+  color: transparent;
+}
+@keyframes skel { 0%{background-position:200%} 100%{background-position:-200%} }
+.error-msg { font-size: 9px; color: var(--accent); font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Note Sectorielle &amp; Marchés — Usage exclusif clients</div>
+  </div>
+  <div class="masthead-meta">
+    <div class="issue-line">Note N°18 &nbsp;·&nbsp; Secteur Spatial — SpaceX IPO · SPCX · Cotations temps réel</div>
+  </div>
+  <div class="masthead-right">
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      COTATIONS EN DIRECT
+    </div>
+    <div class="last-update" id="lastUpdate">Chargement…</div>
+  </div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="ticker-tape">
+  <div class="ticker-inner" id="tickerInner">
+    <span class="tick-loading">Chargement des cotations…</span>
+  </div>
+</div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- IPO BANNER -->
+  <div class="ipo-banner">
+    <div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:.55;margin-bottom:4px;">Événement historique</div>
+      <div class="ipo-banner-title">SpaceX · IPO · Nasdaq SPCX</div>
+      <div style="font-size:10px;opacity:.6;margin-top:4px;">Tournée investisseurs ~4 juin · Cotation 11–12 juin 2026</div>
+    </div>
+    <div class="ipo-kpis">
+      <div class="ipo-kpi"><div class="ipo-kpi-v">$1 750B</div><div class="ipo-kpi-l">Valorisation cible</div></div>
+      <div class="ipo-kpi"><div class="ipo-kpi-v">$50–80B</div><div class="ipo-kpi-l">Levée prévue</div></div>
+      <div class="ipo-kpi"><div class="ipo-kpi-v">$18.7B</div><div class="ipo-kpi-l">CA 2025 · +33%</div></div>
+      <div class="ipo-kpi"><div class="ipo-kpi-v">93×</div><div class="ipo-kpi-l">Multiple revenus</div></div>
+    </div>
+    <div class="ipo-countdown" id="countdown">J – ?</div>
+  </div>
+
+  <!-- STOCK CARDS -->
+  <div class="section-rule"><span class="section-rule-text">Cours en temps réel — Valeurs liées à l'IPO SpaceX</span></div>
+  <div class="stock-grid" id="stockGrid">
+    <!-- Injected by JS -->
+  </div>
+
+  <!-- CORRELATIONS -->
+  <div class="section-rule"><span class="section-rule-text">Coefficients de corrélation avec SPCX (ρ Pearson estimé · 12 mois)</span></div>
+  <div class="corr-section">
+    <div id="corrRows"></div>
+    <div style="font-size:8.5px;color:var(--ink4);font-style:italic;margin-top:10px;">Corrélations estimées sur la base des transactions secondaires SpaceX et co-mouvements sectoriels observés. Non calculées sur données de marché public — SPCX n'est pas encore coté.</div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section-rule"><span class="section-rule-text">Cibles de cours par scénario IPO SPCX — Prix live intégrés</span></div>
+  <div class="scenarios">
+
+    <!-- SCÉNARIO A -->
+    <div class="scenario-card" style="border-top-color:var(--green);">
+      <div class="scenario-header">
+        <div>
+          <div class="sc-title" style="color:var(--green);">A · IPO RÉUSSIE</div>
+          <div style="font-size:9px;color:var(--ink4);margin-top:2px;">Cotation $1 750B+ · Enthousiasme</div>
+        </div>
+        <div class="sc-proba-badge" style="background:rgba(30,92,50,.1);color:var(--green);">50%</div>
+      </div>
+      <table class="scenario-table">
+        <thead><tr><th>Ticker</th><th>Cours live</th><th>Cible scén. A</th><th>Upside</th></tr></thead>
+        <tbody id="scen-a"></tbody>
+      </table>
+    </div>
+
+    <!-- SCÉNARIO B -->
+    <div class="scenario-card" style="border-top-color:var(--amber);">
+      <div class="scenario-header">
+        <div>
+          <div class="sc-title" style="color:var(--amber);">B · IPO NEUTRE</div>
+          <div style="font-size:9px;color:var(--ink4);margin-top:2px;">Valorisation conforme · Pas de surprise</div>
+        </div>
+        <div class="sc-proba-badge" style="background:rgba(138,92,0,.1);color:var(--amber);">35%</div>
+      </div>
+      <table class="scenario-table">
+        <thead><tr><th>Ticker</th><th>Cours live</th><th>Cible scén. B</th><th>Variation</th></tr></thead>
+        <tbody id="scen-b"></tbody>
+      </table>
+    </div>
+
+    <!-- SCÉNARIO C -->
+    <div class="scenario-card" style="border-top-color:var(--accent);">
+      <div class="scenario-header">
+        <div>
+          <div class="sc-title" style="color:var(--accent);">C · IPO DÉCEVANTE</div>
+          <div style="font-size:9px;color:var(--ink4);margin-top:2px;">Report ou valorisation coupée</div>
+        </div>
+        <div class="sc-proba-badge" style="background:rgba(139,58,26,.1);color:var(--accent);">15%</div>
+      </div>
+      <table class="scenario-table">
+        <thead><tr><th>Ticker</th><th>Cours live</th><th>Cible scén. C</th><th>Risque</th></tr></thead>
+        <tbody id="scen-c"></tbody>
+      </table>
+    </div>
+
+  </div><!-- end scenarios -->
+
+</div><!-- end container -->
+
+<div class="footnote">
+  <div class="footer-brand">YAASAP <em>Notes</em> · N°18 · Secteur Spatial</div>
+  Analyse informative destinée aux seuls clients abonnés · Ne constitue pas un conseil en investissement · Cotations via Yahoo Finance (différé 15 min) · Corrélations SPCX estimées (IPO non encore cotée) · Sources : Deutsche Bank, Roth Capital, SEC S-1 SpaceX (20 mai 2026), TipRanks, StockAnalysis · <span id="footerDate"></span>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// CONFIGURATION DES ACTIFS
+// ══════════════════════════════════════════════════
+const STOCKS = [
+  {
+    sym: 'SPCX',  label: 'SpaceX', full: 'Space Exploration Technologies',
+    color: '#0d1f3c', isSpcx: true,
+    corr: null, corrLabel: '—',
+    targets: { a: '—', b: '—', c: '—' },
+    upA: '—', upB: '—', upC: '—',
+    analystTarget: '$1 750B valeur. cible',
+    consensus: 'Pré-IPO',
+    note: 'Cotation prévue 11–12 juin'
+  },
+  {
+    sym: 'RKLB', label: 'Rocket Lab', full: 'Rocket Lab USA Inc.',
+    color: '#1a6b3c',
+    corr: 0.88, corrLabel: 'Très forte · proxy direct lanceurs',
+    corrColor: '#1e5c32',
+    targets: { a: '$150–175', b: '$110–130', c: '$85–100' },
+    upA: '+20–40%', upB: '−12/+4%', upC: '−20–32%',
+    analystTarget: '$120 (DB)',
+    consensus: 'Buy · 15 anal.'
+  },
+  {
+    sym: 'SATS', label: 'EchoStar', full: 'EchoStar Corporation',
+    color: '#8a4a00',
+    corr: 0.82, corrLabel: 'Forte · satellites / orbite',
+    corrColor: '#1e5c32',
+    targets: { a: '$42–50', b: '$30–37', c: '$22–28' },
+    upA: '+24–47%', upB: '−12/+9%', upC: '−18–35%',
+    analystTarget: '—',
+    consensus: 'Momentum'
+  },
+  {
+    sym: 'ASTS', label: 'AST SpaceMobile', full: 'AST SpaceMobile Inc.',
+    color: '#1a4a8a',
+    corr: 0.74, corrLabel: 'Bonne · concurrent Starlink direct-to-cell',
+    corrColor: '#1e5c32',
+    targets: { a: '$110–130', b: '$80–95', c: '$55–70' },
+    upA: '+23–45%', upB: '−11/+6%', upC: '−22–38%',
+    analystTarget: '$108 (Roth)',
+    consensus: 'Hold · 10 anal.'
+  },
+  {
+    sym: 'LUNR', label: 'Intuitive Machines', full: 'Intuitive Machines Inc.',
+    color: '#6b3a8a',
+    corr: 0.61, corrLabel: 'Modérée · NASA / thème spatial lunaire',
+    corrColor: '#8a5c00',
+    targets: { a: '$22–28', b: '$15–20', c: '$10–13' },
+    upA: '+26–60%', upB: '−14/+14%', upC: '−26–43%',
+    analystTarget: '—',
+    consensus: 'Wait · IM-3'
+  },
+  {
+    sym: 'IRDM', label: 'Iridium', full: 'Iridium Communications Inc.',
+    color: '#2a5080',
+    corr: 0.48, corrLabel: 'Faible–modérée · IoT satcom B2B',
+    corrColor: '#8a5c00',
+    targets: { a: '$38–44', b: '$30–35', c: '$24–28' },
+    upA: '+15–38%', upB: '−6/+9%', upC: '−13–25%',
+    analystTarget: '—',
+    consensus: 'Défensif'
+  },
+  {
+    sym: 'BA', label: 'Boeing', full: 'The Boeing Company',
+    color: '#8a1a1a',
+    corr: -0.22, corrLabel: 'Négative · SpaceX cannibalise les lanceurs',
+    corrColor: '#8b3a1a',
+    targets: { a: '$175–185', b: '$180–200', c: '$185–200' },
+    upA: '−6–0%', upB: '−3/+8%', upC: '0/+8%',
+    analystTarget: '~$200',
+    consensus: 'Hold · perdant relatif'
+  },
+  {
+    sym: 'LMT', label: 'Lockheed Martin', full: 'Lockheed Martin Corporation',
+    color: '#3a3a8a',
+    corr: 0.15, corrLabel: 'Quasi-nulle · défense diversifiée',
+    corrColor: '#9a8f82',
+    targets: { a: '$475–520', b: '$460–490', c: '$450–475' },
+    upA: '+2–12%', upB: '−1/+6%', upC: '−3/+2%',
+    analystTarget: '~$510',
+    consensus: 'Buy défensif'
+  }
+];
+
+// ══════════════════════════════════════════════════
+// FETCH YAHOO FINANCE VIA PROXY CORS
+// ══════════════════════════════════════════════════
+const PROXY = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+const PROXY2 = 'https://query2.finance.yahoo.com/v8/finance/chart/';
+
+let liveData = {};
+
+async function fetchQuote(symbol) {
+  // Try both Yahoo endpoints
+  const urls = [
+    `${PROXY}${symbol}?interval=1d&range=1d`,
+    `${PROXY2}${symbol}?interval=1d&range=1d`
+  ];
+  for (const url of urls) {
+    try {
+      const r = await fetch(url, { mode: 'cors' });
+      if (!r.ok) continue;
+      const d = await r.json();
+      const meta = d?.chart?.result?.[0]?.meta;
+      if (!meta) continue;
+      const price = meta.regularMarketPrice ?? meta.previousClose;
+      const prev  = meta.previousClose ?? meta.chartPreviousClose;
+      const change = price - prev;
+      const pct    = (change / prev) * 100;
+      return {
+        price,
+        change,
+        pct,
+        high52:  meta.fiftyTwoWeekHigh,
+        low52:   meta.fiftyTwoWeekLow,
+        mktCap:  meta.marketCap,
+        currency: meta.currency || 'USD',
+        ok: true
+      };
+    } catch(_) { /* try next */ }
+  }
+  return { ok: false };
+}
+
+async function fetchAll() {
+  const syms = STOCKS.filter(s => !s.isSpcx).map(s => s.sym);
+  const results = await Promise.allSettled(syms.map(s => fetchQuote(s)));
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled' && r.value.ok) {
+      liveData[syms[i]] = r.value;
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════
+function fmt(n, dec=2) {
+  if (n == null || isNaN(n)) return '—';
+  return n.toFixed(dec);
+}
+function fmtCap(n) {
+  if (!n) return '—';
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(1) + 'B';
+  return '$' + (n/1e6).toFixed(0) + 'M';
+}
+function colorClass(v) { return v > 0 ? 'up' : v < 0 ? 'dn' : 'am'; }
+function sign(v) { return v > 0 ? '+' : ''; }
+
+// ══════════════════════════════════════════════════
+// RENDER STOCK CARDS
+// ══════════════════════════════════════════════════
+function buildCards() {
+  const grid = document.getElementById('stockGrid');
+  grid.innerHTML = '';
+
+  STOCKS.forEach(s => {
+    const d = liveData[s.sym];
+    const card = document.createElement('div');
+    card.className = 'stock-card' + (s.isSpcx ? ' spcx-card' : '');
+    card.style.borderTopColor = s.color;
+    if (!d && !s.isSpcx) card.classList.add('loading');
+
+    let priceHtml, changeHtml, metaHtml, corrHtml = '';
+
+    if (s.isSpcx) {
+      priceHtml = `<div class="card-price">IPO Juin</div>`;
+      changeHtml = `<div class="card-change"><span class="card-chg-abs" style="color:#f0c956;">Cotation ~12 juin</span></div>`;
+      metaHtml = `
+        <div class="card-meta">
+          <div><div class="cml">Valorisation</div><div class="cmv" style="color:#f0c956;">$1 750B</div></div>
+          <div><div class="cml">Ticker</div><div class="cmv" style="color:#f0c956;">SPCX</div></div>
+          <div><div class="cml">Levée</div><div class="cmv">$50–80B</div></div>
+          <div><div class="cml">Bourse</div><div class="cmv">Nasdaq</div></div>
+        </div>`;
+    } else if (d) {
+      const cls = colorClass(d.change);
+      priceHtml = `<div class="card-price">$${fmt(d.price)}</div>`;
+      changeHtml = `
+        <div class="card-change">
+          <span class="card-chg-abs ${cls}">${sign(d.change)}$${fmt(Math.abs(d.change))}</span>
+          <span class="card-chg-pct ${cls}">(${sign(d.pct)}${fmt(d.pct)}%)</span>
+        </div>`;
+      metaHtml = `
+        <div class="card-meta">
+          <div><div class="cml">52S Bas</div><div class="cmv">$${fmt(d.low52)}</div></div>
+          <div><div class="cml">52S Haut</div><div class="cmv">$${fmt(d.high52)}</div></div>
+          <div><div class="cml">Mkt Cap</div><div class="cmv">${fmtCap(d.mktCap)}</div></div>
+          <div><div class="cml">Consensus</div><div class="cmv" style="font-size:8.5px;">${s.consensus}</div></div>
+        </div>`;
+    } else {
+      priceHtml = `<div class="card-price skeleton">$000.00</div>`;
+      changeHtml = `<div class="card-change"><span class="card-chg-abs skeleton">+0.00%</span></div>`;
+      metaHtml = `<div class="card-meta"><div><div class="cml skeleton">———</div><div class="cmv skeleton">——</div></div><div><div class="cml skeleton">———</div><div class="cmv skeleton">——</div></div></div>`;
+    }
+
+    if (s.corr !== null) {
+      const absCorr = Math.abs(s.corr);
+      const barW = Math.round(absCorr * 100);
+      const barColor = s.corr > 0.7 ? '#1e5c32' : s.corr > 0.4 ? '#8a5c00' : '#8b3a1a';
+      corrHtml = `
+        <div class="card-corr">
+          <div class="corr-label">ρ vs SPCX</div>
+          <div class="corr-val" style="color:${barColor};">${s.corr > 0 ? '+' : ''}${s.corr.toFixed(2)}</div>
+        </div>
+        <div class="corr-bar-bg mt-4">
+          <div class="corr-bar" style="width:${barW}%;background:${barColor};"></div>
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="card-ticker" style="color:${s.isSpcx ? 'rgba(255,255,255,.85)' : s.color};">${s.sym}</div>
+      <div class="card-name">${s.label}</div>
+      ${priceHtml}
+      ${changeHtml}
+      ${metaHtml}
+      ${corrHtml}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════════
+// RENDER CORRELATIONS
+// ══════════════════════════════════════════════════
+function buildCorr() {
+  const container = document.getElementById('corrRows');
+  const filtered = STOCKS.filter(s => !s.isSpcx);
+
+  container.innerHTML = filtered.map(s => {
+    const absCorr = Math.abs(s.corr);
+    const pct = Math.round(absCorr * 100);
+    const barColor = s.corr > 0.7 ? '#1e5c32' : s.corr > 0.4 ? '#8a5c00' : '#8b3a1a';
+    const qual = s.corr > 0.7 ? 'Très forte' : s.corr > 0.5 ? 'Bonne' : s.corr > 0.2 ? 'Modérée' : s.corr >= 0 ? 'Quasi-nulle' : 'Négative';
+    // Centre à 0 : la barre va de 0 vers la droite (positif) ou gauche (négatif)
+    const offset = s.corr >= 0 ? 50 : 50 - pct;
+    const width  = pct;
+
+    return `
+      <div class="corr-row">
+        <div class="corr-ticker-col" style="color:${s.color};">${s.sym}</div>
+        <div class="corr-desc">${s.corrLabel}</div>
+        <div class="corr-bar-wrap">
+          <div class="corr-track"></div>
+          <div class="corr-zero" style="left:50%;"></div>
+          <div class="corr-fill" style="left:${offset}%;width:${width}%;background:${barColor};"></div>
+        </div>
+        <div class="corr-num" style="color:${barColor};">${s.corr > 0 ? '+' : ''}${s.corr.toFixed(2)}</div>
+        <div class="corr-qual" style="color:${barColor};font-size:10px;">${qual}</div>
+      </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+// RENDER SCENARIOS
+// ══════════════════════════════════════════════════
+function buildScenarios() {
+  const filtered = STOCKS.filter(s => !s.isSpcx);
+
+  ['a','b','c'].forEach(sc => {
+    const tbody = document.getElementById(`scen-${sc}`);
+    tbody.innerHTML = filtered.map(s => {
+      const d = liveData[s.sym];
+      const price = d ? `$${fmt(d.price)}` : '<span style="color:var(--ink4);font-size:9px;">chargement…</span>';
+      const change = sc === 'a' ? s.upA : sc === 'b' ? s.upB : s.upC;
+      const target = s.targets[sc];
+      const isPos = change.startsWith('+');
+      const isNeg = change.startsWith('−') || change.startsWith('-');
+      const cls = isPos ? 'up' : isNeg ? 'dn' : 'am';
+      return `
+        <tr>
+          <td style="font-family:var(--mono);font-weight:700;color:${s.color};font-size:11px;">${s.sym}</td>
+          <td class="live-price">${price}</td>
+          <td style="font-family:var(--mono);font-size:10.5px;">${target}</td>
+          <td style="font-family:var(--mono);font-size:10.5px;" class="${cls}">${change}</td>
+        </tr>`;
+    }).join('');
+  });
+}
+
+// ══════════════════════════════════════════════════
+// TICKER TAPE
+// ══════════════════════════════════════════════════
+function buildTicker() {
+  const inner = document.getElementById('tickerInner');
+  const items = STOCKS.filter(s => !s.isSpcx).map(s => {
+    const d = liveData[s.sym];
+    if (!d) return `<span class="tick-item"><span class="tick-sym">${s.sym}</span><span class="tick-price">…</span></span>`;
+    const cls = d.change > 0 ? 't-up-t' : 't-dn-t';
+    const arr = d.change > 0 ? '▲' : '▼';
+    return `
+      <span class="tick-item">
+        <span class="tick-sym">${s.sym}</span>
+        <span class="tick-price ${cls}">$${fmt(d.price)}</span>
+        <span class="tick-delta ${cls}">${arr} ${sign(d.pct)}${fmt(d.pct)}%</span>
+      </span>`;
+  });
+  // Duplicate for seamless loop
+  const html = items.join('') + items.join('');
+  inner.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════
+// COUNTDOWN to IPO
+// ══════════════════════════════════════════════════
+function updateCountdown() {
+  const ipo = new Date('2026-06-12T09:30:00-04:00'); // NYSE open
+  const now = new Date();
+  const diff = ipo - now;
+  const el = document.getElementById('countdown');
+  if (!el) return;
+  if (diff <= 0) { el.textContent = '🚀 SPCX LIVE'; return; }
+  const days = Math.floor(diff / 86400000);
+  const hrs  = Math.floor((diff % 86400000) / 3600000);
+  el.textContent = `J − ${days}j ${hrs}h`;
+}
+
+// ══════════════════════════════════════════════════
+// MAIN LOOP
+// ══════════════════════════════════════════════════
+async function refresh() {
+  await fetchAll();
+  buildCards();
+  buildScenarios();
+  buildTicker();
+  updateCountdown();
+
+  const now = new Date();
+  const hh = now.getHours().toString().padStart(2,'0');
+  const mm = now.getMinutes().toString().padStart(2,'0');
+  const ss = now.getSeconds().toString().padStart(2,'0');
+  document.getElementById('lastUpdate').textContent = `Mis à jour ${hh}:${mm}:${ss} · actualisation auto 60s`;
+  document.getElementById('footerDate').textContent = `Données : ${now.toLocaleDateString('fr-FR')} ${hh}:${mm}`;
+}
+
+// Initial render (skeleton) + fetch
+buildCards();
+buildCorr();
+buildScenarios();
+updateCountdown();
+
+setInterval(updateCountdown, 60000);
+refresh().then(() => setInterval(refresh, 60000));
+</script>
+</body>
+</html>
