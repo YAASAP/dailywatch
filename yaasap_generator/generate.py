@@ -300,7 +300,11 @@ def main():
     print(f"{'='*50}\n")
 
     # Créer le répertoire de sortie si nécessaire
-    OUTPUT_DIR.mkdir(exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Créer un .gitkeep pour s'assurer que le dossier existe dans git
+gitkeep = OUTPUT_DIR / ".gitkeep"
+if not gitkeep.exists():
+    gitkeep.touch()
 
     # Numéro de note
     issue_num = get_issue_number()
