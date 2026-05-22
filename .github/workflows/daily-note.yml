@@ -43,7 +43,7 @@ jobs:
           ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           cd yaasap_generator
-          python generate.py
+          python generate.py 2>&1
 
       - name: Commit and push generated note
         run: |
