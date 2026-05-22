@@ -177,7 +177,7 @@ STRUCTURE HTML EXACTE :
 Génère UNIQUEMENT le HTML complet, sans aucun texte avant ou après."""
 
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=8000,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_prompt}]
