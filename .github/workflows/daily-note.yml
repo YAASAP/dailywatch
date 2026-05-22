@@ -1,13 +1,10 @@
 name: YAASAP Notes — Publication quotidienne
 
 on:
-  # Déclenchement automatique tous les matins à 6h30 (heure Paris = UTC+2 en été)
-  # Donc 4h30 UTC en été, 5h30 UTC en hiver — on prend 4h30 UTC pour être sûr
   schedule:
-    - cron: '30 4 * * 1-5'   # Lun–Ven à 4h30 UTC (= 6h30 Paris heure été)
+    - cron: '30 4 * * 1-5'   # Lun–Ven à 4h30 UTC = 6h30 Paris (heure été)
     - cron: '30 5 * * 6'     # Samedi à 5h30 UTC (optionnel)
 
-  # Possibilité de déclencher manuellement depuis l'interface GitHub
   workflow_dispatch:
     inputs:
       force_date:
@@ -20,31 +17,27 @@ jobs:
     timeout-minutes: 15
 
     permissions:
-      contents: write   # Pour pousser les fichiers HTML générés
+      contents: write
 
     steps:
 
-      # 1. Checkout du repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
 
-      # 2. Python setup
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      # 3. Dépendances
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install anthropic requests
 
-      # 4. Génération de la note
       - name: Generate YAASAP Note
         env:
           NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
@@ -53,27 +46,23 @@ jobs:
           cd yaasap_generator
           python generate.py
 
-      # 5. Commit et push
       - name: Commit and push generated note
         run: |
           git config --global user.name  "YAASAP Bot"
           git config --global user.email "bot@yaasap.fr"
           git add docs/
           git add yaasap_generator/.issue_number
-          
-          # Vérifier s'il y a des changements avant de committer
           if git diff --staged --quiet; then
-            echo "Aucun changement détecté — skip commit"
+            echo "Aucun changement — skip commit"
           else
             DATE=$(date +'%Y-%m-%d %H:%M')
             git commit -m "📊 Note YAASAP — ${DATE}"
             git push origin main
-            echo "✅ Note publiée avec succès"
+            echo "✅ Note publiée"
           fi
 
-      # 6. Notification en cas d'échec (optionnel — à configurer)
       - name: Notify on failure
         if: failure()
         run: |
-          echo "❌ Échec de la génération — vérifier les secrets NEWSAPI_KEY et ANTHROPIC_API_KEY"
+          echo "❌ Échec — vérifier les secrets NEWSAPI_KEY et ANTHROPIC_API_KEY"
           exit 1
