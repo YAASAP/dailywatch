@@ -7,7 +7,7 @@ NEWSAPI_KEY   = os.environ["NEWSAPI_KEY"]
 ANTHROPIC_KEY = os.environ["ANTHROPIC_API_KEY"]
 OUTPUT_DIR    = Path("docs")
 TODAY         = datetime.date.today()
-ISSUE_FILE    = Path("yaasap_generator/.issue_number")
+ISSUE_FILE    = Path(".issue_number")
 
 def get_issue():
     ISSUE_FILE.parent.mkdir(parents=True, exist_ok=True)
