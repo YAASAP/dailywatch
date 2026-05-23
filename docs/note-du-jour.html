@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes - 23 Mai 2026</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background-color: #f9f6f0;
+    color: #1c1814;
+    width: 1122px;
+    height: 794px;
+    padding: 32px;
+    line-height: 1.4;
+}
+
+.masthead {
+    text-align: center;
+    border-bottom: 3px solid #b8952a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.masthead h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #1c1814;
+    font-family: 'Arial', sans-serif;
+}
+
+.masthead .date {
+    font-size: 13px;
+    color: #666;
+    font-family: 'Arial', sans-serif;
+    margin-top: 4px;
+}
+
+.kicker-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1c1814;
+    color: #b8952a;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.kicker-item {
+    text-align: center;
+}
+
+.kicker-label {
+    font-size: 9px;
+    color: #f9f6f0;
+    text-transform: uppercase;
+}
+
+.kicker-value {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-title {
+    background-color: #b8952a;
+    color: #f9f6f0;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-family: 'Arial', sans-serif;
+}
+
+.article {
+    margin-bottom: 14px;
+}
+
+.article h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #1c1814;
+    line-height: 1.3;
+}
+
+.article p {
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: justify;
+    color: #333;
+}
+
+.highlight {
+    background-color: #fff;
+    border-left: 3px solid #b8952a;
+    padding: 10px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.verdict {
+    background-color: #1c1814;
+    color: #f9f6f0;
+    padding: 14px;
+    margin-top: 12px;
+    border-left: 4px solid #b8952a;
+}
+
+.verdict h2 {
+    color: #b8952a;
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-family: 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.verdict p {
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    font-size: 9px;
+    color: #666;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    font-family: 'Arial', sans-serif;
+}
+
+.watchlist {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 10px;
+}
+
+.watchlist-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dotted #ddd;
+}
+
+.watchlist-item:last-child {
+    border-bottom: none;
+}
+
+.ticker {
+    font-weight: bold;
+    color: #b8952a;
+    font-family: 'Courier New', monospace;
+}
+
+.risk-badge {
+    display: inline-block;
+    background-color: #b8952a;
+    color: #f9f6f0;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: bold;
+    border-radius: 2px;
+    margin-left: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+    <h1>YAASAP NOTES</h1>
+    <div class="date">Vendredi 23 Mai 2026</div>
+</div>
+
+<div class="kicker-bar">
+    <div class="kicker-item">
+        <div class="kicker-label">S&P 500</div>
+        <div class="kicker-value">▲ Série haussière</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">Brent</div>
+        <div class="kicker-value">+3.2%</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">Hormuz</div>
+        <div class="kicker-value">Fermé</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">Iran Talks</div>
+        <div class="kicker-value">Progrès limités</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">TSMC Arizona</div>
+        <div class="kicker-value">En ligne</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">AI IPO</div>
+        <div class="kicker-value">Course engagée</div>
+    </div>
+    <div class="kicker-item">
+        <div class="kicker-label">Nvidia</div>
+        <div class="kicker-value">Diversification</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="column">
+        <div class="section-title">Signal du Jour</div>
+        
+        <div class="highlight">
+            <h3>🔴 Crise d'Hormuz : le marché sous-estime le risque systémique</h3>
+            <p>Le détroit d'Hormuz reste effectivement bloqué après plusieurs mois de conflit US-Israël-Iran, avec un trafic à une fraction des niveaux pré-conflit. ADNOC avertit que les perturbations pétrolières du Golfe pourraient persister jusqu'en 2027. Un scénario pire présente le brut à 200$/baril selon un rapport Warning.</p>
+        </div>
+
+        <div class="article">
+            <h3>L'Iran impose un péage en Bitcoin sur Hormuz</h3>
+            <p>Le secrétaire d'État Rubio met en garde : le système de péage iranien dans le détroit d'Hormuz, collectant des frais en Bitcoin et USDT, pourrait tuer tout accord diplomatique. Cette utilisation de cryptomonnaies contourne les sanctions traditionnelles et complique les négociations de paix déjà fragiles.</p>
+        </div>
+
+        <div class="article">
+            <h3>Les marchés actions optimistes malgré les alertes</h3>
+            <p>Le S&P 500 affiche sa plus longue série de gains hebdomadaires depuis 2023, porté par des espoirs d'accord de paix US-Iran. Les marchés semblent privilégier leurs propres théories plutôt que les avertissements concrets des compagnies pétrolières nationales arabes. Un optimisme déconnecté ?</p>
+        </div>
+
+        <div class="article">
+            <h3>Route maritime du Nord : alternative stratégique</h3>
+            <p>Au 10e Naftemporiki Shipping Conference, Savvas Kalenteridis présente l'ouverture de la Route Maritime du Nord comme "la révolution du 21e siècle". Avec Hormuz bloqué, les routes alternatives gagnent en importance stratégique pour le commerce énergétique mondial.</p>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="section-title">Analyses Sectorielles</div>
+
+        <div class="article">
+            <h3>L'infrastructure AI au cœur de la guerre des semi-conducteurs</h3>
+            <p>TSMC Arizona progresse bien selon le CEO d'AMD, renforçant la résilience de la chaîne d'approvisionnement US malgré des défis de coûts. Cette expansion territoriale répond aux tensions géopolitiques et à la demande explosive en compute AI, mais pose des questions de compétitivité-prix.</p>
+        </div>
+
+        <div class="article">
+            <h3>Nvidia : la domination contestée</h3>
+            <p>Nvidia reste l'acteur central de la révolution AI, de ChatGPT aux infrastructures de calcul globales. Mais les entreprises AI diversifient leurs fournisseurs face à la hausse des coûts et problèmes d'approvisionnement. Puces personnalisées et stratégies multi-cloud émergent comme alternatives.</p>
+        </div>
+
+        <div class="article">
+            <h3>Course aux IPO des géants AI</h3>
+            <p>OpenAI, Anthropic et SpaceX se préparent à des IPO potentielles dans un contexte de transformation massive. SpaceX devient un acteur majeur de l'infrastructure AI via Starlink et le calcul haute performance. Les Big Tech investissent des milliards dans les data centers AI pour soutenir cette croissance explosive.</p>
+        </div>
+
+        <div class="article">
+            <h3>Spotify : l'audio devient une expérience AI</h3>
+            <p>Spotify embrasse l'IA pour devenir une plateforme audio personnalisée, développant des playlists AI et l'écoute conversationnelle. L'Inde pourrait être centrale dans cette stratégie. La monétisation de l'audio se réinvente à l'ère de l'intelligence artificielle générative.</p>
+        </div>
+
+        <div class="article">
+            <h3>Biotech : dynamique positive en oncologie</h3>
+            <p>Legend Biotech et Kelun-Biotech présentent à ASCO 2026 des études enregistrement prometteuses. Le marché Charcot-Marie-Tooth devrait croître significativement (2026-2036) avec le lancement de thérapies modificatrices. La spectroscopie Raman atteindra 1,20 Md$ d'ici 2035 selon SNS Insider.</p>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="section-title">Valeurs à Surveiller</div>
+
+        <div class="watchlist">
+            <div class="watchlist-item">
+                <span><span class="ticker">XLE</span> Energy Select</span>
+                <span>ACHAT <span class="risk-badge">RISQUE</span></span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">ADNOC</span> Abu Dhabi NOC</span>
+                <span>SURPONDÉRER</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">BTC</span> Bitcoin</span>
+                <span>SURVEILLER</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">NVDA</span> Nvidia</span>
+                <span>CONSERVER</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">AMD</span> Advanced Micro</span>
+                <span>ACHAT</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">TSM</span> TSMC</span>
+                <span>SURPONDÉRER</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">SPACEX</span> Pre-IPO</span>
+                <span>ATTENDRE IPO</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">OPENAI</span> Pre-IPO</span>
+                <span>ATTENDRE IPO</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">SPOT</span> Spotify</span>
+                <span>ACCUMULATION</span>
+            </div>
+            <div class="watchlist-item">
+                <span><span class="ticker">LEGN</span> Legend Bio</span>
+                <span>ACHAT</span>
+            </div>
+        </div>
+
+        <div class="article" style="margin-top: 14px;">
+            <h3>Énergie : l'asymétrie risque/rendement</h3>
+            <p>Le marché sous-évalue systématiquement le risque pétrolier. Avec Hormuz fermé et ADNOC prévoyant des perturbations jusqu'en 2027, tout choc géopolitique pourrait propulser le brut vers 200$. Les positions longues sur l'énergie offrent une protection contre le "tail risk" croissant.</p>
+        </div>
+
+        <div class="article">
+            <h3>Semi-conducteurs : réorganisation géostratégique</h3>
+            <p>La relocalisation de TSMC en Arizona marque un tournant dans la guerre technologique sino-américaine. AMD et autres fabless bénéficient d'une supply chain résiliente, mais le premium de coût US pèsera sur les marges à court terme. Horizon 2027-2028 pour la rentabilité optimale.</p>
+        </div>
+
+        <div class="article">
+            <h3>AI : bulle ou révolution ?</h3>
+            <p>Les investissements massifs dans l'infrastructure AI (data centers, compute) créent une dynamique autoentretenue. Les IPO à venir d'OpenAI, Anthropic et SpaceX testeront l'appétit réel du marché. La diversification des fournisseurs de chips signale une maturation du secteur, pas un déclin.</p>
+        </div>
+    </div>
+</div>
+
+<div class="verdict">
+    <h2>⚖️ Verdict YAASAP</h2>
+    <p><strong>ALERTE DÉCORRÉLATION :</strong> Les marchés actions affichent une complaisance dangereuse face à la crise d'Hormuz. L'écart béant entre l'optimisme boursier (S&P en série haussière) et les avertissements concrets d'ADNOC (perturbations jusqu'en 2027) crée une asymétrie exploitable. <strong>Stratégie recommandée :</strong> positions longues énergie (XLE, ADNOC) comme hedge contre l'euphorie actions. Sur tech, privilégier TSMC/AMD pour l'exposition semi-conducteurs avec résilience géopolitique. Les IPO AI 2026-2027 (OpenAI, SpaceX) redéfiniront les valorations sectorielles : surveiller les prospectus. Le péage crypto iranien sur Hormuz ajoute une dimension réglementaire explosive. <strong>Conviction :</strong> le marché pétrolier corrigera violemment l'optimisme avant la résolution Iran. Timeline : T3-T4 2026.</p>
+</div>
+
+<div class="footer">
+    YAASAP NOTES - 23/05/2026 - Analyse financière professionnelle - 23 May 2026<br>
+    Ce document est produit à des fins d'information uniquement et ne constitue pas un conseil en investissement.
+</div>
+
+</body>
+</html>
