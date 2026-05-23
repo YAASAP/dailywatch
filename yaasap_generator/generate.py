@@ -10,10 +10,7 @@ TODAY         = datetime.date.today()
 ISSUE_FILE    = Path(".issue_number")
 
 def get_issue():
-    ISSUE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    n = int(ISSUE_FILE.read_text().strip()) + 1 if ISSUE_FILE.exists() else 1
-    ISSUE_FILE.write_text(str(n))
-    return n
+    return TODAY.strftime("%Y%m%d")
 
 def fetch_news():
     articles = []
