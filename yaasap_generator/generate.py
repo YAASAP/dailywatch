@@ -13,7 +13,7 @@ def fetch_news():
     for q in ["oil gas brent","geopolitics Iran China","artificial intelligence AI","pharma FDA biotech","technology semiconductor"]:
         try:
             r = requests.get("https://newsapi.org/v2/everything",
-                params={"q":q,"sortBy":"publishedAt","pageSize":5,"from":TODAY.isoformat(),"apiKey":NEWSAPI_KEY},
+                params={"q":q,"sortBy":"publishedAt","pageSize":5,"from":(TODAY - datetime.timedelta(days=2)).isoformat(),"apiKey":NEWSAPI_KEY},
                 timeout=10)
             data = r.json()
             if data.get("status") == "ok":
