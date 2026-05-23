@@ -50,6 +50,22 @@ def generate_html(text):
 {text}
 
 Genere la note YAASAP Notes du {NUM} en HTML complet et valide.
+IMPORTANT : Reponds UNIQUEMENT avec du code HTML. Commence par <!DOCTYPE html> et termine par </html>. Zero texte avant ou apres.
+
+Structure obligatoire avec ces sections :
+masthead YAASAP Notes plus date plus kicker bar 7 metriques
+body en 3 colonnes grid
+colonne 1 signal du jour et analyse principale
+colonne 2 analyses sectorielles avec impact boursier
+colonne 3 tableau valeurs a surveiller
+verdict fond sombre accent bordeaux
+footer YAASAP Notes {NUM} {DATE_STR}
+
+Style : polices Georgia Times New Roman systeme uniquement
+Fond #f9f6f0 accents #8b1a1a bordeaux encre #1c1814
+Format 1122px largeur style Financial Times presse financiere"""}]
+        
+Genere la note YAASAP Notes du {NUM} en HTML complet et valide.
 
 IMPORTANT : Reponds UNIQUEMENT avec du code HTML. Commence par <!DOCTYPE html> et termine par </html>. Zero texte avant ou apres.
 
