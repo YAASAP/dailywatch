@@ -2,28 +2,242 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YAASAP Notes</title>
 <style>
-  body { font-family:Georgia,serif; background:#f9f6f0; color:#1c1814;
-         max-width:800px; margin:60px auto; padding:0 20px; }
-  h1 em { font-style:italic; color:#0d1f3c; }
-  ul { list-style:none; padding:0; margin-top:24px; }
-  li { padding:8px 0; border-bottom:1px solid rgba(0,0,0,.08); }
-  a { color:#b8952a; text-decoration:none; font-size:14px; }
-  a:hover { text-decoration:underline; }
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    background: #f9f6f0;
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    color: #1c1814;
+    min-height: 100vh;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 3px double rgba(0,0,0,0.2);
+    padding: 28px 48px 16px;
+    text-align: center;
+    background: #f9f6f0;
+  }
+  .pub-name {
+    font-family: 'Playfair Display', 'Times New Roman', Georgia, serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1c1814;
+    line-height: 1;
+  }
+  .pub-name em {
+    font-style: italic;
+    color: #8b1a1a;
+  }
+  .pub-rule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 6px;
+    justify-content: center;
+  }
+  .pub-rule::before,
+  .pub-rule::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: #1c1814;
+  }
+  .pub-tagline {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #6a5f52;
+  }
+  .pub-date {
+    font-family: Georgia, serif;
+    font-size: 12px;
+    color: #9a8f82;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* MAIN */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  .section-head {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8b1a1a;
+    border-bottom: 1px solid #8b1a1a;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+  }
+
+  .note-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 32px;
+  }
+
+  .note-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .note-item:last-child { border-bottom: none; }
+
+  .note-bullet {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    color: #8b1a1a;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .note-link {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #1c1814;
+    text-decoration: none;
+    line-height: 1.3;
+    transition: color 0.15s;
+  }
+  .note-link:hover { color: #8b1a1a; }
+
+  .note-meta {
+    font-family: Georgia, serif;
+    font-size: 11px;
+    color: #9a8f82;
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .note-today {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-left: 3px solid #8b1a1a;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .note-today .note-link {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .note-today-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8b1a1a;
+    font-family: Georgia, serif;
+    margin-bottom: 6px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(0,0,0,0.12);
+    padding: 16px 48px;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 10px;
+    color: #9a8f82;
+    font-style: italic;
+    background: #f2ede4;
+  }
 </style>
 </head>
 <body>
-<h1>YAASAP <em>Notes</em></h1>
-<p style="color:#6a5f52;font-size:13px;">Publications YAASAP — Analyses financières</p>
-<ul>
-  <li><a href="docs/note-du-jour.html">📄 Note du jour</a></li>
-  <li><a href="yaasap_spatial_live.html">🚀 Spatial Live — SpaceX IPO</a></li>
-  <li><a href="yaasap_oil_gas.html">🛢️ Oil & Gas N°17</a></li>
-  <li><a href="yaasap_ecosysteme_ia.html">🤖 Ecosystème IA</a></li>
-  <li><a href="yaasap_gta6_light.html">🎮 GTA VI</a></li>
-  <li><a href="yaasap_value.html">📉 Valeurs sous-cotées</a></li>
-  <li><a href="yaasap_v3_paysage.html">📊 Flash Marché MRNA</a></li>
-</ul>
+
+<div class="masthead">
+  <div class="pub-name">YAASAP <em>Notes</em></div>
+  <div class="pub-rule"><span class="pub-tagline">Analyse financière quotidienne</span></div>
+  <div class="pub-date" id="pubDate"></div>
+</div>
+
+<div class="container">
+
+  <div class="section-head">Dernière publication</div>
+  <div class="note-today">
+    <div class="note-today-label">Note du jour</div>
+    <a class="note-link" href="docs/note-du-jour.html">
+      Analyse quotidienne — Pétrole · Géopolitique · IA · Pharma · IT
+    </a>
+    <div class="note-meta" id="todayDate"></div>
+  </div>
+
+  <div class="section-head">Archives & analyses sectorielles</div>
+  <ul class="note-list">
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_spatial_live.html">Secteur Spatial — SpaceX IPO · Cotations live</a>
+        <div class="note-meta">N°18 · Flash Spatial · RKLB · ASTS · LUNR</div>
+      </div>
+    </li>
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_oil_gas.html">Oil & Gas — TotalEnergies · Majors pétrolières</a>
+        <div class="note-meta">N°17 · Flash Énergie · Brent · Ormuz · Stratégie</div>
+      </div>
+    </li>
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_ecosysteme_ia.html">Ecosystème IA — LLMs · GPU · Stockage</a>
+        <div class="note-meta">N°15 · Flash IA · NVDA · Claude · OpenAI · DeepSeek</div>
+      </div>
+    </li>
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_gta6_light.html">GTA VI — Cartographie boursière</a>
+        <div class="note-meta">N°13 · Flash Marché · TTWO · SONY · NVDA</div>
+      </div>
+    </li>
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_value.html">Actions sous-cotées — PER bas · Fondamentaux solides</a>
+        <div class="note-meta">N°16 · Flash Valeur · MSFT · PFE · BABA · VZ</div>
+      </div>
+    </li>
+    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="yaasap_v3_paysage.html">Flash Marché MRNA — Bandes de Bollinger</a>
+        <div class="note-meta">N°12 · Moderna · Hantavirus · Scénarios trading</div>
+      </div>
+    </li>
+  </ul>
+
+</div>
+
+<footer>
+  YAASAP Notes · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement
+</footer>
+
+<script>
+  const now = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  const dateStr = now.toLocaleDateString('fr-FR', opts);
+  document.getElementById('pubDate').textContent = dateStr;
+  document.getElementById('todayDate').textContent = dateStr;
+</script>
+
 </body>
 </html>
