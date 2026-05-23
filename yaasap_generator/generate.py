@@ -5,7 +5,7 @@ import anthropic
 
 NEWSAPI_KEY   = os.environ["NEWSAPI_KEY"]
 ANTHROPIC_KEY = os.environ["ANTHROPIC_API_KEY"]
-OUTPUT_DIR    = Path("docs")
+OUTPUT_DIR    = Path("../docs")
 TODAY         = datetime.date.today()
 ISSUE_FILE    = Path(".issue_number")
 
