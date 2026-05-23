@@ -62,4 +62,25 @@ HTML UNIQUEMENT sans backticks."""}])
     html = msg.content[0].text
     if "```" in html:
         for p in html.split("```"):
-            s =
+            s = p.strip()
+            if s.startswith("<!") or s.startswith("<html"):
+                return s
+    return html.strip()
+
+def main():
+    print(f"YAASAP Notes - {TODAY}")
+    os.makedirs("../docs", exist_ok=True)
+    articles = fetch_news()
+    if not articles:
+        print("Aucun article")
+        sys.exit(1)
+    html = generate_html(format_articles(articles))
+    with open("../docs/note-du-jour.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print("OK note-du-jour.html cree")
+    with open("../docs/index.html", "w", encoding="utf-8") as f:
+        f.write(f'<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=note-du-jour.html"><title>YAASAP Notes</title></head><body><a href="note-du-jour.html">YAASAP Notes - {DATE_STR}</a></body></html>')
+    print(f"Publie : https://YAASAP.github.io/dailywatch/docs/note-du-jour.html")
+
+if __name__ == "__main__":
+    main()
