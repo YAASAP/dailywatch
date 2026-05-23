@@ -81,7 +81,7 @@ HTML UNIQUEMENT, sans backticks, sans texte avant ou apres."""}]
 def main():
     print(f"YAASAP Notes - {TODAY}")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    num      = get_issue()
+    num = TODAY.strftime("%d/%m/%Y")
     date_str = TODAY.strftime("%d %B %Y")
     articles = fetch_news()
     if not articles:
