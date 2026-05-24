@@ -69,7 +69,7 @@ TEMPLATE = """<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>YAASAP Notes - DATE_PH</title>
+<title>YAASAP Notes - <div class="mast-date"><span class="live-date">DATE_PH</span></div></title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:#f9f6f0;font-family:Georgia,'Times New Roman',serif;color:#1c1814;font-size:11px;}
