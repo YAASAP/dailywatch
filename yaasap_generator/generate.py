@@ -158,6 +158,12 @@ SOURCES_PH
 </div>
 
 </div>
+<script>
+const d = new Date();
+const opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+const str = d.toLocaleDateString('fr-FR', opts);
+document.querySelectorAll('.live-date').forEach(el => el.textContent = str);
+</script>
 </body>
 </html>"""
 
