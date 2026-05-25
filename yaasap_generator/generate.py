@@ -405,9 +405,22 @@ footer{{background:#f2ede4;border-top:1px solid rgba(0,0,0,.1);padding:14px 20px
 # 5. INDEX RACINE (toutes les analyses)
 # ─────────────────────────────────────────────
 def build_root_index():
-    # Construire les items analyses statiques
+    # Scanner tous les fichiers yaasap_*.html a la racine du repo
+    pattern = os.path.join(ROOT_DIR, "yaasap_*.html")
+    found_files = sorted(glob.glob(pattern), reverse=True)
+
+    # Dictionnaire titre+meta pour les fichiers connus
+    KNOWN = {f: (t, m) for f, t, m in ANALYSES}
+
     analyses_items = ""
-    for i, (fname, title, meta) in enumerate(ANALYSES):
+    for i, fpath in enumerate(found_files):
+        fname = os.path.basename(fpath)
+        if fname in KNOWN:
+            title, meta = KNOWN[fname]
+        else:
+            # Fichier inconnu : generer un titre lisible depuis le nom
+            title = fname.replace("yaasap_","").replace(".html","").replace("_"," ").title()
+            meta  = "Analyse YAASAP Notes"
         badge = '<span class="badge-new">Nouveau</span>' if i < 3 else ''
         analyses_items += f"""    <li class="note-item">
       <span class="note-bullet">&mdash;</span>
