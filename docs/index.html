@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1c1814">
-<title>YAASAP Notes</title>
+<title>YAASAP Notes — Archives</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,serif;background:#f9f6f0;color:#1c1814;}
-.mast{background:#1c1814;padding:16px 20px;text-align:center;}
-.pub{font-size:28px;font-weight:700;font-style:italic;color:#fff;letter-spacing:-.02em;}
+.mast{background:#1c1814;padding:14px 20px;text-align:center;}
+.pub{font-size:26px;font-weight:700;font-style:italic;color:#fff;letter-spacing:-.02em;}
 .pub span{color:#8b1a1a;}
-.tagline{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:4px;}
+.tagline{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
 .container{max-width:600px;margin:0 auto;padding:20px 20px 60px;}
 .sec{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8b1a1a;border-bottom:1px solid #8b1a1a;padding-bottom:4px;margin:24px 0 14px;}
 .today-box{background:#fff;border:1px solid rgba(0,0,0,.1);border-left:3px solid #8b1a1a;padding:14px 18px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-radius:0 4px 4px 0;}
@@ -19,49 +19,40 @@ body{font-family:Georgia,serif;background:#f9f6f0;color:#1c1814;}
 .today-box a:hover{color:#8b1a1a;}
 .today-date{font-size:10px;color:#9a8f82;font-style:italic;margin-top:5px;}
 ul{list-style:none;padding:0;}
-li{padding:10px 0;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:center;gap:10px;}
+li{padding:9px 0;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:center;gap:10px;}
 li:last-child{border-bottom:none;}
 li a{font-size:14px;color:#1c1814;text-decoration:none;}
 li a:hover{color:#8b1a1a;}
 .badge{font-size:9px;background:#8b1a1a;color:#fff;padding:2px 7px;border-radius:2px;flex-shrink:0;}
 .dash{color:#8b1a1a;font-size:14px;flex-shrink:0;}
-.other-sec a{display:block;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.07);font-size:14px;color:#1c1814;text-decoration:none;}
-.other-sec a:hover{color:#8b1a1a;}
-.other-sec a::before{content:"→ ";color:#8b1a1a;}
-footer{background:#f2ede4;border-top:1px solid rgba(0,0,0,.1);padding:16px 20px;text-align:center;font-size:10px;color:#9a8f82;font-style:italic;}
+footer{background:#f2ede4;border-top:1px solid rgba(0,0,0,.1);padding:14px 20px;text-align:center;font-size:10px;color:#9a8f82;font-style:italic;}
+.back{font-size:12px;color:#8b1a1a;text-decoration:none;display:inline-block;margin-bottom:8px;}
 </style>
 </head>
 <body>
 <div class="mast">
   <div class="pub">YAASAP <span>Notes</span></div>
-  <div class="tagline">Analyse financiere quotidienne</div>
+  <div class="tagline">Archives — Notes quotidiennes</div>
 </div>
 <div class="container">
+  <a class="back" href="../index.html">← Retour accueil</a>
   <div class="sec">Note du jour</div>
   <div class="today-box">
     <a href="note-du-jour.html">Analyse du jour &mdash; 25 May 2026</a>
     <div class="today-date" id="liveDate">25 May 2026</div>
   </div>
-  <div class="sec">Archives (1 notes)</div>
-  <ul><li><span class="badge">Aujourd'hui</span><a href="note-2026-05-25.html">Monday 25 may 2026</a></li>
+  <div class="sec">Toutes les archives (2 notes)</div>
+  <ul><li><span class="badge">Aujourd'hui</span><a href="note-2026-05-25_1817.html">Monday 25 may 2026 — 18h17</a></li>
+<li><span class="badge">Aujourd'hui</span><a href="note-2026-05-25.html">Monday 25 may 2026</a></li>
 </ul>
-  <div class="sec">Toutes nos analyses</div>
-  <div class="other-sec">
-    <a href="../yaasap_spatial_live.html">Secteur Spatial &mdash; SpaceX IPO</a>
-    <a href="../yaasap_oil_gas.html">Oil &amp; Gas N&deg;17 &mdash; TotalEnergies</a>
-    <a href="../yaasap_ecosysteme_ia.html">Ecosysteme IA &mdash; LLMs &middot; GPU</a>
-    <a href="../yaasap_gta6_light.html">GTA VI &mdash; Cartographie boursiere</a>
-    <a href="../yaasap_value.html">Actions sous-cotees</a>
-    <a href="../yaasap_v3_paysage.html">Flash Marche MRNA</a>
-  </div>
 </div>
-<footer>YAASAP Notes &middot; Ne constitue pas un conseil en investissement</footer>
+<footer>YAASAP Notes &middot; Par Yacine AOUABED &middot; Ne constitue pas un conseil en investissement</footer>
 <script>
 (function(){
-  var d = new Date();
-  var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  var el = document.getElementById('liveDate');
-  if(el) el.textContent = d.toLocaleDateString('fr-FR', opts);
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var el=document.getElementById('liveDate');
+  if(el) el.textContent=d.toLocaleDateString('fr-FR',opts);
 })();
 </script>
 </body>
