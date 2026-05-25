@@ -440,6 +440,104 @@ def main():
     print("OK note-du-jour.html")
     build_index()
     print(f"Publie : https://YAASAP.github.io/dailywatch/docs/")
+def build_root_index():
+    import glob
+    root = os.path.join(os.path.dirname(__file__), "..")
+    
+    # Scanner tous les fichiers HTML à la racine
+    html_files = sorted(glob.glob(os.path.join(root, "yaasap_*.html")), reverse=True)
+    
+    # Mapping noms de fichiers → titres lisibles
+    titles = {
+        "yaasap_midterms.html":      ("🗳️", "Midterms 2026 — Trump sans Congrès", "Analyse spéciale · Tarifs · Guerre Iran · Fed"),
+        "yaasap_spatial_live.html":  ("🚀", "Secteur Spatial — SpaceX IPO · Cotations live", "N°18 · RKLB · ASTS · LUNR"),
+        "yaasap_spatial.html":       ("🚀", "Secteur Spatial — Analyse PDF", "N°18 · Flash Spatial"),
+        "yaasap_oil_gas.html":       ("🛢️", "Oil & Gas — TotalEnergies · Majors pétrolières", "N°17 · Brent · Ormuz · Stratégie"),
+        "yaasap_ecosysteme_ia.html": ("🤖", "Ecosystème IA — LLMs · GPU · Stockage", "N°15 · NVDA · Claude · OpenAI"),
+        "yaasap_ecosysteme_ia_v2.html":("🤖","Ecosystème IA v2 — Polices système", "N°15 · Version corrigée"),
+        "yaasap_value.html":         ("📉", "Actions sous-cotées — PER bas · Fondamentaux", "N°16 · MSFT · PFE · BABA · VZ"),
+        "yaasap_gta6_light.html":    ("🎮", "GTA VI — Cartographie boursière", "N°13 · TTWO · SONY · NVDA"),
+        "yaasap_gta6.html":          ("🎮", "GTA VI — Version originale", "N°13 · Flash Marché"),
+        "yaasap_v3_paysage.html":    ("📊", "Flash Marché MRNA — Bandes de Bollinger", "N°12 · Moderna · Scénarios trading"),
+    }
+    
+    items = ""
+    for f in html_files:
+        name = os.path.basename(f)
+        if name in titles:
+            icon, title, meta = titles[name]
+            items += f"""    <li class="note-item">
+      <span class="note-bullet">—</span>
+      <div>
+        <a class="note-link" href="{name}">{icon} {title}</a>
+        <div class="note-meta">{meta}</div>
+      </div>
+    </li>\n"""
 
+    index_html = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap');
+  *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
+  body{{font-family:'Source Serif 4',Georgia,serif;background:#f9f6f0;color:#1c1814;}}
+  .masthead{{border-bottom:3px double rgba(0,0,0,.2);padding:28px 48px 16px;text-align:center;}}
+  .pub-name{{font-family:'Playfair Display','Times New Roman',serif;font-size:48px;font-weight:700;letter-spacing:-.02em;}}
+  .pub-name em{{font-style:italic;color:#8b1a1a;}}
+  .pub-rule{{display:flex;align-items:center;gap:12px;margin:10px 0 6px;justify-content:center;}}
+  .pub-rule::before,.pub-rule::after{{content:'';flex:1;max-width:120px;height:1px;background:#1c1814;}}
+  .pub-tagline{{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:#6a5f52;}}
+  .pub-date{{font-size:12px;color:#9a8f82;font-style:italic;margin-top:4px;}}
+  .container{{max-width:680px;margin:0 auto;padding:32px 24px 60px;}}
+  .section-head{{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8b1a1a;border-bottom:1px solid #8b1a1a;padding-bottom:4px;margin-bottom:16px;margin-top:28px;}}
+  .note-today{{background:#fff;border:1px solid rgba(0,0,0,.1);border-left:3px solid #8b1a1a;padding:14px 18px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06);}}
+  .note-today a{{font-size:16px;font-weight:700;color:#1c1814;text-decoration:none;display:block;}}
+  .note-today a:hover{{color:#8b1a1a;}}
+  .note-meta-today{{font-size:10px;color:#9a8f82;font-style:italic;margin-top:4px;}}
+  .note-list{{list-style:none;padding:0;margin-bottom:32px;}}
+  .note-item{{display:flex;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.08);}}
+  .note-item:last-child{{border-bottom:none;}}
+  .note-bullet{{font-size:18px;color:#8b1a1a;flex-shrink:0;line-height:1;}}
+  .note-link{{font-family:'Playfair Display',Georgia,serif;font-size:16px;color:#1c1814;text-decoration:none;line-height:1.3;}}
+  .note-link:hover{{color:#8b1a1a;}}
+  .note-meta{{font-size:11px;color:#9a8f82;font-style:italic;margin-top:2px;}}
+  footer{{border-top:1px solid rgba(0,0,0,.12);padding:16px 48px;text-align:center;font-size:10px;color:#9a8f82;font-style:italic;background:#f2ede4;}}
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="pub-name">YAASAP <em>Notes</em></div>
+  <div class="pub-rule"><span class="pub-tagline">Analyse financière quotidienne</span></div>
+  <div class="pub-date" id="pubDate"></div>
+</div>
+<div class="container">
+  <div class="section-head">Dernière publication</div>
+  <div class="note-today">
+    <a href="docs/note-du-jour.html">📄 Analyse quotidienne — Pétrole · Géopolitique · IA · Pharma · IT</a>
+    <div class="note-meta-today" id="todayDate"></div>
+  </div>
+  <div class="section-head">Archives &amp; analyses sectorielles</div>
+  <ul class="note-list">
+{items}
+  </ul>
+</div>
+<footer>YAASAP Notes · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement</footer>
+<script>
+  var d = new Date();
+  var opts = {{weekday:'long',year:'numeric',month:'long',day:'numeric'}};
+  var s = d.toLocaleDateString('fr-FR', opts);
+  document.getElementById('pubDate').textContent = s;
+  document.getElementById('todayDate').textContent = s;
+</script>
+</body>
+</html>"""
+
+    root_index = os.path.join(root, "index.html")
+    with open(root_index, "w", encoding="utf-8") as f:
+        f.write(index_html)
+    print("OK index.html racine mis a jour")
 if __name__ == "__main__":
     main()
