@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes — Alibaba (BABA) · Analyse d'investissement</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper:  #0d0d0d;
+  --paper2: #141414;
+  --paper3: #1c1c1c;
+  --ink:    #f0ebe3;
+  --ink2:   #d4cdc4;
+  --ink3:   #9a9088;
+  --ink4:   #666058;
+  --rule:   rgba(255,255,255,0.1);
+  --rule2:  rgba(255,255,255,0.06);
+  --accent: #c8602a;
+  --blue:   #4a7ab5;
+  --green:  #3a9e5f;
+  --amber:  #c49a20;
+  --gold:   #f0c956;
+  --serif:  'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --sans:   'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+  --mono:   'Source Code Pro', 'Courier New', monospace;
+}
+
+html, body {
+  background: var(--paper);
+  font-family: var(--sans);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 3px double var(--rule);
+  padding: 14px 24px 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #080808;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 8px rgba(0,0,0,.6);
+}
+.pub-name {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+.pub-name em { font-style: italic; color: var(--accent); }
+.pub-tagline {
+  font-family: var(--sans);
+  font-size: 8px;
+  color: var(--ink4);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.masthead-center {
+  text-align: center;
+  flex: 1;
+}
+.issue-line {
+  font-family: var(--sans);
+  font-size: 8px;
+  color: var(--ink3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 2px 8px;
+  display: inline-block;
+}
+.masthead-right { text-align: right; }
+.mast-date { font-family: var(--serif); font-size: 10px; color: var(--ink3); font-style: italic; }
+.mast-price {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+  margin-top: 2px;
+}
+.mast-price-label { font-size: 8px; color: var(--ink4); letter-spacing: .08em; text-transform: uppercase; }
+
+/* ── KICKER BAR ── */
+.kicker {
+  background: #080808;
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.kicker::-webkit-scrollbar { display: none; }
+.kicker-inner {
+  display: flex;
+  padding: 0 24px;
+  min-width: max-content;
+}
+.kk { padding: 8px 14px; border-right: 1px solid var(--rule2); flex-shrink: 0; }
+.kk:last-child { border-right: none; }
+.kk-l { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink4); margin-bottom: 2px; }
+.kk-v { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1; }
+.kk-n { font-size: 9px; color: var(--ink4); font-style: italic; margin-top: 1px; }
+.up { color: var(--green); }
+.dn { color: var(--accent); }
+.am { color: var(--amber); }
+
+/* ── CONTENT ── */
+.content { max-width: 720px; margin: 0 auto; padding: 0 24px 48px; }
+
+/* ── SECTION RULE ── */
+.sec-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 28px 0 14px;
+}
+.sec-rule::before { content: ''; width: 20px; height: 2px; background: var(--accent); flex-shrink: 0; }
+.sec-rule-text { font-family: var(--sans); font-size: 8px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+.sec-rule::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* ── LEAD ARTICLE ── */
+.lead {
+  padding: 20px 0 16px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 20px;
+}
+.lead-eyebrow {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.lead-headline {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+.lead-deck {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink3);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule2);
+}
+.lead-body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink2);
+}
+.lead-body strong { font-weight: 700; color: var(--ink); }
+.lead-body p { margin-bottom: 10px; }
+.lead-body p:last-child { margin-bottom: 0; }
+
+/* ── PULL QUOTE ── */
+.pull {
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 14px;
+  margin: 16px 0;
+}
+.pull-text {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.pull-attr {
+  font-family: var(--sans);
+  font-size: 9px;
+  color: var(--ink4);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ── PRICE TABLE ── */
+.price-table-wrap {
+  background: #080808;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+.price-table-head {
+  padding: 8px 14px;
+  background: var(--paper3);
+  border-bottom: 1.5px solid rgba(255,255,255,.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.price-table-title { font-family: var(--sans); font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); }
+.price-table-sub { font-family: var(--mono); font-size: 8px; color: var(--ink4); }
+.price-table { width: 100%; border-collapse: collapse; }
+.price-table th {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding: 7px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper3);
+}
+.price-table td {
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--rule2);
+  color: var(--ink2);
+  vertical-align: middle;
+}
+.price-table tr:last-child td { border-bottom: none; }
+.price-table td.mono { font-family: var(--mono); font-size: 12px; }
+.price-table tr.highlight { background: rgba(200,96,42,.07); }
+.price-table tr.highlight td { border-left: 2px solid var(--accent); }
+.badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.badge-buy { background: rgba(58,158,95,.15); color: #5ecf82; border: 1px solid rgba(58,158,95,.35); }
+.badge-sell { background: rgba(200,96,42,.15); color: #e07a4a; border: 1px solid rgba(200,96,42,.35); }
+.badge-hold { background: rgba(196,154,32,.15); color: #d4b040; border: 1px solid rgba(196,154,32,.35); }
+
+/* ── CHART ── */
+.chart-section {
+  background: #0a0a0a;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+.chart-header {
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--rule2);
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chart-title { font-family: var(--sans); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); }
+.chart-controls { display: flex; gap: 4px; }
+.chart-btn {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: transparent;
+  color: var(--ink4);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .12s;
+}
+.chart-btn:hover, .chart-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.chart-body { padding: 14px 14px 6px; }
+.chart-wrap { position: relative; height: 220px; }
+.chart-legend {
+  display: flex;
+  gap: 14px;
+  padding: 8px 14px 10px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule2);
+}
+.cl-item { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 8px; color: var(--ink4); text-transform: uppercase; }
+.cl-line { width: 16px; height: 2px; flex-shrink: 0; }
+
+/* ── LEVEL GAUGE ── */
+.level-gauge {
+  background: #080808;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.level-gauge-title {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 14px;
+}
+.lv-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule2);
+}
+.lv-row:last-child { border-bottom: none; }
+.lv-label {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  width: 90px;
+  flex-shrink: 0;
+}
+.lv-bar-bg { flex: 1; height: 5px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+.lv-bar { height: 100%; border-radius: 2px; }
+.lv-price { font-family: var(--mono); font-size: 13px; font-weight: 600; width: 56px; text-align: right; flex-shrink: 0; }
+.lv-note { font-family: var(--sans); font-size: 9px; color: var(--ink4); width: 110px; text-align: right; flex-shrink: 0; font-style: italic; }
+.lv-current { background: rgba(200,96,42,.1); border-radius: 2px; padding: 2px 0; }
+
+/* ── EXPLAINER ARTICLE ── */
+.explainer {
+  background: #080808;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.explainer-head {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--rule2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #080808;
+}
+.explainer-title { font-family: var(--serif); font-size: 14px; font-weight: 700; color: var(--ink); }
+.explainer-body { padding: 10px 14px; }
+.novice-note {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink3);
+  border-left: 2px solid var(--accent);
+  padding: 5px 8px;
+  margin-bottom: 8px;
+  background: rgba(200,96,42,.07);
+  line-height: 1.5;
+}
+.novice-note strong { color: var(--ink); font-style: normal; font-weight: 700; }
+.explainer-detail {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+.explainer-detail strong { font-weight: 700; color: var(--ink); }
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  border-top: 1px solid var(--rule2);
+  padding-top: 10px;
+}
+.stat-cell { text-align: center; }
+.stat-val { font-family: var(--mono); font-size: 15px; font-weight: 600; line-height: 1; }
+.stat-label { font-family: var(--sans); font-size: 8px; color: var(--ink4); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+
+/* ── SCENARIO BLOCKS ── */
+.scenario-group { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
+.scenario {
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  background: #080808;
+}
+.scenario-head {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.scenario-name { font-family: var(--serif); font-size: 14px; font-weight: 700; }
+.scenario-proba {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.scenario-body { padding: 10px 14px; font-family: var(--sans); font-size: 13px; color: var(--ink2); line-height: 1.6; }
+.scenario-body strong { font-weight: 700; color: var(--ink); }
+.scenario-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule2);
+}
+.sm-cell { }
+.sm-label { font-family: var(--sans); font-size: 8px; color: var(--ink4); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 2px; }
+.sm-val { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+
+/* ── RISK LIST ── */
+.risk-list {
+  background: #080808;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.risk-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule2);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.risk-item:last-child { border-bottom: none; }
+.risk-rank {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+  width: 20px;
+}
+.risk-title { font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.risk-body { font-family: var(--sans); font-size: 12.5px; color: var(--ink3); line-height: 1.5; }
+.risk-body strong { color: var(--ink2); font-weight: 700; }
+
+/* ── VERDICT BOX ── */
+.verdict {
+  background: var(--ink);
+  border-radius: 2px;
+  padding: 18px 20px;
+  margin: 24px 0 16px;
+}
+.verdict-tag {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.verdict-tag::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1); }
+.verdict-body { font-family: var(--serif); font-size: 13px; color: rgba(255,255,255,.88); font-style: italic; line-height: 1.65; }
+.verdict-body strong { font-style: normal; color: var(--gold); }
+.verdict-body p { margin-bottom: 7px; }
+.verdict-body p:last-child { margin-bottom: 0; }
+.verdict-checklist {
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-top: 14px;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.vc-item {
+  display: flex;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: rgba(255,255,255,.8);
+  align-items: baseline;
+}
+.vc-item::before { content: '—'; color: var(--gold); flex-shrink: 0; font-size: 11px; }
+.vc-item strong { color: #fff; font-weight: 700; }
+.verdict-disclaimer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.07);
+  font-family: var(--sans);
+  font-size: 10px;
+  color: rgba(255,255,255,.3);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #080808;
+  border-top: 1.5px solid var(--rule);
+  padding: 14px 24px;
+  text-align: center;
+}
+.foot-brand { font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.foot-brand em { font-style: italic; color: var(--accent); }
+.foot-note { font-family: var(--sans); font-size: 10px; color: var(--ink4); font-style: italic; }
+.foot-nav { display: flex; justify-content: center; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.foot-nav a { font-family: var(--sans); font-size: 11px; color: var(--accent); text-decoration: none; }
+
+@media(min-width: 600px) {
+  .scenario-group { grid-template-columns: 1fr 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière — Usage exclusif clients</div>
+  </div>
+  <div class="masthead-center">
+    <span class="issue-line">Analyse d'investissement &nbsp;·&nbsp; Alibaba Group &nbsp;·&nbsp; NYSE : BABA &nbsp;·&nbsp; ADR</span>
+  </div>
+  <div class="masthead-right">
+    <div class="mast-date" id="liveDate">25 mai 2026</div>
+    <div class="mast-price">$130</div>
+    <div class="mast-price-label">Cours · BABA NYSE</div>
+  </div>
+</div>
+
+<!-- KICKER -->
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Cours actuel</div><div class="kk-v am">$130</div><div class="kk-n">clôture 22 mai</div></div>
+    <div class="kk"><div class="kk-l">52 sem. bas</div><div class="kk-v dn">$103.71</div><div class="kk-n">plancher annuel</div></div>
+    <div class="kk"><div class="kk-l">52 sem. haut</div><div class="kk-v up">$192.67</div><div class="kk-n">pic annuel</div></div>
+    <div class="kk"><div class="kk-l">Cible consensus</div><div class="kk-v up">$191</div><div class="kk-n">41 analystes · +47%</div></div>
+    <div class="kk"><div class="kk-l">Morningstar FV</div><div class="kk-v up">$267</div><div class="kk-n">valeur intrinsèque</div></div>
+    <div class="kk"><div class="kk-l">Cloud Q4 2026</div><div class="kk-v up">+40%</div><div class="kk-n">revenus externes</div></div>
+    <div class="kk"><div class="kk-l">Stop-loss</div><div class="kk-v dn">$112</div><div class="kk-n">niveau de sortie</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- LEAD ARTICLE -->
+  <div class="lead">
+    <div class="lead-eyebrow">Analyse d'achat · Expert senior · Horizons 6 mois, 18 mois, 3 ans</div>
+    <div class="lead-headline">Alibaba : la décote géopolitique crée une fenêtre d'entrée historique</div>
+    <div class="lead-deck">À $130 l'action, Alibaba se traite avec une décote de 51% par rapport à sa valeur intrinsèque calculée par Morningstar. La correction récente, provoquée par des investissements massifs en IA qui pèsent mécaniquement sur les bénéfices à court terme, masque des fondamentaux en cours d'amélioration nette.</div>
+    <div class="lead-body">
+      <p>Le signal le plus fort de cette analyse est la convergence rare entre le consensus des analystes et le modèle fondamental de valorisation. Sur 41 professionnels interrogés par S&P Global, l'ensemble recommande l'achat — avec une cible médiane de $190.69 et un point haut à $256.87. Morningstar, dont la méthodologie repose sur les flux de trésorerie futurs actualisés, fixe la valeur juste à <strong>$267, soit plus du double du cours actuel</strong>.</p>
+      <p>La correction récente tient à deux facteurs conjoncturels. Premier facteur : Alibaba a enregistré au T4 2026 sa <strong>première perte opérationnelle depuis 2021</strong>, conséquence directe d'un programme d'investissement en intelligence artificielle exceptionnel — 17,3 milliards de yuan de cash-flow négatif sur le trimestre. Ces dépenses sont délibérées et documentées dans le plan stratégique. Elles ne reflètent pas une dégradation structurelle du business.</p>
+      <p>Second facteur : la tension géopolitique entre Pékin et Washington. Le risque de délisting NYSE est réel mais limité par la cotation parallèle à Hong Kong (9988.HK). La visite de Donald Trump à Pékin le 14 mai 2026 constitue un signal de désescalade que le marché n'a pas encore pleinement intégré.</p>
+    </div>
+    <div class="pull">
+      <div class="pull-text">« Les analystes de Wall Street voient un upside de 43% sur Alibaba malgré la baisse des bénéfices. La forte croissance du cloud externe à +40% reste le moteur principal de la thèse haussière. »</div>
+      <div class="pull-attr">— Wall Street Analysts · TipRanks · 23 mai 2026</div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE -->
+  <div class="sec-rule"><span class="sec-rule-text">Analyse graphique · Performance et niveaux techniques</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">BABA NYSE · Cours de clôture + MM50 + MM200 · Niveaux clés</span>
+      <div class="chart-controls">
+        <button class="chart-btn" onclick="renderChart('1m',this)">1 MOIS</button>
+        <button class="chart-btn" onclick="renderChart('3m',this)">3 MOIS</button>
+        <button class="chart-btn active" onclick="renderChart('6m',this)">6 MOIS</button>
+        <button class="chart-btn" onclick="renderChart('1y',this)">1 AN</button>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="chart-wrap"><canvas id="mainChart"></canvas></div>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-line" style="background:#8b3a1a;"></div>BABA</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(26,58,92,.6);border-top:2px dashed rgba(26,58,92,.6);height:0;"></div>MM50</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(0,0,0,.25);border-top:2px dotted rgba(0,0,0,.25);height:0;"></div>MM200</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(30,92,50,.6);border-top:1.5px dashed rgba(30,92,50,.6);height:0;"></div>Cible $191</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(139,58,26,.6);border-top:1.5px dashed rgba(139,58,26,.6);height:0;"></div>Stop $112</div>
+    </div>
+  </div>
+
+  <!-- TABLEAU NIVEAUX -->
+  <div class="sec-rule"><span class="sec-rule-text">Niveaux de prix · Carte de navigation</span></div>
+  <div class="level-gauge">
+    <div class="level-gauge-title">Où se situe le cours actuel par rapport aux niveaux techniques et fondamentaux</div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--green);">Cible 3 ans</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:var(--green);"></div></div>
+      <div class="lv-price up">$267</div>
+      <div class="lv-note">Valeur Morningstar +105%</div>
+    </div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--green);">Cible 18 mois</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:72%;background:#3a8a5a;opacity:.8;"></div></div>
+      <div class="lv-price up">$191</div>
+      <div class="lv-note">Consensus Wall St. +47%</div>
+    </div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--green);">Cible 6 mois</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:59%;background:#7ab88a;opacity:.8;"></div></div>
+      <div class="lv-price up">$165</div>
+      <div class="lv-note">Résistance MM100 +27%</div>
+    </div>
+    <div class="lv-row lv-current">
+      <div class="lv-label" style="color:var(--accent);">Cours actuel</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:46%;background:var(--accent);"></div></div>
+      <div class="lv-price am">$130</div>
+      <div class="lv-note">Point d'entrée</div>
+    </div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--amber);">Zone d'achat</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:42%;background:var(--amber);opacity:.6;"></div></div>
+      <div class="lv-price am">$120–130</div>
+      <div class="lv-note">Entrée recommandée</div>
+    </div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--accent);">Stop-loss</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:38%;background:var(--accent);opacity:.7;"></div></div>
+      <div class="lv-price dn">$112</div>
+      <div class="lv-note">Sortie automatique −14%</div>
+    </div>
+    <div class="lv-row">
+      <div class="lv-label" style="color:var(--ink4);">Plancher annuel</div>
+      <div class="lv-bar-bg"><div class="lv-bar" style="width:34%;background:var(--ink4);opacity:.4;"></div></div>
+      <div class="lv-price" style="color:var(--ink4);">$103.71</div>
+      <div class="lv-note">Plus bas 52 semaines</div>
+    </div>
+  </div>
+
+  <!-- TABLEAU DE SYNTHÈSE -->
+  <div class="sec-rule"><span class="sec-rule-text">Métriques clés · Synthèse fondamentale et technique</span></div>
+  <div class="price-table-wrap">
+    <div class="price-table-head">
+      <span class="price-table-title">Alibaba Group Holding · BABA · Données mai 2026</span>
+      <span class="price-table-sub">Sources : S&P Global, Morningstar, StockAnalysis</span>
+    </div>
+    <table class="price-table">
+      <thead><tr><th>Indicateur</th><th>Valeur</th><th>Interprétation</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr class="highlight">
+          <td>Cours NYSE (ADR)</td><td class="mono am">$130</td><td style="font-size:12px;">Zone d'entrée recommandée</td><td><span class="badge badge-buy">Achat</span></td>
+        </tr>
+        <tr>
+          <td>Stop-loss conseillé</td><td class="mono dn">$112</td><td style="font-size:12px;">−14% · structure préservée</td><td><span class="badge badge-sell">Obligatoire</span></td>
+        </tr>
+        <tr>
+          <td>Cible 6 mois</td><td class="mono up">$165</td><td style="font-size:12px;">+27% · résistance MM100/200</td><td><span class="badge badge-buy">Réaliste</span></td>
+        </tr>
+        <tr>
+          <td>Cible 18 mois · consensus</td><td class="mono up">$191</td><td style="font-size:12px;">+47% · 41 analystes Strong Buy</td><td><span class="badge badge-buy">Consensus</span></td>
+        </tr>
+        <tr>
+          <td>Valeur intrinsèque Morningstar</td><td class="mono up">$267</td><td style="font-size:12px;">+105% · DCF sur 3 ans</td><td><span class="badge badge-buy">Long terme</span></td>
+        </tr>
+        <tr>
+          <td>Ratio risque / récompense</td><td class="mono up">1 : 3.4</td><td style="font-size:12px;">Pour 1€ risqué, 3.4€ visés</td><td><span class="badge badge-buy">Favorable</span></td>
+        </tr>
+        <tr>
+          <td>Cloud externe Q4 2026</td><td class="mono up">+40%</td><td style="font-size:12px;">Moteur de croissance principal</td><td><span class="badge badge-buy">Accélération</span></td>
+        </tr>
+        <tr>
+          <td>Rachat d'actions (buyback)</td><td class="mono up">−1.7%</td><td style="font-size:12px;">Réduction du flottant 2025–2026</td><td><span class="badge badge-buy">Haussier</span></td>
+        </tr>
+        <tr>
+          <td>PER normalisé</td><td class="mono am">33.6×</td><td style="font-size:12px;">Élevé mais cloud en croissance</td><td><span class="badge badge-hold">À surveiller</span></td>
+        </tr>
+        <tr>
+          <td>MM50 / cours</td><td class="mono am">$138 / $130</td><td style="font-size:12px;">Cours sous MM50 · signal neutre</td><td><span class="badge badge-hold">Neutre</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GUIDE NOVICES -->
+  <div class="sec-rule"><span class="sec-rule-text">Guide de lecture · À l'intention des investisseurs débutants</span></div>
+
+  <div class="explainer">
+    <div class="explainer-head">
+      <span class="explainer-title">Qu'est-ce qu'un stop-loss et pourquoi est-il obligatoire ?</span>
+      <span class="badge badge-sell">Protection</span>
+    </div>
+    <div class="explainer-body">
+      <div class="novice-note">En termes simples : le stop-loss est l'ordre que vous passez à l'avance pour vendre automatiquement si le cours descend trop bas. C'est comme une ceinture de sécurité — vous espérez ne jamais en avoir besoin, mais vous la portez systématiquement.</div>
+      <div class="explainer-detail">Ici, le stop-loss est fixé à <strong>$112</strong>, soit −14% par rapport au cours actuel de $130. Si Alibaba descend à ce niveau, votre courtier vend automatiquement votre position. Vous limitez votre perte à 14% maximum, quoi qu'il arrive. Sans stop-loss, vous exposez la totalité de votre capital à une perte potentielle illimitée.</div>
+      <div class="stat-row">
+        <div class="stat-cell"><div class="stat-val dn">−14%</div><div class="stat-label">Perte max</div></div>
+        <div class="stat-cell"><div class="stat-val">$112</div><div class="stat-label">Niveau stop</div></div>
+        <div class="stat-cell"><div class="stat-val up">3.4×</div><div class="stat-label">R/R ratio</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <div class="explainer-head">
+      <span class="explainer-title">Qu'est-ce que le ratio risque/récompense de 1:3.4 ?</span>
+      <span class="badge badge-buy">Essentiel</span>
+    </div>
+    <div class="explainer-body">
+      <div class="novice-note">En termes simples : pour chaque euro que vous risquez de perdre, vous avez la possibilité d'en gagner 3,4. Si vous investissez 1 000€ et acceptez de perdre au maximum 140€ (stop-loss), vous pouvez viser un gain de 470€ (cible $191). Tout ratio supérieur à 1:2 est considéré comme favorable par les traders professionnels.</div>
+      <div class="explainer-detail">Calcul : risque = $130 − $112 = <strong>$18 par action</strong>. Récompense cible 1 = $165 − $130 = <strong>$35 par action</strong> (+27%). Récompense cible 2 = $191 − $130 = <strong>$61 par action</strong> (+47%). Ratio sur cible 2 : 61/18 = <strong>3.4</strong>.</div>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <div class="explainer-head">
+      <span class="explainer-title">Pourquoi acheter en trois fois plutôt qu'en une seule ?</span>
+      <span class="badge badge-hold">Méthode</span>
+    </div>
+    <div class="explainer-body">
+      <div class="novice-note">En termes simples : si vous achetez tout d'un coup et que le cours baisse encore, vous avez payé trop cher la totalité de votre position. En achetant en trois fois (par exemple à $130, $122, $116), vous lissez votre prix d'achat moyen et réduisez le risque de mauvais timing.</div>
+      <div class="explainer-detail">Cette technique s'appelle le <strong>dollar-cost averaging</strong> ou entrée progressive. Recommandation : un tiers de la position à $130, un tiers si baisse à $122, un tiers si baisse à $116. Prix moyen obtenu : ~$123, soit une amélioration de 5% sur la cible.</div>
+    </div>
+  </div>
+
+  <!-- SCÉNARIOS -->
+  <div class="sec-rule"><span class="sec-rule-text">Scénarios · Trois trajectoires possibles sur 18 mois</span></div>
+  <div class="scenario-group">
+    <div class="scenario">
+      <div class="scenario-head" style="background:rgba(58,158,95,.08);">
+        <span class="scenario-name" style="color:var(--green);">Haussier</span>
+        <span class="scenario-proba" style="background:rgba(58,158,95,.15);color:#5ecf82;">50%</span>
+      </div>
+      <div class="scenario-body">
+        <strong>Déclencheur :</strong> cloud +40% se maintient, détente commerciale US-CN post-visite Trump à Pékin, bénéfices H2 2026 en reprise après les investissements IA.
+        <div class="scenario-metrics">
+          <div class="sm-cell"><div class="sm-label">Cible</div><div class="sm-val up">$165–191</div></div>
+          <div class="sm-cell"><div class="sm-label">Gain sur 1 000€</div><div class="sm-val up">+270 à +470€</div></div>
+          <div class="sm-cell"><div class="sm-label">Délai</div><div class="sm-val">6–18 mois</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario">
+      <div class="scenario-head" style="background:rgba(196,154,32,.08);">
+        <span class="scenario-name" style="color:var(--amber);">Neutre</span>
+        <span class="scenario-proba" style="background:rgba(196,154,32,.15);color:#d4b040;">30%</span>
+      </div>
+      <div class="scenario-body">
+        <strong>Déclencheur :</strong> tensions géopolitiques persistantes sans escalade, croissance cloud ralentissant sous 30%, stagnation du marché e-commerce chinois.
+        <div class="scenario-metrics">
+          <div class="sm-cell"><div class="sm-label">Fourchette</div><div class="sm-val am">$115–145</div></div>
+          <div class="sm-cell"><div class="sm-label">Gain / perte</div><div class="sm-val am">−115 à +115€</div></div>
+          <div class="sm-cell"><div class="sm-label">Action</div><div class="sm-val am">Tenir</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario">
+      <div class="scenario-head" style="background:rgba(200,96,42,.08);">
+        <span class="scenario-name" style="color:var(--accent);">Baissier</span>
+        <span class="scenario-proba" style="background:rgba(200,96,42,.15);color:#e07a4a;">20%</span>
+      </div>
+      <div class="scenario-body">
+        <strong>Déclencheur :</strong> escalade guerre commerciale US-CN, menace de délisting NYSE, dégradation régulation interne en Chine.
+        <div class="scenario-metrics">
+          <div class="sm-cell"><div class="sm-label">Cours cible</div><div class="sm-val dn">sous $112</div></div>
+          <div class="sm-cell"><div class="sm-label">Perte maximale</div><div class="sm-val dn">−140€ /1000€</div></div>
+          <div class="sm-cell"><div class="sm-label">Stop-loss</div><div class="sm-val dn">Vente auto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISQUES -->
+  <div class="sec-rule"><span class="sec-rule-text">Risques · Ce qu'il faut avoir intégré avant d'investir</span></div>
+  <div class="risk-list">
+    <div class="risk-item">
+      <div class="risk-rank">I</div>
+      <div>
+        <div class="risk-title">Risque de délisting NYSE — le plus sévère</div>
+        <div class="risk-body">Les tensions sino-américaines pourraient forcer Alibaba à quitter la Bourse de New York. <strong>Atténuation :</strong> cotation parallèle à Hong Kong (9988.HK) depuis 2019. Un délisting américain provoquerait une chute brutale à court terme avant conversion vers l'ADR HK. Probabilité faible mais à intégrer dans la taille de la position.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-rank">II</div>
+      <div>
+        <div class="risk-title">Régulation chinoise — le précédent de 2021</div>
+        <div class="risk-body">En 2021, Pékin a imposé une amende de $2,8 milliards et plafonné l'expansion. Ce risque structurel est permanent pour toute entreprise technologique chinoise. Il justifie de ne pas dépasser <strong>3 à 5% de son portefeuille total</strong> sur cette ligne.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-rank">III</div>
+      <div>
+        <div class="risk-title">Pression sur les bénéfices — temporaire mais inconfortable</div>
+        <div class="risk-body">Q4 2026 : première perte opérationnelle depuis 2021, free cash flow négatif de 17,3 milliards de yuan. C'est le coût des investissements IA massifs. La tendance devrait s'inverser <strong>d'ici H2 2026</strong>, mais une nouvelle déception trimestrielle ferait baisser le cours avant reprise.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-rank">IV</div>
+      <div>
+        <div class="risk-title">Risque de change yuan / dollar</div>
+        <div class="risk-body">Alibaba gagne en yuan, l'ADR est coté en dollars. Une dépréciation du yuan réduit mécaniquement vos gains exprimés en dollars ou en euros. Risque modéré, à surveiller dans le contexte des tensions commerciales actuelles.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="verdict-body">
+      <p>À $130, Alibaba offre l'un des meilleurs ratios risque/récompense parmi les grandes capitalisations mondiales. <strong>La décote de 51% par rapport à la valeur intrinsèque Morningstar ($267) est une anomalie de marché</strong> — elle reflète la peur géopolitique, pas la réalité économique d'une entreprise dont le cloud croît à +40% par trimestre.</p>
+      <p>Le programme de rachats d'actions (−1,7% du flottant en un an), le chip IA Zhenwu M890, et la demande croissante de cloud asiatique constituent les trois catalyseurs qui devraient ramener le cours vers les cibles dans l'ordre des 12 à 18 prochains mois. <strong>La visite de Trump à Pékin le 14 mai 2026 est le signal de désescalade géopolitique que le marché attendait.</strong></p>
+    </div>
+    <div class="verdict-checklist">
+      <div class="vc-item"><strong>Prix d'entrée :</strong> $120–132 en trois fois (entrée progressive)</div>
+      <div class="vc-item"><strong>Stop-loss obligatoire à $112</strong> — sans cet ordre, ne pas investir</div>
+      <div class="vc-item"><strong>Cible 1 à $165</strong> (+27%) : vendre 50% de la position pour sécuriser les gains</div>
+      <div class="vc-item"><strong>Cible 2 à $191</strong> (+47%) : consensus des 41 analystes professionnels</div>
+      <div class="vc-item"><strong>Cible long terme $267</strong> (+105%) : valeur intrinsèque Morningstar sur 2 à 3 ans</div>
+      <div class="vc-item"><strong>Ne jamais dépasser 3 à 5% du portefeuille total</strong> sur une seule action</div>
+    </div>
+    <div class="verdict-disclaimer">Cette analyse est fournie à titre informatif par YAASAP Notes — Yacine AOUABED. Elle ne constitue pas un conseil en investissement au sens réglementaire. Tout investissement en actions comporte un risque de perte totale en capital. Les performances passées ne préjugent pas des performances futures. Consultez un conseiller financier agréé avant toute décision d'investissement.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Analyse BABA &nbsp;·&nbsp; <span id="footDate">25 mai 2026</span> &nbsp;·&nbsp; Ne constitue pas un conseil en investissement</div>
+  <div class="foot-nav">
+    <a href="docs/index.html">Archives</a>
+    <a href="yaasap_midterms.html">Midterms 2026</a>
+    <a href="yaasap_oil_gas.html">Oil &amp; Gas</a>
+    <a href="yaasap_ecosysteme_ia.html">IA</a>
+    <a href="index.html">Accueil</a>
+  </div>
+</footer>
+
+<script>
+// Date live
+(function(){
+  var d = new Date();
+  var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var str = d.toLocaleDateString('fr-FR', opts);
+  ['liveDate','footDate'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.textContent = str;
+  });
+})();
+
+// Chart data
+var chartData = {
+  '1m': {
+    labels: ['01/05','05/05','09/05','13/05','15/05','19/05','22/05','25/05'],
+    prices: [148,145,142,132,135,133,128,130],
+    mm50:   [148,147,146,143,142,141,140,138],
+    mm200:  [150,149,148,147,146,146,145,145]
+  },
+  '3m': {
+    labels: ['01/03','15/03','01/04','15/04','01/05','15/05','22/05','25/05'],
+    prices: [162,158,152,148,148,133,128,130],
+    mm50:   [165,162,158,154,150,145,142,138],
+    mm200:  [155,154,153,152,150,148,147,145]
+  },
+  '6m': {
+    labels: ['Nov 25','Déc','Jan 26','Fév','Mar','Avr','Mai'],
+    prices: [165,180,192,175,160,148,130],
+    mm50:   [155,165,175,180,172,162,148],
+    mm200:  [140,145,150,155,157,155,147]
+  },
+  '1y': {
+    labels: ['Mai 25','Juil','Sep','Nov','Jan 26','Mar','Mai'],
+    prices: [103,118,135,155,192,165,130],
+    mm50:   [100,108,120,138,158,168,150],
+    mm200:  [92,98,105,115,130,145,147]
+  }
+};
+
+var currentChart = null;
+
+function renderChart(period, btn) {
+  document.querySelectorAll('.chart-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+
+  var d = chartData[period];
+  var ctx = document.getElementById('mainChart').getContext('2d');
+  if(currentChart) currentChart.destroy();
+
+  var prices = d.prices;
+  var mn = Math.min.apply(null, prices) * 0.88;
+  var mx = Math.max.apply(null, prices) * 1.08;
+  var gc = 'rgba(255,255,255,0.05)';
+  var tc = '#666058';
+  var tf = {size:9, family:"'Source Code Pro','Courier New',monospace"};
+
+  currentChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: d.labels,
+      datasets: [
+        {
+          label: 'BABA',
+          data: prices,
+          borderColor: '#8b3a1a',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#8b3a1a',
+          fill: {target:'origin', above:'rgba(139,58,26,0.04)'},
+          tension: 0.35
+        },
+        {
+          label: 'MM50',
+          data: d.mm50,
+          borderColor: 'rgba(26,58,92,0.55)',
+          borderWidth: 1.2,
+          borderDash: [5,3],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.4
+        },
+        {
+          label: 'MM200',
+          data: d.mm200,
+          borderColor: 'rgba(0,0,0,0.22)',
+          borderWidth: 1.2,
+          borderDash: [2,4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {
+          backgroundColor: 'rgba(28,24,20,.95)',
+          titleColor: '#f9f6f0',
+          bodyColor: 'rgba(255,255,255,.75)',
+          borderColor: 'rgba(139,58,26,.4)',
+          borderWidth: 1,
+          padding: 8,
+          titleFont: tf,
+          bodyFont: tf,
+          callbacks: {
+            label: function(ctx) {
+              return ' ' + ctx.dataset.label + ' : $' + ctx.parsed.y.toFixed(0);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {color: tc, font: tf, maxRotation: 0},
+          grid: {color: gc}
+        },
+        y: {
+          min: mn, max: mx,
+          ticks: {color: tc, font: tf, callback: function(v){ return '$'+v.toFixed(0); }},
+          grid: {color: gc}
+        }
+      }
+    },
+    plugins: [{
+      id: 'levelLines',
+      afterDraw: function(chart) {
+        var ctx2 = chart.ctx;
+        var yA = chart.scales.y;
+        var xA = chart.scales.x;
+        var levels = [
+          {price: 191, color: 'rgba(30,92,50,0.55)', label: 'Cible 18M · $191'},
+          {price: 165, color: 'rgba(30,92,50,0.35)', label: 'Cible 6M · $165'},
+          {price: 130, color: 'rgba(139,58,26,0.7)', label: 'Cours · $130'},
+          {price: 112, color: 'rgba(176,28,28,0.55)', label: 'Stop · $112'}
+        ];
+        levels.forEach(function(lv) {
+          if(lv.price < yA.min || lv.price > yA.max) return;
+          var y = yA.getPixelForValue(lv.price);
+          ctx2.save();
+          ctx2.beginPath();
+          ctx2.setLineDash([6,4]);
+          ctx2.strokeStyle = lv.color;
+          ctx2.lineWidth = 1;
+          ctx2.moveTo(xA.left, y);
+          ctx2.lineTo(xA.right, y);
+          ctx2.stroke();
+          ctx2.setLineDash([]);
+          ctx2.fillStyle = lv.color;
+          ctx2.font = "9px 'Source Code Pro','Courier New',monospace";
+          ctx2.fillText(lv.label, xA.right - 82, y - 3);
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+}
+
+renderChart('6m', document.querySelector('.chart-btn.active'));
+</script>
+</body>
+</html>
