@@ -432,6 +432,7 @@ def main():
     html = generate_html(format_articles(articles), images, sources)
     import time
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
 note_dated = os.path.join(DOCS_DIR, f"note-{timestamp}.html")
     with open(note_dated, "w", encoding="utf-8") as f:
         f.write(html)
