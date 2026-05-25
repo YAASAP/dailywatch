@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Poutine & Xi · Grand Échiquier 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1c1814; --ink2:#3a342c; --ink3:#6a5f52; --muted:#9a8f82;
+  --paper:#f9f6f0; --paper2:#f2ede4; --paper3:#e8e1d5;
+  --red:#8b1a1a; --green:#1e5c32; --amber:#8a5c00;
+  --gold:#f0c956; --blue:#1a3a5c;
+  --russia:#cc0000; --china:#de2910;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:Georgia,'Times New Roman',serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%;}
+
+.mast{background:var(--ink);padding:16px 20px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+.mast-inner{display:flex;align-items:center;justify-content:space-between;max-width:720px;margin:0 auto;}
+.mast-brand{font-size:22px;font-weight:700;font-style:italic;color:#fff;letter-spacing:-.02em;}
+.mast-brand span{color:var(--red);}
+.mast-right{text-align:right;}
+.mast-issue{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;}
+.mast-date{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px;}
+
+.hero-banner{background:linear-gradient(135deg,#0d1520,#1a2a3c);padding:32px 20px;text-align:center;border-bottom:3px solid var(--red);}
+.hero-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.hero-headline{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;max-width:600px;margin-left:auto;margin-right:auto;}
+.hero-deck{font-size:14px;color:rgba(255,255,255,.6);font-style:italic;max-width:520px;margin:0 auto 16px;}
+.hero-kpis{display:flex;justify-content:center;gap:0;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+.hkpi{padding:8px 14px;border-right:1px solid rgba(255,255,255,.1);text-align:center;}
+.hkpi:last-child{border-right:none;}
+.hkpi-v{font-family:'Courier New',monospace;font-size:18px;font-weight:700;color:var(--gold);line-height:1;}
+.hkpi-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
+
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid rgba(0,0,0,.1);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 12px;min-width:max-content;}
+.kk{padding:10px 14px;border-right:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.kk-v{font-size:14px;font-weight:700;color:var(--ink);line-height:1;font-family:'Courier New',monospace;}
+.kk-n{font-size:10px;color:var(--muted);font-style:italic;margin-top:1px;}
+.up{color:var(--green);} .dn{color:var(--red);} .am{color:var(--amber);}
+
+.content{max-width:720px;margin:0 auto;padding:0 20px 40px;}
+
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 16px;}
+.sec::before{content:'';width:20px;height:2px;background:var(--red);flex-shrink:0;}
+.sec-t{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);}
+.sec::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1);}
+
+.signal{background:#fff;border:1px solid rgba(0,0,0,.08);border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:16px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.signal-headline{font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;}
+.signal-deck{font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);}
+.signal-body{font-size:13px;color:var(--ink2);line-height:1.65;}
+.signal-body strong{font-weight:700;color:var(--ink);}
+.signal-body p{margin-bottom:8px;}
+.signal-body p:last-child{margin-bottom:0;}
+
+.pull{border-top:2px solid var(--red);border-bottom:1px solid rgba(0,0,0,.1);padding:10px 14px;margin:14px 0;}
+.pull-t{font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-a{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:5px;}
+
+/* PORTRAIT CARDS */
+.portraits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.portrait-card{border:1px solid rgba(0,0,0,.1);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.portrait-head{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,.07);}
+.portrait-flag{font-size:22px;margin-bottom:4px;}
+.portrait-name{font-size:17px;font-weight:700;line-height:1;}
+.portrait-title{font-size:10px;color:var(--muted);margin-top:2px;font-style:italic;}
+.portrait-body{padding:12px 16px;background:#fff;}
+.portrait-stat{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.portrait-stat:last-child{border-bottom:none;}
+.ps-label{font-size:11px;color:var(--ink3);}
+.ps-val{font-family:'Courier New',monospace;font-size:12px;font-weight:700;}
+
+/* POSITION CARDS */
+.position-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:4px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.position-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.07);background:var(--paper2);}
+.position-flag{font-size:18px;}
+.position-title{font-size:13px;font-weight:700;color:var(--ink);}
+.position-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.position-body{padding:12px 14px;}
+.position-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.05);align-items:start;}
+.position-row:last-child{border-bottom:none;}
+.position-topic{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.position-russia{font-size:12px;color:var(--ink2);line-height:1.45;}
+.position-china{font-size:12px;color:var(--ink2);line-height:1.45;}
+.position-russia strong,.position-china strong{font-weight:700;color:var(--ink);}
+.col-heads{display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;padding:4px 14px 6px;background:var(--paper2);}
+.col-head{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+/* COMMERCE TABLE */
+.table-wrap{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:4px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:16px;}
+.table-wrap table{width:100%;border-collapse:collapse;}
+.table-wrap th{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);}
+.table-wrap td{font-size:12.5px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,.06);color:var(--ink2);}
+.table-wrap tr:last-child td{border-bottom:none;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-dn{background:rgba(139,26,26,.1);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+
+/* SCENARIO */
+.scenarios{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.sc-card{border:1px solid rgba(0,0,0,.1);border-radius:4px;overflow:hidden;}
+.sc-head{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.07);}
+.sc-title{font-size:14px;font-weight:700;}
+.sc-proba{font-family:'Courier New',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.sc-body{padding:12px 14px;font-size:13px;color:var(--ink2);line-height:1.6;background:#fff;}
+.sc-body strong{font-weight:700;color:var(--ink);}
+.sc-body p{margin-bottom:6px;}
+.sc-body p:last-child{margin-bottom:0;}
+
+.verdict{background:var(--ink);border-radius:4px;padding:16px 18px;margin:24px 0 16px;}
+.v-tag{background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:10px;}
+.v-t{font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.6;}
+.v-t strong{font-style:normal;color:var(--gold);}
+.v-t p{margin-bottom:6px;}
+.v-t p:last-child{margin-bottom:0;}
+
+.sources{background:var(--paper2);border-radius:4px;padding:12px 16px;margin:12px 0;}
+.sources-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.src-list{display:flex;flex-wrap:wrap;gap:6px;}
+.src-pill{font-size:10px;color:var(--ink3);background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:3px 10px;text-decoration:none;font-style:italic;}
+.src-pill:hover{border-color:var(--red);color:var(--red);}
+
+footer{background:var(--paper2);border-top:1px solid rgba(0,0,0,.1);padding:16px 20px;text-align:center;}
+.foot-brand{font-size:16px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:4px;}
+.foot-brand span{color:var(--red);}
+.foot-note{font-size:10px;color:var(--muted);font-style:italic;line-height:1.5;}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--red);text-decoration:none;}
+
+@media(min-width:640px){
+  .mast-brand{font-size:28px;}
+  .hero-headline{font-size:32px;}
+  .portraits{grid-template-columns:1fr 1fr;}
+  .position-row{grid-template-columns:100px 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="mast-inner">
+    <div class="mast-brand">YAASAP <span>Notes</span></div>
+    <div class="mast-right">
+      <div class="mast-issue">Analyse géopolitique · Spéciale</div>
+      <div class="mast-date" id="liveDate">25 mai 2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-eyebrow">Sommet Pékin · 19–20 mai 2026</div>
+  <div class="hero-headline">Poutine & Xi : le duo qui remodèle l'ordre mondial</div>
+  <div class="hero-deck">Commerce, paix, guerre — cartographie complète des positions russes et chinoises sur l'Ukraine, Israël, l'Iran et la résistance à l'Occident</div>
+  <div class="hero-kpis">
+    <div class="hkpi"><div class="hkpi-v">40×</div><div class="hkpi-l">Rencontres Xi-Poutine</div></div>
+    <div class="hkpi"><div class="hkpi-v">$200B+</div><div class="hkpi-l">Commerce RU-CN/an</div></div>
+    <div class="hkpi"><div class="hkpi-v">+35%</div><div class="hkpi-l">Pétrole RU vers CN</div></div>
+    <div class="hkpi"><div class="hkpi-v">BRICS+</div><div class="hkpi-l">10 membres + Iran</div></div>
+    <div class="hkpi"><div class="hkpi-v">OCS</div><div class="hkpi-l">10 États · Bichkek</div></div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Visite Poutine Pékin</div><div class="kk-v">19–20 mai</div><div class="kk-n">14e visite depuis 2013</div></div>
+    <div class="kk"><div class="kk-l">Commerce bilatéral</div><div class="kk-v up">$200B+</div><div class="kk-n">record depuis 3 ans</div></div>
+    <div class="kk"><div class="kk-l">Pétrole russe vers CN</div><div class="kk-v up">+35% Q1</div><div class="kk-n">profite crise Ormuz</div></div>
+    <div class="kk"><div class="kk-l">Position Iran</div><div class="kk-v am">Rhétorique</div><div class="kk-n">pas d'aide militaire</div></div>
+    <div class="kk"><div class="kk-l">Ukraine</div><div class="kk-v dn">Sans pression</div><div class="kk-n">Xi n'appuie pas Poutine</div></div>
+    <div class="kk"><div class="kk-l">Ordre multipolaire</div><div class="kk-v">BRICS+OCS</div><div class="kk-n">déclaration commune</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- CONTEXTE SOMMET -->
+  <div class="sec"><span class="sec-t">Contexte · Le sommet de tous les paradoxes</span></div>
+  <div class="signal">
+    <div class="signal-headline">Moins d'une semaine après Trump, Xi reçoit Poutine : la Chine au centre de tout</div>
+    <div class="signal-deck">Le 19 mai 2026, Vladimir Poutine arrive à Pékin pour sa 14e visite depuis 2013, cinq jours seulement après que Donald Trump a effectué sa propre visite "historique". Xi Jinping orchestre le grand ballet diplomatique mondial depuis son palais du Peuple.</div>
+    <div class="signal-body">
+      <p>Les deux dirigeants, qui se sont rencontrés près de 40 fois depuis qu'ils exercent le pouvoir simultanément, ont affirmé mercredi la force de leurs relations malgré les turbulences internationales. Xi a évoqué une « confiance politique mutuelle et coordination stratégique avec une persévérance inébranlable qui a résisté à 1 000 épreuves ».</p>
+      <p>Cette visite avait pour Poutine une importance particulière du fait de la venue préalable de Trump et de la guerre en Iran, dont il veut profiter pour rééquilibrer ses relations économiques avec Pékin. Les livraisons de pétrole russe à la Chine ont augmenté de 35% au premier trimestre, tandis que le commerce bilatéral total a dépassé les 200 milliards de dollars par an.</p>
+      <p>Sur le plan diplomatique, les deux dirigeants affichent leur volonté commune de promouvoir un ordre mondial « multipolaire », présenté comme une alternative à la domination occidentale. La relation demeure cependant asymétrique : l'économie chinoise est aujourd'hui largement plus puissante que celle de la Russie.</p>
+    </div>
+    <div class="pull">
+      <div class="pull-t">« Xi Jinping reçoit Poutine dans une posture impériale — la Chine affaiblie n'est plus celle d'il y a dix ans. La Russie a besoin de Pékin ; Pékin n'a pas besoin de Moscou de la même façon. »</div>
+      <div class="pull-a">— Asialyst · Analyse sommet Pékin · 22 mai 2026</div>
+    </div>
+  </div>
+
+  <!-- PORTRAITS -->
+  <div class="sec"><span class="sec-t">Portraits · Deux visions du monde, une alliance de circonstance</span></div>
+  <div class="portraits">
+    <div class="portrait-card">
+      <div class="portrait-head" style="background:rgba(204,0,0,.05);border-left:3px solid var(--russia);">
+        <div class="portrait-flag">🇷🇺</div>
+        <div class="portrait-name" style="color:var(--russia);">Vladimir Poutine</div>
+        <div class="portrait-title">Président de la Fédération de Russie · depuis 2000</div>
+      </div>
+      <div class="portrait-body">
+        <div class="portrait-stat"><span class="ps-label">PIB Russie</span><span class="ps-val am">$2.1T (10e)</span></div>
+        <div class="portrait-stat"><span class="ps-label">Budget défense</span><span class="ps-val dn">~7% PIB</span></div>
+        <div class="portrait-stat"><span class="ps-label">Recettes pétrole/gaz</span><span class="ps-val am">~40% budget</span></div>
+        <div class="portrait-stat"><span class="ps-label">Armes nucléaires</span><span class="ps-val">~6 000 ogives</span></div>
+        <div class="portrait-stat"><span class="ps-label">Pétrole Urals</span><span class="ps-val dn">$46 → $77 (besoin)</span></div>
+        <div class="portrait-stat"><span class="ps-label">Ukraine coût/mois</span><span class="ps-val dn">~$10–15B</span></div>
+      </div>
+    </div>
+    <div class="portrait-card">
+      <div class="portrait-head" style="background:rgba(222,41,16,.05);border-left:3px solid var(--china);">
+        <div class="portrait-flag">🇨🇳</div>
+        <div class="portrait-name" style="color:var(--china);">Xi Jinping</div>
+        <div class="portrait-title">Secrétaire général PCC · Président · depuis 2012</div>
+      </div>
+      <div class="portrait-body">
+        <div class="portrait-stat"><span class="ps-label">PIB Chine</span><span class="ps-val up">$18.5T (2e)</span></div>
+        <div class="portrait-stat"><span class="ps-label">Budget défense</span><span class="ps-val am">~1.7% PIB</span></div>
+        <div class="portrait-stat"><span class="ps-label">Réserves forex</span><span class="ps-val up">$3.3T</span></div>
+        <div class="portrait-stat"><span class="ps-label">Armes nucléaires</span><span class="ps-val">~500 ogives</span></div>
+        <div class="portrait-stat"><span class="ps-label">Pétrole importé Iran</span><span class="ps-val am">~80% exports iraniens</span></div>
+        <div class="portrait-stat"><span class="ps-label">Commerce avec US</span><span class="ps-val dn">$580B · en crise</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITIONS PAR CONFLIT -->
+  <div class="sec"><span class="sec-t">Positions · Ukraine · Iran · Israël</span></div>
+
+  <!-- UKRAINE -->
+  <div class="position-card">
+    <div class="position-head">
+      <div class="position-flag">🇺🇦</div>
+      <div class="position-title">Ukraine — La guerre de Poutine, l'embarras de Xi</div>
+      <div class="position-badge" style="background:rgba(139,26,26,.1);color:var(--red);">Actif · 3 ans</div>
+    </div>
+    <div class="col-heads">
+      <div class="col-head">Sujet</div>
+      <div class="col-head">🇷🇺 Russie</div>
+      <div class="col-head">🇨🇳 Chine</div>
+    </div>
+    <div class="position-body">
+      <div class="position-row">
+        <div class="position-topic">Position officielle</div>
+        <div class="position-russia"><strong>Opération militaire spéciale</strong> — dénazification, démilitarisation, protection des russophones</div>
+        <div class="position-china"><strong>Neutralité affichée</strong> — appelle au dialogue, ne reconnaît pas l'invasion, abstention au Conseil de sécurité</div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Soutien réel</div>
+        <div class="position-russia">Belligérant principal. Budget guerre ~7% PIB, mobilisation 600 000+ soldats</div>
+        <div class="position-china"><strong>Soutien économique indirect majeur</strong> : achète le pétrole russe, fournit composants électroniques, évite de condamner</div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Intérêt stratégique</div>
+        <div class="position-russia">Survie du régime, reconstruction de la sphère d'influence soviétique</div>
+        <div class="position-china">La guerre draine les ressources US loin de l'Asie-Pacifique. <strong>Mais Xi ne veut pas que la Russie perde — ni qu'elle gagne trop vite</strong></div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Pression vers la paix</div>
+        <div class="position-russia">Refuse tout cessez-le-feu sans gains territoriaux majeurs</div>
+        <div class="position-china">Les analystes jugent peu probable que Xi fasse pression sur Poutine pour la paix en Ukraine</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IRAN -->
+  <div class="position-card">
+    <div class="position-head">
+      <div class="position-flag">🇮🇷</div>
+      <div class="position-title">Iran — L'allié encombrant que ni Moscou ni Pékin ne défend vraiment</div>
+      <div class="position-badge" style="background:rgba(138,92,0,.1);color:var(--amber);">Critique · Ormuz fermé</div>
+    </div>
+    <div class="col-heads">
+      <div class="col-head">Sujet</div>
+      <div class="col-head">🇷🇺 Russie</div>
+      <div class="col-head">🇨🇳 Chine</div>
+    </div>
+    <div class="position-body">
+      <div class="position-row">
+        <div class="position-topic">Position officielle</div>
+        <div class="position-russia">Condamne les frappes US-Israël. Déclare que ces frappes violent le droit international</div>
+        <div class="position-china">Même position — condamne rhétoriquement. Les deux pays soulignent la nécessité de revenir au dialogue et aux négociations</div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Aide militaire réelle</div>
+        <div class="position-russia">Accaparée par l'Ukraine, Moscou reste en retrait. <strong>Ne peut pas se permettre un 2e front</strong></div>
+        <div class="position-china">Se limite à un soutien rhétorique. Pékin achète 80% du pétrole iranien — n'a aucun intérêt à une escalade fermant Ormuz durablement</div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Intérêt économique</div>
+        <div class="position-russia"><strong>Bénéficiaire indirect</strong> : la crise Ormuz augmente la demande de pétrole russe. +35% exports vers Chine Q1 2026</div>
+        <div class="position-china">Acheteur de 80% du pétrole iranien — Ormuz fermé est un désastre. <strong>Cherche une sortie de crise discrète</strong></div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Rôle dans la sortie de crise</div>
+        <div class="position-russia">Participe aux négociations mais sans levier sur Iran depuis chute de Assad</div>
+        <div class="position-china">Trump lui a demandé d'aider à la désescalade lors de sa visite. <strong>Pékin = seul interlocuteur crédible avec Téhéran</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISRAËL -->
+  <div class="position-card">
+    <div class="position-head">
+      <div class="position-flag">🇮🇱</div>
+      <div class="position-title">Israël — Des relations commerciales cachées derrière la condamnation</div>
+      <div class="position-badge" style="background:rgba(30,92,50,.1);color:var(--green);">Complexe · Pragmatique</div>
+    </div>
+    <div class="col-heads">
+      <div class="col-head">Sujet</div>
+      <div class="col-head">🇷🇺 Russie</div>
+      <div class="col-head">🇨🇳 Chine</div>
+    </div>
+    <div class="position-body">
+      <div class="position-row">
+        <div class="position-topic">Gaza / Moyen-Orient</div>
+        <div class="position-russia">Critique l'opération à Gaza. Maintient des canaux diplomatiques avec Tel Aviv malgré les tensions</div>
+        <div class="position-china">Condamne officiellement. Soutient la cause palestinienne. <strong>Mais entretient $24B de commerce avec Israël</strong></div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Frappes sur Iran</div>
+        <div class="position-russia">Condamne formellement les frappes US-Israël sur l'Iran</div>
+        <div class="position-china">Même condamnation formelle — mais sans conséquences pratiques sur les relations commerciales</div>
+      </div>
+      <div class="position-row">
+        <div class="position-topic">Intérêt réel</div>
+        <div class="position-russia">La Russie avait des relations étroites avec Israël avant 2022. 1.5M de russophones en Israël. Dialogue maintenu via Chypre</div>
+        <div class="position-china">Technologie israélienne (IA, cybersécurité, agritech) précieuse. <strong>Pékin ne veut pas choisir entre Israël et Iran</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMERCE MONDIAL -->
+  <div class="sec"><span class="sec-t">Commerce mondial · L'architecture alternative au dollar</span></div>
+  <div class="signal">
+    <div class="signal-headline">BRICS, OCS, yuan : la lente construction d'un ordre commercial non-occidental</div>
+    <div class="signal-body">
+      <p>Le calcul diplomatique a fondamentalement changé lorsque l'Iran a rejoint l'OCS en 2021, rejoignant la Chine, la Russie et les pays d'Asie centrale. Téhéran a ensuite intégré les BRICS. Ces structures ne sont pas des pactes militaires, mais créent quelque chose de plus stable : un cadre de consultation permanente et d'alignement stratégique.</p>
+      <p>La Chine et la Russie construisent méthodiquement trois piliers d'un ordre alternatif : <strong>le BRICS+ comme contre-G7</strong> (maintenant 10 membres représentant 45% de la population mondiale), <strong>l'OCS comme contre-OTAN</strong> sans obligation de défense mutuelle, et <strong>la dédollarisation</strong> du commerce bilatéral — les échanges Russie-Chine se font désormais à 90% en yuan et en roubles.</p>
+      <p><strong>Les limites de ce projet :</strong> la relation reste profondément asymétrique. Le PIB chinois est 9 fois supérieur à celui de la Russie. Pékin fixe les prix et les termes des échanges. Moscou est devenu le fournisseur de matières premières de la Chine à prix bradés — une relation de dépendance que Poutine minimise dans ses discours mais que ses économistes reconnaissent en privé.</p>
+    </div>
+  </div>
+
+  <!-- CAPACITÉS MILITAIRES -->
+  <div class="sec"><span class="sec-t">Capacités de résistance · Ce que peut vraiment faire chacun</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Domaine</th><th>🇷🇺 Russie</th><th>🇨🇳 Chine</th><th>Levier US/OTAN</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Nucléaire</strong></td>
+          <td>~6 000 ogives · 1er mondial · arme de dissuasion maximale</td>
+          <td>~500 ogives · montée en puissance rapide (+tripler d'ici 2035)</td>
+          <td><span class="badge-am">Dissuasion mutuelle</span></td>
+        </tr>
+        <tr>
+          <td><strong>Armée conventionnelle</strong></td>
+          <td>Usée par l'Ukraine · réformée par l'expérience des drones · ~1M soldats actifs</td>
+          <td>2.3M soldats · modernisation accélérée · lacunes en projection lointaine</td>
+          <td><span class="badge-up">OTAN supérieur</span></td>
+        </tr>
+        <tr>
+          <td><strong>Cyber / IA militaire</strong></td>
+          <td>Capacités offensives redoutables (SolarWinds, NotPetya) · défense faible</td>
+          <td>Investissement massif · doctrine anti-IA APL active · espionnage systématique</td>
+          <td><span class="badge-am">Course en cours</span></td>
+        </tr>
+        <tr>
+          <td><strong>Économie de guerre</strong></td>
+          <td>PIB de guerre : ~35% de l'économie en mode défense · insoutenable long terme</td>
+          <td>Capacité industrielle de guerre colossale · production d'acier > monde entier</td>
+          <td><span class="badge-dn">CN avantage industriel</span></td>
+        </tr>
+        <tr>
+          <td><strong>Sanctions résistance</strong></td>
+          <td>Adapté via Chine, Inde, Turquie · "flotte fantôme" pour le pétrole</td>
+          <td>Quasi-immunisé grâce aux réserves $3.3T et au marché intérieur</td>
+          <td><span class="badge-am">Efficacité limitée</span></td>
+        </tr>
+        <tr>
+          <td><strong>Taïwan / projection</strong></td>
+          <td>Non concerné directement</td>
+          <td>Capacité de blocus croissante · invasion terrestre encore risquée · 2027–2030 ?</td>
+          <td><span class="badge-up">US Fleet 7th présent</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SCÉNARIOS -->
+  <div class="sec"><span class="sec-t">Scénarios · Ce que ce duo peut déclencher sur les marchés</span></div>
+  <div class="scenarios">
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(139,26,26,.05);">
+        <div class="sc-title" style="color:var(--red);">A · Escalade — Russie et Chine coordonnent leurs crises</div>
+        <div class="sc-proba" style="background:rgba(139,26,26,.1);color:var(--red);">Probabilité 15%</div>
+      </div>
+      <div class="sc-body">
+        <p>Pression simultanée sur deux fronts : <strong>Russie avance en Ukraine, Chine intensifie la pression sur Taïwan</strong>. Les États-Unis, déjà engagés en Iran, sont contraints de gérer trois crises simultanées. Ce scénario est le cauchemar des planificateurs de l'OTAN.</p>
+        <p><strong>Impact marché :</strong> Brent $150+, or $3 500+, S&P −20%, dollar en flight-to-safety initial puis affaibli. Les valeurs défense (LMT, RTX, DASSAULT) explosent. TSMC et les semi-conducteurs s'effondrent (Taïwan).</p>
+      </div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(138,92,0,.05);">
+        <div class="sc-title" style="color:var(--amber);">B · Statu quo — L'alliance de façade continue</div>
+        <div class="sc-proba" style="background:rgba(138,92,0,.1);color:var(--amber);">Probabilité 60%</div>
+      </div>
+      <div class="sc-body">
+        <p>La relation Poutine-Xi reste une alliance de convenance sans engagement militaire mutuel. <strong>La Russie s'enlise, la Chine profite économiquement, l'Iran reste seul</strong>. Le BRICS+ progresse lentement comme alternative commerciale mais sans rupture systémique.</p>
+        <p><strong>Impact marché :</strong> Volatilité persistante sur l'énergie. TTE et les majors pétrolières restent à surpondérer. Yuan s'internationalise progressivement — opportunité sur ETF marchés émergents.</p>
+      </div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(30,92,50,.05);">
+        <div class="sc-title" style="color:var(--green);">C · Détente — Xi joue le médiateur, isole Poutine</div>
+        <div class="sc-proba" style="background:rgba(30,92,50,.1);color:var(--green);">Probabilité 25%</div>
+      </div>
+      <div class="sc-body">
+        <p>Xi, sous pression de Trump lors du sommet du 14 mai, accepte de faciliter une sortie de crise en Iran et de pousser Poutine vers un cessez-le-feu en Ukraine. <strong>La Chine gagne une légitimité internationale massive</strong> et des concessions commerciales de Washington.</p>
+        <p><strong>Impact marché :</strong> Rally mondial massif. Brent chute vers $70. Obligations russes rebondissent. Reconstruction Ukraine = opportunité pour les industriels européens (Saint-Gobain, Vinci). TTE recule sur la baisse du Brent mais rebondit sur la demande de reconstruction.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict YAASAP · Par Yacine AOUABED</div>
+    <div class="v-t">
+      <p><strong>Le duo Poutine-Xi est une alliance asymétrique que la Chine domine</strong> : Pékin achète le pétrole russe à prix cassés, fixe les termes du commerce bilatéral et refuse tout engagement militaire. Poutine a besoin de Xi ; Xi n'a pas besoin de Poutine de la même façon.</p>
+      <p><strong>Sur l'Iran, ni Moscou ni Pékin ne voleront au secours de Téhéran</strong> : la Russie est épuisée par l'Ukraine, la Chine souffre d'Ormuz fermé. Paradoxalement, la crise iranienne bénéficie à la Russie (pétrole +35%) et isole un peu plus la Chine entre ses intérêts économiques iraniens et sa volonté de séduire Washington.</p>
+      <p><strong>Positionnement :</strong> dans le scénario central (B, 60%), surpondérer l'énergie (TTE, XOM), l'or et les valeurs défense. Le BRICS+ progresse — surveiller les ETF marchés émergents hors Chine (Inde, Brésil). <strong>Risque principal : la coordination Russie-Chine lors d'une crise Taïwan simultanée à l'Ukraine</strong> — scénario à 15% mais impact de marché dévastateur.</p>
+    </div>
+  </div>
+
+  <div class="sources">
+    <div class="sources-label">Sources</div>
+    <div class="src-list">
+      <a href="https://fr.euronews.com" target="_blank" class="src-pill">Euronews FR</a>
+      <a href="https://www.20min.ch/fr" target="_blank" class="src-pill">20 Minutes CH</a>
+      <a href="https://asialyst.com/fr" target="_blank" class="src-pill">Asialyst</a>
+      <a href="https://www.rts.ch/info" target="_blank" class="src-pill">RTS Info</a>
+      <a href="https://www.institutmontaigne.org" target="_blank" class="src-pill">Institut Montaigne</a>
+      <a href="https://novastan.org/fr" target="_blank" class="src-pill">Novastan</a>
+      <a href="https://ici.radio-canada.ca" target="_blank" class="src-pill">Radio-Canada</a>
+      <a href="https://www.chroniquepalestine.com" target="_blank" class="src-pill">Chronique Palestine</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <span>Notes</span></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> · Analyse géopolitique spéciale · <span id="liveDateFooter">25 mai 2026</span><br>Informative uniquement · Ne constitue pas un conseil en investissement</div>
+  <div class="foot-nav">
+    <a href="docs/index.html">Archives</a>
+    <a href="yaasap_midterms.html">Midterms 2026</a>
+    <a href="yaasap_oil_gas.html">Oil &amp; Gas</a>
+    <a href="yaasap_ecosysteme_ia.html">IA</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d = new Date();
+  var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var str = d.toLocaleDateString('fr-FR', opts);
+  var e1 = document.getElementById('liveDate');
+  var e2 = document.getElementById('liveDateFooter');
+  if(e1) e1.textContent = str;
+  if(e2) e2.textContent = str;
+})();
+</script>
+</body>
+</html>
