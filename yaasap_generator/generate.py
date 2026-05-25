@@ -234,7 +234,7 @@ HERO1_PH
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-brand">YAASAP <span>Notes</span></div>
+  <div class="foot-brand">YAASAP - Yacine AOUABED <span>Notes</span></div>
   <div class="foot-note">Analyse informative uniquement &mdash; Ne constitue pas un conseil en investissement<br>NOTE_NUM_PH &middot; <span id="liveDateFooter">DATE_PH</span></div>
   <div class="foot-nav">
     <a href="index.html">Archives</a>
@@ -524,7 +524,7 @@ def build_root_index():
 {items}
   </ul>
 </div>
-<footer>YAASAP Notes · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement</footer>
+<footer>YAASAP Notes - Auteur : Yacine AOUABED · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement</footer>
 <script>
   var d = new Date();
   var opts = {{weekday:'long',year:'numeric',month:'long',day:'numeric'}};
