@@ -10,7 +10,10 @@ DATE_STR      = TODAY.strftime("%d %B %Y")
 NUM           = TODAY.strftime("%d/%m/%Y")
 TIMESTAMP     = NOW.strftime("%Y-%m-%d_%H%M")
 DOCS_DIR      = os.path.join(os.path.dirname(__file__), "..", "docs")
-ROOT_DIR      = os.path.join(os.path.dirname(__file__), "..")
+ROOT_DIR      = os.environ.get(
+    "GITHUB_WORKSPACE",
+    os.path.join(os.path.dirname(__file__), "..")
+)
 
 # ── Analyses sectorielles statiques présentes dans le repo ──
 ANALYSES = [
@@ -408,6 +411,8 @@ def build_root_index():
     # Scanner tous les fichiers yaasap_*.html a la racine du repo
     pattern = os.path.join(ROOT_DIR, "yaasap_*.html")
     found_files = sorted(glob.glob(pattern), reverse=True)
+    print(f"ROOT_DIR = {ROOT_DIR}")
+    print(f"Fichiers trouves : {[os.path.basename(f) for f in found_files]}")
 
     # Dictionnaire titre+meta pour les fichiers connus
     KNOWN = {f: (t, m) for f, t, m in ANALYSES}
