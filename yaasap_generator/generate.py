@@ -524,7 +524,7 @@ def build_root_index():
 {items}
   </ul>
 </div>
-<footer>YAASAP Notes - Auteur : Yacine AOUABED · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement</footer>
+<footer>YAASAP Notes · Analyse financière à titre informatif · Ne constitue pas un conseil en investissement</footer>
 <script>
   var d = new Date();
   var opts = {{weekday:'long',year:'numeric',month:'long',day:'numeric'}};
