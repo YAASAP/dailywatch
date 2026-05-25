@@ -234,7 +234,7 @@ HERO1_PH
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-brand">YAASAP <span>Notes</span></div>Auteur = 'Yacine AOUABED'
+  <div class="foot-brand">YAASAP <span>Notes</span></div>'Yacine AOUABED'
   <div class="foot-note">Analyse informative uniquement &mdash; Ne constitue pas un conseil en investissement<br>NOTE_NUM_PH &middot; <span id="liveDateFooter">DATE_PH</span></div>
   <div class="foot-nav">
     <a href="index.html">Archives</a>
