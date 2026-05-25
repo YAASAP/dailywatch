@@ -438,7 +438,7 @@ def main():
     with open(note_today, "w", encoding="utf-8") as f:
         f.write(html)
     print("OK note-du-jour.html")
-    build_index()
+    build_root_index()
     print(f"Publie : https://YAASAP.github.io/dailywatch/docs/")
 def build_root_index():
     import glob
