@@ -48,7 +48,7 @@ jobs:
         run: |
           git config --global user.name  "YAASAP Bot"
           git config --global user.email "bot@yaasap.fr"
-          git add -A docs/
+          git add -A
           git add -f yaasap_generator/.issue_number 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "Aucun changement — skip commit"
