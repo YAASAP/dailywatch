@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Midterms 2026 · Scénarios Trump</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1c1814; --ink2:#3a342c; --ink3:#6a5f52; --muted:#9a8f82;
+  --paper:#f9f6f0; --paper2:#f2ede4; --paper3:#e8e1d5;
+  --red:#8b1a1a; --green:#1e5c32; --amber:#8a5c00;
+  --gold:#f0c956; --blue:#1a3a5c;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:Georgia,'Times New Roman',serif;color:var(--ink);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%;}
+
+/* MASTHEAD */
+.mast{background:var(--ink);padding:16px 20px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+.mast-inner{display:flex;align-items:center;justify-content:space-between;max-width:720px;margin:0 auto;}
+.mast-brand{font-size:22px;font-weight:700;font-style:italic;color:#fff;letter-spacing:-.02em;}
+.mast-brand span{color:var(--red);}
+.mast-right{text-align:right;}
+.mast-issue{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;}
+.mast-date{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px;}
+
+/* HERO BANNER */
+.hero-banner{background:linear-gradient(135deg,#0d1f3c,#1a3a5c);padding:32px 20px;text-align:center;border-bottom:3px solid var(--red);}
+.hero-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.hero-headline{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;max-width:600px;margin-left:auto;margin-right:auto;}
+.hero-deck{font-size:14px;color:rgba(255,255,255,.65);font-style:italic;max-width:520px;margin:0 auto 16px;}
+.hero-kpis{display:flex;justify-content:center;gap:0;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);padding-top:16px;margin-top:4px;}
+.hkpi{padding:8px 16px;border-right:1px solid rgba(255,255,255,.1);text-align:center;}
+.hkpi:last-child{border-right:none;}
+.hkpi-v{font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:var(--gold);line-height:1;}
+.hkpi-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
+
+/* KICKER */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid rgba(0,0,0,.1);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 12px;min-width:max-content;}
+.kk{padding:10px 14px;border-right:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.kk-v{font-size:14px;font-weight:700;color:var(--ink);line-height:1;font-family:'Courier New',monospace;}
+.kk-n{font-size:10px;color:var(--muted);font-style:italic;margin-top:1px;}
+.up{color:var(--green);} .dn{color:var(--red);} .am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:0 20px 40px;}
+
+/* SECTIONS */
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 16px;}
+.sec::before{content:'';width:20px;height:2px;background:var(--red);flex-shrink:0;}
+.sec-t{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);}
+.sec::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1);}
+
+/* SIGNAL */
+.signal{background:#fff;border:1px solid rgba(0,0,0,.08);border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:16px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.signal-headline{font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;}
+.signal-deck{font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);}
+.signal-body{font-size:13px;color:var(--ink2);line-height:1.65;}
+.signal-body strong{font-weight:700;color:var(--ink);}
+.signal-body p{margin-bottom:8px;}
+
+/* PULL QUOTE */
+.pull{border-top:2px solid var(--red);border-bottom:1px solid rgba(0,0,0,.1);padding:10px 14px;margin:14px 0;}
+.pull-t{font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-a{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:5px;}
+
+/* SCENARIO CARDS */
+.scenarios{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+.sc-card{border:1px solid rgba(0,0,0,.1);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.sc-head{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.08);}
+.sc-title{font-size:15px;font-weight:700;}
+.sc-proba{font-family:'Courier New',monospace;font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;}
+.sc-body{padding:14px 16px;}
+.sc-body p{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:8px;}
+.sc-body p:last-child{margin-bottom:0;}
+.sc-body strong{font-weight:700;color:var(--ink);}
+.sc-impacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.sc-impact{background:var(--paper2);border-radius:3px;padding:8px 10px;}
+.sc-impact-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sc-impact-val{font-size:13px;font-weight:700;}
+
+/* TOOL BOXES */
+.toolbox{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:4px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.toolbox-head{padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:center;gap:8px;}
+.toolbox-icon{font-size:16px;}
+.toolbox-title{font-size:13px;font-weight:700;color:var(--ink);}
+.toolbox-status{font-size:10px;font-weight:700;margin-left:auto;padding:2px 8px;border-radius:10px;}
+.toolbox-body{padding:10px 14px;font-size:12.5px;color:var(--ink3);line-height:1.55;}
+.toolbox-body strong{color:var(--ink);font-weight:700;}
+
+/* MARKETS TABLE */
+.table-wrap{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:4px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:16px;}
+.table-wrap table{width:100%;border-collapse:collapse;}
+.table-wrap th{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);}
+.table-wrap td{font-size:12.5px;padding:8px 12px;border-bottom:1px solid rgba(0,0,0,.06);color:var(--ink2);}
+.table-wrap tr:last-child td{border-bottom:none;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-dn{background:rgba(139,26,26,.1);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;margin-bottom:16px;}
+.tl-item{display:flex;gap:12px;padding-bottom:14px;position:relative;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--red);background:var(--paper);flex-shrink:0;margin-top:4px;}
+.tl-line{flex:1;width:2px;background:rgba(0,0,0,.1);margin-top:2px;}
+.tl-item:last-child .tl-line{display:none;}
+.tl-date{font-family:'Courier New',monospace;font-size:11px;font-weight:700;color:var(--red);margin-bottom:2px;}
+.tl-text{font-size:13px;color:var(--ink2);line-height:1.5;}
+.tl-text strong{color:var(--ink);font-weight:700;}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:4px;padding:16px 18px;margin:24px 0 16px;}
+.v-tag{background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:10px;}
+.v-t{font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.6;}
+.v-t strong{font-style:normal;color:var(--gold);}
+.v-t p{margin-bottom:6px;}
+.v-t p:last-child{margin-bottom:0;}
+
+/* SOURCES */
+.sources{background:var(--paper2);border-radius:4px;padding:12px 16px;margin:12px 0;}
+.sources-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.src-list{display:flex;flex-wrap:wrap;gap:6px;}
+.src-pill{font-size:10px;color:var(--ink3);background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:3px 10px;text-decoration:none;font-style:italic;}
+.src-pill:hover{border-color:var(--red);color:var(--red);}
+
+/* FOOTER */
+footer{background:var(--paper2);border-top:1px solid rgba(0,0,0,.1);padding:16px 20px;text-align:center;}
+.foot-brand{font-size:16px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:4px;}
+.foot-brand span{color:var(--red);}
+.foot-note{font-size:10px;color:var(--muted);font-style:italic;line-height:1.5;}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--red);text-decoration:none;}
+
+@media(min-width:640px){
+  .mast-brand{font-size:28px;}
+  .hero-headline{font-size:32px;}
+  .signal-headline{font-size:22px;}
+  .sc-impacts{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="mast">
+  <div class="mast-inner">
+    <div class="mast-brand">YAASAP <span>Notes</span></div>
+    <div class="mast-right">
+      <div class="mast-issue">Analyse spéciale · Géopolitique US</div>
+      <div class="mast-date" id="liveDate">25 mai 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+  <div class="hero-eyebrow">Analyse spéciale · Midterms 2026</div>
+  <div class="hero-headline">Si Trump perd le Congrès : ce qu'il lui reste comme armes</div>
+  <div class="hero-deck">Élections du 3 novembre 2026 — Droits de douane, guerre Iran, Fed, marchés : cartographie complète des pouvoirs résiduels d'un président "lame duck"</div>
+  <div class="hero-kpis">
+    <div class="hkpi"><div class="hkpi-v up">72%</div><div class="hkpi-l">Probab. Dém. House</div></div>
+    <div class="hkpi"><div class="hkpi-v am">+7 pts</div><div class="hkpi-l">Avance Dém. ballot</div></div>
+    <div class="hkpi"><div class="hkpi-v dn">55%</div><div class="hkpi-l">Désapprobation Trump</div></div>
+    <div class="hkpi"><div class="hkpi-v">3 nov.</div><div class="hkpi-l">Date élections</div></div>
+    <div class="hkpi"><div class="hkpi-v dn">+25</div><div class="hkpi-l">Sièges Dém. prévus min.</div></div>
+  </div>
+</div>
+
+<!-- KICKER -->
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Majorité actuelle GOP</div><div class="kk-v">220–215</div><div class="kk-n">House · très fragile</div></div>
+    <div class="kk"><div class="kk-l">Sièges à basculer</div><div class="kk-v am">4 sièges</div><div class="kk-n">pour majorité Dém.</div></div>
+    <div class="kk"><div class="kk-l">Tarifs IEEPA</div><div class="kk-v dn">Annulés</div><div class="kk-n">SCOTUS 20 fév. 2026</div></div>
+    <div class="kk"><div class="kk-l">Section 232 actif</div><div class="kk-v am">10% mondial</div><div class="kk-n">Déjà en vigueur</div></div>
+    <div class="kk"><div class="kk-l">Guerre Iran</div><div class="kk-v dn">90 jours</div><div class="kk-n">War Powers Act deadline</div></div>
+    <div class="kk"><div class="kk-l">Vote war powers</div><div class="kk-v dn">Annulé 22/05</div><div class="kk-n">GOP a fui le vote</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- CONTEXTE -->
+  <div class="sec"><span class="sec-t">Contexte · État des forces</span></div>
+  <div class="signal">
+    <div class="signal-headline">Les midterms 2026 : Trump joue sa capacité à gouverner</div>
+    <div class="signal-deck">Les élections du 3 novembre 2026 mettent en jeu les 435 sièges de la Chambre et 33 sénateurs. La mécanique historique est implacable : le parti du président perd en moyenne 26 sièges aux midterms. Les républicains n'ont que 5 sièges de marge.</div>
+    <div class="signal-body">
+      <p>Les signaux avancés sont tous défavorables à Trump. <strong>Son propre sondeur (Fabrizio Ward) affiche −7 points sur le ballot générique</strong>. La déroute républicaine en Virginie et New Jersey en 2025 a préfiguré le mouvement. James Carville prédit une perte de 25 à 45 sièges pour les républicains.</p>
+      <p>Côté Sénat, les républicains défendent 20 des 33 sièges en jeu, dont plusieurs dans des États swing (Arizona, Nevada, Pennsylvanie). <strong>Les démocrates ont besoin d'un gain net de 4 sièges pour basculer la majorité.</strong></p>
+      <p>Le facteur aggravant pour Trump : la Cour Suprême a rendu le 20 février 2026 un arrêt 6–3 (Roberts) invalidant l'usage d'IEEPA pour lever des droits de douane — au moment précis où les républicains entrent en campagne. Les démocrates en ont fait leur thème central : l'inflation des tarifs contre le portefeuille des Américains.</p>
+    </div>
+    <div class="pull">
+      <div class="pull-t">« Si les démocrates gagnent au moins une chambre, l'agenda législatif de Trump s'arrête net. Il sera alors contraint d'agir exclusivement par décrets exécutifs et pouvoir militaire. »</div>
+      <div class="pull-a">— Boston Globe · Analyse lame duck · janvier 2026</div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="sec"><span class="sec-t">Calendrier · Les jalons critiques</span></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div><div class="tl-date">20 fév. 2026</div><div class="tl-text"><strong>SCOTUS invalide IEEPA tariffs</strong> — L'arrêt Learning Resources v. Trump retire à la présidence son arme tarifaire principale. Trump répond le soir même en activant la Section 122 (10% universel).</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div><div class="tl-date">Fin fév. 2026</div><div class="tl-text"><strong>Début guerre Iran</strong> — Frappes US sans autorisation du Congrès. L'Iran bloque Ormuz. War Powers Act : Trump a 60 jours pour obtenir l'approbation du Congrès ou cesser les hostilités.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div><div class="tl-date">21 mai 2026</div><div class="tl-text"><strong>GOP annule le vote War Powers</strong> — Les républicains avaient les voix pour perdre. L'administration argüe que la trêve "pause" le compteur de 90 jours. Bataille juridique à venir.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div><div class="tl-date">3 nov. 2026</div><div class="tl-text"><strong>Midterms</strong> — Résultats connus dans la nuit. Si les démocrates gagnent la Chambre, Trump entre en "lame duck" actif à partir de janvier 2027.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div><div class="tl-date">Jan. 2027</div><div class="tl-text"><strong>Nouveau Congrès investi</strong> — Si majorité démocrate : investigations, blocage budgétaire, pression sur les décrets exécutifs. Trump gouverne par ordonnances jusqu'en janvier 2029.</div></div>
+    </div>
+  </div>
+
+  <!-- SCÉNARIOS -->
+  <div class="sec"><span class="sec-t">Scénarios · Impact marché et géopolitique</span></div>
+  <div class="scenarios">
+
+    <!-- SCÉNARIO A -->
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(139,26,26,.05);">
+        <div class="sc-title" style="color:var(--red);">A · Démocrates reprennent la Chambre</div>
+        <div class="sc-proba" style="background:rgba(139,26,26,.1);color:var(--red);">Probabilité 55%</div>
+      </div>
+      <div class="sc-body">
+        <p><strong>Pouvoirs législatifs de Trump : bloqués.</strong> Impossible de passer des lois sur les tarifs, le budget militaire, ou la déréglementation. Chaque dollar de dépense devient une négociation. Le mur de la dette et les coupes DOGE se heurtent à un Congrès hostile.</p>
+        <p><strong>Tarifs :</strong> Trump conserve Section 232 (acier/alu/autos, invoquable "sécurité nationale"), Section 301 (représailles commerce déloyal) et la Section 122 déjà activée à 10%. Il ne peut plus aller au-delà sans vote du Congrès — et le Congrès refusera. Le Brent pourrait chuter si les marchés anticipent une désescalade commerciale.</p>
+        <p><strong>Guerre Iran :</strong> Un Congrès démocrate votera immédiatement une résolution War Powers. Trump dispose d'un veto — mais les enquêtes parlementaires sur le conflit commenceront, fragilisant sa position. Risque d'une résolution bipartite veto-proof si l'escalade continue.</p>
+        <p><strong>Fed :</strong> Trump ne peut pas limoger Jerome Powell sans majorité en Chambre pour bloquer les procédures. Mais il peut nommer des membres conciliants au Board si des sièges se libèrent.</p>
+        <div class="sc-impacts">
+          <div class="sc-impact"><div class="sc-impact-label">Bourse US</div><div class="sc-impact-val up">+5–10%</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Brent</div><div class="sc-impact-val dn">−15–20%</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">USD</div><div class="sc-impact-val dn">Affaibli</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Obligations</div><div class="sc-impact-val up">Rally</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCÉNARIO B -->
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(138,92,0,.05);">
+        <div class="sc-title" style="color:var(--amber);">B · Statu quo · GOP conserve les deux chambres</div>
+        <div class="sc-proba" style="background:rgba(138,92,0,.1);color:var(--amber);">Probabilité 30%</div>
+      </div>
+      <div class="sc-body">
+        <p><strong>Trump en position renforcée mais isolée.</strong> Une victoire GOP malgré les vents contraires serait interprétée comme un mandat fort. Mais la marge étroite (−3 à +2 sièges) rend l'agenda législatif tout aussi fragile qu'aujourd'hui.</p>
+        <p><strong>Tarifs :</strong> Le Congrès GOP pourrait voter une nouvelle délégation d'autorité tarifaire pour remplacer IEEPA. Risque d'une guerre commerciale relancée avec la Chine et l'Europe. Les marchés resteraient sous pression inflationniste.</p>
+        <p><strong>Guerre Iran :</strong> Sans pression parlementaire, le conflit peut s'étendre. Ormuz reste un risque systémique. TTE et les majors pétrolières restent à surpondérer.</p>
+        <div class="sc-impacts">
+          <div class="sc-impact"><div class="sc-impact-label">Bourse US</div><div class="sc-impact-val am">Volatile</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Brent</div><div class="sc-impact-val up">$100–130</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">USD</div><div class="sc-impact-val am">Stable</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Or</div><div class="sc-impact-val up">$3 200+</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCÉNARIO C -->
+    <div class="sc-card">
+      <div class="sc-head" style="background:rgba(30,92,50,.05);">
+        <div class="sc-title" style="color:var(--green);">C · Démocrates reprennent les deux chambres</div>
+        <div class="sc-proba" style="background:rgba(30,92,50,.1);color:var(--green);">Probabilité 15%</div>
+      </div>
+      <div class="sc-body">
+        <p><strong>Scénario de paralysie totale.</strong> Sans aucune chambre, Trump ne peut faire passer aucune loi, ne peut bloquer les enquêtes parlementaires, et risque même une procédure d'impeachment. Il gouverne exclusivement par décrets exécutifs jusqu'en janvier 2029.</p>
+        <p><strong>Son arsenal résiduel :</strong> War Powers présidentiels (commander en chef constitutionnel), décrets exécutifs, National Guard, politique étrangère (traités, sanctions par décret), nominations judiciaires. Ce n'est pas rien — mais ses marges budgétaires sont nulles.</p>
+        <p><strong>Marchés :</strong> Rally massif initial. Puis incertitude sur la gouvernabilité 2027–2029. Les tech et pharma rebondissent (fin des enquêtes antitrust GOP), l'énergie recule, le dollar s'affaiblit.</p>
+        <div class="sc-impacts">
+          <div class="sc-impact"><div class="sc-impact-label">S&P 500</div><div class="sc-impact-val up">+8–15%</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Brent</div><div class="sc-impact-val dn">−20–30%</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Tech/Pharma</div><div class="sc-impact-val up">Rally fort</div></div>
+          <div class="sc-impact"><div class="sc-impact-label">Défense</div><div class="sc-impact-val dn">LMT, RTX −</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARSENAL TRUMP POST-DÉFAITE -->
+  <div class="sec"><span class="sec-t">L'arsenal résiduel · Ce que Trump conserve même sans Congrès</span></div>
+
+  <div class="toolbox">
+    <div class="toolbox-head">
+      <div class="toolbox-icon">⚖️</div>
+      <div class="toolbox-title">Tarifs — Section 232 & Section 301</div>
+      <div class="toolbox-status" style="background:rgba(138,92,0,.1);color:var(--amber);">ACTIF · Contesté</div>
+    </div>
+    <div class="toolbox-body">La Section 232 (Trade Expansion Act 1962) permet des tarifs pour <strong>"sécurité nationale"</strong> sans vote du Congrès. Déjà utilisée sur l'acier (25%), l'aluminium (10%), les automobiles. Trump peut étendre à l'électronique, aux semi-conducteurs, aux médicaments. La Section 301 (représailles commerce déloyal) est active contre la Chine. La Section 122, activée le 20 février 2026, permet 10% universel pendant 150 jours — renouvelable. <strong>Contrainte : 24 États ont déjà poursuivi Section 122 en justice.</strong></div>
+  </div>
+
+  <div class="toolbox">
+    <div class="toolbox-head">
+      <div class="toolbox-icon">🪖</div>
+      <div class="toolbox-title">Guerre & War Powers Act</div>
+      <div class="toolbox-status" style="background:rgba(139,26,26,.1);color:var(--red);">CRITIQUE · 90 jours</div>
+    </div>
+    <div class="toolbox-body">Le président est Commander in Chief (Art. II Constitution). Le War Powers Act de 1973 exige une autorisation du Congrès après 60 jours de combats + 30 jours de retrait. <strong>Trump peut opposer son veto à toute résolution — il faut 2/3 des deux chambres pour le renverser.</strong> Actuellement, les démocrates n'ont pas cette supermajorité. L'administration argüe que la trêve Iran "gèle" le compteur. Un Congrès démocrate peut couper les crédits militaires via la loi de finances — l'arme la plus puissante du législatif sur la guerre.</div>
+  </div>
+
+  <div class="toolbox">
+    <div class="toolbox-head">
+      <div class="toolbox-icon">🏦</div>
+      <div class="toolbox-title">Réserve Fédérale</div>
+      <div class="toolbox-status" style="background:rgba(30,92,50,.1);color:var(--green);">LIMITÉ · Powell protégé</div>
+    </div>
+    <div class="toolbox-body">Trump ne peut pas limoger Jerome Powell — la Cour Suprême a laissé en vigueur les décisions inférieures protégeant son poste (cas Lisa Cook). <strong>Mais Powell termine en mai 2026 son mandat de gouverneur (il reste président du Board jusqu'en 2026).</strong> Trump peut nommer un successeur dovish. Il peut aussi nommer des membres au Board si des postes se libèrent. Influence indirecte sur les taux, mais pas de contrôle direct.</div>
+  </div>
+
+  <div class="toolbox">
+    <div class="toolbox-head">
+      <div class="toolbox-icon">📋</div>
+      <div class="toolbox-title">Décrets exécutifs & déréglementation</div>
+      <div class="toolbox-status" style="background:rgba(138,92,0,.1);color:var(--amber);">PUISSANT · Mais réversible</div>
+    </div>
+    <div class="toolbox-body">Trump a signé plus de 100 décrets exécutifs depuis janvier 2025. <strong>Sans Congrès favorable, il accélère les décrets</strong> : déréglementation environnementale, politique migratoire, sanctions étrangères, politique énergétique (permis offshore, pipelines). Risque : un Congrès démocrate peut voter une loi pour annuler des décrets (le Congrès a ce pouvoir). La Cour Suprême (6–3 conservateurs) reste un rempart pour Trump contre les défis judiciaires.</div>
+  </div>
+
+  <div class="toolbox">
+    <div class="toolbox-head">
+      <div class="toolbox-icon">📊</div>
+      <div class="toolbox-title">Bourse & manipulation narrative</div>
+      <div class="toolbox-status" style="background:rgba(30,92,50,.1);color:var(--green);">INFORMEL · Mais réel</div>
+    </div>
+    <div class="toolbox-body">Trump a prouvé en 2025 sa capacité à bouger les marchés par de simples annonces (pauses tarifaires, tweets). <strong>Sans pouvoir législatif, il amplifie cet outil informel</strong> : annonces d'accords commerciaux (vrais ou faux), déclarations sur les taux, signaux sur l'Iran. Un président "lame duck" actif peut créer de la volatilité massive sans aucune base légale. Les investisseurs doivent intégrer ce risque de bruit narratif dans leurs modèles de risque.</div>
+  </div>
+
+  <!-- IMPACT MARCHÉ PAR ACTIF -->
+  <div class="sec"><span class="sec-t">Impact boursier · Valeurs à surveiller selon scénario</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Actif</th><th>Scén. A · Dém. House</th><th>Scén. B · GOP tient</th><th>Scén. C · Dém. tout</th></tr></thead>
+      <tbody>
+        <tr><td><strong>S&P 500</strong></td><td><span class="badge-up">+5–10%</span></td><td><span class="badge-am">Volatile</span></td><td><span class="badge-up">+8–15%</span></td></tr>
+        <tr><td><strong>Brent / TTE</strong></td><td><span class="badge-dn">−15–20%</span></td><td><span class="badge-up">$100–130</span></td><td><span class="badge-dn">−20–30%</span></td></tr>
+        <tr><td><strong>Tech (NVDA, MSFT)</strong></td><td><span class="badge-up">Rally</span></td><td><span class="badge-am">Stable</span></td><td><span class="badge-up">Fort rally</span></td></tr>
+        <tr><td><strong>Défense (LMT, RTX)</strong></td><td><span class="badge-am">−5–10%</span></td><td><span class="badge-up">Soutenu</span></td><td><span class="badge-dn">−15%+</span></td></tr>
+        <tr><td><strong>Or (GLD)</strong></td><td><span class="badge-am">Neutre</span></td><td><span class="badge-up">$3 200+</span></td><td><span class="badge-am">Neutre</span></td></tr>
+        <tr><td><strong>Obligations US</strong></td><td><span class="badge-up">Rally</span></td><td><span class="badge-dn">Pression</span></td><td><span class="badge-up">Fort rally</span></td></tr>
+        <tr><td><strong>USD / DXY</strong></td><td><span class="badge-dn">Affaibli</span></td><td><span class="badge-am">Stable</span></td><td><span class="badge-dn">Nette baisse</span></td></tr>
+        <tr><td><strong>Pharma (PFE, MRK)</strong></td><td><span class="badge-am">Neutre</span></td><td><span class="badge-am">Neutre</span></td><td><span class="badge-up">+IRA reform</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="v-tag">Verdict YAASAP</div>
+    <div class="v-t">
+      <p><strong>Le scénario le plus probable (55%) est une reprise de la Chambre par les démocrates.</strong> La mécanique historique des midterms, les sondages (−7 pts ballot générique, sondeur Trump lui-même) et l'arrêt SCOTUS sur les tarifs convergent. Trump entrera en "lame duck actif" — gouvernant par décrets, mais sans budget ni législation.</p>
+      <p><strong>Ce qu'il conserve malgré tout : Section 232 (tarifs sécurité nationale), Commander in Chief (guerre Iran, veto War Powers), décrets exécutifs, politique étrangère.</strong> Ce qu'il perd : IEEPA (déjà perdu), budget discrétionnaire, agenda législatif, légitimité narrative.</p>
+      <p><strong>Positionnement recommandé avant le 3 novembre :</strong> alléger l'énergie (TTE, XOM) si vous pariez sur le scénario A. Surpondérer tech et obligations US. Garder de l'or comme hedge contre la volatilité narrative de Trump. <strong>Ne pas sous-estimer la capacité de Trump à bouger les marchés par de simples annonces</strong> — son arme la plus difficile à couvrir.</p>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <div class="sources-label">Sources</div>
+    <div class="src-list">
+      <a href="https://www.racetothewh.com/house" target="_blank" class="src-pill">Race to the WH</a>
+      <a href="https://ballotpedia.org" target="_blank" class="src-pill">Ballotpedia</a>
+      <a href="https://www.cfr.org" target="_blank" class="src-pill">Council on Foreign Relations</a>
+      <a href="https://www.piie.com" target="_blank" class="src-pill">PIIE</a>
+      <a href="https://time.com" target="_blank" class="src-pill">Time · War Powers</a>
+      <a href="https://www.bostonglobe.com" target="_blank" class="src-pill">Boston Globe</a>
+      <a href="https://www.pbs.org/newshour" target="_blank" class="src-pill">PBS NewsHour</a>
+      <a href="https://www.nbcnews.com" target="_blank" class="src-pill">NBC News</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">YAASAP <span>Notes</span></div>
+  <div class="foot-note">Analyse spéciale Midterms 2026 · <span id="liveDateFooter">25 mai 2026</span><br>Informative uniquement · Ne constitue pas un conseil en investissement</div>
+  <div class="foot-nav">
+    <a href="docs/index.html">Archives</a>
+    <a href="yaasap_oil_gas.html">Oil &amp; Gas</a>
+    <a href="yaasap_ecosysteme_ia.html">IA</a>
+    <a href="yaasap_spatial_live.html">Spatial</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d = new Date();
+  var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var str = d.toLocaleDateString('fr-FR', opts);
+  var e1 = document.getElementById('liveDate');
+  var e2 = document.getElementById('liveDateFooter');
+  if(e1) e1.textContent = str;
+  if(e2) e2.textContent = str;
+})();
+</script>
+</body>
+</html>
