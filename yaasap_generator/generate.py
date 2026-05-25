@@ -430,7 +430,9 @@ def main():
     sources = get_sources(articles)
     print(f"{len(images)} images, {len(sources)} sources")
     html = generate_html(format_articles(articles), images, sources)
-    note_dated = os.path.join(DOCS_DIR, f"note-{TODAY.isoformat()}.html")
+    import time
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
+note_dated = os.path.join(DOCS_DIR, f"note-{timestamp}.html")
     with open(note_dated, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"OK archive : {os.path.basename(note_dated)}")
