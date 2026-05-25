@@ -428,7 +428,7 @@ def build_root_index():
             meta  = "Analyse YAASAP Notes"
         badge = '<span class="badge-new">Nouveau</span>' if i < 3 else ''
         analyses_items += f"""    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
+      <span class="note-bullet">-</span>
       <div>
         <a class="note-link" href="{fname}">{title}{badge}</a>
         <span class="li-meta">{meta}</span>
