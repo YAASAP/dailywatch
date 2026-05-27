@@ -33,8 +33,11 @@ ANALYSES = [
 # ─────────────────────────────────────────────
 def fetch_news():
     articles = []
-    for q in ["oil gas brent","geopolitics Iran China","artificial intelligence AI",
-               "pharma FDA biotech","technology semiconductor"]:
+for q in ["FIFA World Cup 2026 host economy sponsors",
+           "financial markets stocks earnings results",
+           "central banks interest rates inflation Fed ECB",
+           "mergers acquisitions IPO deals 2026",
+           "geopolitics trade war tariffs sanctions"]:
         try:
             r = requests.get("https://newsapi.org/v2/everything", params={
                 "q": q, "sortBy": "publishedAt", "pageSize": 5,
