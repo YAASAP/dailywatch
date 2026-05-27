@@ -33,16 +33,18 @@ ANALYSES = [
 # ─────────────────────────────────────────────
 def fetch_news():
     articles = []
-for q in ["oil gas brent","geopolitics Iran China","artificial intelligence AI",
-           "pharma FDA biotech","technology semiconductor","FIFA World Cup 2026 host economy sponsors",
-           "financial markets stocks earnings results",
-           "central banks interest rates inflation Fed ECB",
-           "mergers acquisitions IPO deals 2026",
-           "geopolitics trade war tariffs sanctions"]:
+    queries = [
+        "FIFA World Cup 2026 host economy sponsors",
+        "financial markets stocks earnings results",
+        "central banks interest rates inflation Fed ECB",
+        "mergers acquisitions IPO deals 2026",
+        "geopolitics trade war tariffs sanctions",
+    ]
+    for q in queries:
         try:
             r = requests.get("https://newsapi.org/v2/everything", params={
                 "q": q, "sortBy": "publishedAt", "pageSize": 5,
-                "from": (TODAY - datetime.timedelta(days=2)).isoformat(),
+                "from": (TODAY - datetime.timedelta(days=3)).isoformat(),
                 "apiKey": NEWSAPI_KEY
             }, timeout=10)
             data = r.json()
@@ -231,9 +233,9 @@ HERO1_PH
 
 SYSTEM = """Tu es l'analyste senior de YAASAP Notes, publication financiere style Financial Times.
 Tu remplis un template HTML en remplacant les placeholders par du vrai contenu editorial.
-Secteurs couverts ce mois : Coupe du Monde 2026 (impacts economiques, sponsors, droits TV),
+Secteurs couverts : Coupe du Monde 2026 (impacts economiques, sponsors, droits TV, tourisme),
 marches financiers (resultats, fusions-acquisitions, IPO), banques centrales (Fed, BCE, taux),
-geopolitique commerciale (tarifs, sanctions), valeurs a surveiller.
+geopolitique commerciale (tarifs, sanctions, conflits), valeurs a surveiller.
 Style editorial presse financiere serieuse. Analyses tranchees et actionnables.
 Tu reponds UNIQUEMENT avec le HTML complet, sans backticks, sans texte avant ou apres."""
 
@@ -435,7 +437,7 @@ def build_root_index():
             meta  = "Analyse YAASAP Notes"
         badge = '<span class="badge-new">Nouveau</span>' if i < 3 else ''
         analyses_items += f"""    <li class="note-item">
-      <span class="note-bullet">-</span>
+      <span class="note-bullet">&mdash;</span>
       <div>
         <a class="note-link" href="{fname}">{title}{badge}</a>
         <span class="li-meta">{meta}</span>
@@ -477,7 +479,7 @@ body{{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size
 ul.note-list{{list-style:none;padding:0;margin-bottom:28px;}}
 ul.note-list li{{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule2);}}
 ul.note-list li:last-child{{border-bottom:none;}}
-ul.note-list li::before{{ul.note-list li::before{{content:'\\2014';}};color:var(--accent);flex-shrink:0;font-size:14px;}}
+ul.note-list li::before{{content:'&mdash;';color:var(--accent);flex-shrink:0;font-size:14px;}}
 .note-link{{font-family:var(--serif);font-size:15px;color:var(--ink);text-decoration:none;line-height:1.3;}}
 .note-link:hover{{color:var(--accent);}}
 .li-meta{{font-size:10px;color:var(--ink4);font-style:italic;display:block;margin-top:2px;}}
