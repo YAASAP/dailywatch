@@ -36,7 +36,9 @@ def fetch_news():
     queries = [
         "FIFA World Cup 2026 host economy sponsors",
         "financial markets stocks earnings results",
-        "central banks interest rates inflation Fed ECB",
+        "BNP research",
+        "currency exchange EUR USD",
+        "VIX INDEX",
         "mergers acquisitions IPO deals 2026",
         "geopolitics trade war tariffs sanctions",
     ]
