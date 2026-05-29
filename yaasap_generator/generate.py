@@ -26,7 +26,7 @@ ANALYSES = [
     ("yaasap_value.html",         "Actions sous-cotées — PER bas · Fondamentaux solides",        "N°16 · MSFT · PFE · BABA · VZ"),
     ("yaasap_gta6_light.html",    "GTA VI — Cartographie boursière",                            "N°13 · TTWO · SONY · NVDA · Corrélations"),
     ("yaasap_v3_paysage.html",    "Flash Marché MRNA — Bandes de Bollinger",                    "N°12 · Moderna · Scénarios trading"),
-]
+    ]
 
 # ─────────────────────────────────────────────
 # 1. FETCH NEWS
@@ -41,6 +41,11 @@ def fetch_news():
         "VIX INDEX",
         "mergers acquisitions IPO deals 2026",
         "geopolitics trade war tariffs sanctions",
+        "Africa emerging markets economy growth 2026",
+        "Nigeria Kenya Ethiopia GDP investment",
+        "BRICS emerging economies trade currency",
+        "IMF World Bank Africa development loans",
+        "commodity prices copper lithium cobalt Africa",
     ]
     for q in queries:
         try:
