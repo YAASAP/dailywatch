@@ -486,7 +486,7 @@ body{{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size
 ul.note-list{{list-style:none;padding:0;margin-bottom:28px;}}
 ul.note-list li{{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule2);}}
 ul.note-list li:last-child{{border-bottom:none;}}
-ul.note-list li::before{{content:'&mdash;';color:var(--accent);flex-shrink:0;font-size:14px;}}
+ul.note-list li::before{{content:'\2014';';color:var(--accent);flex-shrink:0;font-size:14px;}}
 .note-link{{font-family:var(--serif);font-size:15px;color:var(--ink);text-decoration:none;line-height:1.3;}}
 .note-link:hover{{color:var(--accent);}}
 .li-meta{{font-size:10px;color:var(--ink4);font-style:italic;display:block;margin-top:2px;}}
