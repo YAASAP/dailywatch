@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — argenx · Conserver ou prendre les bénéfices ? · Achat 645€ → 780€</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;--argx:#2d6a8a;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+
+/* HERO POSITION */
+.hero{background:var(--ink);padding:20px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
+.ticker-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.ticker{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.1em;}
+.exchange{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:2px;}
+.stock-name{font-family:var(--serif);font-size:22px;color:#f0ebe3;line-height:1.1;}
+.question{font-family:var(--serif);font-size:14px;color:rgba(255,255,255,.5);font-style:italic;margin-top:4px;}
+.hero-right{}
+
+/* POSITION CARD */
+.position-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:14px 16px;min-width:200px;}
+.pos-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.pos-row:last-child{border-bottom:none;}
+.pos-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:var(--sans);}
+.pos-val{font-family:var(--mono);font-size:14px;font-weight:600;}
+.pos-val.buy{color:var(--gold);}
+.pos-val.now{color:#f0ebe3;}
+.pos-val.gain{color:#4ade80;}
+
+/* STATS STRIP */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(255,255,255,.06);background:var(--ink);}
+.stat{padding:9px 0 9px 14px;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;font-family:var(--sans);}
+.stat-v{font-family:var(--mono);font-size:12px;font-weight:500;color:#f0ebe3;}
+.stat-v.up{color:#4ade80;}.stat-v.dn{color:#f87171;}.stat-v.am{color:#fbbf24;}
+
+/* VERDICT BANNER */
+.verdict-banner{background:rgba(30,92,50,.12);border-top:2px solid var(--green);border-bottom:1px solid rgba(30,92,50,.2);padding:10px 24px;}
+.verdict-banner-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px;}
+.vb-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(30,92,50,.2);border:1px solid rgba(30,92,50,.4);color:#4ade80;padding:3px 10px;border-radius:2px;flex-shrink:0;}
+.vb-text{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--green);}
+.vb-sub{font-size:12px;color:var(--ink3);font-style:italic;font-family:var(--sans);}
+
+/* KICKER */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* GRAPHIQUE */
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:230px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-line{width:16px;height:2px;flex-shrink:0;}
+
+/* NIVEAUX */
+.level-gauge{background:#fff;border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.level-gauge-title{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;font-family:var(--sans);}
+.lv-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule2);}
+.lv-row:last-child{border-bottom:none;}
+.lv-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;width:130px;flex-shrink:0;font-family:var(--sans);}
+.lv-bar-bg{flex:1;height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.lv-bar{height:100%;border-radius:3px;}
+.lv-price{font-family:var(--mono);font-size:13px;font-weight:600;width:58px;text-align:right;flex-shrink:0;}
+.lv-note{font-size:9px;color:var(--ink4);width:150px;text-align:right;flex-shrink:0;font-style:italic;font-family:var(--sans);}
+.lv-buy{background:rgba(200,144,42,.06);border-radius:2px;padding:2px 0;}
+.lv-current{background:rgba(30,92,50,.04);border-radius:2px;padding:2px 0;}
+
+/* STRATÉGIES */
+.strategies{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:20px;}
+.strat-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.strat-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.strat-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);}
+.strat-rec{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:2px;font-family:var(--sans);}
+.strat-body{font-size:13px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.strat-body strong{font-weight:700;color:var(--ink);}
+.strat-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sm-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sm-v{font-family:var(--mono);font-size:12px;font-weight:600;}
+
+/* TABLE */
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:12px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+
+/* CATALYSEURS */
+.catalyseur-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.cat-item{background:#fff;border:1px solid var(--rule);border-left:3px solid;border-radius:0 2px 2px 0;padding:10px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04);display:flex;gap:12px;align-items:flex-start;}
+.cat-date{font-family:var(--mono);font-size:10px;font-weight:600;width:80px;flex-shrink:0;color:var(--ink3);}
+.cat-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;font-family:var(--sans);}
+.cat-body{font-size:12px;color:var(--ink3);line-height:1.45;font-family:var(--sans);}
+.cat-body strong{color:var(--ink2);font-weight:700;}
+.cat-impact{margin-top:4px;font-size:9px;font-weight:700;padding:1px 6px;border-radius:2px;display:inline-block;font-family:var(--sans);}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'—';color:var(--gold);flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(min-width:600px){
+  .strategies{grid-template-columns:1fr 1fr 1fr;}
+  .stats-strip{grid-template-columns:repeat(5,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financière — Usage exclusif clients</div></div>
+  <div class="masthead-center"><span class="issue-line">Analyse de position &nbsp;·&nbsp; argenx ARGX &nbsp;·&nbsp; Achat 645€ &nbsp;·&nbsp; Cours 780€ &nbsp;·&nbsp; Conserver ou vendre ?</span></div>
+  <div class="masthead-right"><div class="mast-date" id="liveDate">12 juin 2026</div></div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="ticker-row">
+          <span class="ticker">ARGX</span>
+          <span class="exchange">Euronext BRU</span>
+          <span class="exchange">Nasdaq ADR</span>
+        </div>
+        <div class="stock-name">argenx SE</div>
+        <div class="question">Votre position : achetée 645€ · cours actuel 780€ · +20.9% · faire quoi ?</div>
+      </div>
+      <div class="hero-right">
+        <div class="position-card">
+          <div class="pos-row"><span class="pos-label">Prix d'achat</span><span class="pos-val buy">645€</span></div>
+          <div class="pos-row"><span class="pos-label">Cours actuel</span><span class="pos-val now">~780€</span></div>
+          <div class="pos-row"><span class="pos-label">Plus-value</span><span class="pos-val gain">+135€ / action</span></div>
+          <div class="pos-row"><span class="pos-label">Performance</span><span class="pos-val gain">+20.9%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-l">Cible consensus</div><div class="stat-v up">830€</div></div>
+      <div class="stat"><div class="stat-l">Cible Stifel (ADR)</div><div class="stat-v up">~1 160€ eq.</div></div>
+      <div class="stat"><div class="stat-l">Upside résiduel</div><div class="stat-v up">+6 à +49%</div></div>
+      <div class="stat"><div class="stat-l">Stop-loss conseillé</div><div class="stat-v am">680€</div></div>
+      <div class="stat"><div class="stat-l">CA Q1 2026</div><div class="stat-v up">+63% YoY</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-banner">
+  <div class="verdict-banner-inner">
+    <span class="vb-tag">Verdict YAASAP</span>
+    <div>
+      <div class="vb-text">Conserver — les catalyseurs majeurs sont devant vous, pas derrière</div>
+      <div class="vb-sub">Vous avez acheté au bon prix · les fondamentaux s'accélèrent · 20 analystes sur 21 recommandent l'achat</div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Votre entrée</div><div class="kk-v">645€</div><div class="kk-n">zone bande basse Bollinger</div></div>
+    <div class="kk"><div class="kk-l">Cours actuel</div><div class="kk-v am">~780€</div><div class="kk-n">+20.9% de plus-value</div></div>
+    <div class="kk"><div class="kk-l">Cible cons. Euronext</div><div class="kk-v up">~830€</div><div class="kk-n">+6.4% résiduel</div></div>
+    <div class="kk"><div class="kk-l">Cible Stifel ADR</div><div class="kk-v up">$1 255</div><div class="kk-n">~1 160€ eq. · +49%</div></div>
+    <div class="kk"><div class="kk-l">Catalyseur T4 26</div><div class="kk-v up">EMPASSION</div><div class="kk-n">résultats MMN empasiprubart</div></div>
+    <div class="kk"><div class="kk-l">20/21 analystes</div><div class="kk-v up">Achat</div><div class="kk-n">1 seul recommande la vente</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ANALYSE DE LA POSITION -->
+  <div class="sec-rule"><span class="sec-rule-text">Analyse · Votre position — un achat réalisé dans d'excellentes conditions</span></div>
+  <div class="lead-headline">645€ était la bonne entrée. 780€ n'est pas la bonne sortie.</div>
+  <div class="lead-deck">Vous avez acheté argenx dans la zone de la bande basse de Bollinger — exactement là où le ratio risque/récompense était le plus favorable. Vendre maintenant à +21% reviendrait à sortir d'une thèse solide trop tôt, avant que ses catalyseurs les plus importants ne se matérialisent.</div>
+
+  <div class="body-text">
+    <p>Votre prix d'achat à 645€ correspond à une zone de marché précise : la correction post-pic de 934€ en avril 2026 avait ramené argenx vers la bande basse des bandes de Bollinger, avec un RSI en territoire proche de la survente. <strong>C'est exactement là qu'on entre sur une entreprise de qualité.</strong> Vous avez exécuté le bon geste au bon moment.</p>
+    <p>La question qui se pose maintenant n'est pas "ai-je bien fait d'acheter ?" — vous avez bien fait. La question est : <strong>est-ce que la thèse qui justifiait l'achat à 645€ est toujours valide à 780€ ?</strong> La réponse est oui, et les données le prouvent point par point.</p>
+  </div>
+
+  <!-- GRAPHIQUE AVEC POSITION -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Votre position dans la structure de prix</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">argenx ARGX · Cours + Bandes Bollinger + votre prix d'entrée et niveaux clés</span>
+    </div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="posChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-line" style="background:#2d6a8a;"></div>ARGX</div>
+      <div class="cl-item"><div class="cl-line" style="background:#e53e3e;border-top:1.5px dashed #e53e3e;height:0;"></div>Bande haute</div>
+      <div class="cl-item"><div class="cl-line" style="background:var(--green);border-top:1.5px dashed var(--green);height:0;"></div>Bande basse</div>
+      <div class="cl-item"><div class="cl-line" style="background:var(--gold);border-top:2px solid var(--gold);height:0;"></div>Votre achat 645€</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(138,92,0,.6);border-top:1.5px dotted rgba(138,92,0,.6);height:0;"></div>Consensus 830€</div>
+      <div class="cl-item"><div class="cl-line" style="background:var(--accent);border-top:1.5px dashed var(--accent);height:0;"></div>Stop-loss 680€</div>
+    </div>
+  </div>
+
+  <!-- NIVEAUX -->
+  <div class="sec-rule"><span class="sec-rule-text">Niveaux · Où vous êtes, où vous allez</span></div>
+  <div class="level-gauge">
+    <div class="level-gauge-title">Structure de prix argenx — Euronext Bruxelles · 12 juin 2026 · Votre position</div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Objectif Stifel eq.</div><div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:var(--green);opacity:.6;"></div></div><div class="lv-price up">~1 160€</div><div class="lv-note">$1 255 ADR · +49%</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Objectif cons. haut</div><div class="lv-bar-bg"><div class="lv-bar" style="width:90%;background:var(--green);opacity:.4;"></div></div><div class="lv-price up">~1 000€</div><div class="lv-note">$1 007 ADR · +28%</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Consensus médian</div><div class="lv-bar-bg"><div class="lv-bar" style="width:68%;background:var(--green);opacity:.5;"></div></div><div class="lv-price up">~830€</div><div class="lv-note">Euronext · +6.4%</div></div>
+    <div class="lv-row lv-current"><div class="lv-label" style="color:var(--green);">Cours actuel</div><div class="lv-bar-bg"><div class="lv-bar" style="width:64%;background:var(--argx);"></div></div><div class="lv-price" style="color:var(--argx);">~780€</div><div class="lv-note">Vous êtes ici · +20.9%</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--accent);">Stop-loss conseillé</div><div class="lv-bar-bg"><div class="lv-bar" style="width:56%;background:var(--accent);opacity:.6;"></div></div><div class="lv-price dn">680€</div><div class="lv-note">Protège +5.4% de gain</div></div>
+    <div class="lv-row lv-buy"><div class="lv-label" style="color:var(--gold);">Votre achat</div><div class="lv-bar-bg"><div class="lv-bar" style="width:50%;background:var(--gold);opacity:.8;"></div></div><div class="lv-price am">645€</div><div class="lv-note">Bande Bollinger basse</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--ink4);">Plancher 52 sem.</div><div class="lv-bar-bg"><div class="lv-bar" style="width:37%;background:var(--ink4);opacity:.4;"></div></div><div class="lv-price" style="color:var(--ink4);">510€</div><div class="lv-note">Plus bas annuel</div></div>
+  </div>
+
+  <!-- POURQUOI CONSERVER -->
+  <div class="sec-rule"><span class="sec-rule-text">La thèse · Cinq raisons de conserver</span></div>
+
+  <div class="body-text">
+    <p><strong>1. Vous avez acheté au bon prix, donc votre marge de sécurité reste large.</strong> Buffett dit qu'une bonne position ne se vend pas simplement parce qu'elle a monté. Elle se vend quand la thèse est invalidée ou quand le cours dépasse significativement la valeur intrinsèque. À 780€ face à un consensus de 830€ et un objectif Stifel de 1 160€ — vous n'êtes pas là.</p>
+    <p><strong>2. Les résultats Q1 2026 confirment l'accélération.</strong> 1.3 milliard de dollars de ventes nettes, +63% sur un an, 17ème trimestre consécutif de croissance. Bénéfice net de 366 millions de dollars, plus que doublé en un an. Ce n'est pas une entreprise qui ralentit. C'est une entreprise qui accélère.</p>
+    <p><strong>3. Le pipeline le plus riche de l'histoire de la société.</strong> D'ici fin 2026, argenx aura quatre molécules en Phase 3 et dix en développement clinique. Chaque readout positif est un catalyseur de re-rating. En vendant maintenant, vous vous privez de ces options gratuites.</p>
+    <p><strong>4. Le consensus est massivement acheteur.</strong> 20 analystes sur 21 recommandent l'achat avec un objectif moyen de $1 006 (ADR) — soit environ 930€ sur Euronext. Un seul recommande la vente. Quand 20 professionnels s'accordent, le risque de se tromper en suivant la thèse est faible.</p>
+    <p><strong>5. La prise de bénéfices à +21% serait une erreur de processus.</strong> Le bon critère n'est pas "j'ai gagné 20%, je sors". Le bon critère est "la thèse est-elle toujours valide ?". Tant que la réponse est oui et que le cours reste au-dessus du stop-loss — on tient.</p>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« Le marché est un instrument de transfert d'argent des impatients vers les patients. » La prise de bénéfices à +21% sur une position construite sur une thèse à 12–18 mois, c'est de l'impatience habillée en prudence.</div>
+    <div class="pull-attr">— Warren Buffett · Adapté à la situation argenx · YAASAP Notes</div>
+  </div>
+
+  <!-- TROIS STRATÉGIES -->
+  <div class="sec-rule"><span class="sec-rule-text">Options · Trois approches selon votre profil</span></div>
+
+  <div class="strategies">
+    <div class="strat-card" style="border-top-color:var(--green);">
+      <div class="strat-head">
+        <div class="strat-title">Conserver intégralement</div>
+        <div class="strat-rec" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.2);">Recommandé</div>
+      </div>
+      <div class="strat-body">
+        Tenir 100% de la position avec stop-loss relevé à <strong>680€</strong>. Profiter des catalyseurs Q4 2026 (EMPASSION MMN) et de l'expansion du label MG. Upside résiduel maximal.
+        <div class="strat-metrics">
+          <div><div class="sm-l">Upside max</div><div class="sm-v up">+49%</div></div>
+          <div><div class="sm-l">Risque (stop)</div><div class="sm-v am">−13% vs cours</div></div>
+          <div><div class="sm-l">Horizon</div><div class="sm-v">12–18 mois</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strat-card" style="border-top-color:var(--amber);">
+      <div class="strat-head">
+        <div class="strat-title">Alléger partiellement (⅓)</div>
+        <div class="strat-rec" style="background:rgba(138,92,0,.1);color:var(--amber);border:1px solid rgba(138,92,0,.2);">Si vous avez besoin de liquidités</div>
+      </div>
+      <div class="strat-body">
+        Vendre <strong>30 à 35% de la position</strong> pour sécuriser ~45€/action de gain, conserver les deux tiers pour les catalyseurs futurs. Compromis entre sécurisation et participation.
+        <div class="strat-metrics">
+          <div><div class="sm-l">Gain sécurisé</div><div class="sm-v up">~45€/action</div></div>
+          <div><div class="sm-l">Position résid.</div><div class="sm-v am">⅔ maintenu</div></div>
+          <div><div class="sm-l">Upside résiduel</div><div class="sm-v up">+49% sur ⅔</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strat-card" style="border-top-color:var(--red);">
+      <div class="strat-head">
+        <div class="strat-title">Vente totale</div>
+        <div class="strat-rec" style="background:rgba(176,28,28,.1);color:var(--red);border:1px solid rgba(176,28,28,.2);">Non recommandée ici</div>
+      </div>
+      <div class="strat-body">
+        Sortie complète à +20.9%. À envisager uniquement si vous avez besoin des fonds ou si le stop-loss (<strong>680€</strong>) est déclenché. La thèse ne justifie pas une sortie totale à ce stade.
+        <div class="strat-metrics">
+          <div><div class="sm-l">Gain encaissé</div><div class="sm-v up">+20.9%</div></div>
+          <div><div class="sm-l">Upside raté</div><div class="sm-v dn">jusqu'à +49%</div></div>
+          <div><div class="sm-l">Justification</div><div class="sm-v dn">Aucune ici</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FONDAMENTAUX -->
+  <div class="sec-rule"><span class="sec-rule-text">Fondamentaux · Ce qui a changé depuis votre achat</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Indicateur</th><th>Au moment de votre achat (~645€)</th><th>Aujourd'hui (~780€)</th><th>Évolution</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:700;">CA trimestriel</td><td style="font-size:11.5px;">~$800M</td><td class="mono up">$1.3Md (+63% YoY)</td><td><span class="badge-up">Accélération</span></td></tr>
+        <tr><td style="font-weight:700;">Bénéfice net</td><td style="font-size:11.5px;">~$169M</td><td class="mono up">$366M (+116%)</td><td><span class="badge-up">Doublé</span></td></tr>
+        <tr><td style="font-weight:700;">Trimestres croiss.</td><td style="font-size:11.5px;">~15</td><td class="mono up">17 consécutifs</td><td><span class="badge-up">Prolongé</span></td></tr>
+        <tr><td style="font-weight:700;">Pipeline molécules</td><td style="font-size:11.5px;">~7</td><td class="mono up">10 en clinique</td><td><span class="badge-up">Élargi</span></td></tr>
+        <tr><td style="font-weight:700;">Consensus analystes</td><td style="font-size:11.5px;">Achat</td><td class="mono up">20/21 Achat</td><td><span class="badge-up">Renforcé</span></td></tr>
+        <tr><td style="font-weight:700;">Objectif Stifel</td><td style="font-size:11.5px;">$1 222</td><td class="mono up">$1 255 (relevé)</td><td><span class="badge-up">Relevé</span></td></tr>
+        <tr><td style="font-weight:700;">Thèse invalidée ?</td><td style="font-size:11.5px;">N/A</td><td class="mono up">Non</td><td><span class="badge-up">Intacte</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CATALYSEURS À VENIR -->
+  <div class="sec-rule"><span class="sec-rule-text">Calendrier · Les catalyseurs que vous manqueriez en vendant aujourd'hui</span></div>
+  <div class="catalyseur-list">
+    <div class="cat-item" style="border-left-color:var(--red);">
+      <div class="cat-date">Mi-2026</div>
+      <div>
+        <div class="cat-title">Décision FDA label élargi MG — seronégatif et oculaire</div>
+        <div class="cat-body">VYVGART pourrait devenir la <strong>première et unique thérapie approuvée sur toutes les formes de myasthénie grave</strong> — y compris les patients seronégatifs (AChR-neg.) et oculaires. Nouvelle population de patients non encore adressée.</div>
+        <div class="cat-impact" style="background:rgba(176,28,28,.1);color:var(--red);border:1px solid rgba(176,28,28,.2);">Binaire · Impact élevé</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--amber);">
+      <div class="cat-date">Mi-2026</div>
+      <div>
+        <div class="cat-title">Décision Phase 2 VARVARA (Delayed Graft Function)</div>
+        <div class="cat-body">Résultats de l'analyse d'efficacité à 52 semaines. Si positif, ouvre un <strong>nouveau marché dans la transplantation rénale</strong> — indication à forte valeur commerciale.</div>
+        <div class="cat-impact" style="background:rgba(138,92,0,.1);color:var(--amber);border:1px solid rgba(138,92,0,.2);">Modéré · Nouveau marché</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--argx);">
+      <div class="cat-date">T3 2026</div>
+      <div>
+        <div class="cat-title">Lancement Phase 3 adimanebart (CMS)</div>
+        <div class="cat-body">Adimanebart, agoniste MuSK pour les syndromes myasthéniques congénitaux, entre en Phase 3. <strong>Élargissement du portefeuille neuromusculaire.</strong> Confirme la pipeline Vision 2030.</div>
+        <div class="cat-impact" style="background:rgba(26,58,92,.08);color:var(--blue);border:1px solid rgba(26,58,92,.2);">Long terme · Confirmation pipeline</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--green);">
+      <div class="cat-date">T4 2026</div>
+      <div>
+        <div class="cat-title">Résultats EMPASSION — Empasiprubart en MMN (Phase 3)</div>
+        <div class="cat-body">C'est <strong>le catalyseur le plus important à court terme</strong>. Si positif, empasiprubart devient le deuxième produit blockbuster d'argenx. La MMN (neuropathie motrice multifocale) est une indication orpheline à forte valeur. Toute la Street attend ce readout.</div>
+        <div class="cat-impact" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.2);">Majeur · Potentiel de re-rating fort</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--green);">
+      <div class="cat-date">2027</div>
+      <div>
+        <div class="cat-title">Lancement VYVGART SC auto-injecteur</div>
+        <div class="cat-body">Passage de la forme IV et SC classique vers un <strong>auto-injecteur sous-cutané</strong> — améliore la commodité patient et la fidélisation. Historiquement, les transitions vers auto-injecteur augmentent la part de marché et réduisent la pression concurrentielle.</div>
+        <div class="cat-impact" style="background:rgba(30,92,50,.08);color:var(--green);border:1px solid rgba(30,92,50,.15);">Commercial · Fidélisation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>La réponse directe à votre question est <strong>conserver</strong>. Pas parce que le titre va forcément monter dans les prochaines semaines — le court terme est toujours incertain. Mais parce que la thèse d'investissement qui justifiait l'achat à 645€ est aujourd'hui plus solide qu'elle ne l'était alors. Les fondamentaux ont progressé, le pipeline s'est élargi, le consensus s'est renforcé.</p>
+      <p><strong>Vous avez construit votre position dans d'excellentes conditions.</strong> 645€ correspondait à la zone de bande basse de Bollinger, avec un RSI en zone de faiblesse — exactement là où le risque de baisse supplémentaire était le plus limité et le potentiel de hausse le plus asymétrique. Ce type d'entrée mérite qu'on lui laisse le temps de se matérialiser.</p>
+      <p><strong>La seule action immédiate recommandée :</strong> relevez votre stop-loss de la bande basse (~640€) à 680€. Cette protection vous garantit de sortir avec un gain positif si le marché se retourne brutalement, tout en laissant courir la position vers les catalyseurs Q4 2026 — particulièrement EMPASSION MMN dont la lecture pourrait déclencher un fort re-rating.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>Action recommandée :</strong> conserver 100% de la position · ne pas vendre</div>
+      <div class="v-item"><strong>Stop-loss à relever :</strong> de ~640€ à 680€ — protège désormais un gain positif d'environ +5%</div>
+      <div class="v-item"><strong>Horizon :</strong> tenir jusqu'au readout EMPASSION (T4 2026) au minimum</div>
+      <div class="v-item"><strong>Cible intermédiaire :</strong> consensus médian 830€ (+6.4%) puis cible Stifel ~1 160€ (+49%)</div>
+      <div class="v-item"><strong>Alléger ⅓ uniquement</strong> si vous avez besoin de liquidités spécifiques — pas pour des raisons de marché</div>
+      <div class="v-item"><strong>Vendre totalement</strong> uniquement si le stop-loss à 680€ est déclenché sur clôture</div>
+    </div>
+    <div class="v-disclaimer">Analyse informative — YAASAP Notes · Yacine AOUABED · 12 juin 2026. Sources : argenx Form 6-K SEC, Investing.com, Ideal-Investisseur, Boursorama, TipRanks, Danelfin. Ne constitue pas un conseil en investissement au sens réglementaire.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; argenx ARGX · Position 645€ → 780€ · <span id="footDate">12 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_argenx.html">Analyse ARGX complète</a>
+    <a href="yaasap_volatilite_v2.html">Volatilité v2</a>
+    <a href="yaasap_portefeuille.html">Portefeuille</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+})();
+
+(function(){
+  var ctx=document.getElementById('posChart').getContext('2d');
+  var labels=['Jan','Fév','Mar','Avr-pic','Mai','Achat645','Cours780'];
+  var prices=[620,680,780,934,820,645,780];
+  var bollH= [680,730,830,950,920,710,820];
+  var bollL= [520,560,610,730,780,580,640];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'Bande haute',data:bollH,borderColor:'rgba(229,62,62,0.5)',borderWidth:1.2,borderDash:[5,3],pointRadius:0,fill:false,tension:0.4},
+      {label:'Bande basse',data:bollL,borderColor:'rgba(30,92,50,0.5)',borderWidth:1.2,borderDash:[5,3],pointRadius:0,fill:false,tension:0.4},
+      {label:'ARGX',data:prices,borderColor:'#2d6a8a',borderWidth:2.5,pointRadius:4,pointBackgroundColor:function(ctx){
+        var i=ctx.dataIndex;
+        if(i===5)return'#c8902a';
+        if(i===6)return'#2d6a8a';
+        return'#2d6a8a';
+      },fill:false,tension:0.35}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(45,106,138,.4)',borderWidth:1,padding:8,
+          callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : '+ctx.parsed.y.toFixed(0)+'€';}}
+        }
+      },
+      scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},
+        y:{min:450,max:1000,ticks:{color:tc,font:tf,callback:function(v){return v+'€';}},grid:{color:gc}}}
+    },
+    plugins:[{
+      id:'annotations',
+      afterDraw:function(chart){
+        var ctx2=chart.ctx,yA=chart.scales.y,xA=chart.scales.x;
+        [
+          {price:830,color:'rgba(138,92,0,.5)',label:'Consensus 830€',dash:[6,4]},
+          {price:780,color:'rgba(45,106,138,.7)',label:'Cours ~780€',dash:[3,3]},
+          {price:680,color:'rgba(139,58,26,.6)',label:'Stop-loss 680€',dash:[5,4]},
+          {price:645,color:'rgba(200,144,42,.8)',label:'Votre achat 645€',dash:[2,2]}
+        ].forEach(function(lv){
+          if(lv.price<yA.min||lv.price>yA.max)return;
+          var y=yA.getPixelForValue(lv.price);
+          ctx2.save();
+          ctx2.beginPath();ctx2.setLineDash(lv.dash);
+          ctx2.strokeStyle=lv.color;ctx2.lineWidth=1.2;
+          ctx2.moveTo(xA.left,y);ctx2.lineTo(xA.right,y);ctx2.stroke();
+          ctx2.setLineDash([]);ctx2.fillStyle=lv.color;
+          ctx2.font="9px 'Source Code Pro',monospace";
+          ctx2.fillText(lv.label,xA.right-90,y-3);
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+})();
+</script>
+</body>
+</html>
