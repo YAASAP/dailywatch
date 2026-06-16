@@ -183,6 +183,21 @@ footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 
   <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financière — Usage exclusif clients</div></div>
   <div class="masthead-center"><span class="issue-line">Analyse de position &nbsp;·&nbsp; argenx ARGX &nbsp;·&nbsp; Achat 645€ &nbsp;·&nbsp; Cours 780€ &nbsp;·&nbsp; Conserver ou vendre ?</span></div>
   <div class="masthead-right"><div class="mast-date" id="liveDate">12 juin 2026</div></div>
+<div id="yaasap-qr-hdr" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
+  <div id="qr-hdr-canvas" style="background:#fff;padding:5px;border-radius:3px;line-height:0;"></div>
+  <div style="font-size:7px;color:rgba(255,255,255,.35);letter-spacing:.07em;text-transform:uppercase;font-family:'Source Code Pro','Courier New',monospace;white-space:nowrap;">dailywatch</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  function tryQR(){
+    var el=document.getElementById('qr-hdr-canvas');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:52,height:52,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  }
+  tryQR();
+})();
+</script>
 </div>
 
 <div class="hero">
@@ -436,6 +451,14 @@ footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 
     <a href="yaasap_volatilite_v2.html">Volatilité v2</a>
     <a href="yaasap_portefeuille.html">Portefeuille</a>
   </div>
+
+<script>
+(function(){
+  var el=document.getElementById('qr-canvas');
+  if(!el||typeof QRCode==='undefined')return;
+  new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:96,height:96,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+})();
+</script>
 </footer>
 
 <script>
