@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)file:///C:/Users/yaoua/Downloads/yaasap_n17_v2.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>YAASAP — Note Energie #17</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper: #f9f6f0;
+  --paper2: #f2ede4;
+  --paper3: #e8e1d5;
+  --ink: #1c1814;
+  --ink2: #3a342c;
+  --ink3: #6a5f52;
+  --ink4: #9a8f82;
+  --rule: rgba(0,0,0,0.12);
+  --rule2: rgba(0,0,0,0.07);
+  --accent: #8b3a1a;   /* rouge brique éditorial */
+  --accent2: #a04820;
+  --blue: #1a3a5c;
+  --blue2: #2a5080;
+  --green: #1e5c32;
+  --amber: #8a5c00;
+  --serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --sans: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Source Code Pro', 'Courier New', monospace;
+}
+
+html, body {
+  width: 1122px;
+  background: var(--paper);
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-size: 10px;
+}
+
+/* ═══ PAGE WRAPPER ═══ */
+.page {
+  width: 1122px;
+  height: 794px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  page-break-after: always;
+}
+
+/* ═══ MASTHEAD ═══ */
+.masthead {
+  border-bottom: 3px double var(--rule);
+  padding: 10px 32px 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  background: var(--paper);
+}
+.masthead-left {}
+.pub-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.pub-name em { font-style: italic; color: var(--accent); }
+.pub-tagline {
+  font-family: var(--sans);
+  font-size: 8px;
+  color: var(--ink4);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.masthead-center {
+  text-align: center;
+}
+.issue-line {
+  font-family: var(--sans);
+  font-size: 8px;
+  color: var(--ink3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 2px 0;
+}
+.masthead-right {
+  text-align: right;
+}
+.date-block {
+  font-family: var(--serif);
+  font-size: 9px;
+  color: var(--ink3);
+  font-style: italic;
+}
+.price-tag {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+}
+.price-label {
+  font-family: var(--sans);
+  font-size: 7px;
+  color: var(--ink4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ═══ KICKER BAR ═══ */
+.kicker-bar {
+  display: flex;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper2);
+  padding: 0 32px;
+}
+.kicker-item {
+  flex: 1;
+  padding: 5px 0;
+  border-right: 1px solid var(--rule2);
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.kicker-item:first-child { padding-left: 0; }
+.kicker-item:last-child { border-right: none; }
+.k-label {
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  font-family: var(--sans);
+  margin-bottom: 1px;
+}
+.k-val {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.k-note { font-size: 8px; color: var(--ink4); margin-top: 1px; font-style: italic; }
+.k-up { color: var(--green); }
+.k-dn { color: var(--accent); }
+.k-am { color: var(--amber); }
+
+/* ═══ MAIN BODY ═══ */
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.2fr;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.col {
+  padding: 14px 16px;
+  overflow: hidden;
+  border-right: 1px solid var(--rule2);
+}
+.col:last-child { border-right: none; }
+.col-narrow { padding: 14px 14px; }
+
+/* ═══ TYPOGRAPHIE EDITORIALE ═══ */
+.section-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.section-rule::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.section-rule-text {
+  font-family: var(--sans);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.section-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.headline {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+.headline-sub {
+  font-family: var(--serif);
+  font-size: 9.5px;
+  font-style: italic;
+  color: var(--ink3);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--rule2);
+  padding-bottom: 6px;
+}
+.body-text {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  line-height: 1.6;
+  color: var(--ink2);
+  margin-bottom: 7px;
+}
+.body-text strong { font-weight: 700; color: var(--ink); }
+.body-text em { font-style: italic; color: var(--ink3); }
+
+/* ═══ PULL QUOTE ═══ */
+.pull-quote {
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 10px;
+  margin: 8px 0;
+}
+.pull-quote-text {
+  font-family: var(--serif);
+  font-size: 10px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.45;
+}
+.pull-quote-attr {
+  font-size: 7px;
+  color: var(--ink4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-family: var(--sans);
+}
+
+/* ═══ DATA TABLE ═══ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+  font-family: var(--sans);
+}
+.data-table thead tr {
+  border-bottom: 1.5px solid var(--ink);
+}
+.data-table th {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  padding: 3px 5px;
+  text-align: left;
+}
+.data-table td {
+  font-size: 8.5px;
+  padding: 3.5px 5px;
+  border-bottom: 1px solid var(--rule2);
+  color: var(--ink2);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table td.mono { font-family: var(--mono); font-size: 8px; }
+.t-up { color: var(--green); font-weight: 600; }
+.t-dn { color: var(--accent); font-weight: 600; }
+.t-am { color: var(--amber); font-weight: 600; }
+.t-muted { color: var(--ink4); }
+.t-bold { font-weight: 700; color: var(--ink); }
+
+/* ═══ INFOBOX ═══ */
+.infobox {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+.infobox-title {
+  font-family: var(--sans);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.infobox-body {
+  font-size: 8px;
+  color: var(--ink2);
+  line-height: 1.55;
+}
+.infobox-body strong { font-weight: 700; color: var(--ink); }
+
+/* ═══ ROUTE ITEM ═══ */
+.route-item {
+  display: flex;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule2);
+  align-items: flex-start;
+}
+.route-item:last-child { border-bottom: none; }
+.route-flag {
+  font-size: 13px;
+  line-height: 1.2;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.route-content {}
+.route-name {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1px;
+}
+.route-cap {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  float: right;
+  margin-top: -16px;
+}
+.route-desc {
+  font-size: 7.5px;
+  color: var(--ink3);
+  line-height: 1.4;
+}
+.route-status {
+  display: inline-block;
+  font-size: 7px;
+  font-family: var(--sans);
+  letter-spacing: 0.07em;
+  color: var(--ink4);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* ═══ TIMELINE ═══ */
+.tl { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 8px; padding-bottom: 7px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14px;
+  flex-shrink: 0;
+}
+.tl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--ink3);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.tl-line {
+  flex: 1;
+  width: 1px;
+  background: var(--rule);
+  margin-top: 3px;
+}
+.tl-item:last-child .tl-line { display: none; }
+.tl-year {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 1px;
+  line-height: 1;
+  margin-top: 2px;
+}
+.tl-text {
+  font-size: 7.5px;
+  color: var(--ink3);
+  line-height: 1.4;
+}
+.tl-text strong { color: var(--ink); font-weight: 700; }
+
+/* ═══ SCENARIO BOX ═══ */
+.scenario-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+.sc-box {
+  border: 1px solid var(--rule);
+  border-top: 2px solid;
+  padding: 6px 7px;
+  background: var(--paper);
+}
+.sc-label {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.sc-proba {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.sc-detail {
+  font-size: 7.5px;
+  color: var(--ink3);
+  line-height: 1.4;
+}
+.sc-detail strong { color: var(--ink); font-weight: 700; }
+
+/* ═══ SIDEBAR ITEMS ═══ */
+.sidebar-item {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule2);
+}
+.sidebar-item:last-child { border-bottom: none; }
+.sidebar-head {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.sidebar-body {
+  font-size: 7.5px;
+  color: var(--ink3);
+  line-height: 1.45;
+}
+.sidebar-body strong { font-weight: 700; color: var(--ink2); }
+
+/* ═══ FOOTER ═══ */
+.footer {
+  border-top: 1.5px solid var(--rule);
+  padding: 5px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--paper);
+  flex-shrink: 0;
+}
+.footer-left {
+  font-size: 7px;
+  color: var(--ink4);
+  font-style: italic;
+  max-width: 680px;
+  line-height: 1.4;
+}
+.footer-right {
+  font-family: var(--mono);
+  font-size: 8px;
+  color: var(--ink3);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ═══ DIVIDER ═══ */
+.col-div {
+  height: 1px;
+  background: var(--rule);
+  margin: 8px 0;
+}
+
+/* ═══ MINI STAT ROW ═══ */
+.stat-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 8px;
+  border: 1px solid var(--rule);
+}
+.stat-cell {
+  flex: 1;
+  padding: 6px 8px;
+  border-right: 1px solid var(--rule2);
+  text-align: center;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.stat-label {
+  font-size: 7px;
+  color: var(--ink4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 1 — ANALYSE OIL & GAS · MAJORS · TTE
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="pub-name">YAASAP <em>Consulting</em></div>
+      <div class="pub-tagline">Note Énergie &amp; Marchés — Usage exclusif clients</div>
+    </div>
+    <div class="masthead-center">
+      <div class="issue-line">Note N°17 &nbsp;·&nbsp; Secteur Oil &amp; Gas &nbsp;·&nbsp; Majors pétrolières &nbsp;·&nbsp; TotalEnergies focus</div>
+    </div>
+    <div class="masthead-right">
+      <div class="date-block">20 mai 2026</div>
+      <div class="price-tag">$110</div>
+      <div class="price-label">Brent · cours actuel</div>
+    </div>
+  </div>
+
+  <div class="kicker-bar">
+    <div class="kicker-item"><div class="k-label">Brent YTD</div><div class="k-val k-up">+50%</div><div class="k-note">$73 → $110</div></div>
+    <div class="kicker-item"><div class="k-label">TTE bénéfice Q1</div><div class="k-val k-up">+51%</div><div class="k-note">$5.4B net ajusté</div></div>
+    <div class="kicker-item"><div class="k-label">TTE PER fwd 2026</div><div class="k-val k-am">8.3x</div><div class="k-note">vs S&amp;P 21x moyen</div></div>
+    <div class="kicker-item"><div class="k-label">Dividende TTE</div><div class="k-val k-am">5.2%</div><div class="k-note">€0.90/trim. · +5.9%</div></div>
+    <div class="kicker-item"><div class="k-label">Prod. arrêtée TTE</div><div class="k-val k-dn">−15%</div><div class="k-note">Qatar/Irak/EAU off.</div></div>
+    <div class="kicker-item"><div class="k-label">Cash-flow TTE Q1</div><div class="k-val k-up">$8.6B</div><div class="k-note">+23% sur un an</div></div>
+    <div class="kicker-item"><div class="k-label">Renouvelable TTE</div><div class="k-val">35.6 GW</div><div class="k-note">+8 GW sur 12 mois</div></div>
+  </div>
+
+  <div class="body">
+    <!-- COL 1 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">TotalEnergies — Dossier prioritaire</span></div>
+      <div class="headline">TotalEnergies : résilience structurelle face au choc Ormuz</div>
+      <div class="headline-sub">Le géant français affiche la plus forte croissance parmi les grandes majors au T1 2026, malgré l'arrêt de 15% de sa production régionale. La clé : une architecture de portefeuille délibérément construite hors Moyen-Orient.</div>
+
+      <div class="body-text">
+        Au premier trimestre 2026, TotalEnergies a publié un <strong>résultat net ajusté de $5,4 milliards (+29% sur un an)</strong> et un cash-flow opérationnel de $8,6 milliards (+23%), dans un contexte de blocage progressif du détroit d'Ormuz qui a conduit le groupe à suspendre ses activités au Qatar, en Irak et en offshore aux Émirats arabes unis — soit 15% de la production totale.
+      </div>
+
+      <div class="pull-quote">
+        <div class="pull-quote-text">« Une hausse de $8 par baril du Brent suffit à compenser l'intégralité du cash-flow attendu de nos actifs au Moyen-Orient en 2026. »</div>
+        <div class="pull-quote-attr">— TotalEnergies SE · Communiqué investisseurs · 13 mars 2026</div>
+      </div>
+
+      <div class="body-text">
+        L'équation économique est simple : les actifs moyen-orientaux sont soumis à une fiscalité structurellement plus élevée. Résultat : les 15% de production arrêtée ne représentent que <strong>10% du cash-flow amont</strong>. Or le Brent a progressé de plus de $50/b depuis janvier — soit six fois le seuil de compensation. La stratégie de croissance 2026 est délibérément concentrée hors de la région : <strong>Alaska LNG</strong> (accord 2 Mt/an sur 20 ans), Afrique profonde, Brésil, Guyane.
+      </div>
+
+      <div class="section-rule" style="margin-top:4px;"><span class="section-rule-text">Analyse technique — Bandes de Bollinger</span></div>
+
+      <table class="data-table">
+        <thead><tr><th>Niveau</th><th>Prix</th><th>Signal</th></tr></thead>
+        <tbody>
+          <tr><td>Résistance absolue</td><td class="mono t-muted">€ 87.00</td><td class="t-muted">Pic récent</td></tr>
+          <tr><td>BB Supérieure (+2σ)</td><td class="mono t-up">~ €86.00</td><td class="t-up">Surachat</td></tr>
+          <tr><td><strong>▶ Cours actuel</strong></td><td class="mono t-bold">€ 80.28</td><td class="t-bold">Phase de digestion</td></tr>
+          <tr><td>Médiane BB (MM20)</td><td class="mono t-am">~ €77.00</td><td class="t-am">Support technique</td></tr>
+          <tr><td style="color:var(--accent);font-weight:700;">Zone achat cible</td><td class="mono t-am">€74 – 78</td><td style="color:var(--accent);">Entrée optimale</td></tr>
+          <tr><td>BB Inférieure (−2σ)</td><td class="mono t-dn">~ €72.00</td><td class="t-dn">Survente extrême</td></tr>
+          <tr><td>Support absolu</td><td class="mono t-muted">€ 70.00</td><td class="t-muted">Stop-loss</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COL 2 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">Comparatif des majors pétrolières</span></div>
+
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Major</th><th>Cours</th><th>PER Fwd</th><th>Dividende</th><th>Upside</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="t-bold" style="color:#0055a4;">TTE ★</td>
+            <td class="mono">€80.3</td>
+            <td class="mono t-up">8.3x</td>
+            <td class="mono t-am">5.2%</td>
+            <td class="mono t-up">~+5%</td>
+            <td style="font-size:7.5px;color:var(--green);font-weight:700;">Meilleure valeur</td>
+          </tr>
+          <tr>
+            <td class="t-bold" style="color:#f47920;">COP</td>
+            <td class="mono">$89</td>
+            <td class="mono t-up">10.5x</td>
+            <td class="mono">3.5%</td>
+            <td class="mono t-up">+20%</td>
+            <td style="font-size:7.5px;color:var(--green);">Strong Buy</td>
+          </tr>
+          <tr>
+            <td class="t-bold" style="color:#d52b1e;">XOM</td>
+            <td class="mono">$114</td>
+            <td class="mono">14.0x</td>
+            <td class="mono">2.6%</td>
+            <td class="mono t-up">+15%</td>
+            <td style="font-size:7.5px;">Buy modéré</td>
+          </tr>
+          <tr>
+            <td class="t-bold" style="color:#0e4c96;">CVX</td>
+            <td class="mono">$196</td>
+            <td class="mono">18.0x</td>
+            <td class="mono">3.8%</td>
+            <td class="mono t-up">+17.9%</td>
+            <td style="font-size:7.5px;">Strong Buy</td>
+          </tr>
+          <tr>
+            <td class="t-bold" style="color:#e8000d;">SHEL</td>
+            <td class="mono">£30+</td>
+            <td class="mono">10.5x</td>
+            <td class="mono">3.7%</td>
+            <td class="mono t-up">+12%</td>
+            <td style="font-size:7.5px;">Rachat actif</td>
+          </tr>
+          <tr>
+            <td class="t-bold" style="color:#c0392b;">BP</td>
+            <td class="mono">$35</td>
+            <td class="mono t-dn">148x ⚠</td>
+            <td class="mono">5.4%</td>
+            <td class="mono t-dn">Risque</td>
+            <td style="font-size:7.5px;color:var(--accent);">Éviter</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-rule"><span class="section-rule-text">Corrélations avec le Brent (ρ Pearson · 6 mois)</span></div>
+
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Paire</th><th>ρ</th><th>Interprétation</th></tr></thead>
+        <tbody>
+          <tr><td style="color:#0055a4;font-weight:700;">TTE / Brent</td><td class="mono t-up">0.89</td><td style="font-size:7.5px;">Très forte · GNL + pétrole intégré</td></tr>
+          <tr><td style="color:#d52b1e;">XOM / Brent</td><td class="mono t-up">0.85</td><td style="font-size:7.5px;">Forte · intégré US</td></tr>
+          <tr><td style="color:#0e4c96;">CVX / Brent</td><td class="mono t-up">0.81</td><td style="font-size:7.5px;">Forte · Permian Basin</td></tr>
+          <tr><td style="color:#f47920;">COP / Brent</td><td class="mono t-am">0.76</td><td style="font-size:7.5px;">Bonne · E&amp;P pure</td></tr>
+          <tr><td style="color:#009900;">BP / Brent</td><td class="mono t-dn">0.41</td><td style="font-size:7.5px;">Faible · dette/restructuration</td></tr>
+        </tbody>
+      </table>
+
+      <div class="infobox">
+        <div class="infobox-title">Métriques TotalEnergies — Résultats Q1 2026</div>
+        <div class="infobox-body">
+          <strong>Capitalisation :</strong> €182.7B · <strong>CA 2025 :</strong> $201B (6e rang mondial) · <strong>Croissance organique :</strong> +4% · <strong>Gearing :</strong> 15.5% · <strong>Capacité renouvelable :</strong> 35.6 GW installés · <strong>Production électrique :</strong> 11.7 TWh (+20% renouvelable) · <strong>Emploi :</strong> 103 000 personnes dans 130 pays · <strong>Objectif 2030 :</strong> 100 GW ENR · <strong>Neutralité carbone :</strong> 2050
+        </div>
+      </div>
+
+      <div class="section-rule" style="margin-top:6px;"><span class="section-rule-text">Agenda catalyseurs 2026</span></div>
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Événement</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td class="mono t-am">Juin 2026</td><td style="font-size:8px;">AGM TTE · vote dividende solde FY25</td><td style="font-size:7.5px;" class="t-up">Positif</td></tr>
+          <tr><td class="mono t-am">Juil. 2026</td><td style="font-size:8px;">Résultats Q2 · paiement dividende</td><td style="font-size:7.5px;" class="t-up">Fort</td></tr>
+          <tr><td class="mono">H2 2026</td><td style="font-size:8px;">Résolution possible conflit MO</td><td style="font-size:7.5px;" class="t-up">Majeur +</td></tr>
+          <tr><td class="mono">2030</td><td style="font-size:8px;">100 GW ENR — objectif TTE</td><td style="font-size:7.5px;">Long terme</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COL 3 SIDEBAR -->
+    <div class="col col-narrow">
+      <div class="section-rule"><span class="section-rule-text">Risques sectoriels</span></div>
+      <div class="sidebar-item">
+        <div class="sidebar-head" style="color:var(--accent);">Chute du Brent</div>
+        <div class="sidebar-body">Si Brent retombe à $60–70, les rachats TTE sont réduits à $750M/trimestre. Risque principal du secteur pour 2026–2027.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head" style="color:var(--amber);">Perte production MO</div>
+        <div class="sidebar-body">15% de production TTE immobilisée. Escalade = risque négatif additionnel ; résolution = catalyseur positif majeur estimé à +€6–8 de cours.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head" style="color:var(--green);">Transition énergétique</div>
+        <div class="sidebar-body">TTE seule major avec plan ENR crédible : 35.6 GW installés, +8 GW/an. Integrated Power = $545M résultat Q1. Prime de valorisation croissante.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head" style="color:var(--green);">GNL Alaska — 20 ans</div>
+        <div class="sidebar-body">Accord 2 Mt/an sur 20 ans finalisé. TTE est le 2e producteur mondial GNL. Revenus récurrents non exposés au risque Ormuz.</div>
+      </div>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Recommandation</span></div>
+      <div class="infobox" style="border-left-color:var(--blue);">
+        <div class="infobox-title" style="color:var(--blue);">Position TTE recommandée</div>
+        <div class="infobox-body">
+          <strong>Entrée :</strong> €74–78 (retour MM20)<br>
+          <strong>Stop-loss :</strong> sous €70<br>
+          <strong>Cible 1 :</strong> €86 (BB sup.)<br>
+          <strong>Cible 2 :</strong> €90–95 (escalade)<br>
+          <strong>Horizon :</strong> 6–12 mois<br>
+          <strong>R/R :</strong> 2.1 favorable<br>
+          <strong>Dividende reçu :</strong> +5.2%/an
+        </div>
+      </div>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Données clés pétrole</span></div>
+      <table class="data-table">
+        <tbody>
+          <tr><td style="font-size:7.5px;">Brent spot</td><td class="mono t-am">$110</td></tr>
+          <tr><td style="font-size:7.5px;">WTI spot</td><td class="mono t-am">~$107</td></tr>
+          <tr><td style="font-size:7.5px;">Ormuz (normale)</td><td class="mono">20 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Capacité alt. max.</td><td class="mono t-dn">6.5 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">GNL Qatar surcoût</td><td class="mono t-dn">+30–60%</td></tr>
+          <tr><td style="font-size:7.5px;">Fret Cap BEspérance</td><td class="mono t-dn">+$2B/mois</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">YAASAP Consulting — Note Énergie N°17 · Analyse informative destinée aux seuls clients abonnés · Ne constitue pas un conseil en investissement · Sources : TotalEnergies IR, Boursorama, Ideal-Investisseur, Connaissances des Énergies, AIE, Yahoo Finance, TipRanks (mai 2026)</div>
+    <div class="footer-right">YAASAP Consulting · N°17 · p.1/4 · 20 Mai 2026</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 2 — DÉTROIT D'ORMUZ · ROUTES ALTERNATIVES
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="pub-name">YAASAP <em>Consulting</em></div>
+      <div class="pub-tagline">Note Énergie &amp; Marchés — Usage exclusif clients</div>
+    </div>
+    <div class="masthead-center">
+      <div class="issue-line">Note N°17 &nbsp;·&nbsp; Crise Ormuz — Routes alternatives · Scénarios · Impact majors</div>
+    </div>
+    <div class="masthead-right">
+      <div class="date-block">20 mai 2026</div>
+      <div class="price-tag" style="color:var(--accent);">−98%</div>
+      <div class="price-label">Trafic Ormuz · en crise</div>
+    </div>
+  </div>
+
+  <div class="kicker-bar">
+    <div class="kicker-item"><div class="k-label">Trafic normal</div><div class="k-val">20 Mb/j</div><div class="k-note">20% conso mondiale</div></div>
+    <div class="kicker-item"><div class="k-label">Trafic en crise</div><div class="k-val k-dn">~0.4 Mb/j</div><div class="k-note">−98% en quelques jours</div></div>
+    <div class="kicker-item"><div class="k-label">Navires bloqués</div><div class="k-val k-dn">150+</div><div class="k-note">À l'ancre, Golfe Persique</div></div>
+    <div class="kicker-item"><div class="k-label">Pipeline KSA max.</div><div class="k-val k-am">5–7 Mb/j</div><div class="k-note">Abqaiq–Yanbu · Mer Rouge</div></div>
+    <div class="kicker-item"><div class="k-label">Pipeline EAU</div><div class="k-val k-am">1.5 Mb/j</div><div class="k-note">Habshan–Fujairah</div></div>
+    <div class="kicker-item"><div class="k-label">Surcoût Cap B.-Esp.</div><div class="k-val k-dn">+$2B/mois</div><div class="k-note">+10 000 km de détour</div></div>
+    <div class="kicker-item"><div class="k-label">Trêve Iran/US</div><div class="k-val k-dn">"fil"</div><div class="k-note">Trump · 11–12 mai 2026</div></div>
+  </div>
+
+  <div class="body">
+    <!-- COL 1 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">Le verrou stratégique mondial</span></div>
+      <div class="headline">Ormuz bloqué : une nouvelle géographie logistique de l'énergie mondiale</div>
+      <div class="headline-sub">Depuis mars 2026, l'Iran maintient une fermeture quasi-totale du détroit, paralysant un cinquième de l'approvisionnement pétrolier mondial. Les routes alternatives existent mais demeurent structurellement insuffisantes.</div>
+
+      <div class="body-text">
+        Vingt millions de barils par jour transitaient normalement par Ormuz — dont <strong>84% à destination des marchés asiatiques</strong>, la Chine recevant seule environ un tiers de son approvisionnement par ce passage. L'Europe dépend du Qatar pour 12 à 14% de son GNL. Depuis le blocage, le trafic a chuté de 98%, laissant plus de 150 navires à l'ancre dans l'attente de garanties de sécurité.
+      </div>
+
+      <div class="section-rule"><span class="section-rule-text">Routes alternatives — Capacités réelles</span></div>
+
+      <div class="route-item">
+        <div class="route-flag">🇸🇦</div>
+        <div class="route-content">
+          <div class="route-name">Pipeline Est-Ouest Arabie Saoudite (Abqaiq–Yanbu) <span class="route-cap t-up">5–7 Mb/j</span></div>
+          <div class="route-desc">1 200 km vers la mer Rouge. Capacité théoriquement portée à 7 Mb/j par Aramco (non testée industriellement). Début 2026 : seulement ~2 Mb/j utilisés. Réactivation en urgence, capacité ×9 depuis la crise.</div>
+          <div class="route-status">✓ Opérationnel — capacité encore partielle</div>
+        </div>
+      </div>
+      <div class="route-item">
+        <div class="route-flag">🇦🇪</div>
+        <div class="route-content">
+          <div class="route-name">Pipeline Habshan–Fujairah (EAU) <span class="route-cap t-up">1.5 Mb/j</span></div>
+          <div class="route-desc">Export direct vers l'océan Indien, hors détroit. Couvre seulement 7–8% du volume habituel. Fonctionne à pleine capacité depuis le début de la crise.</div>
+          <div class="route-status">✓ Opérationnel — flux maximum atteint</div>
+        </div>
+      </div>
+      <div class="route-item">
+        <div class="route-flag">🇮🇶</div>
+        <div class="route-content">
+          <div class="route-name">Convois Irak → Syrie / Turquie / Égypte <span class="route-cap t-muted">Marginal</span></div>
+          <div class="route-desc">Camions-citernes vers la Syrie + étude de nouveaux oléoducs vers la Turquie et l'Égypte. Aucune infrastructure alternative pour le Koweït, Bahreïn et l'Irak selon l'AIE.</div>
+          <div class="route-status t-dn">⚠ Solution d'urgence insuffisante à l'échelle</div>
+        </div>
+      </div>
+      <div class="route-item">
+        <div class="route-flag">🌍</div>
+        <div class="route-content">
+          <div class="route-name">Cap de Bonne-Espérance <span class="route-cap t-dn">+10 000 km</span></div>
+          <div class="route-desc">Seule issue pour le reste du trafic. Détour de 10 000 km supplémentaires = <strong>+$2 milliards par mois</strong> de coûts de fret mondial. Délai +14–21 jours. Pression extrême sur le marché des supertankers.</div>
+          <div class="route-status">↻ Utilisé massivement — coût exorbitant</div>
+        </div>
+      </div>
+      <div class="route-item">
+        <div class="route-flag">🇶🇦</div>
+        <div class="route-content">
+          <div class="route-name">GNL Qatar — Gazoduc Dolphin + Oman <span class="route-cap t-dn">Saturé</span></div>
+          <div class="route-desc">Seule alternative : transiter par gazoduc Dolphin (Qatar→EAU→Oman) puis liquéfaction à Oman. Les unités omanaises sont à 100% de leur capacité. Résultat : surcoût spot GNL +30 à +60% pour l'Europe.</div>
+          <div class="route-status t-dn">🔴 Saturé — aucune alternative supplémentaire disponible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">Impact comparé des grandes majors</span></div>
+
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Major</th><th>Expo. MO</th><th>Impact prod.</th><th>Effet Brent</th><th>Position nette</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="t-bold" style="color:#0055a4;">TTE ★</td>
+            <td style="font-size:7.5px;">15% prod.</td>
+            <td class="t-am mono">−10% CF</td>
+            <td class="t-up" style="font-size:7.5px;">+$8/b compense</td>
+            <td class="t-up t-bold" style="font-size:7.5px;">Net positif</td>
+          </tr>
+          <tr>
+            <td style="color:#d52b1e;font-weight:700;">XOM</td>
+            <td style="font-size:7.5px;">Faible MO</td>
+            <td class="t-up" style="font-size:7.5px;">Minimal</td>
+            <td class="t-up" style="font-size:7.5px;">Permian + prix</td>
+            <td class="t-up" style="font-size:7.5px;">Positif</td>
+          </tr>
+          <tr>
+            <td style="color:#0e4c96;font-weight:700;">CVX</td>
+            <td style="font-size:7.5px;">Faible MO</td>
+            <td class="t-up" style="font-size:7.5px;">Minimal</td>
+            <td class="t-up" style="font-size:7.5px;">Permian + prix</td>
+            <td class="t-up" style="font-size:7.5px;">Positif</td>
+          </tr>
+          <tr>
+            <td style="color:#e8000d;font-weight:700;">SHEL</td>
+            <td style="font-size:7.5px;">Qatar GNL</td>
+            <td class="t-am" style="font-size:7.5px;">GNL perturbé</td>
+            <td class="t-up" style="font-size:7.5px;">Rachat actif</td>
+            <td class="t-am" style="font-size:7.5px;">Neutre/+</td>
+          </tr>
+          <tr>
+            <td style="color:#009900;font-weight:700;">BP</td>
+            <td style="font-size:7.5px;">Modéré</td>
+            <td class="t-dn" style="font-size:7.5px;">Dette / struct.</td>
+            <td class="t-am" style="font-size:7.5px;">Partiel</td>
+            <td class="t-dn t-bold" style="font-size:7.5px;">Négatif</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-rule"><span class="section-rule-text">Trois scénarios · Impact cours TTE</span></div>
+      <div class="scenario-row">
+        <div class="sc-box" style="border-top-color:var(--green);">
+          <div class="sc-label" style="color:var(--green);">A · Réouverture</div>
+          <div class="sc-proba" style="color:var(--green);">20%</div>
+          <div class="sc-detail"><strong>Brent :</strong> $70–80<br><strong>TTE :</strong> €68–72<br>Zone de réachat fort</div>
+        </div>
+        <div class="sc-box" style="border-top-color:var(--amber);">
+          <div class="sc-label" style="color:var(--amber);">B · Statu quo</div>
+          <div class="sc-proba" style="color:var(--amber);">55%</div>
+          <div class="sc-detail"><strong>Brent :</strong> $95–115<br><strong>TTE :</strong> €82–88<br>Scénario central</div>
+        </div>
+        <div class="sc-box" style="border-top-color:var(--accent);">
+          <div class="sc-label" style="color:var(--accent);">C · Escalade</div>
+          <div class="sc-proba" style="color:var(--accent);">25%</div>
+          <div class="sc-detail"><strong>Brent :</strong> $130–150<br><strong>TTE :</strong> €90–100<br>Spike historique</div>
+        </div>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title">TTE — Communiqué officiel 13 mars 2026</div>
+        <div class="infobox-body">
+          Production arrêtée au Qatar, Irak et UAE offshore = <strong>15% de la production totale</strong>, mais seulement <strong>~10% du cash-flow amont</strong> (fiscalité plus élevée au MO). Croissance des barils accrétifs concentrée hors Moyen-Orient. Impact GNL Qatar sur TTE limité (~2 Mt 2026), l'essentiel étant commercialisé par QatarEnergy. Raffinerie SATORP (Arabie Saoudite) : opérations normales. UAE onshore (~210 kb/j) : non affecté.
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3 SIDEBAR -->
+    <div class="col col-narrow">
+      <div class="section-rule"><span class="section-rule-text">Signaux de marché</span></div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Supertankers en pénurie</div>
+        <div class="sidebar-body">Le détour Cap B.-Espérance immobilise les navires plus longtemps. Marché pétrolier des tankers en tension extrême. <strong>Bénéficiaires cotés : DHT, STNG, FRO</strong> (tankers).</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">GNL Qatar — Europe exposée</div>
+        <div class="sidebar-body">L'UE dépend du Qatar pour 12–14% de son GNL. Aucune alternative rapide : unités Oman saturées. <strong>Bénéficiaires : TTE Alaska LNG, SHEL, Equinor</strong> — producteurs non-qataris.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Raffineurs Asie — pivot US/Afrique</div>
+        <div class="sidebar-body">Kpler : les raffineurs asiatiques intensifient achats en bassin atlantique. <strong>Bénéficiaires US : XOM, CVX, COP, EOG</strong> — production Permian non affectée.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Nouveaux oléoducs — Opportunité infra</div>
+        <div class="sidebar-body">La crise accélère de nouveaux projets : Irak→Turquie, Irak→Égypte. <strong>Bénéficiaires construction : SLB, TechnipFMC</strong>. Coûts jugés élevés mais inévitables.</div>
+      </div>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Zone achat TTE / Brent</span></div>
+      <table class="data-table">
+        <tbody>
+          <tr><td style="font-size:7.5px;">Si Brent retombe $70–80</td><td class="mono t-am">Achat fort €68–72</td></tr>
+          <tr><td style="font-size:7.5px;">Si statu quo $95–115</td><td class="mono t-up">Tenir / renforcer</td></tr>
+          <tr><td style="font-size:7.5px;">Si escalade $130+</td><td class="mono t-up">TTE → €90–100</td></tr>
+          <tr><td style="font-size:7.5px;">Stop-loss TTE</td><td class="mono t-dn">Sous €70</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Sources : Connaissances des Énergies, AIE, Kpler, TotalEnergies IR (mars 2026), France Info, RTS, Wikipédia Crise Ormuz 2026, L'Energeek · YAASAP Consulting — Note informative · Ne constitue pas un conseil en investissement</div>
+    <div class="footer-right">YAASAP Consulting · N°17 · p.2/4 · 20 Mai 2026</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 3 — PODCAST LES ECHOS · ROUTES ALTERNATIVES ORMUZ
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="pub-name">YAASAP <em>Consulting</em></div>
+      <div class="pub-tagline">Note Énergie &amp; Marchés — Usage exclusif clients</div>
+    </div>
+    <div class="masthead-center">
+      <div class="issue-line">Note N°17 &nbsp;·&nbsp; Routes alternatives à Ormuz — Yanbu · Fujairah · Gwadar · Pakistan · Houthis</div>
+    </div>
+    <div class="masthead-right">
+      <div class="date-block">Source : <em>L'Entretien géopolitique</em></div>
+      <div class="price-tag" style="font-size:13px; color:var(--blue);">Les Echos</div>
+      <div class="price-label">Jakubyszyn &amp; Abdeddaïm</div>
+    </div>
+  </div>
+
+  <div class="kicker-bar">
+    <div class="kicker-item"><div class="k-label">Yanbu record 9 mars</div><div class="k-val k-up">5.9 Mb/j</div><div class="k-note">vs 1.7 Mb/j moyenne 2025</div></div>
+    <div class="kicker-item"><div class="k-label">Capacité max Yanbu</div><div class="k-val k-am">7 Mb/j</div><div class="k-note">PDG Aramco · "prochains jours"</div></div>
+    <div class="kicker-item"><div class="k-label">Fujairah (EAU)</div><div class="k-val k-am">1.5–1.8 Mb/j</div><div class="k-note">Golfe d'Oman · hors Ormuz</div></div>
+    <div class="kicker-item"><div class="k-label">Déficit total routes alt.</div><div class="k-val k-dn">~12 Mb/j</div><div class="k-note">Manque structurel persistant</div></div>
+    <div class="kicker-item"><div class="k-label">Gwadar (Pakistan)</div><div class="k-val k-am">400 km</div><div class="k-note">d'Ormuz · CPEC · Chine</div></div>
+    <div class="kicker-item"><div class="k-label">Houthis — Mer Rouge</div><div class="k-val k-dn">Menace</div><div class="k-note">Route Yanbu vulnérable</div></div>
+    <div class="kicker-item"><div class="k-label">Exports MO effectifs</div><div class="k-val k-dn">1/3</div><div class="k-note">du niveau normal · Kpler</div></div>
+  </div>
+
+  <div class="body">
+    <!-- COL 1 — CONTEXTE & ANALYSE PODCAST -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">L'Entretien géopolitique · Les Echos · Jakubyszyn &amp; Abdeddaïm</span></div>
+      <div class="headline">Ormuz bloqué : Yanbu, Fujairah, Gwadar — les plans B de l'énergie mondiale</div>
+      <div class="headline-sub">Décryptage par Christophe Jakubyszyn et Benaouda Abdeddaïm dans « L'Entretien géopolitique » des Echos. Des ports en Arabie saoudite et au Pakistan pourraient servir de routes de substitution pour contourner le détroit fermé depuis le 28 février 2026.</div>
+
+      <div class="body-text">
+        Depuis la fermeture de facto d'Ormuz, deux infrastructures concentrent l'attention des marchés comme des stratèges. La première est <strong>Petroline</strong>, l'oléoduc saoudien de 1 200 km reliant les champs de Ghawar au port de Yanbu sur la mer Rouge. Construit précisément lors de la guerre Iran-Irak pour parer à ce scénario, il était resté largement sous-utilisé pendant des décennies. Il est aujourd'hui au cœur du jeu énergétique mondial : le 9 mars 2026, Yanbu a enregistré un record à <strong>5,9 millions de barils par jour</strong>, contre une moyenne de 1,7 Mb/j en 2025.
+      </div>
+
+      <div class="pull-quote">
+        <div class="pull-quote-text">« Malgré des chargements records à Fujairah et Yanbu, les exportations effectives du Moyen-Orient ne représentent toujours qu'environ un tiers de leur niveau normal. »</div>
+        <div class="pull-quote-attr">— Kpler, société d'analyse des flux énergétiques · mars 2026</div>
+      </div>
+
+      <div class="body-text">
+        La seconde infrastructure est le <strong>pipeline Habshan–Fujairah des EAU</strong>, qui permet d'exporter le brut émirati directement vers le golfe d'Oman, hors du passage d'Ormuz. Sa capacité est habituellement de 1,5 Mb/j, portée à 1,8 Mb/j en régime d'urgence. Ensemble, ces deux voies offrent une capacité maximale de <strong>5,5 à 6,5 Mb/j</strong> — soit moins d'un tiers des 20 Mb/j qui transitaient normalement. Le déficit structurel de <strong>~12 Mb/j</strong> reste béant.
+      </div>
+
+      <div class="section-rule"><span class="section-rule-text">Le signal faible : Gwadar et le Pakistan</span></div>
+      <div class="body-text">
+        Le signal géopolitique le plus intéressant du podcast Jakubyszyn/Abdeddaïm : <strong>le Pakistan</strong>. Le 4 mars 2026, islamabad a officiellement demandé à Riyad de rediriger ses livraisons de pétrole vers le port de Yanbu. Mais derrière cette urgence conjoncturelle se dessine un enjeu stratégique de long terme : le port de <strong>Gwadar</strong>, à seulement 400 km d'Ormuz, en mer d'Arabie, géré par la Chine dans le cadre du corridor économique CPEC ($62 milliards). Il peut contourner entièrement le détroit — et relie par voie terrestre les champs pétroliers du Golfe aux marchés chinois via le Xinjiang.
+      </div>
+    </div>
+
+    <!-- COL 2 — ROUTES, RISQUES, IMPACT MARCHÉ -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">Cartographie des routes alternatives — Capacités et vulnérabilités</span></div>
+
+      <table class="data-table" style="margin-bottom:10px;">
+        <thead><tr><th>Route</th><th>Pays</th><th>Capacité</th><th>Destination</th><th>Vulnérabilité</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="t-bold">Petroline (Yanbu)</td>
+            <td style="font-size:7.5px;">🇸🇦 Arabie S.</td>
+            <td class="mono t-am">7 Mb/j max</td>
+            <td style="font-size:7.5px;">Mer Rouge → Europe/Asie</td>
+            <td class="t-dn" style="font-size:7.5px;">Houthis · Bab el-Mandeb</td>
+          </tr>
+          <tr>
+            <td class="t-bold">Habshan–Fujairah</td>
+            <td style="font-size:7.5px;">🇦🇪 EAU</td>
+            <td class="mono t-am">1.8 Mb/j</td>
+            <td style="font-size:7.5px;">Golfe d'Oman → Asie</td>
+            <td class="t-up" style="font-size:7.5px;">Peu exposée</td>
+          </tr>
+          <tr>
+            <td class="t-bold">Gwadar (CPEC)</td>
+            <td style="font-size:7.5px;">🇵🇰 Pakistan</td>
+            <td class="mono t-am">Potentiel</td>
+            <td style="font-size:7.5px;">Mer d'Arabie → Chine</td>
+            <td class="t-am" style="font-size:7.5px;">Instabilité Balouchistan</td>
+          </tr>
+          <tr>
+            <td class="t-bold">Cap B.-Espérance</td>
+            <td style="font-size:7.5px;">🌍 Maritime</td>
+            <td class="mono t-dn">Illimité</td>
+            <td style="font-size:7.5px;">Europe / Amériques</td>
+            <td class="t-dn" style="font-size:7.5px;">+10 000 km · $2B/mois</td>
+          </tr>
+          <tr>
+            <td class="t-bold">Gazoduc Dolphin</td>
+            <td style="font-size:7.5px;">🇶🇦 Qatar</td>
+            <td class="mono t-dn">Saturé</td>
+            <td style="font-size:7.5px;">Oman → liquéfaction</td>
+            <td class="t-dn" style="font-size:7.5px;">Capacité 100% · GNL</td>
+          </tr>
+          <tr>
+            <td style="font-style:italic;font-size:7.5px;color:var(--ink3);">Routes sans infra</td>
+            <td style="font-size:7.5px;">🇮🇶🇰🇼🇧🇭</td>
+            <td class="mono t-dn">Aucune</td>
+            <td style="font-size:7.5px;">Koweït / Bahreïn / Irak</td>
+            <td class="t-dn" style="font-size:7.5px;">Pas d'alternative · AIE</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-rule"><span class="section-rule-text">Le double risque Houthis — La route Yanbu elle-même menacée</span></div>
+      <div class="body-text">
+        La principale limite de la route Yanbu est soulevée par l'analyse Jakubyszyn/Abdeddaïm : le pétrole contourne Ormuz par la mer Rouge… <strong>qui est elle-même sous la menace des Houthis au Yémen</strong>. Le passage de Bab el-Mandeb, à l'entrée de la mer Rouge, est une deuxième artère vulnérable. Depuis 2024, les Houthis ont ciblé plusieurs dizaines de navires marchands dans cette zone. La route Yanbu ne fait que déplacer le risque géographique, pas l'éliminer.
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title">Gwadar — Le joker chinois à long terme</div>
+        <div class="infobox-body">
+          À 400 km d'Ormuz, Gwadar permet d'exporter le pétrole du Golfe directement en mer d'Arabie via pipeline terrestre Pakistan → Xinjiang (route du Karakoram). L'Arabie Saoudite a financé une raffinerie de $8Mds à Gwadar en 2018. En cas de crise prolongée, <strong>ce corridor CPEC devient stratégiquement incontournable pour la Chine</strong> — qui reçoit un tiers de son pétrole via Ormuz. Implication : tout apaisement Islamabad–Riyad dans la crise bénéficie aux actions liées au CPEC.
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3 SIDEBAR -->
+    <div class="col col-narrow">
+      <div class="section-rule"><span class="section-rule-text">Impact boursier routes alternatives</span></div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Saudi Aramco — Yanbu à pleine capacité</div>
+        <div class="sidebar-body">Record 5.9 Mb/j le 9 mars. Capacité visée 7 Mb/j. Aramco maintient l'essentiel de ses exportations. <strong>Bénéficiaire net de la crise malgré la perte de transit.</strong></div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">TTE — GNL Alaska non exposé</div>
+        <div class="sidebar-body">L'accord Alaska LNG (2 Mt/an sur 20 ans) approvisionne l'Asie-Pacifique sans passer ni par Ormuz ni par Bab el-Mandeb. <strong>Route entièrement sécurisée.</strong> Avantage différentiel majeur vs Qatar.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">DHT / FRO / STNG — Tankers en spike</div>
+        <div class="sidebar-body">Cap B.-Espérance + Yanbu = détours longs = navires immobilisés plus longtemps = pénurie de supertankers. <strong>Taux de fret en forte hausse.</strong> Opportunité sur valeurs tankers.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">SLB / TechnipFMC — Infra longue</div>
+        <div class="sidebar-body">La crise accélère les études de nouveaux pipelines : Irak→Turquie, Irak→Égypte, extension Gwadar. Carnet de commandes potentiel significatif pour les ingénieries pétrolières.</div>
+      </div>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Chiffres clés · Bilan routes alt.</span></div>
+      <table class="data-table">
+        <thead><tr><th>Indicateur</th><th>Valeur</th></tr></thead>
+        <tbody>
+          <tr><td style="font-size:7.5px;">Ormuz normal</td><td class="mono">20 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Yanbu record (9/3)</td><td class="mono t-up">5.9 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Fujairah max.</td><td class="mono t-am">1.8 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Total routes alt.</td><td class="mono t-am">~6.5 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Déficit persistant</td><td class="mono t-dn">~12 Mb/j</td></tr>
+          <tr><td style="font-size:7.5px;">Exports MO effectifs</td><td class="mono t-dn">1/3 normal</td></tr>
+          <tr><td style="font-size:7.5px;">Gwadar–Ormuz</td><td class="mono">400 km</td></tr>
+          <tr><td style="font-size:7.5px;">CPEC investissement</td><td class="mono">$62B</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Source : Podcast « L'Entretien géopolitique » des Echos — Christophe Jakubyszyn &amp; Benaouda Abdeddaïm · AIE · Kpler · Connaissances des Énergies (mars 2026) · RTBF · Wikipedia Crise Ormuz 2026 · Synthèse YAASAP Consulting · Analyse informative uniquement · Ne constitue pas un conseil en investissement</div>
+    <div class="footer-right">YAASAP Consulting · N°17 · p.3/4 · 20 Mai 2026</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE 4 — STRATEGIKA · FRANCE · GOLFE · HISTOIRE
+══════════════════════════════════════════════ -->
+<div class="page">
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="pub-name">YAASAP <em>Consulting</em></div>
+      <div class="pub-tagline">Note Énergie &amp; Marchés — Usage exclusif clients</div>
+    </div>
+    <div class="masthead-center">
+      <div class="issue-line">Note N°17 &nbsp;·&nbsp; Sources Strategika.fr — France · Ormuz · Monarchies pétrolières · Softpower</div>
+    </div>
+    <div class="masthead-right">
+      <div class="date-block">Source : Strategika.fr</div>
+      <div class="price-tag" style="font-size:12px; color:var(--blue);">Cyrano de<br>Saint-Saëns</div>
+      <div class="price-label">Avr. 2026</div>
+    </div>
+  </div>
+
+  <div class="kicker-bar">
+    <div class="kicker-item"><div class="k-label">Pétrole importé FR</div><div class="k-val k-dn">45 Mt</div><div class="k-note">Brut · 2024</div></div>
+    <div class="kicker-item"><div class="k-label">Gaz importé FR</div><div class="k-val">42 Gm³</div><div class="k-note">dont 57% GNL</div></div>
+    <div class="kicker-item"><div class="k-label">Facture énergie FR</div><div class="k-val k-dn">$95.7B</div><div class="k-note">Combustibles 2024</div></div>
+    <div class="kicker-item"><div class="k-label">Inflation énergie FR</div><div class="k-val k-dn">+7.3%</div><div class="k-note">Mars 2026 · contrats non répercutés</div></div>
+    <div class="kicker-item"><div class="k-label">Inflation base BdF</div><div class="k-val k-am">1.7%</div><div class="k-note">Déjà intégré géopol.</div></div>
+    <div class="kicker-item"><div class="k-label">Inflation scénario crise</div><div class="k-val k-dn">2.2–2.7%</div><div class="k-note">+0.5 à +1pt vs base</div></div>
+    <div class="kicker-item"><div class="k-label">CFP fondée</div><div class="k-val k-am">1924</div><div class="k-note">→ TTE · Iraq P.C. 23.75%</div></div>
+  </div>
+
+  <div class="body">
+    <!-- COL 1 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">La France face à la crise d'Ormuz</span></div>
+      <div class="headline">Ormuz : un amplificateur des fragilités françaises</div>
+      <div class="headline-sub">Analyse Strategika.fr — La France subit un choc indirect mais significatif, affectant l'énergie, la logistique maritime (CMA CGM), l'agriculture et la compétitivité industrielle.</div>
+
+      <div class="body-text">
+        La France importe 45 millions de tonnes de pétrole brut et la totalité de son gaz naturel (42 Gm³ en 2024, dont 57% sous forme GNL). Sa facture énergétique annuelle dépasse $95,7 milliards. En mars 2026, l'inflation énergétique a atteint <strong>+7,3% en glissement annuel</strong> alors que les prix du gaz ne se sont pas encore pleinement répercutés sur les consommateurs — les contrats en cours constituant un amortisseur temporaire.
+      </div>
+
+      <div class="pull-quote">
+        <div class="pull-quote-text">« Un choc prolongé sur le détroit d'Ormuz pourrait pousser l'inflation française bien au-delà de la trajectoire de base, avec des répercussions sur l'alimentation et les biens industriels. »</div>
+        <div class="pull-quote-attr">— Cyrano de Saint-Saëns · Strategika.fr · 9 avril 2026</div>
+      </div>
+
+      <div class="section-rule"><span class="section-rule-text">Scénarios d'inflation France 2026</span></div>
+      <table class="data-table" style="margin-bottom:8px;">
+        <thead><tr><th>Scénario</th><th>Durée</th><th>Inflation FR</th><th>Énergie</th></tr></thead>
+        <tbody>
+          <tr><td style="font-size:7.5px;color:var(--green);font-weight:700;">Réouverture rapide</td><td class="mono" style="font-size:7.5px;">&lt;1 mois</td><td class="t-up mono">~1.7%</td><td class="t-muted" style="font-size:7.5px;">Modéré</td></tr>
+          <tr><td style="font-size:7.5px;color:var(--amber);font-weight:700;">Blocage partiel</td><td class="mono" style="font-size:7.5px;">2–4 mois</td><td class="t-am mono">2.2–2.7%</td><td class="t-am" style="font-size:7.5px;">+15–25%</td></tr>
+          <tr><td style="font-size:7.5px;color:var(--accent);font-weight:700;">Blocage prolongé</td><td class="mono" style="font-size:7.5px;">&gt;6 mois</td><td class="t-dn mono">3.5%+</td><td class="t-dn" style="font-size:7.5px;">+40–60%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="body-text">
+        Les <strong>quatre canaux de transmission</strong> vers l'économie française : (1) carburants et GNL ; (2) chaîne logistique — CMA CGM, premier armateur mondial français, est directement exposé aux détours et surprimes d'assurance ; (3) agriculture et industrie — le Golfe est un carrefour pour les engrais, phosphates, ammoniac, soufre ; (4) exportations françaises — céréales, vin, spiritueux subissent les perturbations régionales.
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title">Réponse gouvernementale — Mesures ciblées mars 2026</div>
+        <div class="infobox-body">
+          Pas de nouveau bouclier tarifaire généralisé. Aides ciblées : transports, pêche, agriculture. <strong>€70M d'aide en avril 2026</strong>. Réductions sélectives carburant secteurs clés. Logique : amortir sans compromettre les comptes publics. Avantage structurel FR : parc nucléaire en reprise de production (2024).
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2 -->
+    <div class="col">
+      <div class="section-rule"><span class="section-rule-text">100 ans de présence française au Golfe — Héritage TTE</span></div>
+      <div class="headline">De la CFP à TotalEnergies : cinq siècles d'engagement français en Orient</div>
+      <div class="headline-sub">Strategika.fr révèle la profondeur historique de l'avantage compétitif de TotalEnergies face aux majors anglo-saxonnes.</div>
+
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--blue2);"></div><div class="tl-line"></div></div>
+          <div>
+            <div class="tl-year" style="color:var(--blue);">1536 — Capitulations ottomanes</div>
+            <div class="tl-text">France protectrice des chrétiens du Levant. Racines de l'engagement oriental français. Premier réseau de relations avec les élites de la région.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--amber);"></div><div class="tl-line"></div></div>
+          <div>
+            <div class="tl-year" style="color:var(--amber);">1916–1920 — Sykes-Picot &amp; San Remo</div>
+            <div class="tl-text">Partage franco-britannique du Moyen-Orient. La France obtient le Mashrek, le Golfe reste sous contrôle britannique, mais Paris maintient des intérêts commerciaux.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--accent);"></div><div class="tl-line"></div></div>
+          <div>
+            <div class="tl-year" style="color:var(--accent);">1924 — Fondation CFP (→ TotalEnergies)</div>
+            <div class="tl-text"><strong>Compagnie Française des Pétroles</strong> fondée sous Poincaré. Participation de 23,75% dans Iraq Petroleum Company (Red Line Agreement 1928). <strong>Premier pilier structurel des hydrocarbures français au Golfe.</strong></div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--blue);"></div><div class="tl-line"></div></div>
+          <div>
+            <div class="tl-year" style="color:var(--blue);">1958–1969 — Politique arabe gaulliste</div>
+            <div class="tl-text">Suite à Suez (1956) : stratégie de désengagement de l'atlantisme et construction d'une <strong>politique arabe autonome</strong>. Rapprochement avec les monarchies du Golfe, ventes d'armes, contrats pétroliers.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--amber);"></div><div class="tl-line"></div></div>
+          <div>
+            <div class="tl-year" style="color:var(--amber);">1999–2000 — Total + Petrofina + Elf</div>
+            <div class="tl-text">Fusion → TotalFina → TotalFinaElf. Consolidation du statut de géant européen avec présence forte au Qatar, Irak, EAU.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-marker"><div class="tl-dot" style="border-color:var(--blue2); background:rgba(0,85,164,.1);"></div></div>
+          <div>
+            <div class="tl-year" style="color:#0055a4;">2020–2026 — TotalEnergies</div>
+            <div class="tl-text">Changement de nom officialise la diversification ENR. <strong>Héritière directe de 100 ans de CFP</strong>. CA $201B, 6e rang mondial, 130 pays, objectif 100 GW ENR 2030. Présence militaire française (EAU + Qatar) : avantage diplomatique unique parmi les majors.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3 SIDEBAR -->
+    <div class="col col-narrow">
+      <div class="section-rule"><span class="section-rule-text">Softpower français au Golfe</span></div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Louvre Abu Dhabi — Réseau d'affinités</div>
+        <div class="sidebar-body">L'analyse Strategika souligne que le soft power culturel français (Louvre Abu Dhabi, Institut français, écoles) crée des <strong>préférences institutionnelles</strong> favorables aux entreprises françaises dans l'attribution des contrats pétroliers.</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-head">Bases militaires EAU/Qatar</div>
+        <div class="sidebar-body">La France maintient des bases permanentes aux EAU et au Qatar. Avantage diplomatique unique parmi les majors européennes : TTE bénéficie directement de cette présence pour l'accès aux contrats.</div>
+      </div>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Valeurs cotées françaises</span></div>
+      <table class="data-table">
+        <thead><tr><th>Valeur</th><th>Impact Ormuz</th></tr></thead>
+        <tbody>
+          <tr><td class="t-bold" style="color:#0055a4;font-size:8px;">TTE</td><td class="t-up" style="font-size:7.5px;">Net positif ★</td></tr>
+          <tr><td style="font-size:8px;font-weight:700;">GTT</td><td class="t-up" style="font-size:7.5px;">Cuves GNL → opportunité</td></tr>
+          <tr><td style="font-size:8px;font-weight:700;">EDF</td><td class="t-up" style="font-size:7.5px;">Hedge nucléaire</td></tr>
+          <tr><td style="font-size:8px;font-weight:700;">TechnipFMC</td><td class="t-up" style="font-size:7.5px;">Nouveaux pipelines</td></tr>
+          <tr><td style="font-size:8px;">CMA CGM</td><td class="t-dn" style="font-size:7.5px;">Non coté · détours</td></tr>
+          <tr><td style="font-size:8px;">Air France</td><td class="t-dn" style="font-size:7.5px;">Carburant + logistique</td></tr>
+          <tr><td style="font-size:8px;">Distribution</td><td class="t-dn" style="font-size:7.5px;">Inflation → pression</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-rule" style="margin-top:8px;"><span class="section-rule-text">Portefeuille France-Golfe</span></div>
+      <div class="infobox">
+        <div class="infobox-title">Recommandations sectorielles</div>
+        <div class="infobox-body">
+          <strong style="color:var(--green);">Surpondérer :</strong> TTE, GTT, EDF<br>
+          <strong style="color:var(--amber);">Neutre :</strong> BNP (trade finance +), Air Liquide<br>
+          <strong style="color:var(--accent);">Sous-pondérer :</strong> Air France, distribution pure (Carrefour)<br><br>
+          <em>La crise révèle la prime de diversification de TotalEnergies. 500 ans de présence française au Golfe = avantage différentiel rarement valorisé par les analystes anglo-saxons.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Sources : Strategika.fr — « La France face à la crise d'Ormuz » (Cyrano de Saint-Saëns, 9 avr. 2026) · « Le rôle historique de la France dans les monarchies pétrolières du Golfe » (29 avr. 2026) · Banque de France · TotalEnergies IR · YAASAP Consulting · Analyse informative — Ne constitue pas un conseil en investissement</div>
+    <div class="footer-right">YAASAP Consulting · N°17 · p.4/4 · 20 Mai 2026</div>
+  </div>
+</div>
+
+
+
+</body></html>

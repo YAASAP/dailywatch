@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Énergie N°17 · Annexe Géopolitique</title>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#faf8f4; --bg2:#f3efe8; --bg3:#ece7dd; --bg4:#e4ddd0;
+  --ink:#1a1612; --ink2:#3d3628; --ink3:#6b5f4a; --muted:#9a8e7a;
+  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.14);
+  --gold:#b8952a; --gold2:#d4aa40; --gold3:#f0c956;
+  --goldbg:rgba(184,149,42,0.10); --goldbd:rgba(184,149,42,0.30);
+  --green:#2a7a4b; --red:#c0392b;
+  /* geopolitical zone colors */
+  --tw:#e8000d;    /* Taiwan rouge */
+  --us:#0e4c96;    /* US bleu */
+  --cn:#cc0000;    /* Chine rouge foncé */
+  --nl:#f47920;    /* Pays-Bas orange */
+  --gulf:#b8952a;  /* Golfe or */
+  --eu:#003087;    /* EU bleu */
+  --tsmc:#76b900;  /* TSMC vert */
+  --asml:#f47920;  /* ASML orange */
+  --nvda:#4a7c00;  /* NVDA vert foncé */
+  --mono:'SF Mono','Cascadia Code','Consolas','Courier New',monospace;
+  --sans:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+html,body { width:1122px; height:794px; overflow:hidden; background:var(--bg); font-family:var(--sans); color:var(--ink); font-size:10.5px; -webkit-font-smoothing:antialiased; }
+.page { width:1122px; height:794px; display:flex; flex-direction:column; }
+
+/* HEADER */
+.hdr { background:var(--ink); border-bottom:3px solid var(--gold2); padding:9px 24px; display:flex; align-items:center; justify-content:space-between; height:50px; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-pill { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:11px; font-weight:700; padding:3px 9px; letter-spacing:.04em; }
+.brand-name { font-size:13px; font-weight:700; color:#fff; }
+.brand-sub { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; margin-top:1px; }
+.hdr-right { text-align:right; }
+.hdr-title { font-size:13px; font-weight:700; color:var(--gold3); }
+.hdr-date { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.3); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+
+/* SOURCE BANNER */
+.source-banner { background:var(--bg3); border-bottom:1px solid var(--border2); padding:5px 24px; display:flex; align-items:center; gap:14px; flex-shrink:0; }
+.source-tag { font-family:var(--mono); font-size:7.5px; font-weight:700; color:var(--gold); background:var(--goldbg); border:1px solid var(--goldbd); border-radius:2px; padding:2px 7px; white-space:nowrap; }
+.source-text { font-size:8px; color:var(--ink3); font-style:italic; line-height:1.4; }
+.source-author { font-family:var(--mono); font-size:7.5px; color:var(--muted); white-space:nowrap; margin-left:auto; }
+
+/* BODY */
+.body { flex:1; display:grid; grid-template-columns:360px 360px 1fr; min-height:0; }
+.col { padding:11px 15px; overflow:hidden; }
+.col-l { border-right:1px solid var(--border2); background:var(--bg); }
+.col-m { border-right:1px solid var(--border2); background:var(--bg); }
+.col-r { padding:11px 13px; background:var(--bg2); }
+
+/* SECTION */
+.sec { font-family:var(--mono); font-size:6.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); background:var(--goldbg); border-left:2px solid var(--gold2); padding:2px 6px; display:inline-block; margin-bottom:6px; }
+
+/* CARD */
+.cbox { background:#fff; border:1px solid var(--border2); border-radius:3px; overflow:hidden; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cbox:last-child { margin-bottom:0; }
+.cbox-h { padding:4px 10px; border-bottom:1px solid var(--border); background:var(--bg2); display:flex; justify-content:space-between; align-items:center; }
+.cbox-t { font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); }
+.cbox-s { font-family:var(--mono); font-size:6.5px; color:var(--muted); }
+.cbox-b { padding:7px 10px; font-size:8px; color:var(--ink3); line-height:1.55; }
+.cbox-b strong { color:var(--ink); font-weight:600; }
+
+/* RISK MATRIX */
+.risk-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.risk-cell { border-radius:3px; padding:6px 8px; border:1px solid var(--border2); }
+.risk-label { font-family:var(--mono); font-size:6.5px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px; font-weight:700; }
+.risk-body { font-size:7.5px; color:var(--ink3); line-height:1.45; }
+.risk-body strong { color:var(--ink); font-weight:600; }
+
+/* SIGNAL ITEMS */
+.signal { display:flex; gap:8px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:6px 9px; margin-bottom:5px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.signal:last-child { margin-bottom:0; }
+.signal-icon { font-size:13px; flex-shrink:0; line-height:1.2; }
+.signal-h { font-size:9px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.signal-b { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+
+/* IMPACT TABLE */
+.itab { width:100%; border-collapse:collapse; }
+.itab th { font-family:var(--mono); font-size:7px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:3px 6px; text-align:left; border-bottom:1px solid var(--border2); background:var(--bg2); }
+.itab td { font-size:8.5px; padding:4px 6px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:middle; line-height:1.4; }
+.itab tr:last-child td { border-bottom:none; }
+.badge-sm { font-family:var(--mono); font-size:7px; padding:1px 5px; border-radius:2px; border:1px solid; white-space:nowrap; }
+.up{color:var(--green);} .dn{color:var(--red);} .nt{color:var(--muted);} .gd{color:var(--gold);}
+
+/* QUOTE BLOCK */
+.quote { background:var(--bg2); border-left:3px solid var(--gold2); padding:7px 10px; border-radius:0 3px 3px 0; margin-bottom:6px; }
+.quote-text { font-size:8.5px; font-style:italic; color:var(--ink2); line-height:1.5; margin-bottom:3px; }
+.quote-src { font-family:var(--mono); font-size:7px; color:var(--muted); }
+
+/* CHESSBOARD */
+.chess-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:7px; }
+.chess-cell { background:#fff; border:1px solid var(--border2); border-radius:3px; padding:6px 8px; border-top-width:2px; }
+.chess-actor { font-family:var(--mono); font-size:8px; font-weight:700; margin-bottom:2px; }
+.chess-role { font-size:7px; color:var(--muted); margin-bottom:3px; }
+.chess-stat { font-family:var(--mono); font-size:12px; font-weight:700; line-height:1; margin-bottom:2px; }
+.chess-desc { font-size:7px; color:var(--ink3); line-height:1.4; }
+
+/* VERDICT */
+.verdict { background:var(--ink2); border-top:2px solid var(--gold2); padding:8px 24px; display:flex; align-items:flex-start; gap:10px; flex-shrink:0; }
+.vtag { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border-radius:2px; white-space:nowrap; flex-shrink:0; margin-top:1px; }
+.vtext { font-size:9.5px; color:rgba(255,255,255,.85); font-style:italic; line-height:1.6; }
+.vtext strong { font-style:normal; color:var(--gold3); }
+
+/* FOOTER */
+.footer { background:var(--bg3); border-top:1px solid var(--border2); padding:5px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:26px; }
+.foot-l { font-family:var(--mono); font-size:6px; color:var(--muted); max-width:720px; }
+.foot-r { font-family:var(--mono); font-size:7.5px; color:var(--ink3); text-align:right; }
+.foot-r span { color:var(--gold); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Énergie · N°17 · Annexe Stratégique — Géopolitique des Technologies</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-title">🌐 Grand Échiquier — Semi-conducteurs · IA · Infrastructures critiques</div>
+    <div class="hdr-date">20 Mai 2026 · Source : Note Machiavel · Les Echos Expert · B. Abdeddaïm</div>
+  </div>
+</div>
+
+<!-- SOURCE BANNER -->
+<div class="source-banner">
+  <div class="source-tag">Source exclusive</div>
+  <div class="source-text">
+    Analyse issue de la note stratégique <strong>« Machiavel »</strong> des Echos Expert (11 juin 2025) par Benaouda Abdeddaïm, éditorialiste Les Echos — au croisement de la géopolitique et de l'économie. Synthèse et impact boursier par YAASAP Consulting.
+  </div>
+  <div class="source-author">Machiavel · Les Echos Expert · machiavel@lesechos.fr</div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- COL LEFT : TSMC & Taiwan -->
+<div class="col col-l">
+  <div class="sec">01 · TSMC — La "Montagne Sacrée" sous pression</div>
+
+  <div class="quote">
+    <div class="quote-text">« Ce que TSMC veut échanger avec les Etats-Unis, ce n'est pas seulement la sécurité de Taïwan, c'est aussi l'obtention des droits de douane les plus bas, voire nuls, et participer à la construction d'infrastructures d'IA à l'échelle mondiale. »</div>
+    <div class="quote-src">— Shiow-Wen Wang, Institut taïwanais de recherche sur la défense (INDSR)</div>
+  </div>
+
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Le grand échiquier des puces — acteurs & enjeux</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 10px;">
+      <div class="chess-grid">
+        <div class="chess-cell" style="border-top-color:var(--tsmc);">
+          <div class="chess-actor" style="color:var(--tsmc);">TSMC</div>
+          <div class="chess-role">Fabricant · Taïwan</div>
+          <div class="chess-stat">25%</div>
+          <div class="chess-desc">Part du PIB taïwanais. Monopole 2nm. 6 usines prévues Arizona. Pénalité potentielle >$1B (affaire Huawei/Sophgo).</div>
+        </div>
+        <div class="chess-cell" style="border-top-color:var(--us);">
+          <div class="chess-actor" style="color:var(--us);">ÉTATS-UNIS</div>
+          <div class="chess-role">Protecteur / Donneur d'ordre</div>
+          <div class="chess-stat">$165B</div>
+          <div class="chess-desc">Engagements TSMC en Arizona. Menace tarifs 100% si pas de production locale. Agenda MAGA.</div>
+        </div>
+        <div class="chess-cell" style="border-top-color:var(--cn);">
+          <div class="chess-actor" style="color:var(--cn);">CHINE</div>
+          <div class="chess-role">Adversaire stratégique</div>
+          <div class="chess-stat">APL</div>
+          <div class="chess-desc">Exercices Strait Thunder-2025A. Doctrine anti-IA : données polluées, brouillard numérique, leurres low-cost.</div>
+        </div>
+        <div class="chess-cell" style="border-top-color:var(--asml);">
+          <div class="chess-actor" style="color:var(--asml);">ASML</div>
+          <div class="chess-role">Lithographie · Pays-Bas</div>
+          <div class="chess-stat">36%</div>
+          <div class="chess-desc">CA issu de Chine (2024). Risque veto US total. Expansion Eindhoven +428 000 m² annoncée malgré tout.</div>
+        </div>
+        <div class="chess-cell" style="border-top-color:var(--gulf);">
+          <div class="chess-actor" style="color:var(--gulf);">GOLFE PERS.</div>
+          <div class="chess-role">Pôle IA émergent</div>
+          <div class="chess-stat">$400B+</div>
+          <div class="chess-desc">Accords Trump avec EAU & Arabie Saoudite. Ecosystème IA américain dominant. Objectif : verrouiller avant la Chine.</div>
+        </div>
+        <div class="chess-cell" style="border-top-color:var(--eu);">
+          <div class="chess-actor" style="color:var(--eu);">EUROPE</div>
+          <div class="chess-role">Suiveur / Vulnérable</div>
+          <div class="chess-stat">−67%</div>
+          <div class="chess-desc">+67% cybercriminalité Europe 2024 (Clusit). Asymétrie: DE/FR/NL solides, Europe du Sud/Est exposée.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Dillemme du "bouclier de silicium" — impact boursier direct</span></div>
+    <div class="cbox-b">
+      <strong>Paradoxe stratégique :</strong> plus les USA sécurisent leur approvisionnement en puces (Arizona), moins Taïwan est indispensable à leur défense. Les experts (Meng Kit Tang, Singapour) préviennent : une réduction de la dépendance puce taïwanaise <strong>pourrait encourager la Chine à adopter une position plus agressive</strong>. Zhu Songling (Pékin) voit déjà la « valeur stratégique internationale de Taïwan » altérée par la « perte » de TSMC. Pour les investisseurs : <strong>tout signal de tension dans le Détroit = spike TSMC, NVDA, ASML</strong> et chute des valeurs exposées à la Chine.
+    </div>
+  </div>
+</div>
+
+<!-- COL MIDDLE : Impact marché & Cyber -->
+<div class="col col-m">
+  <div class="sec">02 · Impact boursier direct — Chaînes d'approvisionnement IA & semi-conducteurs</div>
+
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Analyse d'impact — Valeurs cotées exposées aux enjeux géopolitiques</span>
+    </div>
+    <div class="cbox-b" style="padding:0;">
+      <table class="itab">
+        <thead><tr><th>Valeur</th><th>Exposition</th><th>Risque géopol.</th><th>Catalyseur</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--tsmc);">TSM</span><span style="font-size:7.5px;color:var(--muted);"> TSMC</span></td>
+            <td>Pivot mondial puces</td>
+            <td><span class="badge-sm" style="background:rgba(192,57,43,.1);color:var(--red);border-color:rgba(192,57,43,.3);">Très élevé</span></td>
+            <td style="font-size:7.5px;">Conflit Détroit / veto US / Huawei pénalité</td>
+            <td><span class="dn">−30%+ conflit</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--asml);">ASML</span><span style="font-size:7.5px;color:var(--muted);"> Pays-Bas</span></td>
+            <td>Lithographie exclusive</td>
+            <td><span class="badge-sm" style="background:rgba(244,121,32,.1);color:var(--asml);border-color:rgba(244,121,32,.3);">Élevé</span></td>
+            <td style="font-size:7.5px;">Veto US export Chine total (36% CA menacé)</td>
+            <td><span class="dn">−20% veto total</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:var(--nvda);">NVDA</span><span style="font-size:7.5px;color:var(--muted);"> NVIDIA</span></td>
+            <td>GPU IA / Golfe</td>
+            <td><span class="badge-sm" style="background:rgba(42,122,75,.1);color:var(--green);border-color:rgba(42,122,75,.3);">Opportunité</span></td>
+            <td style="font-size:7.5px;">Accords Golfe $400B+ · Ecosystème US dominant</td>
+            <td><span class="up">+15% Golfe</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:#0055a4;">TTE</span><span style="font-size:7.5px;color:var(--muted);"> TotalEnergies</span></td>
+            <td>GNL / Golfe / MO</td>
+            <td><span class="badge-sm" style="background:rgba(184,149,42,.12);color:var(--gold);border-color:rgba(184,149,42,.3);">Mixte</span></td>
+            <td style="font-size:7.5px;">Accord Alaska LNG · risque blackout infra MO</td>
+            <td><span class="gd">Stable/haussier</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:#0070c0;">MSFT</span><span style="font-size:7.5px;color:var(--muted);"> Microsoft</span></td>
+            <td>Azure IA / Golfe</td>
+            <td><span class="badge-sm" style="background:rgba(42,122,75,.1);color:var(--green);border-color:rgba(42,122,75,.3);">Opportunité</span></td>
+            <td style="font-size:7.5px;">Accords Abu Dhabi / Riyad Azure IA infra</td>
+            <td><span class="up">+Cloud Golfe</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:700;color:#e8000d;">PALO</span><span style="font-size:7.5px;color:var(--muted);"> Palo Alto / Cyber</span></td>
+            <td>Cybersécurité infra</td>
+            <td><span class="badge-sm" style="background:rgba(42,122,75,.1);color:var(--green);border-color:rgba(42,122,75,.3);">Catalyseur</span></td>
+            <td style="font-size:7.5px;">+67% cybercriminalité EU · blackout ibérique</td>
+            <td><span class="up">Thématique forte</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec" style="margin-top:4px;">03 · Cyber & Infrastructures critiques — Leçons du blackout ibérique</div>
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Vulnérabilités identifiées — Source IARI / Clusit / APL chinoise</span></div>
+    <div class="cbox-b">
+      <strong>Blackout ibérique (28 avril 2025) :</strong> chute de 26 GW à 12 GW en quelques secondes. La revue militaire chinoise <em>Naval and Merchant Ships</em> a identifié <strong>30 à 40 nœuds « super-critiques »</strong> d'infrastructures (électricité, eau, télécoms, GNL) dont la mise hors ligne ferait s'effondrer les systèmes taïwanais. L'exercice Strait Thunder-2025A a simulé la destruction d'un complexe GNL (Taïwan dépend du GNL pour 42% de son électricité).<br><br>
+      <strong>Europe du Sud asymétrique :</strong> l'Italie est proportionnellement l'une des plus exposées au monde aux cyberattaques (+67% EU 2024). L'asymétrie est frappante : DE/FR/NL disposent d'infrastructures résilientes, tandis que les pays d'Europe centrale, orientale et méridionale présentent des <strong>lacunes critiques</strong>. Impact direct : les valeurs de cybersécurité (PANW, CRWD, S) bénéficient d'un catalyseur structurel européen.
+    </div>
+  </div>
+
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Doctrine anti-IA de l'APL — risque pour les actifs tech occidentaux</span></div>
+    <div class="cbox-b">
+      L'Armée populaire de libération développe des <strong>tactiques de « confrontation douce »</strong> visant à polluer les données d'entraînement des modèles IA adverses et à alourdir les coûts de calcul par du <em>bruit de données</em>. Les leurres à bas coût sont promus comme moyen de saturer les systèmes de détection. <strong>Implication boursière :</strong> NVDA, AMD et les fournisseurs de cloud IA sont exposés à ce risque opérationnel émergent. Les acteurs de la cybersécurité IA (CrowdStrike, Palo Alto) en sont les bénéficiaires indirects.
+    </div>
+  </div>
+</div>
+
+<!-- COL RIGHT : Signaux faibles + Implications TTE -->
+<div class="col col-r">
+  <div class="sec">04 · Signaux faibles — Implications pour l'investisseur</div>
+
+  <div class="signal">
+    <div class="signal-icon">🛢️</div>
+    <div>
+      <div class="signal-h">TTE & GNL — Exposition directe au Golfe</div>
+      <div class="signal-b">Les accords Trump EAU/Arabie Saoudite ($400B+ IA) s'appuient sur des infrastructures GNL. TotalEnergies, 2e producteur mondial GNL avec l'accord Alaska 20 ans, est <strong>exposée positivement</strong> à ce supercycle. Chaque dollar investi dans l'IA du Golfe requiert de l'énergie fiable = TTE bénéficiaire structurel.</div>
+    </div>
+  </div>
+
+  <div class="signal">
+    <div class="signal-icon">⚡</div>
+    <div>
+      <div class="signal-h">ASML — Le risque veto US sur la Chine</div>
+      <div class="signal-b">36% du CA d'ASML provient de Chine. Un veto US total des exports équipements lithographie représente <strong>des dizaines de milliards € de pertes potentielles</strong> pour les Pays-Bas selon leur propre gouvernement. Expansion Eindhoven confirmée malgré tout — signal de confiance long terme mais risque court terme majeur.</div>
+    </div>
+  </div>
+
+  <div class="signal">
+    <div class="signal-icon">🔒</div>
+    <div>
+      <div class="signal-h">Cybersécurité — Catalyseur réglementaire EU</div>
+      <div class="signal-b">Le blackout ibérique et l'asymétrie cyber européenne (+67% attaques) créent une <strong>obligation réglementaire d'investissement</strong>. Palo Alto Networks, CrowdStrike, Sentinel One : thématique portée par NIS2 et la prise de conscience post-blackout. Opportunité d'entrée sur correction.</div>
+    </div>
+  </div>
+
+  <div class="signal">
+    <div class="signal-icon">🌐</div>
+    <div>
+      <div class="signal-h">Starlink & souveraineté numérique</div>
+      <div class="signal-b">L'ultimatum du Ghana à Starlink illustre la tension croissante entre opérateurs satellites et États. <strong>Enjeu pour SpaceX/STLA</strong> : régulation locale obligatoire = coûts opérationnels. Mais la diplomatie US a utilisé les financements comme levier (cas Gambie). Modèle potentiellement réplicable.</div>
+    </div>
+  </div>
+
+  <div class="signal">
+    <div class="signal-icon">🏭</div>
+    <div>
+      <div class="signal-h">TSMC Arizona — Coût 4× supérieur</div>
+      <div class="signal-b">La production en Arizona coûte <strong>4 fois plus cher</strong> qu'à Taïwan. Impact estimé : −1.5% à −2% de marge brute TSMC. Les analystes de Taipei craignent une perturbation de l'équilibre de production. <strong>Risque de valorisation TSM</strong> si le marché intègre cette dégradation de marges sur 5–10 ans.</div>
+    </div>
+  </div>
+
+  <div class="signal" style="margin-bottom:7px;">
+    <div class="signal-icon">🇩🇪</div>
+    <div>
+      <div class="signal-h">TSMC Dresde — Opportunité allemande</div>
+      <div class="signal-b">10 milliards € d'investissement, 70% TSMC, ouverture prochaine. <strong>Bénéficiaires cotés allemands :</strong> fournisseurs locaux de TSMC, constructeurs industriels (Siemens, BASF) et l'écosystème semi-conducteur Munich/Dresde. Centre de design à Munich annoncé.</div>
+    </div>
+  </div>
+
+  <div class="sec">05 · Matrice risques géopolitiques / valeurs</div>
+  <div class="risk-grid">
+    <div class="risk-cell" style="background:rgba(192,57,43,.04);border-color:rgba(192,57,43,.2);">
+      <div class="risk-label" style="color:var(--red);">🔴 Risques immédiats</div>
+      <div class="risk-body"><strong>ASML</strong> : veto US export Chine<br><strong>TSM</strong> : pénalité Huawei >$1B<br><strong>Valeurs Chine</strong> : escalade Détroit<br><strong>Infra EU</strong> : cyberattaques +67%</div>
+    </div>
+    <div class="risk-cell" style="background:rgba(42,122,75,.04);border-color:rgba(42,122,75,.2);">
+      <div class="risk-label" style="color:var(--green);">🟢 Opportunités structurelles</div>
+      <div class="risk-body"><strong>NVDA/MSFT</strong> : Golfe IA $400B<br><strong>TTE</strong> : GNL + data centers<br><strong>PANW/CRWD</strong> : cyber EU NIS2<br><strong>TSMC Dresde</strong> : écosystème DE</div>
+    </div>
+    <div class="risk-cell" style="background:rgba(184,149,42,.04);border-color:rgba(184,149,42,.2);">
+      <div class="risk-label" style="color:var(--gold);">🟡 Surveillance requise</div>
+      <div class="risk-body"><strong>TSM Arizona</strong> : marges −2%<br><strong>Taïwan</strong> : élections/DPP/KMT<br><strong>Starlink</strong> : régulation Afrique<br><strong>Brent</strong> : résolution MO</div>
+    </div>
+    <div class="risk-cell" style="background:rgba(14,76,150,.04);border-color:rgba(14,76,150,.2);">
+      <div class="risk-label" style="color:var(--us);">🔵 Signaux long terme</div>
+      <div class="risk-body"><strong>Taiwan</strong> : 3% PIB défense<br><strong>OTAN+</strong> : statut Taïwan proposé<br><strong>Mexique</strong> : souveraineté IA<br><strong>MAGA</strong> : chaîne "non rouge"</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end body -->
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="vtag">Synthèse Géopolitique</div>
+  <div class="vtext">
+    La note Machiavel confirme trois thèses d'investissement : <strong>(1) NVDA et MSFT bénéficient directement du pivot Golfe</strong> — les $400B+ d'accords IA EAU/Arabie Saoudite créent un écosystème captif américain qui draine la demande GPU. <strong>(2) TotalEnergies est doublement exposée positivement</strong> : GNL indispensable aux data centers du Golfe + accord Alaska LNG 20 ans. <strong>(3) La cybersécurité est le secteur à sur-pondérer en Europe</strong> (PANW, CRWD, S) — NIS2 + blackout ibérique + asymétrie EU = catalyseur réglementaire. <strong>Risque à surveiller :</strong> un veto US total sur les exports ASML vers la Chine serait le choc le plus violent sur le secteur semi-conducteurs à court terme. Stop-loss mentaux recommandés sur toutes positions ASML et TSM.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-l">Source : Note stratégique « Machiavel » — Les Echos Expert — Benaouda Abdeddaïm (11 juin 2025) · Synthèse et impact boursier YAASAP Consulting · Analyse informative uniquement · Ne constitue pas un conseil en investissement</div>
+  <div class="foot-r">YAASAP Consulting · <span>Flash Énergie N°17 — Annexe</span> · 20 Mai 2026</div>
+</div>
+
+</div><!-- end page -->
+</body>
+</html>

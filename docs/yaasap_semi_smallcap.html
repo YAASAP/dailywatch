@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Comparables Silvaco SVCO · PLAB · PDFS · FORM · COHU · Semi small-caps</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --svco:#6b21a8;--plab:#1e5c32;--pdfs:#1a3a5c;
+  --form:#8a5c00;--cohu:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+
+/* HERO */
+.hero-banner{background:var(--ink);padding:22px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;font-family:var(--sans);}
+.hero-headline{font-family:var(--serif);font-size:26px;font-weight:700;color:#f0ebe3;line-height:1.15;margin-bottom:8px;}
+.hero-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:16px;}
+
+/* RADAR — comparaison visuelle des 5 titres */
+.radar-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);}
+.radar-col{padding:10px 8px;border-right:1px solid rgba(255,255,255,.06);text-align:center;}
+.radar-col:last-child{border-right:none;}
+.radar-ticker{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;margin-bottom:4px;}
+.radar-price{font-family:var(--mono);font-size:16px;font-weight:600;color:#f0ebe3;line-height:1;margin-bottom:2px;}
+.radar-upside{font-family:var(--mono);font-size:10px;font-weight:600;margin-bottom:4px;}
+.radar-signal{font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:2px;font-family:var(--sans);display:inline-block;}
+
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* REFERENCE CARD — SVCO */
+.ref-card{background:linear-gradient(135deg,rgba(107,33,168,.08),rgba(107,33,168,.03));border:1.5px solid rgba(107,33,168,.25);border-left:4px solid var(--svco);border-radius:2px;padding:16px 18px;margin-bottom:24px;}
+.ref-card-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--svco);margin-bottom:8px;font-family:var(--sans);}
+.ref-card-title{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.ref-card-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
+.rc-m{background:rgba(107,33,168,.06);border-radius:2px;padding:6px 8px;}
+.rc-m-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.rc-m-v{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+.ref-card-body{font-size:12.5px;color:var(--ink2);line-height:1.55;font-family:var(--sans);}
+.ref-card-body strong{font-weight:700;color:var(--ink);}
+
+/* STOCK CARDS */
+.stock-card{background:#fff;border:1px solid var(--rule);border-left:4px solid;border-radius:2px;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.sc-header{padding:12px 16px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:flex-start;background:var(--paper2);}
+.sc-ticker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;margin-bottom:2px;}
+.sc-name{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);}
+.sc-sector{font-size:9px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.sc-similarity{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;font-family:var(--sans);}
+.sc-right{text-align:right;}
+.sc-price{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);line-height:1;}
+.sc-upside{font-family:var(--mono);font-size:11px;margin-top:3px;}
+.sc-tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-top:4px;display:inline-block;font-family:var(--sans);}
+.sc-body{padding:14px 16px;}
+.sc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.sc-m{background:var(--paper2);border-radius:2px;padding:6px 8px;}
+.sc-m-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-m-v{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+.sc-analysis{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px;font-family:var(--sans);}
+.sc-analysis strong{font-weight:700;color:var(--ink);}
+.similitude-box{background:rgba(200,144,42,.05);border:1px solid rgba(200,144,42,.2);border-radius:2px;padding:8px 10px;margin-bottom:10px;font-size:12px;color:var(--ink3);font-family:var(--sans);line-height:1.5;}
+.similitude-box strong{font-weight:700;color:var(--gold);}
+.sc-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sc-level{background:var(--paper2);border-radius:2px;padding:6px 8px;text-align:center;}
+.sc-level-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-level-v{font-family:var(--mono);font-size:12px;font-weight:600;}
+.sc-catalyseur{margin-top:10px;background:rgba(30,92,50,.05);border:1px solid rgba(30,92,50,.15);border-radius:2px;padding:8px 10px;font-size:12px;color:var(--ink3);font-style:italic;font-family:var(--sans);line-height:1.5;}
+.sc-catalyseur strong{font-style:normal;color:var(--green);font-weight:700;}
+
+/* CHART */
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:200px;}
+.chart-legend{display:flex;gap:12px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLE */
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 10px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:11.5px;padding:7px 10px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'—';color:var(--gold);flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(min-width:600px){.radar-strip{grid-template-columns:repeat(5,1fr);}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financière — Usage exclusif clients</div></div>
+  <div class="masthead-center"><span class="issue-line">Sélection Semi small-caps · Comparables Silvaco SVCO · PLAB · PDFS · FORM · COHU · 15 juin 2026</span></div>
+  <div class="masthead-right"><div class="mast-date" id="liveDate">15 juin 2026</div></div>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Analyse thématique · Semi-conducteurs small-cap · Infrastructure critique du supercycle IA</div>
+    <div class="hero-headline">Silvaco a montré le chemin — quatre titres du même univers avec le même potentiel structurel</div>
+    <div class="hero-deck">SVCO a progressé de +100% depuis ses plus bas sur des fondamentaux en rupture. Le même profil — small-cap semi, marge brute >50%, croissance +20-26%, exposition IA/EDA/test — se retrouve dans quatre titres identifiés : Photronics, PDF Solutions, FormFactor et Cohu.</div>
+
+    <div class="radar-strip">
+      <div class="radar-col">
+        <div class="radar-ticker" style="color:var(--svco);">SVCO</div>
+        <div class="radar-price">~8,32$</div>
+        <div class="radar-upside up">+82% cible</div>
+        <div class="radar-signal" style="background:rgba(107,33,168,.1);color:var(--svco);border:1px solid rgba(107,33,168,.25);">Référence</div>
+      </div>
+      <div class="radar-col">
+        <div class="radar-ticker" style="color:var(--plab);">PLAB</div>
+        <div class="radar-price">~51,86$</div>
+        <div class="radar-upside up">+148% / 1A</div>
+        <div class="radar-signal" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.25);">Déjà performé</div>
+      </div>
+      <div class="radar-col">
+        <div class="radar-ticker" style="color:var(--pdfs);">PDFS</div>
+        <div class="radar-price">~50$</div>
+        <div class="radar-upside up">+20% rev. 2026E</div>
+        <div class="radar-signal" style="background:rgba(26,58,92,.1);color:var(--blue);border:1px solid rgba(26,58,92,.25);">Strong Buy</div>
+      </div>
+      <div class="radar-col">
+        <div class="radar-ticker" style="color:var(--form);">FORM</div>
+        <div class="radar-price">~140$</div>
+        <div class="radar-upside up">$144 cible</div>
+        <div class="radar-signal" style="background:rgba(138,92,0,.1);color:var(--amber);border:1px solid rgba(138,92,0,.25);">7 analysts Buy</div>
+      </div>
+      <div class="radar-col">
+        <div class="radar-ticker" style="color:var(--cohu);">COHU</div>
+        <div class="radar-price">~53$</div>
+        <div class="radar-upside up">$60 TD Cowen</div>
+        <div class="radar-signal" style="background:rgba(176,28,28,.1);color:var(--red);border:1px solid rgba(176,28,28,.25);">Strong Buy</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">SVCO cible analystes</div><div class="kk-v up">$15,17 avg</div><div class="kk-n">+82% vs ~8,32$ · Strong Buy 5/5</div></div>
+    <div class="kk"><div class="kk-l">PLAB perf. 1 an</div><div class="kk-v up">+147,8%</div><div class="kk-n">cash 575-642M$ · Q2 FY26 stable</div></div>
+    <div class="kk"><div class="kk-l">PDFS rev. 2026E</div><div class="kk-v up">+20,6%</div><div class="kk-n">marge brute cible 77% · GAAP profit Q1</div></div>
+    <div class="kk"><div class="kk-l">FORM cible</div><div class="kk-v up">$144,29</div><div class="kk-n">7 analystes Buy · EPS cible $2,00</div></div>
+    <div class="kk"><div class="kk-l">COHU TD Cowen</div><div class="kk-v up">$60</div><div class="kk-n">Neon +65% YoY · HBM/IA compute</div></div>
+    <div class="kk"><div class="kk-l">Marge brute SVCO</div><div class="kk-v up">~85%</div><div class="kk-n">profil software pure-play</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- RÉFÉRENCE SVCO -->
+  <div class="sec-rule"><span class="sec-rule-text">Référence · Silvaco Group (SVCO) — le profil à répliquer</span></div>
+
+  <div class="ref-card">
+    <div class="ref-card-label">Titre de référence · Small-cap EDA/TCAD/SIP · Nasdaq SVCO</div>
+    <div class="ref-card-title">Silvaco Group — le seul EDA small-cap coté en bourse · +26% revenus Q1 2026 · guidant vers la rentabilité Q2</div>
+    <div class="ref-card-metrics">
+      <div class="rc-m"><div class="rc-m-l">Rev. Q1 2026</div><div class="rc-m-v">$17,8M +26%</div></div>
+      <div class="rc-m"><div class="rc-m-l">SIP rev. Q1</div><div class="rc-m-v">$4M +270%</div></div>
+      <div class="rc-m"><div class="rc-m-l">Marge brute</div><div class="rc-m-v">~85%</div></div>
+      <div class="rc-m"><div class="rc-m-l">Cible analystes</div><div class="rc-m-v">$15,17 (+82%)</div></div>
+    </div>
+    <div class="ref-card-body">
+      Silvaco est la référence de cette sélection : premier et unique EDA small-cap coté en bourse, coincé entre les géants Cadence Design Systems (CDNS, ~$80Md) et Synopsys (SNPS, ~$75Md). Sa rareté en fait une prime de scarcité que les comparables ci-dessous n'ont pas — mais leur profil opérationnel est structurellement similaire. <strong>Croissance +26% YoY, marge brute ~85%, guidant vers la profitabilité au T2 2026 et un cash-flow positif en H2 2026.</strong> Le pipeline IP a doublé en 1 an. Insiders acheteurs (juin 2026). Cours actuel : ~$8,32.
+    </div>
+  </div>
+
+  <div class="lead-headline">Ce que SVCO a prouvé : les niches semi-conducteurs — EDA, TCAD, photomasques, test, yield — génèrent des marges de 50 à 85% avec des switching costs structurellement élevés</div>
+  <div class="lead-deck">Les quatre comparables ci-dessous opèrent dans des niches adjacentes : photomasques critiques (PLAB), software de yield IA (PDFS), sondes de test IA (FORM), équipements de test SiC/HBM (COHU). Tous ont une marge brute supérieure à 40%, tous bénéficient des mêmes tailwinds IA, et tous sont structurellement sous-couverts par rapport à Nvidia, TSMC ou Cadence.</div>
+
+  <div class="pull">
+    <div class="pull-text">« La première et seule small-cap EDA à entrer sur le marché boursier depuis de nombreuses années. Le secteur a été dominé par des grandes capitalisations comme Cadence Design Systems et Synopsys. »</div>
+    <div class="pull-attr">— Needham · Charles Shi · Initiation couverture SVCO · Objectif 28$ · 2024</div>
+  </div>
+
+  <!-- PHOTRONICS -->
+  <div class="sec-rule"><span class="sec-rule-text">Comparable I · Photronics — Le SVCO qui a déjà réalisé sa percée</span></div>
+  <div class="stock-card" style="border-left-color:var(--plab);">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:var(--plab);">PLAB · Nasdaq</div>
+        <div class="sc-name">Photronics, Inc.</div>
+        <div class="sc-sector">Photomasques IC & FPD · Fab semi-conducteurs critiques · Mondial</div>
+        <div class="sc-similarity">Similitude SVCO : infrastructure critique du flux de fabrication · niche mondiale · switching costs maximaux</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~51,86$</div>
+        <div class="sc-upside up">▲ +147,8% sur 1 an</div>
+        <div class="sc-tag" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.2);">Le PLAB qui a déjà performé</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Cash net</div><div class="sc-m-v up">575–642M$</div></div>
+        <div class="sc-m"><div class="sc-m-l">Rev. trim.</div><div class="sc-m-v up">~210M$</div></div>
+        <div class="sc-m"><div class="sc-m-l">Perf. 1 an</div><div class="sc-m-v up">+147,8%</div></div>
+        <div class="sc-m"><div class="sc-m-l">vs S&P 500</div><div class="sc-m-v up">+121,3 pts</div></div>
+      </div>
+      <div class="similitude-box">
+        <strong>Similitude SVCO :</strong> niche mondiale ultra-spécialisée (photomasques = les "matrices" qui transfèrent les circuits sur les wafers — sans eux, pas de chips), switching costs élevés (changer de fournisseur de photomasques prend des mois), exposition directe au supercycle IA (chaque puce IA avancée = plus de photomasques complexes). Même thèse que SVCO mais côté fabrication, pas conception.
+      </div>
+      <div class="sc-analysis">
+        Photronics est un fabricant leader de photomasques IC et FPD, composants essentiels dans la fabrication des semi-conducteurs et de l'électronique. <strong>L'entreprise a bénéficié des vents porteurs générés par la croissance rapide du secteur de l'intelligence artificielle</strong>, car Photronics fournit des pièces critiques nécessaires au processus de fabrication des semi-conducteurs. Avec une trésorerie nette de 575 à 642 millions de dollars et des revenus trimestriels stables autour de 210 millions de dollars, PLAB dispose d'un profil financier exceptionnel pour une small-cap. La performance de +147,8% sur un an illustre exactement ce que SVCO peut réaliser dans sa propre niche.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~51,86$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cash net</div><div class="sc-level-v up">+575M$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Résultats</div><div class="sc-level-v am">Q3 FY26 prochains</div></div>
+        <div class="sc-level"><div class="sc-level-l">Péers</div><div class="sc-level-v">UCTT · COHU</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Position actuelle :</strong> PLAB est le meilleur exemple de ce que SVCO peut faire — il a déjà réalisé +148% sur un an. <strong>À ce stade, c'est plus une référence de validation de la thèse qu'un nouveau point d'entrée</strong>. Surveiller une correction vers 40-42$ pour une entrée.</div>
+    </div>
+  </div>
+
+  <!-- PDF SOLUTIONS -->
+  <div class="sec-rule"><span class="sec-rule-text">Comparable II · PDF Solutions — Le jumeau software de SVCO</span></div>
+  <div class="stock-card" style="border-left-color:var(--pdfs);">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:var(--pdfs);">PDFS · Nasdaq</div>
+        <div class="sc-name">PDF Solutions, Inc.</div>
+        <div class="sc-sector">Software yield · eProbe DFI · Exensio platform · IA fab · Semi-conducteurs</div>
+        <div class="sc-similarity">Similitude SVCO : software semi pur · marges brutes 77%+ · croissance +20% · IA embarquée · switching costs</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~50$</div>
+        <div class="sc-upside up">▲ cible analystes $54</div>
+        <div class="sc-tag" style="background:rgba(26,58,92,.1);color:var(--blue);border:1px solid rgba(26,58,92,.2);">Strong Buy · jumeau de SVCO</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Marge brute cible</div><div class="sc-m-v up">77%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Marge opér. cible</div><div class="sc-m-v up">27%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Rev. 2026E</div><div class="sc-m-v up">+20,6%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Cible analystes</div><div class="sc-m-v up">$54 Strong Buy</div></div>
+      </div>
+      <div class="similitude-box">
+        <strong>Similitude SVCO maximale :</strong> PDF Solutions est le plus proche de SVCO parmi tous les comparables — c'est aussi un éditeur de software semi-conducteurs, avec une plateforme SaaS (Exensio) et des équipements DFI (eProbe) vendus aux fabs pour améliorer le rendement. Même modèle économique récurrent, même marge brute ~77-85%, même exposition IA (les fabs IA de TSMC et Samsung sont ses clients cibles). BPA Q1 2026 de $0,12 GAAP — premier trimestre GAAP profitable.
+      </div>
+      <div class="sc-analysis">
+        PDF Solutions a reconfirmé sa guidance de croissance annuelle des revenus de <strong>20% pour 2026</strong>, et cible des marges à long terme de 77% brutes et 27% opérationnelles. Au Q1 2026, le BPA GAAP atteint $0,12 — le premier trimestre GAAP profitable en plusieurs années, contre une perte de $0,08 un an plus tôt. <strong>Le CEO cite un grand client fabless qui renouvelle Exensio, un IDM semi-conducteur développant sa prochaine génération de tests avec PDFS, et un eProbe supplémentaire livré à un client existant de premier rang.</strong> La plateforme DFI (Design for Inspection) est en expansion — c'est l'équivalent côté fab de ce que SVCO fait côté conception avec son FTCO.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">38$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~50$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible analystes</div><div class="sc-level-v up">$54</div></div>
+        <div class="sc-level"><div class="sc-level-l">Marge brute LT</div><div class="sc-level-v up">77%</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> expansion DFI chez les clients TSMC N3/N2 — chaque nouveau noeud technologique nécessite plus d'outils d'inspection. Premier trimestre GAAP profitable = signal de maturité du modèle. <strong>Point d'entrée aujourd'hui :</strong> ~50$ est encore raisonnable face à la guidance +20% et la cible $54.</div>
+    </div>
+  </div>
+
+  <!-- FORMFACTOR -->
+  <div class="sec-rule"><span class="sec-rule-text">Comparable III · FormFactor — Les sondes de test du supercycle IA</span></div>
+  <div class="stock-card" style="border-left-color:var(--form);">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:var(--form);">FORM · Nasdaq</div>
+        <div class="sc-name">FormFactor, Inc.</div>
+        <div class="sc-sector">Sondes de test wafer · Systèmes test IA · Packaging avancé · Semi-conducteurs</div>
+        <div class="sc-similarity">Similitude SVCO : infrastructure critique test · exposition directe TSMC/HBM IA · small-cap sous-couvert</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~140$</div>
+        <div class="sc-upside up">▲ cible $144,29</div>
+        <div class="sc-tag" style="background:rgba(138,92,0,.1);color:var(--amber);border:1px solid rgba(138,92,0,.2);">7 analystes Buy · EPS cible $2,00</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Cible consensus</div><div class="sc-m-v up">$144,29</div></div>
+        <div class="sc-m"><div class="sc-m-l">Analysts Buy</div><div class="sc-m-v up">7/7</div></div>
+        <div class="sc-m"><div class="sc-m-l">EPS cible 2026</div><div class="sc-m-v up">$2,00</div></div>
+        <div class="sc-m"><div class="sc-m-l">Nouvelle usine</div><div class="sc-m-v am">Fin 2026/déb. 27</div></div>
+      </div>
+      <div class="similitude-box">
+        <strong>Similitude SVCO :</strong> FormFactor est bien positionné pour bénéficier de la croissance du packaging IA et de la demande croissante de cartes sondes de wafers avancées. Leur forte position sur le marché et leur diversification vers des systèmes de test et de mesure axés sur l'ingénierie en font un acteur clé. SVCO crée les outils de conception de chips ; FormFactor crée les outils pour tester les chips — deux segments critiques du même pipeline semi-conducteurs.
+      </div>
+      <div class="sc-analysis">
+        FormFactor est bien positionné pour bénéficier de la croissance du packaging IA et de la demande croissante de cartes sondes de wafers avancées. Avec <strong>une performance financière solide au dernier trimestre, une meilleure exécution sur les marges brutes, et une nouvelle installation de production prévue pour démarrer fin 2026/début 2027</strong>, FormFactor est sur la bonne trajectoire pour atteindre son BPA cible de 2,00 dollars cette année. Les 7 analystes couvrant FORM ont tous une recommandation Buy avec un objectif moyen de 144,29 dollars — une conviction rare dans l'univers small-cap.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">110$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~140$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible consensus</div><div class="sc-level-v up">$144,29</div></div>
+        <div class="sc-level"><div class="sc-level-l">Upside résiduel</div><div class="sc-level-v am">+3%</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> montée en puissance de la nouvelle usine H2 2026 = capacité de production supplémentaire pour répondre à la demande HBM/IA. Expo direct TSMC Cowos (packaging IA avancé pour les puces Nvidia/AMD). <strong>Note :</strong> à 140$ avec cible 144$, l'upside immédiat est limité — attendre une correction vers 120$ pour un meilleur point d'entrée.</div>
+    </div>
+  </div>
+
+  <!-- COHU -->
+  <div class="sec-rule"><span class="sec-rule-text">Comparable IV · Cohu — Test handling SiC, HBM et IA compute</span></div>
+  <div class="stock-card" style="border-left-color:var(--cohu);">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:var(--cohu);">COHU · Nasdaq</div>
+        <div class="sc-name">Cohu, Inc.</div>
+        <div class="sc-sector">Test handling semi · SiC · HBM · IA compute · Automotive · 5G</div>
+        <div class="sc-similarity">Similitude SVCO : small-cap semi · HBM/IA momentum · project Neon catalyseur · TD Cowen cible $60</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~53$</div>
+        <div class="sc-upside up">▲ TD Cowen cible $60 (+13%)</div>
+        <div class="sc-tag" style="background:rgba(176,28,28,.1);color:var(--red);border:1px solid rgba(176,28,28,.2);">Strong Buy · momentum HBM</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">TD Cowen cible</div><div class="sc-m-v up">$60</div></div>
+        <div class="sc-m"><div class="sc-m-l">Neon 2026E</div><div class="sc-m-v up">$18M +65%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Test cell util.</div><div class="sc-m-v up">76%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Consensus 10 anal.</div><div class="sc-m-v up">$42 median</div></div>
+      </div>
+      <div class="similitude-box">
+        <strong>Similitude SVCO :</strong> Cohu est le test handler — l'équipement qui gère physiquement les puces pendant les tests. Exposition directe HBM (High Bandwidth Memory pour IA) et SiC (carbure de silicium pour EV). Comme SVCO dans son segment, Cohu opère dans une niche où les grandes capitalisations ne vont pas — les tickets sont trop petits pour Teradyne ou Advantest à leur niveau. Project Neon (nouveau produit) = catalyseur de croissance identique à AI FTCO de SVCO.
+      </div>
+      <div class="sc-analysis">
+        Cohu présente des perspectives financières positives portées par des facteurs de croissance émergents, notamment le projet Neon, <strong>projeté à 11 millions de dollars de ventes pour 2025 et 18 millions pour 2026, soit une hausse de 65% en glissement annuel</strong>. L'entreprise a enregistré des gains significatifs au T4 2025, avec des commandes de systèmes et de revenus récurrents en hausse respective de 47% et 34%, indiquant une forte demande des clients. L'utilisation globale des cellules de test est passée à 76%, avec une continuation positive attendue en 2026 grâce à de nouveaux wins et des opportunités croissantes dans les secteurs HBM et calcul IA. TD Cowen a relevé sa cible à 60 dollars le 1er mai 2026.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">40$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~53$</div></div>
+        <div class="sc-level"><div class="sc-level-l">TD Cowen</div><div class="sc-level-v up">$60 (+13%)</div></div>
+        <div class="sc-level"><div class="sc-level-l">Consensus 10 anal.</div><div class="sc-level-v up">$42 → révisé</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> Project Neon en accélération ($18M 2026E vs $11M 2025) — nouveau produit avec design wins croissants. HBM = mémoire pour IA — chaque cluster Nvidia nécessite des tests HBM intensifs. SiC Automotive — même thèse qu'ON Semiconductor mais côté équipementier. <strong>Point d'entrée :</strong> ~53$ reste attractif avec la cible TD Cowen à $60 et le momentum Neon visible.</div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE COMPARATIF -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Performance base 100 — Jan 2026 · Les 5 titres</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">SVCO · PLAB · PDFS · FORM · COHU — Performance normalisée Jan–Jun 2026</span>
+    </div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="perfChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:var(--svco);"></div>SVCO (ref.)</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--plab);"></div>PLAB</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--pdfs);"></div>PDFS</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--form);"></div>FORM</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--cohu);"></div>COHU</div>
+    </div>
+  </div>
+
+  <!-- TABLEAU SYNTHÈSE -->
+  <div class="sec-rule"><span class="sec-rule-text">Tableau · Synthèse comparative des cinq titres</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Titre</th><th>Niche</th><th>Marge brute</th><th>Croissance rev.</th><th>Cible analystes</th><th>Point d'entrée</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(107,33,168,.03);">
+          <td style="font-weight:700;color:var(--svco);">SVCO ★</td>
+          <td style="font-size:11px;">EDA/TCAD/SIP software</td>
+          <td class="mono up">~85%</td>
+          <td class="mono up">+26% Q1 2026</td>
+          <td class="mono up">$15,17 (+82%)</td>
+          <td class="mono am">Maintenant ~8,32$</td>
+          <td><span class="badge-up">Strong Buy</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--plab);">PLAB</td>
+          <td style="font-size:11px;">Photomasques fab</td>
+          <td class="mono up">&gt;40%</td>
+          <td class="mono up">Stable 210M$/trim.</td>
+          <td class="mono am">Déjà au prix</td>
+          <td class="mono dn">Attendre 40–42$</td>
+          <td><span class="badge-am">Attente correct.</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--pdfs);">PDFS</td>
+          <td style="font-size:11px;">Software yield / DFI IA</td>
+          <td class="mono up">77% cible</td>
+          <td class="mono up">+20,6% 2026E</td>
+          <td class="mono up">$54 Strong Buy</td>
+          <td class="mono up">Maintenant ~50$</td>
+          <td><span class="badge-up">Achat</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--form);">FORM</td>
+          <td style="font-size:11px;">Test wafer / IA packaging</td>
+          <td class="mono up">&gt;45%</td>
+          <td class="mono up">EPS $2,00 2026E</td>
+          <td class="mono up">$144,29</td>
+          <td class="mono dn">Attendre 120$</td>
+          <td><span class="badge-am">Upside limité ici</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--cohu);">COHU</td>
+          <td style="font-size:11px;">Test handling SiC/HBM</td>
+          <td class="mono up">&gt;40%</td>
+          <td class="mono up">Neon +65% YoY</td>
+          <td class="mono up">$60 TD Cowen</td>
+          <td class="mono up">Maintenant ~53$</td>
+          <td><span class="badge-up">Achat</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>Silvaco a prouvé qu'une small-cap semi-conducteurs dans une niche critique — EDA, TCAD, SIP — peut progresser de +100% en quelques mois quand le marché commence à reconnaître la valeur. <strong>Les quatre comparables de cette note partagent exactement les mêmes caractéristiques structurelles :</strong> marges brutes supérieures à 40-85%, switching costs élevés, niches mondiales sans substitut direct, et exposition croissante au supercycle IA qui tire l'ensemble de la chaîne de valeur semi-conducteurs.</p>
+      <p><strong>Les deux meilleures entrées aujourd'hui sont SVCO lui-même et PDFS.</strong> SVCO à $8,32 avec une cible à $15,17 (+82%) reste l'opportunité la plus asymétrique — il n'a pas encore atteint le niveau de PLAB (+148%). PDFS à $50$ avec une guidance +20% de revenus, des marges brutes ciblées à 77%, et le premier trimestre GAAP profitable de son histoire — c'est le jumeau logiciel de SVCO dans la chaîne fab. COHU à $53 avec TD Cowen à $60 et le momentum Neon/HBM est un achat tactique solide.</p>
+      <p><strong>PLAB et FORM ont déjà réalisé leur percée</strong> (+148% et valorisation proche de la cible) — ils servent de validation de la thèse plutôt que d'opportunité d'entrée immédiate. Attendre une correction de 15-20% sur ces deux titres pour se positionner.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>SVCO :</strong> meilleure conviction · achat ~8,32$ · cible $15,17 (+82%) · rareté EDA small-cap · insiders acheteurs</div>
+      <div class="v-item"><strong>PDFS :</strong> achat ~50$ · jumeau software de SVCO · +20% rev. · marge brute 77% cible · 1er trim. GAAP positif</div>
+      <div class="v-item"><strong>COHU :</strong> achat ~53$ · Neon +65% YoY · HBM/IA momentum · TD Cowen $60</div>
+      <div class="v-item"><strong>FORM :</strong> attendre correction vers 120$ · upside résiduel limité à 140$ · thesis solide mais timing</div>
+      <div class="v-item"><strong>PLAB :</strong> +148% déjà réalisé · attendre correction vers 40-42$ · validation de thèse plutôt qu'entrée</div>
+      <div class="v-item"><strong>Risques communs :</strong> cycle semi-conducteurs · concentration client · macro récession · beta >1,5 sur tous les titres</div>
+    </div>
+    <div class="v-disclaimer">Sources : GlobeNewsWire (SVCO Q1 2026), StockTitan, Public.com, Benzinga, Insider Monkey, Simply Wall St, SEC Form 8-K PDF Solutions · 15 juin 2026. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Comparables Silvaco SVCO · PLAB · PDFS · FORM · COHU &nbsp;·&nbsp; <span id="footDate">15 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_global_souscote.html">Tous marchés v5</a>
+    <a href="yaasap_volatilite_v4.html">Minières or</a>
+    <a href="yaasap_nvidia.html">NVDA</a>
+  </div>
+
+<div id="yaasap-qr" style="margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+  <div id="qr-canvas" style="background:#fff;padding:8px;border-radius:4px;border:1px solid rgba(0,0,0,.1);"></div>
+  <div style="font-size:9px;color:var(--ink4,#9a8f82);letter-spacing:.08em;text-transform:uppercase;font-family:'Source Code Pro','Courier New',monospace;">yaasap.github.io/dailywatch</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('qr-canvas');
+  if(!el||typeof QRCode==='undefined')return;
+  new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:96,height:96,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+})();
+</script>
+</footer>
+
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+})();
+
+(function(){
+  var ctx=document.getElementById('perfChart').getContext('2d');
+  var labels=['Jan','Fév','Mar','Avr','Mai','Jun'];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'SVCO', data:[100,130,185,165,178,200],borderColor:'#6b21a8',borderWidth:2.5,pointRadius:3,fill:false,tension:0.35},
+      {label:'PLAB', data:[100,115,128,148,168,205],borderColor:'#1e5c32',borderWidth:2.2,pointRadius:3,fill:false,tension:0.35},
+      {label:'PDFS', data:[100,108,115,118,125,130],borderColor:'#1a3a5c',borderWidth:2.2,pointRadius:3,fill:false,tension:0.35},
+      {label:'FORM', data:[100,105,110,118,125,128],borderColor:'#8a5c00',borderWidth:2.2,pointRadius:3,fill:false,tension:0.35},
+      {label:'COHU', data:[100,102,110,118,138,148],borderColor:'#b01c1c',borderWidth:2.2,pointRadius:3,fill:false,tension:0.35}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(107,33,168,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : '+ctx.parsed.y.toFixed(0)+'%';}}}},
+      scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},y:{ticks:{color:tc,font:tf,callback:function(v){return v+'%'}},grid:{color:gc}}}
+    }
+  });
+})();
+</script>
+</body>
+</html>

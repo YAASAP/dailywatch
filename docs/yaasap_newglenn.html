@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0d0d">
+<title>YAASAP Notes — Explosion New Glenn · Impact IPO SpaceX</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--bg4:#242424;
+  --ink:#f0ebe3;--ink2:#cdc5bc;--ink3:#9a9088;--ink4:#666058;
+  --rule:rgba(255,255,255,0.08);--rule2:rgba(255,255,255,0.04);
+  --accent:#c8602a;--green:#3a9e5f;--amber:#c49a20;--gold:#f0c956;
+  --blue:#4a7ab5;--red:#c0392b;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3',system-ui,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--bg);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.masthead{background:#080808;border-bottom:3px double rgba(255,255,255,.1);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.6);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--ink);}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:var(--ink4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:2px 8px;display:inline-block;}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:var(--ink4);font-style:italic;}
+
+/* BREAKING BANNER */
+.breaking{background:#c0392b;padding:8px 24px;display:flex;align-items:center;gap:10px;}
+.breaking-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px;width:100%;}
+.breaking-tag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:2px;white-space:nowrap;flex-shrink:0;}
+.breaking-text{font-size:12px;color:#fff;font-weight:600;}
+
+.hero-banner{background:linear-gradient(160deg,#0d0d0d,#1a0400,#0d0d0d);border-bottom:2px solid #c0392b;padding:24px 24px 16px;}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#f87171;font-weight:700;margin-bottom:8px;}
+.hero-headline{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:8px;}
+.hero-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:16px;}
+.hero-kpis{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--rule);padding-top:12px;}
+.hkpi{padding:6px 14px;border-right:1px solid var(--rule);text-align:center;}
+.hkpi:first-child{padding-left:0;}
+.hkpi:last-child{border-right:none;}
+.hkpi-v{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1;}
+.hkpi-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:3px;}
+
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--bg2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;}
+.up{color:#4ade80;}.dn{color:#f87171;}.am{color:#fbbf24;}
+
+.content{max-width:720px;margin:0 auto;padding:0 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
+.tl-item{display:flex;gap:12px;padding-bottom:14px;position:relative;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);background:var(--bg);flex-shrink:0;margin-top:4px;}
+.tl-dot.red{border-color:#c0392b;background:#c0392b;}
+.tl-line{flex:1;width:2px;background:var(--rule);margin-top:2px;}
+.tl-item:last-child .tl-line{display:none;}
+.tl-date{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent);margin-bottom:2px;}
+.tl-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.tl-text{font-size:12.5px;color:var(--ink3);line-height:1.5;}
+.tl-text strong{color:var(--ink2);font-weight:700;}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.impact-card{background:var(--bg2);border:1px solid var(--rule);border-top:2px solid;border-radius:2px;padding:14px 16px;}
+.impact-ticker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;margin-bottom:2px;}
+.impact-name{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.impact-chg{font-family:var(--mono);font-size:22px;font-weight:600;line-height:1;margin-bottom:8px;}
+.impact-body{font-size:12.5px;color:var(--ink3);line-height:1.55;}
+.impact-body strong{color:var(--ink2);font-weight:700;}
+.impact-verdict{margin-top:8px;padding-top:7px;border-top:1px solid var(--rule2);font-family:var(--mono);font-size:9px;font-weight:700;padding-top:7px;padding-left:0;letter-spacing:.08em;text-transform:uppercase;}
+
+/* CHART */
+.chart-section{background:var(--bg2);border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:200px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLE */
+.table-wrap{background:var(--bg2);border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid rgba(255,255,255,.15);background:var(--bg3);}
+.data-table td{font-size:12px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(58,158,95,.15);color:#4ade80;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(58,158,95,.3);}
+.badge-dn{background:rgba(192,57,43,.15);color:#f87171;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(192,57,43,.3);}
+.badge-am{background:rgba(196,154,32,.15);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(196,154,32,.3);}
+
+.infobox{background:var(--bg2);border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:14px;}
+.infobox-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.infobox-body{font-size:13px;color:var(--ink2);line-height:1.6;}
+.infobox-body strong{font-weight:700;color:var(--ink);}
+
+.verdict{background:var(--bg2);border:1px solid var(--rule);border-top:2px solid var(--accent);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.v-tag::after{content:'';flex:1;height:1px;background:var(--rule);}
+.v-body{font-family:var(--serif);font-size:13px;color:var(--ink2);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid var(--rule);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:var(--ink2);align-items:baseline;}
+.v-item::before{content:'—';color:var(--accent);flex-shrink:0;}
+.v-item strong{color:var(--ink);font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);font-size:10px;color:var(--ink4);font-style:italic;line-height:1.5;}
+
+footer{background:#080808;border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;}
+
+@media(min-width:600px){
+  .impact-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière — Usage exclusif clients</div>
+  </div>
+  <div class="masthead-center">
+    <span class="issue-line">Flash spécial &nbsp;·&nbsp; Explosion New Glenn · Blue Origin · Impact IPO SpaceX · 29 mai 2026</span>
+  </div>
+  <div class="masthead-right">
+    <div class="mast-date" id="liveDate">29 mai 2026</div>
+  </div>
+</div>
+
+<div class="breaking">
+  <div class="breaking-inner">
+    <span class="breaking-tag">FLASH</span>
+    <span class="breaking-text">28 mai 21h ET — New Glenn de Blue Origin détruite sur rampe de lancement à Cape Canaveral. La pire explosion de l'histoire de Blue Origin.</span>
+  </div>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Flash analyse · 29 mai 2026 · Spatial & IPO</div>
+    <div class="hero-headline">New Glenn explose, SpaceX s'envole : la course spatiale vient de bifurquer</div>
+    <div class="hero-deck">La destruction de la fusée New Glenn de Blue Origin dans la nuit du 28 mai 2026 est l'un des pires accidents de l'histoire du secteur spatial commercial. Elle remodèle l'équilibre concurrentiel à deux semaines de l'IPO SpaceX — et crée des opportunités et des risques immédiats sur les valeurs cotées.</div>
+    <div class="hero-kpis">
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">Détruite</div><div class="hkpi-l">New Glenn sur rampe</div></div>
+      <div class="hkpi"><div class="hkpi-v dn">−18%</div><div class="hkpi-l">ASTS vendredi</div></div>
+      <div class="hkpi"><div class="hkpi-v dn">−6%</div><div class="hkpi-l">RKLB vendredi</div></div>
+      <div class="hkpi"><div class="hkpi-v am">$1.8T</div><div class="hkpi-l">Valeur. SpaceX révisée</div></div>
+      <div class="hkpi"><div class="hkpi-v">48</div><div class="hkpi-l">Sats Kuiper non lancés</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">3/4</div><div class="hkpi-l">Vols NG partiellement ratés</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Heure explosion</div><div class="kk-v dn">21h00 ET · 28/05</div><div class="kk-n">hot-fire test Cape Canaveral</div></div>
+    <div class="kk"><div class="kk-l">Blessés</div><div class="kk-v up">Aucun</div><div class="kk-n">tout le personnel sain et sauf</div></div>
+    <div class="kk"><div class="kk-l">Rampe de lancement</div><div class="kk-v dn">Détruite</div><div class="kk-n">mois de réparation minimum</div></div>
+    <div class="kk"><div class="kk-l">Payload Kuiper</div><div class="kk-v up">Intact</div><div class="kk-n">non intégré au moment du test</div></div>
+    <div class="kk"><div class="kk-l">SpaceX valeur IPO</div><div class="kk-v am">$1.8T</div><div class="kk-n">révisé de $2T · −$200Md</div></div>
+    <div class="kk"><div class="kk-l">ETF UFO</div><div class="kk-v dn">Pire séance 2026</div><div class="kk-n">secteur spatial pénalisé</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- CHRONOLOGIE -->
+  <div class="sec-rule"><span class="sec-rule-text">Chronologie · Ce qui s'est passé exactement</span></div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot red"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">28 mai · 21h00 ET</div>
+        <div class="tl-title">Explosion sur la rampe de lancement</div>
+        <div class="tl-text">Lors d'un essai de mise à feu statique des moteurs, <strong>la fusée New Glenn éclate dans une boule de feu gigantesque</strong> visible depuis les plages de Cocoa Beach. La détonation ébranle les maisons du voisinage. Une vidéo de NASASpaceflight capte l'explosion en direct. Blue Origin indique avoir "constaté une anomalie lors de l'essai de mise à feu".</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">28 mai · 22h30 ET</div>
+        <div class="tl-title">Déclaration de Jeff Bezos sur X</div>
+        <div class="tl-text">"Il est encore trop tôt pour connaître la cause exacte. <strong>C'est une journée vraiment difficile, mais on va réparer tout ce qui doit l'être et reprendre les vols. Cela en vaut la peine.</strong>" — Bezos précise que tout le personnel est sain et sauf. Elon Musk répond : "Most unfortunate. Rockets are hard."</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">28 mai · Nuit</div>
+        <div class="tl-title">Évaluation des dégâts</div>
+        <div class="tl-text">La fumée se dissipe. <strong>La fusée est entièrement détruite. L'érecteur-gantry n'est plus visible.</strong> Au moins l'une des deux tours paratonnerres semble endommagée. Cape Canaveral Space Force Station avertit que des débris sont potentiellement dangereux. Les équipes d'urgence restent sur site plus d'une heure.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">29 mai · Ouverture marchés</div>
+        <div class="tl-title">Chute sectorielle — pire séance 2026 pour l'ETF UFO</div>
+        <div class="tl-text"><strong>ASTS : −18% à l'ouverture.</strong> RKLB : −6%. LUNR : −5%. PL Planet Labs : −5%. VOYG Voyager : −5%. L'ETF Procure Space (UFO) enregistre sa pire séance de l'année. AMZN recule modérément. Les sources indiquent que <strong>SpaceX a révisé sa valorisation IPO de $2T à $1.8T</strong> après consultations avec ses advisors.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">29 mai · Journée</div>
+        <div class="tl-title">FAA et NASA réagissent</div>
+        <div class="tl-text">La FAA précise que le test "n'était pas dans le cadre des activités sous licence FAA" — pas d'impact sur le trafic aérien. La NASA confirme ouvrir une enquête et évaluer les impacts potentiels sur le programme Artemis, <strong>dont Blue Origin détient un contrat de lander lunaire pour 2027.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEXTE NEW GLENN — LE BILAN -->
+  <div class="sec-rule"><span class="sec-rule-text">Bilan · New Glenn en quatre vols — un fiasco en construction</span></div>
+
+  <div class="body-text">
+    <p>L'explosion du 28 mai n'est pas un accident isolé. Elle s'inscrit dans un bilan de fiabilité préoccupant pour New Glenn depuis son premier vol en janvier 2025. <strong>Sur quatre tentatives, aucune n'a été entièrement réussie.</strong></p>
+    <p>NG-1 (janvier 2025) : premier vol orbital réussi — mais l'atterrissage du premier étage réutilisable a échoué. NG-2 (novembre 2025) : vol réussi, atterrissage du booster réussi — le premier succès complet de l'histoire de New Glenn. NG-3 (19 avril 2026) : lancement du satellite BlueBird 7 d'AST SpaceMobile — <strong>le payload s'est retrouvé sur une orbite inférieure à celle prévue à cause d'une défaillance cryogénique</strong>, et a dû être désorbité. Le booster a atterri mais la mission client a échoué. NG-4 (28 mai 2026) : destruction totale sur rampe lors du hot-fire test.</p>
+  </div>
+
+  <div class="infobox" style="border-left:3px solid #c0392b;">
+    <div class="infobox-title" style="color:#f87171;">L'enjeu Kuiper — Ce que cette explosion signifie pour Amazon</div>
+    <div class="infobox-body">
+      Amazon a sécurisé <strong>24 lancements New Glenn pour déployer sa constellation LEO Kuiper</strong>, concurrent direct de Starlink. La mission NG-4 devait livrer 48 satellites Kuiper en orbite basse. Le payload n'était pas intégré au moment de l'explosion — aucune perte matérielle directe. Mais <strong>la fenêtre de lancement du 4 juin est annihilée</strong>, et toute la chronologie de déploiement Kuiper est remise en question. Amazon dispose d'alternatives : ULA Vulcan, Arianespace, et — ironie suprême — SpaceX. La pression sur Kuiper est désormais existentielle : <strong>Starlink compte 4 millions d'abonnés, Kuiper n'en a pas encore un seul.</strong>
+    </div>
+  </div>
+
+  <!-- IMPACT MARCHÉ -->
+  <div class="sec-rule"><span class="sec-rule-text">Impact marché · Valeurs cotées · Gagnants et perdants</span></div>
+
+  <div class="impact-grid">
+
+    <div class="impact-card" style="border-top-color:#f87171;">
+      <div class="impact-ticker" style="color:#f87171;">ASTS · AST SpaceMobile</div>
+      <div class="impact-name">La victime collatérale la plus sévère</div>
+      <div class="impact-chg dn">−18%</div>
+      <div class="impact-body">
+        ASTS était déjà fragilisé après l'échec orbital de BlueBird 7 sur NG-3 le 19 avril. <strong>La destruction de New Glenn ferme définitivement la voie Blue Origin pour les prochains lancements de satellites.</strong> AST devra se retourner vers SpaceX ou ISRO — ce qui augmente ses coûts et retarde ses revenus. La guidance 2026 de $150–200M devient encore plus difficile à atteindre.
+      </div>
+      <div class="impact-verdict" style="color:#f87171;">Vendre ou alléger · risque opérationnel majeur</div>
+    </div>
+
+    <div class="impact-card" style="border-top-color:#f87171;">
+      <div class="impact-ticker" style="color:#f87171;">RKLB · Rocket Lab</div>
+      <div class="impact-name">Paradoxe : perdant à court terme, gagnant structurel</div>
+      <div class="impact-chg dn">−6%</div>
+      <div class="impact-body">
+        RKLB chute par contagion sectorielle — irrationnel à long terme. <strong>Rocket Lab est le principal bénéficiaire de la défaillance de New Glenn.</strong> Les clients qui cherchent une alternative fiable pour les lancements medium-lift se tourneront vers Neutron (en développement) et Electron. Le backlog de $2.2Md et les contrats Pentagone sont totalement décorrélés de l'accident Blue Origin.
+      </div>
+      <div class="impact-verdict" style="color:#4ade80;">Opportunité d'achat sur la baisse · fondamentaux intacts</div>
+    </div>
+
+    <div class="impact-card" style="border-top-color:#fbbf24;">
+      <div class="impact-ticker" style="color:#fbbf24;">AMZN · Amazon</div>
+      <div class="impact-name">Impact limité sur la valorisation globale</div>
+      <div class="impact-chg am">−1 à −2%</div>
+      <div class="impact-body">
+        Blue Origin représente une fraction marginale de la valorisation d'Amazon. <strong>Le vrai impact est stratégique, pas financier</strong> : Kuiper perd 6 à 12 mois sur son calendrier de déploiement. La compétition avec Starlink s'éloigne. Mais Amazon a d'autres lanceurs disponibles (ULA, Arianespace, SpaceX) et les 302 satellites Kuiper déjà en orbite restent opérationnels.
+      </div>
+      <div class="impact-verdict" style="color:#fbbf24;">Hold · impact Kuiper absorbable par AMZN à $2.4T de capi.</div>
+    </div>
+
+    <div class="impact-card" style="border-top-color:#4ade80;">
+      <div class="impact-ticker" style="color:#4ade80;">SPCX · SpaceX (IPO)</div>
+      <div class="impact-name">Bénéficiaire absolu — mais valorisation révisée</div>
+      <div class="impact-chg up">Consolidation</div>
+      <div class="impact-body">
+        L'explosion de New Glenn confirme ce que SpaceX sait depuis des années : <strong>personne ne peut rivaliser avec sa cadence de 140+ lancements annuels et la réutilisabilité Falcon/Starship.</strong> Mais l'IPO elle-même subit une révision : la valorisation cible passe de $2T à $1.8T après consultations avec les banques. Cela reste la plus grande IPO de l'histoire américaine.
+      </div>
+      <div class="impact-verdict" style="color:#4ade80;">IPO toujours en ligne · Roadshow ~4 juin · Cotation 11–12 juin</div>
+    </div>
+
+    <div class="impact-card" style="border-top-color:#f87171;">
+      <div class="impact-ticker" style="color:#f87171;">LUNR · Intuitive Machines</div>
+      <div class="impact-name">Dommage collatéral Artemis</div>
+      <div class="impact-chg dn">−5%</div>
+      <div class="impact-body">
+        Blue Origin détient un contrat NASA pour le lander lunaire du programme Artemis prévu en 2027. <strong>L'explosion remet en question ce calendrier.</strong> Intuitive Machines, également partenaire NASA, subit une contagion de sentiment sur le risque perçu des programmes lunaires. Fondamentaux LUNR inchangés — backlog $1.1Md intact.
+      </div>
+      <div class="impact-verdict" style="color:#fbbf24;">Hold · attendre clarification NASA sur Artemis</div>
+    </div>
+
+    <div class="impact-card" style="border-top-color:#4a7ab5;">
+      <div class="impact-ticker" style="color:#4a7ab5;">UFO · Procure Space ETF</div>
+      <div class="impact-name">Pire séance de l'année — opportunité tactique</div>
+      <div class="impact-chg dn">Pire séance 2026</div>
+      <div class="impact-body">
+        L'ETF qui regroupe l'ensemble du secteur spatial souffre de la contagion émotionnelle. <strong>Une explosion Blue Origin ne dégrade pas la thèse long terme du secteur</strong> — elle la renforce en faveur de SpaceX et des opérateurs diversifiés. Les investisseurs qui vendent UFO aujourd'hui vendent précisément au mauvais moment.
+      </div>
+      <div class="impact-verdict" style="color:#4ade80;">Accumuler sur faiblesse · thèse long terme intacte</div>
+    </div>
+
+  </div>
+
+  <!-- GRAPHIQUE PERFORMANCE -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Performance relative secteur spatial · 28–29 mai 2026</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">Variation sur 2 séances · Base 100 = 27 mai clôture · Impact explosion New Glenn</span>
+    </div>
+    <div class="chart-inner">
+      <div class="chart-wrap"><canvas id="impactChart"></canvas></div>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:#f87171;"></div>ASTS</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#c8602a;"></div>RKLB</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#f87171;opacity:.5;"></div>LUNR</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#60a5fa;"></div>AMZN</div>
+      <div class="cl-item"><div class="cl-dot" style="background:rgba(255,255,255,.3);"></div>S&P 500</div>
+    </div>
+  </div>
+
+  <!-- COMPARAISON SpaceX vs Blue Origin -->
+  <div class="sec-rule"><span class="sec-rule-text">SpaceX vs Blue Origin · L'écart qui se creuse</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Indicateur</th><th>SpaceX</th><th>Blue Origin</th><th>Écart</th></tr></thead>
+      <tbody>
+        <tr><td>Lancements 2025</td><td class="mono up">140+</td><td class="mono dn">3</td><td class="mono dn">×47</td></tr>
+        <tr><td>Taux de réussite</td><td class="mono up">>98%</td><td class="mono dn">~50% orbital</td><td class="mono dn">Abyssal</td></tr>
+        <tr><td>Réutilisabilité</td><td class="mono up">Falcon 20+ vols/booster</td><td class="mono dn">2 atterrissages NG réussis</td><td><span class="badge-dn">Loin</span></td></tr>
+        <tr><td>Starlink / Kuiper</td><td class="mono up">4M+ abonnés</td><td class="mono dn">302 sats · 0 abonné</td><td class="mono dn">Critique</td></tr>
+        <tr><td>Contrats NASA actifs</td><td class="mono up">Artemis · CLPS · DoD</td><td class="mono am">Lander Artemis 2027</td><td><span class="badge-am">À risque</span></td></tr>
+        <tr><td>IPO / valorisation</td><td class="mono up">$1.8T · juin 2026</td><td class="mono">Privé · Bezos finance</td><td><span class="badge-up">SpaceX gagnant</span></td></tr>
+        <tr><td>Dernier accident</td><td class="mono am">Starship NG-12 juin 25</td><td class="mono dn">New Glenn · 28 mai 26</td><td class="mono dn">BO plus récent</td></tr>
+        <tr><td>Prochaine étape</td><td class="mono up">IPO 11–12 juin 2026</td><td class="mono dn">Reconstruction rampe · mois</td><td><span class="badge-dn">BO bloqué</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- IMPACT IPO SPACEX -->
+  <div class="sec-rule"><span class="sec-rule-text">Impact IPO · Ce que l'explosion change pour la cotation du 11–12 juin</span></div>
+
+  <div class="body-text">
+    <p>L'explosion de New Glenn est paradoxalement à la fois un catalyseur positif et un élément d'inquiétude pour l'IPO SpaceX. Positif parce qu'elle confirme l'avance écrasante de SpaceX et renforce la thèse d'un monopole durable sur les lancements commerciaux. Négatif parce qu'elle rappelle à tous les investisseurs que <strong>le secteur spatial reste un domaine à haute volatilité et haute incertitude.</strong></p>
+    <p>La révision de la valorisation de $2T à $1.8T est significative — c'est une réduction de $200 milliards après consultations avec Goldman Sachs et les autres banques lead. <strong>Les sources précisent que la valorisation pourrait remonter après le roadshow</strong> (environ 4 juin) en fonction des retours des investisseurs institutionnels.</p>
+  </div>
+
+  <div class="infobox" style="border-left:3px solid var(--gold);">
+    <div class="infobox-title" style="color:var(--gold);">Calendrier IPO SpaceX — Inchangé malgré l'explosion</div>
+    <div class="infobox-body">
+      Roadshow investisseurs : <strong>~4 juin 2026.</strong> Cotation Nasdaq (SPCX) : <strong>11–12 juin 2026.</strong> Goldman Sachs, Morgan Stanley, BofA, Citigroup, JPMorgan pilotent l'opération. La valorisation cible de $1.8T reste la plus grande IPO de l'histoire des marchés américains. <strong>L'explosion Blue Origin n'a pas modifié ce calendrier</strong> — elle a simplement rappelé aux investisseurs pourquoi SpaceX vaut ce prix.
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>L'explosion de New Glenn est <strong>la meilleure publicité involontaire que SpaceX pouvait obtenir à deux semaines de son IPO.</strong> Elle démontre empiriquement ce que les investisseurs savent intellectuellement — construire des fusées orbital-class réutilisables est extraordinairement difficile, et SpaceX est seul à l'avoir maîtrisé à l'échelle industrielle.</p>
+      <p>Pour les valeurs cotées, le signal est clair. <strong>RKLB est l'opportunité d'achat sur la correction</strong> — la baisse de −6% par contagion est irrationnelle : Rocket Lab n'a aucun lien opérationnel avec Blue Origin, et la défaillance de New Glenn renforce sa position comme seule alternative occidentale crédible. ASTS est à alléger car ses lancements futurs sont directement impactés. AMZN est neutre — l'impact Kuiper est réel mais absorbable pour une entreprise à $2.4T de capitalisation.</p>
+      <p><strong>L'IPO SpaceX reste le trade du premier semestre 2026.</strong> La révision à $1.8T crée même une légère amélioration du ratio risque/récompense par rapport aux $2T initiaux. Le roadshow du 4 juin sera déterminant pour la valorisation finale.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>Acheter RKLB</strong> sur la faiblesse — baisse irrationnelle, bénéficiaire structurel</div>
+      <div class="v-item"><strong>Alléger ASTS</strong> — risque opérationnel réel sur les prochains lancements</div>
+      <div class="v-item"><strong>Hold AMZN</strong> — impact Kuiper marginal sur la valorisation globale</div>
+      <div class="v-item"><strong>IPO SpaceX confirmée</strong> — 11–12 juin · $1.8T · roadshow 4 juin</div>
+      <div class="v-item"><strong>Surveiller</strong> — annonce NASA sur Artemis et contrat Blue Origin 2027</div>
+    </div>
+    <div class="v-disclaimer">Analyse informative — YAASAP Notes · Yacine AOUABED · 29 mai 2026. Sources : Reuters, France 24, Radio-Canada, Investing.com, Yahoo Finance, CNBC, HeyGoTrade, Startup Fortune. Ne constitue pas un conseil en investissement.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Flash Spatial · Explosion New Glenn · <span id="footDate">29 mai 2026</span> &nbsp;·&nbsp; Ne constitue pas un conseil en investissement</div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_spatial_live.html">Spatial Live</a>
+    <a href="yaasap_volatilite.html">Volatilité</a>
+    <a href="yaasap_midterms.html">Midterms</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+})();
+
+(function(){
+  var ctx=document.getElementById('impactChart').getContext('2d');
+  var gc='rgba(255,255,255,0.04)',tc='#666058',tf={size:9,family:"'Source Code Pro',monospace"};
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['ASTS','RKLB','LUNR','PL','VOYG','AMZN','S&P 500'],
+      datasets:[{
+        label:'Variation 29 mai 2026',
+        data:[-18,-6,-5,-5,-5,-1.5,+0.3],
+        backgroundColor:function(ctx){
+          var v=ctx.raw;
+          return v<0?'rgba(192,57,43,0.6)':'rgba(58,158,95,0.6)';
+        },
+        borderColor:function(ctx){
+          var v=ctx.raw;
+          return v<0?'#c0392b':'#3a9e5f';
+        },
+        borderWidth:1,
+        borderRadius:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(13,13,13,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.7)',
+          borderColor:'rgba(200,96,42,.4)',borderWidth:1,padding:8,
+          callbacks:{label:function(ctx){return ' '+ctx.parsed.y.toFixed(1)+'%';}}
+        }
+      },
+      scales:{
+        x:{ticks:{color:tc,font:tf},grid:{color:gc}},
+        y:{ticks:{color:tc,font:tf,callback:function(v){return v+'%';}},grid:{color:gc},
+           afterDataLimits:function(axis){axis.max=5;axis.min=-22;}}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

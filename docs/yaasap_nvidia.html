@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Nvidia · Bilan · Hors Bilan · Actionnaires · Bulle IA ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+.hero{background:var(--ink);padding:20px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+.ticker-row{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+.ticker{font-family:var(--mono);font-size:12px;font-weight:600;color:#c8902a;letter-spacing:.1em;}
+.exchange{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:2px;}
+.stock-name{font-family:var(--serif);font-size:22px;color:#f0ebe3;line-height:1.1;}
+.stock-sub{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-family:var(--sans);}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:6px;}
+.price-main{font-family:var(--mono);font-size:38px;font-weight:600;color:#f0ebe3;line-height:1;}
+.price-change-up{font-family:var(--mono);font-size:13px;font-weight:600;padding:3px 8px;border-radius:2px;background:rgba(30,92,50,.25);color:#4ade80;}
+.hero-right{text-align:right;}
+.verdict-badge{display:inline-flex;flex-direction:column;align-items:center;background:rgba(138,92,0,.15);border:1px solid rgba(200,144,42,.35);border-radius:2px;padding:10px 14px;}
+.verdict-val{font-family:var(--mono);font-size:12px;font-weight:600;color:#c8902a;line-height:1;}
+.verdict-label{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;font-family:var(--sans);}
+.verdict-sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;font-family:var(--sans);}
+.stats-strip{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.06);background:var(--ink);}
+.stat{padding:9px 0 9px 12px;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;font-family:var(--sans);}
+.stat-v{font-family:var(--mono);font-size:11px;font-weight:500;color:#f0ebe3;}
+.up{color:#4ade80;}.dn{color:#f87171;}.am{color:#fbbf24;}
+.alerte{background:rgba(176,28,28,.06);border-top:2px solid var(--red);border-bottom:1px solid rgba(176,28,28,.15);padding:9px 24px;}
+.alerte-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:12px;color:var(--red);}
+.alerte-tag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(176,28,28,.08);border:1px solid rgba(176,28,28,.2);padding:2px 7px;border-radius:2px;flex-shrink:0;}
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.kup{color:var(--green);}.kdn{color:var(--accent);}.kam{color:var(--amber);}
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--paper2);}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-controls{display:flex;gap:4px;}
+.chart-btn{font-family:var(--mono);font-size:9px;padding:3px 8px;border:1px solid var(--rule);background:transparent;color:var(--ink4);cursor:pointer;border-radius:2px;transition:all .12s;}
+.chart-btn:hover,.chart-btn.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:210px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-line{width:16px;height:2px;flex-shrink:0;}
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;font-family:var(--sans);}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+.level-gauge{background:#fff;border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.level-gauge-title{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;font-family:var(--sans);}
+.lv-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule2);}
+.lv-row:last-child{border-bottom:none;}
+.lv-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;width:110px;flex-shrink:0;font-family:var(--sans);}
+.lv-bar-bg{flex:1;height:5px;background:rgba(0,0,0,.07);border-radius:2px;overflow:hidden;}
+.lv-bar{height:100%;border-radius:2px;}
+.lv-price{font-family:var(--mono);font-size:13px;font-weight:600;width:56px;text-align:right;flex-shrink:0;}
+.lv-note{font-size:9px;color:var(--ink4);width:140px;text-align:right;flex-shrink:0;font-style:italic;font-family:var(--sans);}
+.lv-current{background:rgba(138,92,0,.04);border-radius:2px;padding:2px 0;}
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:12px;padding:8px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+.shareholders{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:20px;}
+.sh-card{background:#fff;border:1px solid var(--rule);border-left:3px solid;border-radius:0 2px 2px 0;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.sh-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.sh-name{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);}
+.sh-pct{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);line-height:1;}
+.sh-val{font-family:var(--mono);font-size:10px;color:var(--ink4);margin-top:2px;}
+.sh-body{font-size:12px;color:var(--ink3);line-height:1.5;font-family:var(--sans);}
+.sh-body strong{color:var(--ink2);font-weight:700;}
+.infobox{background:#fff;border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.infobox-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-family:var(--sans);}
+.infobox-body{font-size:13px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.infobox-body strong{font-weight:700;color:var(--ink);}
+.scenarios{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.sc{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.sc-head{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule2);}
+.sc-name{font-family:var(--serif);font-size:14px;font-weight:700;}
+.sc-proba{font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 8px;border-radius:2px;}
+.sc-body{padding:12px 14px;background:#fff;font-size:13px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.sc-body strong{font-weight:700;color:var(--ink);}
+.sc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sm-label{font-size:8px;color:var(--ink4);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sm-val{font-family:var(--mono);font-size:12px;font-weight:600;}
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#c8902a;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:#c8902a;}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'--';color:#c8902a;flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+@media(min-width:600px){.shareholders{grid-template-columns:1fr 1fr;}.scenarios{grid-template-columns:1fr 1fr 1fr;}.stats-strip{grid-template-columns:repeat(6,1fr);}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financiere -- Usage exclusif clients</div></div>
+  <div class="masthead-center"><span class="issue-line">Analyse approfondie &nbsp;·&nbsp; NVDA Nasdaq &nbsp;·&nbsp; Bilan · Hors Bilan · Actionnaires · Bulle IA ?</span></div>
+  <div class="masthead-right"><div class="mast-date" id="liveDate">5 juin 2026</div></div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="ticker-row"><span class="ticker">NVDA</span><span class="exchange">Nasdaq</span><span class="exchange">$5.4T cap.</span></div>
+        <div class="stock-name">NVIDIA Corporation</div>
+        <div class="stock-sub">GPU · IA · Data Center · Blackwell · CUDA</div>
+        <div class="price-row"><span class="price-main">~$220</span><span class="price-change-up">+65% / 12 mois</span></div>
+      </div>
+      <div class="hero-right">
+        <div class="verdict-badge">
+          <div class="verdict-val">CORRECTION — PAS BULLE</div>
+          <div class="verdict-label">Verdict YAASAP Notes</div>
+          <div class="verdict-sub">Fondamentaux superieurs a la valorisation</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-l">CA FY2026</div><div class="stat-v up">$215.9Md</div></div>
+      <div class="stat"><div class="stat-l">Croissance YoY</div><div class="stat-v up">+65%</div></div>
+      <div class="stat"><div class="stat-l">Marge brute Q1 FY27</div><div class="stat-v up">74.9%</div></div>
+      <div class="stat"><div class="stat-l">Cash + Titres</div><div class="stat-v up">$62.6Md</div></div>
+      <div class="stat"><div class="stat-l">Charge H20 Q1 FY26</div><div class="stat-v dn">$5.3Md</div></div>
+      <div class="stat"><div class="stat-l">Guidance Q2 FY27</div><div class="stat-v up">$91Md</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="alerte">
+  <div class="alerte-inner">
+    <span class="alerte-tag">Point cle</span>
+    Les 5.4 milliards hors bilan sont une provision ponctuelle sur stocks H20 bloques a l'export vers la Chine -- pas une dette cachee ni un passif structurel. La marge est revenue a 74.9%.
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Cours NVDA</div><div class="kk-v kam">~$220</div><div class="kk-n">consensus cible $272</div></div>
+    <div class="kk"><div class="kk-l">CA FY2026</div><div class="kk-v kup">$215.9Md</div><div class="kk-n">+65% YoY -- record absolu</div></div>
+    <div class="kk"><div class="kk-l">Data Center FY26</div><div class="kk-v kup">$115.2Md</div><div class="kk-n">+92% -- moteur principal</div></div>
+    <div class="kk"><div class="kk-l">Charge H20 Q1 FY26</div><div class="kk-v kdn">-$4.5Md</div><div class="kk-n">prise une seule fois</div></div>
+    <div class="kk"><div class="kk-l">Chine revenue Q1 FY27</div><div class="kk-v kdn">$0</div><div class="kk-n">vs $4.6Md Q1 FY26</div></div>
+    <div class="kk"><div class="kk-l">Free Cash Flow trim.</div><div class="kk-v kup">$48.6Md</div><div class="kk-n">Q1 FY27 record</div></div>
+    <div class="kk"><div class="kk-l">Rachat actions</div><div class="kk-v kup">+$80Md</div><div class="kk-n">autorise mai 2026</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="sec-rule"><span class="sec-rule-text">Decryptage · Les 5.4 milliards hors bilan -- ce que c'est vraiment</span></div>
+  <div class="lead-headline">Le hors bilan de Nvidia n'est pas ce que vous croyez -- une provision geopolitique, pas une dette cachee</div>
+  <div class="lead-deck">Le chiffre de 5.4 milliards circule dans les medias financiers depuis le T1 FY2026. Mais sa nature est mal comprise. Ce n'est pas un passif cache, pas une dette structurelle, pas un engagement financier dissimule. C'est la comptabilisation d'un choc geopolitique brutal et circonscrit.</div>
+  <div class="body-text">
+    <p>En avril 2025, le gouvernement americain impose des licences d'exportation obligatoires pour les puces H20 destinees a la Chine. Le H20 etait la version bridee du H100 -- specialement concue pour satisfaire les precedentes reglementations d'export. <strong>Du jour au lendemain, des milliards de dollars de stock et d'obligations d'achat devenaient invendables.</strong></p>
+    <p>Dans son rapport 10-Q pour le Q1 FY2026, Nvidia a pris <strong>une charge de 4.5 milliards de dollars</strong> au titre des stocks H20 excedentaires et des obligations d'achat non honorables. Avec les provisions complementaires, le total atteignait <strong>5.3 milliards</strong>. L'impact sur la marge brute ce trimestre-la : <strong>-11 points</strong>. La marge brute est tombee a 60.5% contre 74.9% aujourd'hui -- elle est revenue a la normale.</p>
+    <p>Ce que les medias appellent "hors bilan" correspond aux <strong>obligations d'achat fermes envers les fournisseurs TSMC</strong> que Nvidia avait contractees avant l'embargo. Ces engagements sont bien inscrits dans les notes aux etats financiers, dans la section "purchase obligations" -- visibles, transparents, declares a la SEC. Pas du tout hors bilan au sens comptable strict.</p>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« Les provisions pour stocks et obligations d'achat excedentaires ont totalise 1.1 milliard et 5.3 milliards respectivement au Q1 des exercices 2027 et 2026. Le Q1 FY2026 inclut 4.5 milliards lies aux stocks H20 excedentaires et aux obligations d'achat. »</div>
+    <div class="pull-attr">-- Nvidia Corporation · Form 10-Q · SEC Filing · FY2026</div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · NVDA cours et evenements cles</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">NVDA · Cours · 2025-2026 · Evenements H20 et resultats</span>
+      <div class="chart-controls">
+        <button class="chart-btn" onclick="renderChart('6m',this)">6M</button>
+        <button class="chart-btn active" onclick="renderChart('1y',this)">1A</button>
+        <button class="chart-btn" onclick="renderChart('2y',this)">2A</button>
+      </div>
+    </div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="mainChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-line" style="background:var(--accent);"></div>NVDA</div>
+      <div class="cl-item"><div class="cl-line" style="background:var(--blue);border-top:2px dashed var(--blue);height:0;"></div>MM50</div>
+      <div class="cl-item"><div class="cl-line" style="background:rgba(0,0,0,.2);border-top:2px dotted rgba(0,0,0,.2);height:0;"></div>MM200</div>
+      <div class="cl-item"><div class="cl-line" style="background:var(--green);border-top:1.5px dashed var(--green);height:0;"></div>Cible $272</div>
+    </div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Actionnariat · Qui detient les 5.4 trillions ?</span></div>
+  <div class="body-text"><p>Les investisseurs institutionnels comme Vanguard et BlackRock detiennent 68% des actions. Vanguard, BlackRock et State Street detiennent collectivement plus de 17% de la societe, ce qui s'explique en grande partie par le poids de Nvidia dans les fonds indiciels.</p></div>
+
+  <div class="shareholders">
+    <div class="sh-card" style="border-left-color:#1a3a5c;">
+      <div class="sh-head"><div><div class="sh-name">Vanguard Group</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Passif · Fonds indiciels</div></div><div><div class="sh-pct">8.94%</div><div class="sh-val">~$389Md</div></div></div>
+      <div class="sh-body">Principal actionnaire. <strong>2.18 milliards d'actions</strong> via VTSMX et VFINX (S&P 500). Position passive -- stabilisateur naturel du titre. Ne vend jamais activement.</div>
+    </div>
+    <div class="sh-card" style="border-left-color:var(--red);">
+      <div class="sh-head"><div><div class="sh-name">BlackRock</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Passif + actif · iShares</div></div><div><div class="sh-pct">4.96%</div><div class="sh-val">~$215Md</div></div></div>
+      <div class="sh-body">Deuxieme actionnaire via ETF iShares. <strong>Combine fonds passifs et strategies actives.</strong> Droits de vote significatifs utilises sur la gouvernance et l'ESG.</div>
+    </div>
+    <div class="sh-card" style="border-left-color:var(--amber);">
+      <div class="sh-head"><div><div class="sh-name">State Street + Geode</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Passif · SPDR ETFs</div></div><div><div class="sh-pct">3.97% + 2.34%</div><div class="sh-val">~$270Md combines</div></div></div>
+      <div class="sh-body">State Street via SPDR SPY. Geode = gestionnaire des fonds Fidelity Index. <strong>Ces quatre acteurs passifs controlent plus de 20%</strong> des actions en circulation.</div>
+    </div>
+    <div class="sh-card" style="border-left-color:var(--green);">
+      <div class="sh-head"><div><div class="sh-name">Jensen Huang (CEO)</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Fondateur · Insider</div></div><div><div class="sh-pct">3.77%</div><div class="sh-val">~$164Md en actions</div></div></div>
+      <div class="sh-body"><strong>920 millions d'actions personnelles.</strong> Alignement long terme du fondateur. N'a pas vendu massivement -- signal positif. Absence d'achats recents reflete la valorisation elevee.</div>
+    </div>
+    <div class="sh-card" style="border-left-color:var(--blue);">
+      <div class="sh-head"><div><div class="sh-name">Fidelity · T.Rowe · JPM · Norges</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Actif · Fonds geres</div></div><div><div class="sh-pct">~8%</div><div class="sh-val">Positions actives</div></div></div>
+      <div class="sh-body">Fidelity (FMR), T. Rowe Price, JPMorgan Chase et Norges Bank (fonds souverain norvegien). <strong>Acteurs actifs -- peuvent acheter ou vendre rapidement.</strong> Source de volatilite court terme.</div>
+    </div>
+    <div class="sh-card" style="border-left-color:var(--accent);">
+      <div class="sh-head"><div><div class="sh-name">Retail + Hedge Funds</div><div style="font-size:9px;color:var(--ink4);font-family:var(--sans);margin-top:2px;">Flottant libre</div></div><div><div class="sh-pct">~32%</div><div class="sh-val">Volatilite principale</div></div></div>
+      <div class="sh-body">Flottant retail (~15%) et hedge funds (~17%) = moteur de volatilite. <strong>Baillie Gifford a reduit de -29.7% au T4 2025.</strong> Des fonds short parient sur un retournement IA.</div>
+    </div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Bilan FY2026 · Les chiffres qui comptent vraiment</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Indicateur</th><th>Valeur</th><th>Variation YoY</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:700;">Cash + Titres</td><td class="mono kup">$62.6Md</td><td class="mono kup">+45%</td><td><span class="badge-up">Forteresse</span></td></tr>
+        <tr><td style="font-weight:700;">Benefice net FY2026</td><td class="mono kup">$120.1Md</td><td class="mono kup">x2.5</td><td><span class="badge-up">Exceptionnel</span></td></tr>
+        <tr><td style="font-weight:700;">Free Cash Flow trim.</td><td class="mono kup">$48.6Md</td><td class="mono kup">+39%</td><td><span class="badge-up">Solide</span></td></tr>
+        <tr><td style="font-weight:700;">Marge brute Q1 FY27</td><td class="mono kup">74.9%</td><td class="mono kup">vs 60.5% Q1 FY26</td><td><span class="badge-up">Normalisee</span></td></tr>
+        <tr><td style="font-weight:700;">Charge H20 Q1 FY26</td><td class="mono kdn">-$4.5Md</td><td class="mono">Exceptionnel · ponctuel</td><td><span class="badge-am">Absorbe</span></td></tr>
+        <tr><td style="font-weight:700;">Obligations achat fournisseurs</td><td class="mono kdn">~$20-25Md</td><td class="mono">Engagements TSMC</td><td><span class="badge-am">Structurel</span></td></tr>
+        <tr><td style="font-weight:700;">Revenu Chine Q1 FY27</td><td class="mono kdn">$0</td><td class="mono kdn">vs $4.6Md Q1 FY26</td><td><span class="badge-dn">Risque OU catalyseur</span></td></tr>
+        <tr><td style="font-weight:700;">Rachat actions autorise</td><td class="mono kup">$80Md</td><td class="mono">Nouveau mai 2026</td><td><span class="badge-up">Retour capital</span></td></tr>
+        <tr><td style="font-weight:700;">Dividende trimestriel</td><td class="mono kup">$0.25</td><td class="mono kup">x25 vs ancien $0.01</td><td><span class="badge-up">Signal confiance</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Bulle ou correction ? · Les deux camps face a face</span></div>
+
+  <div class="infobox" style="border-left:3px solid var(--red);">
+    <div class="infobox-title" style="color:var(--red);">Arguments pour la bulle</div>
+    <div class="infobox-body"><strong>Concentration extreme :</strong> Nvidia represente plus de 7% du S&P 500 -- Cisco pesait 4.5% en 2000 au pic de la bulle internet. <strong>PER a 35x :</strong> la croissance doit rester a +40%/an pendant 3 ans pour justifier ce niveau. <strong>Dependance hyperscalers :</strong> Microsoft, Amazon, Google, Meta representent 50% des revenus Data Center -- toute reduction de capex IA les ferait chuter. <strong>Zero revenu Chine :</strong> si les revenus ne reviennent jamais, la croissance future est amputee structurellement. <strong>Concurrence Huawei :</strong> le chip Ascend 910C commence a remplacer le H20 en Chine.</div>
+  </div>
+
+  <div class="infobox" style="border-left:3px solid var(--green);">
+    <div class="infobox-title" style="color:var(--green);">Arguments pour la correction saine</div>
+    <div class="infobox-body"><strong>Croissance reelle :</strong> le CA FY2026 atteint $215.9 milliards, +65%. Les benefices croissent plus vite que le cours. <strong>Blackwell = supercycle :</strong> le Data Center bondit de +92% sur un an grace aux produits Blackwell 300. <strong>Chine = option gratuite :</strong> a zero dans la guidance -- toute reouverture oblige les analystes a reviser leurs modeles a la hausse depuis une base zero. <strong>FCF massif :</strong> $48.6Md de FCF par trimestre -- rachat de 1.5% de la capitalisation chaque trimestre. <strong>37 analystes Strong Buy</strong>, cible $272, +24% d'upside.</div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Niveaux de prix · Carte technique</span></div>
+  <div class="level-gauge">
+    <div class="level-gauge-title">Structure de prix NVDA -- Juin 2026</div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Cible consensus</div><div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:var(--green);opacity:.7;"></div></div><div class="lv-price kup">$272</div><div class="lv-note">37 analystes · +24%</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Resistance haute</div><div class="lv-bar-bg"><div class="lv-bar" style="width:88%;background:var(--green);opacity:.4;"></div></div><div class="lv-price kup">$250</div><div class="lv-note">Zone pivot 2025</div></div>
+    <div class="lv-row lv-current"><div class="lv-label" style="color:var(--amber);">Cours actuel</div><div class="lv-bar-bg"><div class="lv-bar" style="width:81%;background:var(--amber);"></div></div><div class="lv-price kam">~$220</div><div class="lv-note">Vous etes ici</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--blue);">Support MM50</div><div class="lv-bar-bg"><div class="lv-bar" style="width:72%;background:var(--blue);opacity:.6;"></div></div><div class="lv-price" style="color:var(--blue);">$200</div><div class="lv-note">Support dynamique</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--amber);">Support MM200</div><div class="lv-bar-bg"><div class="lv-bar" style="width:58%;background:var(--amber);opacity:.5;"></div></div><div class="lv-price kam">$165</div><div class="lv-note">Support long terme</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--accent);">Stop-loss</div><div class="lv-bar-bg"><div class="lv-bar" style="width:50%;background:var(--accent);opacity:.7;"></div></div><div class="lv-price kdn">$155</div><div class="lv-note">-30% · cassure structure</div></div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-text">Scenarios · Trois trajectoires sur 18 mois</span></div>
+  <div class="scenarios">
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(30,92,50,.05);"><span class="sc-name" style="color:var(--green);">Haussier</span><span class="sc-proba" style="background:rgba(30,92,50,.1);color:var(--green);">45%</span></div>
+      <div class="sc-body"><strong>Declencheur :</strong> reouverture partielle Chine, Blackwell pleine puissance, ROI hyperscalers prouve. PER se comprime avec la croissance benefices.
+        <div class="sc-metrics"><div><div class="sm-label">Cible</div><div class="sm-val kup">$272-320</div></div><div><div class="sm-label">Upside</div><div class="sm-val kup">+24 a +45%</div></div><div><div class="sm-label">CA FY27</div><div class="sm-val kup">$350Md+</div></div><div><div class="sm-label">Stop</div><div class="sm-val kam">$155 tenu</div></div></div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(138,92,0,.05);"><span class="sc-name" style="color:var(--amber);">Consolidation</span><span class="sc-proba" style="background:rgba(138,92,0,.1);color:var(--amber);">35%</span></div>
+      <div class="sc-body"><strong>Declencheur :</strong> croissance normalisee vers +30-40%, Chine a zero, concurrence AMD/Intel sur certains segments.
+        <div class="sc-metrics"><div><div class="sm-label">Fourchette</div><div class="sm-val kam">$180-240</div></div><div><div class="sm-label">Variation</div><div class="sm-val kam">-18 a +9%</div></div><div><div class="sm-label">CA FY27</div><div class="sm-val kam">$280-320Md</div></div><div><div class="sm-label">Action</div><div class="sm-val kam">Tenir</div></div></div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(176,28,28,.05);"><span class="sc-name" style="color:var(--red);">Baissier</span><span class="sc-proba" style="background:rgba(176,28,28,.1);color:var(--red);">20%</span></div>
+      <div class="sc-body"><strong>Declencheur :</strong> hyperscalers reduisent capex IA, Huawei gagne des parts, contraction PER sectorielle si taux remontent.
+        <div class="sc-metrics"><div><div class="sm-label">Cours cible</div><div class="sm-val kdn">$110-155</div></div><div><div class="sm-label">Recul</div><div class="sm-val kdn">-30 a -50%</div></div><div><div class="sm-label">Stop</div><div class="sm-val kdn">$155 decl.</div></div><div><div class="sm-label">Catalyseur</div><div class="sm-val kdn">Choc externe</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>Les 5.4 milliards hors bilan ne sont pas une bombe a retardement -- ce sont des provisions sur une perte geopolitique reelle, absorbee comptablement au T1 FY2026. <strong>La marge brute est revenue a 74.9% des le trimestre suivant.</strong> Le bilan Nvidia en 2026 est l'un des plus solides de l'histoire : $62.6 milliards de cash, $120 milliards de benefice net annuel, free cash flow de $48.6 milliards par trimestre.</p>
+      <p><strong>La vraie question est strategique :</strong> Nvidia peut-elle maintenir une croissance suffisante pour justifier sa valorisation a $5.4 trillions ? Cela depend du ROI des hyperscalers sur leurs investissements IA, et de la Chine -- aujourd'hui a zero dans la guidance, toute reouverture partielle est un upside pur non integre dans aucun modele.</p>
+      <p><strong>Verdict : correction, pas bulle.</strong> Dans une bulle, les fondamentaux ne justifient pas la valorisation. Chez Nvidia, le PER de 35x est eleve mais compense par une croissance de +65% -- le ratio PEG reste raisonnable. C'est une valorisation exigeante sur une franchise exceptionnelle. Le risque principal n'est pas Nvidia elle-meme -- c'est un choc macro externe (taux, recession) qui ferait comprimer les multiples sectoriel.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>Hors bilan :</strong> provision H20 ponctuelle absorbee -- marge revenue a 74.9%, pas un risque structurel</div>
+      <div class="v-item"><strong>Actionnaires :</strong> 68% institutionnels passifs -- base stable, pas de vente panique possible</div>
+      <div class="v-item"><strong>Bulle ou correction :</strong> correction saine -- fondamentaux ($215.9Md CA, +65%) justifient la prime</div>
+      <div class="v-item"><strong>Risque principal :</strong> deception ROI hyperscalers ou choc taux -- pas les fondamentaux Nvidia</div>
+      <div class="v-item"><strong>Catalyseur optionnel :</strong> reouverture Chine = upside non integre dans aucun modele</div>
+      <div class="v-item"><strong>Stop-loss :</strong> $155 -- en dessous, la structure technique se degrade</div>
+    </div>
+    <div class="v-disclaimer">Sources : Nvidia Form 10-Q FY2026/FY2027, Form 8-K Q4 FY2026, SEC EDGAR · TIKR · LiteFinance · Yahoo Finance · Fintel. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes · juin 2026.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Analyse NVDA · Bilan · Hors bilan · Actionnaires &nbsp;·&nbsp; <span id="footDate">5 juin 2026</span></div>
+  <div class="foot-nav"><a href="index.html">Accueil</a><a href="yaasap_ecosysteme_ia.html">Ecosysteme IA</a><a href="yaasap_volatilite.html">Volatilite</a><a href="yaasap_portefeuille.html">Portefeuille</a></div>
+</footer>
+
+<script>
+(function(){var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});})();
+var chartData={'6m':{labels:['Dec 25','Jan 26','Fev','Mar','Avr','Mai','Jun 26'],prices:[148,155,170,185,200,215,220],mm50:[135,142,152,168,182,196,208],mm200:[125,128,132,138,146,156,164]},'1y':{labels:['Jun 25','Aout','Oct','Nov','Dec','Jan 26','Mar','Mai','Jun'],prices:[110,118,128,135,148,155,185,215,220],mm50:[105,110,118,126,135,142,162,196,208],mm200:[98,100,104,108,114,120,132,150,164]},'2y':{labels:['Jun 24','Sep','Dec','Mar 25','Jun','Sep','Dec','Mar 26','Jun'],prices:[115,125,138,140,110,125,148,185,220],mm50:[108,115,128,135,125,118,136,162,208],mm200:[85,92,100,108,110,112,116,128,164]}};
+var currentChart=null;
+function renderChart(period,btn){document.querySelectorAll('.chart-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');var d=chartData[period];var ctx=document.getElementById('mainChart').getContext('2d');if(currentChart)currentChart.destroy();var prices=d.prices;var mn=Math.min.apply(null,prices)*0.85;var mx=Math.max.apply(null,prices)*1.1;var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};currentChart=new Chart(ctx,{type:'line',data:{labels:d.labels,datasets:[{label:'NVDA',data:prices,borderColor:'#8b3a1a',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8b3a1a',fill:{target:'origin',above:'rgba(139,58,26,0.04)'},tension:0.35},{label:'MM50',data:d.mm50,borderColor:'rgba(26,58,92,0.5)',borderWidth:1.2,borderDash:[5,3],pointRadius:0,fill:false,tension:0.4},{label:'MM200',data:d.mm200,borderColor:'rgba(0,0,0,0.2)',borderWidth:1.2,borderDash:[2,4],pointRadius:0,fill:false,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(139,58,26,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : $'+ctx.parsed.y.toFixed(0);}}}},scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},y:{min:mn,max:mx,ticks:{color:tc,font:tf,callback:function(v){return '$'+v.toFixed(0);}},grid:{color:gc}}}},plugins:[{id:'levels',afterDraw:function(chart){var ctx2=chart.ctx,yA=chart.scales.y,xA=chart.scales.x;[{price:272,color:'rgba(30,92,50,.6)',label:'Cible $272'},{price:220,color:'rgba(138,92,0,.7)',label:'Cours ~$220'},{price:155,color:'rgba(139,58,26,.55)',label:'Stop $155'}].forEach(function(lv){if(lv.price<yA.min||lv.price>yA.max)return;var y=yA.getPixelForValue(lv.price);ctx2.save();ctx2.beginPath();ctx2.setLineDash([6,4]);ctx2.strokeStyle=lv.color;ctx2.lineWidth=1;ctx2.moveTo(xA.left,y);ctx2.lineTo(xA.right,y);ctx2.stroke();ctx2.setLineDash([]);ctx2.fillStyle=lv.color;ctx2.font="9px 'Source Code Pro',monospace";ctx2.fillText(lv.label,xA.right-65,y-3);ctx2.restore();});}}]});}
+renderChart('1y',document.querySelector('.chart-btn.active'));
+</script>
+</body>
+</html>

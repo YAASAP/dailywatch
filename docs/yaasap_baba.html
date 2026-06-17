@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes — Analyse BABA · Alibaba</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0f0d0b; --ink2:#2c2820; --ink3:#6b5f52; --muted:#9a8f82;
+  --paper:#faf7f2; --paper2:#f3ede3; --paper3:#e8dfd0;
+  --red:#b01c1c; --green:#176b35; --amber:#9a6200;
+  --gold:#e8a800; --gold2:#ffc535;
+  --buy:#176b35; --sell:#b01c1c; --hold:#9a6200;
+  --chart-bg:#0d1117; --chart-grid:rgba(255,255,255,0.06);
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--ink);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.5);}
+.topbar-brand{font-family:var(--serif);font-size:18px;font-style:italic;color:#fff;letter-spacing:-.01em;}
+.topbar-brand span{color:var(--gold2);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.live-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green);background:rgba(23,107,53,.15);border:1px solid rgba(23,107,53,.3);border-radius:3px;padding:3px 8px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.topbar-date{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);}
+
+/* ── HERO PRICE PANEL ── */
+.hero{background:var(--chart-bg);padding:24px 20px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.hero-inner{max-width:760px;margin:0 auto;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+.hero-left{}
+.ticker-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.ticker{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--gold2);letter-spacing:.1em;}
+.exchange{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:2px;}
+.stock-name{font-family:var(--serif);font-size:26px;color:#fff;font-style:italic;line-height:1;}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:8px;}
+.price-main{font-family:var(--mono);font-size:40px;font-weight:500;color:#fff;line-height:1;}
+.price-change{font-family:var(--mono);font-size:14px;font-weight:500;padding:3px 8px;border-radius:3px;}
+.price-change.up{background:rgba(23,107,53,.2);color:#4ade80;}
+.price-change.dn{background:rgba(176,28,28,.2);color:#f87171;}
+.hero-right{text-align:right;}
+.consensus-badge{display:inline-flex;flex-direction:column;align-items:center;background:rgba(23,107,53,.15);border:1px solid rgba(23,107,53,.35);border-radius:6px;padding:10px 16px;}
+.consensus-val{font-family:var(--mono);font-size:24px;font-weight:500;color:#4ade80;line-height:1;}
+.consensus-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
+.consensus-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;}
+
+/* ── QUICK STATS STRIP ── */
+.stats-strip{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.06);}
+.stat{padding:10px 0 10px 16px;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px;}
+.stat-v{font-family:var(--mono);font-size:13px;font-weight:500;color:#fff;}
+.stat-v.up{color:#4ade80;}
+.stat-v.dn{color:#f87171;}
+.stat-v.am{color:#fbbf24;}
+
+/* ── CHART AREA ── */
+.chart-section{background:var(--chart-bg);padding:0 20px 20px;}
+.chart-inner{max-width:760px;margin:0 auto;}
+.chart-controls{display:flex;gap:6px;padding:12px 0 10px;flex-wrap:wrap;}
+.chart-btn{font-family:var(--mono);font-size:10px;padding:4px 10px;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.5);border-radius:3px;cursor:pointer;transition:all .15s;}
+.chart-btn.active,.chart-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.chart-wrap{position:relative;height:240px;border:1px solid rgba(255,255,255,.06);border-radius:4px;overflow:hidden;}
+
+/* ── LEVEL LEGEND ── */
+.levels-legend{display:flex;gap:14px;flex-wrap:wrap;padding:10px 0 0;}
+.lvl{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.45);}
+.lvl-dot{width:8px;height:3px;border-radius:1px;flex-shrink:0;}
+
+/* ── CONTENT ── */
+.content{max-width:760px;margin:0 auto;padding:0 20px 48px;}
+
+/* ── SECTION RULE ── */
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 16px;}
+.sec::before{content:'';width:20px;height:2px;background:var(--gold);flex-shrink:0;}
+.sec-t{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);}
+.sec::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1);}
+
+/* ── EXPERT SIGNAL BOX ── */
+.signal-box{background:var(--ink);border-radius:6px;padding:18px 20px;margin-bottom:20px;border-left:3px solid var(--gold);}
+.signal-box-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.signal-expert{display:flex;align-items:center;gap:8px;}
+.expert-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--amber));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--ink);}
+.expert-name{font-family:var(--sans);font-size:12px;font-weight:600;color:#fff;}
+.expert-level{font-family:var(--mono);font-size:9px;color:var(--gold2);margin-top:1px;}
+.signal-verdict{font-family:var(--mono);font-size:13px;font-weight:700;padding:4px 12px;border-radius:3px;background:rgba(23,107,53,.25);color:#4ade80;border:1px solid rgba(23,107,53,.4);}
+.signal-headline{font-family:var(--serif);font-size:20px;color:#fff;font-style:italic;margin-bottom:8px;line-height:1.25;}
+.signal-body{font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;}
+.signal-body strong{color:#fff;font-weight:600;}
+.signal-body p{margin-bottom:6px;}
+.signal-body p:last-child{margin-bottom:0;}
+
+/* ── EXPLAINER CARDS ── */
+.explainers{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.exp-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:5px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.exp-head{padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(0,0,0,.06);}
+.exp-icon{font-size:18px;flex-shrink:0;}
+.exp-title{font-size:13px;font-weight:700;color:var(--ink);}
+.exp-badge{margin-left:auto;font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.exp-body{padding:12px 14px;}
+.exp-novice{font-size:12px;color:var(--ink3);line-height:1.5;margin-bottom:8px;font-style:italic;border-left:2px solid var(--gold);padding-left:8px;background:rgba(232,168,0,.05);padding:6px 8px;border-radius:0 3px 3px 0;}
+.exp-detail{font-size:13px;color:var(--ink2);line-height:1.6;}
+.exp-detail strong{font-weight:700;color:var(--ink);}
+.exp-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.exp-num{background:var(--paper2);border-radius:3px;padding:7px 10px;text-align:center;}
+.exp-num-v{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1;}
+.exp-num-l{font-size:9px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;}
+
+/* ── LEVELS VISUAL ── */
+.levels-visual{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:5px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:20px;}
+.levels-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:14px;letter-spacing:.05em;}
+.level-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.level-row:last-child{border-bottom:none;}
+.level-tag{font-family:var(--mono);font-size:9px;font-weight:700;width:90px;flex-shrink:0;letter-spacing:.05em;text-transform:uppercase;}
+.level-bar-bg{flex:1;height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;position:relative;}
+.level-bar{height:100%;border-radius:3px;transition:width .6s ease;}
+.level-price{font-family:var(--mono);font-size:13px;font-weight:700;width:60px;text-align:right;flex-shrink:0;}
+.level-note{font-size:10px;color:var(--muted);width:120px;flex-shrink:0;text-align:right;}
+.level-current{background:rgba(232,168,0,.12);border:1px solid rgba(232,168,0,.3);border-radius:3px;padding:2px 0;}
+
+/* ── SCÉNARIOS ── */
+.scenarios{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.sc{border:1px solid rgba(0,0,0,.1);border-radius:5px;overflow:hidden;}
+.sc-head{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.07);}
+.sc-name{font-size:13px;font-weight:700;}
+.sc-proba{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.sc-body{padding:12px 14px;background:#fff;}
+.sc-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.sc-row:last-child{border-bottom:none;}
+.sc-label{font-size:12px;color:var(--ink3);}
+.sc-val{font-family:var(--mono);font-size:13px;font-weight:700;}
+
+/* ── RISQUES TABLE ── */
+.risks{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:5px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:20px;}
+.risk-row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.05);align-items:flex-start;}
+.risk-row:last-child{border-bottom:none;}
+.risk-icon{font-size:14px;flex-shrink:0;margin-top:2px;}
+.risk-content{}
+.risk-title{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.risk-body{font-size:12px;color:var(--ink3);line-height:1.45;}
+
+/* ── RÉSUMÉ FINAL ── */
+.final-box{background:var(--ink);border-radius:6px;padding:18px 20px;margin-top:24px;}
+.final-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.final-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.final-checklist{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.check-item{display:flex;align-items:baseline;gap:8px;font-size:13px;color:rgba(255,255,255,.8);}
+.check-item .ci{font-size:11px;flex-shrink:0;}
+.check-item strong{color:#fff;font-weight:600;}
+.disclaimer{font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;border-top:1px solid rgba(255,255,255,.06);padding-top:10px;margin-top:10px;}
+
+/* ── FOOTER ── */
+footer{background:var(--paper2);border-top:1px solid rgba(0,0,0,.1);padding:14px 20px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink);margin-bottom:3px;}
+.foot-brand span{color:var(--red);}
+.foot-note{font-size:10px;color:var(--muted);font-style:italic;}
+
+@media(min-width:540px){
+  .explainers{grid-template-columns:1fr 1fr;}
+  .scenarios{grid-template-columns:1fr 1fr 1fr;}
+  .stats-strip{grid-template-columns:repeat(6,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">YAASAP <span>Notes</span></div>
+  <div class="topbar-right">
+    <div class="live-badge"><div class="live-dot"></div>Analyse live</div>
+    <div class="topbar-date" id="topDate">25 mai 2026</div>
+  </div>
+</div>
+
+<!-- HERO PRICE PANEL -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="ticker-row">
+          <span class="ticker">BABA</span>
+          <span class="exchange">NYSE · ADR</span>
+        </div>
+        <div class="stock-name">Alibaba Group</div>
+        <div class="price-row">
+          <span class="price-main">$130</span>
+          <span class="price-change dn">▼ −3.5% semaine</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="consensus-badge">
+          <div class="consensus-val">STRONG BUY</div>
+          <div class="consensus-label">Consensus 41 analystes</div>
+          <div class="consensus-sub">Cible moyenne : $190.69</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-l">52S Bas</div><div class="stat-v dn">$103.71</div></div>
+      <div class="stat"><div class="stat-l">52S Haut</div><div class="stat-v up">$192.67</div></div>
+      <div class="stat"><div class="stat-l">Capi. marché</div><div class="stat-v">$312B</div></div>
+      <div class="stat"><div class="stat-l">PER normalisé</div><div class="stat-v am">33.6x</div></div>
+      <div class="stat"><div class="stat-l">Upside cible</div><div class="stat-v up">+47%</div></div>
+      <div class="stat"><div class="stat-l">Morningstar FV</div><div class="stat-v up">$267</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHART AREA -->
+<div class="chart-section">
+  <div class="chart-inner">
+    <div class="chart-controls">
+      <button class="chart-btn" onclick="renderChart('1m')">1 MOIS</button>
+      <button class="chart-btn active" onclick="renderChart('6m')">6 MOIS</button>
+      <button class="chart-btn" onclick="renderChart('1y')">1 AN</button>
+      <button class="chart-btn" onclick="renderChart('3y')">3 ANS</button>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="mainChart"></canvas>
+    </div>
+    <div class="levels-legend">
+      <div class="lvl"><div class="lvl-dot" style="background:#fbbf24;"></div>Cours actuel</div>
+      <div class="lvl"><div class="lvl-dot" style="background:#4ade80;"></div>Zone d'achat</div>
+      <div class="lvl"><div class="lvl-dot" style="background:#f87171;"></div>Stop-loss</div>
+      <div class="lvl"><div class="lvl-dot" style="background:rgba(255,255,255,.3);"></div>MM50</div>
+      <div class="lvl"><div class="lvl-dot" style="background:rgba(255,255,255,.15);"></div>MM200</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- SIGNAL EXPERT -->
+  <div class="sec"><span class="sec-t">Signal · Expert Trader Level 99</span></div>
+  <div class="signal-box">
+    <div class="signal-box-head">
+      <div class="signal-expert">
+        <div class="expert-avatar">YA</div>
+        <div>
+          <div class="expert-name">Yacine AOUABED · YAASAP Notes</div>
+          <div class="expert-level">⭐⭐⭐⭐⭐ Expert Trader · Level 99 · 15 ans d'expérience</div>
+        </div>
+      </div>
+      <div class="signal-verdict">✅ ACHAT PROGRESSIF</div>
+    </div>
+    <div class="signal-headline">Alibaba : la décote géopolitique crée une opportunité historique</div>
+    <div class="signal-body">
+      <p>À $130, <strong>Alibaba se négocie à 32% en dessous de son pic annuel de $192</strong>. La correction récente est liée à deux facteurs temporaires : des résultats Q4 2026 décevants (investissements massifs en IA qui pèsent sur les bénéfices à court terme) et la nervosité géopolitique Chine-USA. Les fondamentaux restent solides.</p>
+      <p><strong>Le moteur caché :</strong> le cloud d'Alibaba (Alibaba Cloud) a vu ses revenus externes bondir de <strong>+40% au T4 2026</strong>. Le nouveau chip IA Zhenwu M890 positionne Alibaba comme concurrent direct de NVDA en Asie. Le programme de rachats d'actions (buyback) a réduit le nombre d'actions de <strong>1,7% en un an</strong> — mécaniquement haussier pour le cours.</p>
+      <p><strong>41 analystes sur 41 recommandent l'achat</strong> avec une cible moyenne de $190. Morningstar estime la valeur intrinsèque à <strong>$267</strong>. La décote actuelle par rapport à cette valeur juste est de 51%.</p>
+    </div>
+  </div>
+
+  <!-- EXPLAINERS POUR NOVICES -->
+  <div class="sec"><span class="sec-t">Cours d'initiation · Ce que ça veut dire pour vous</span></div>
+
+  <div class="explainers">
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">💰</div>
+        <div class="exp-title">Le cours actuel : $130</div>
+        <div class="exp-badge" style="background:rgba(138,92,0,.1);color:var(--amber);">Point d'entrée</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : c'est comme acheter 1 part d'Alibaba pour 130 dollars. Il y a un an, cette même part valait jusqu'à $192. Vous achetez donc avec une remise de 32%.</div>
+        <div class="exp-detail">Le cours a chuté suite aux résultats décevants du T4 2026 — mais cette chute est due aux <strong>investissements massifs en IA</strong> qui vont porter les bénéfices futurs. C'est une dépense choisie, pas une perte.</div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">🎯</div>
+        <div class="exp-title">Le stop-loss : $112</div>
+        <div class="exp-badge" style="background:rgba(176,28,28,.1);color:var(--red);">Protection obligatoire</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : le stop-loss, c'est votre filet de sécurité. Si BABA descend à $112, vous vendez automatiquement — et vous limitez votre perte à maximum −14%. Sans stop-loss, vous risquez tout.</div>
+        <div class="exp-detail">Niveau calculé sur le <strong>plus bas des 6 derniers mois ($103) + marge de 8%</strong>. En dessous de $112 : la structure technique se dégrade et le risque change de nature.</div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">📈</div>
+        <div class="exp-title">Cible 1 : $165</div>
+        <div class="exp-badge" style="background:rgba(23,107,53,.1);color:var(--green);">+27% · 6–12 mois</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : la cible 1 à $165, c'est votre premier objectif de profit. Si Alibaba remonte à ce niveau, vous avez gagné 27% sur votre mise. Vous pouvez vendre la moitié et sécuriser.</div>
+        <div class="exp-detail">Correspond à la <strong>résistance des moyennes mobiles (MM100 et MM200)</strong> — zone où beaucoup d'investisseurs vendront. Objectif réaliste sur 6 à 12 mois selon le consensus.</div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">🚀</div>
+        <div class="exp-title">Cible 2 : $191</div>
+        <div class="exp-badge" style="background:rgba(23,107,53,.1);color:var(--green);">+47% · 12–18 mois</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : la cible 2 à $191, c'est le retour au niveau du pic annuel. Si vous avez investi 1 000€, vous récupérez 1 470€. C'est le consensus des 41 analystes professionnels.</div>
+        <div class="exp-detail">Cible moyenne du consensus Wall Street ($190.69). Nécessite une <strong>amélioration des bénéfices H2 2026</strong> et une détente géopolitique Chine-USA (Trump a visité Pékin le 14 mai).</div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">🌟</div>
+        <div class="exp-title">Cible 3 : $267</div>
+        <div class="exp-badge" style="background:rgba(23,107,53,.1);color:var(--green);">+105% · 2–3 ans</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : $267 c'est la valeur calculée par Morningstar — ce que vaudrait BABA si le marché la valorisait à son juste prix. Avec 1 000€ investis aujourd'hui, vous en aurez 2 050€.</div>
+        <div class="exp-detail">Valeur intrinsèque Morningstar basée sur les flux de trésorerie futurs attendus. <strong>Horizon 2–3 ans</strong>. Requiert que le cloud IA continue sa croissance de +40%/an et que la régulation reste stable.</div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-icon">⚖️</div>
+        <div class="exp-title">Le ratio risque/récompense</div>
+        <div class="exp-badge" style="background:rgba(23,107,53,.1);color:var(--green);">1 : 3.4 · Favorable</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-novice">💡 Pour les débutants : le ratio risque/récompense compare ce que vous pouvez perdre à ce que vous pouvez gagner. Ici : pour 1€ risqué, vous pouvez gagner 3.4€. C'est excellent. Tout ratio au-dessus de 1:2 est bon.</div>
+        <div class="exp-detail"><strong>Perte max (stop-loss) :</strong> −$18 par action (−14%) · <strong>Gain cible 1 :</strong> +$35 (+27%) · <strong>R/R = 1:2 minimum</strong>, jusqu'à 1:10 sur la cible Morningstar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEAUX VISUELS -->
+  <div class="sec"><span class="sec-t">Graphique des niveaux · Où en est le cours ?</span></div>
+  <div class="levels-visual">
+    <div class="levels-title">📊 Carte des niveaux de prix — BABA NYSE · mai 2026</div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--green);">🟢 CIBLE 3</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:100%;background:linear-gradient(90deg,#4ade80,#22c55e);"></div></div>
+      <div class="level-price" style="color:var(--green);">$267</div>
+      <div class="level-note">Morningstar +105%</div>
+    </div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--green);">🟢 CIBLE 2</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:72%;background:#4ade80;opacity:.7;"></div></div>
+      <div class="level-price" style="color:var(--green);">$191</div>
+      <div class="level-note">Consensus +47%</div>
+    </div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--green);">🟢 CIBLE 1</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:59%;background:#86efac;opacity:.8;"></div></div>
+      <div class="level-price" style="color:var(--green);">$165</div>
+      <div class="level-note">MM100/200 +27%</div>
+    </div>
+    <div class="level-row" style="background:rgba(232,168,0,.06);">
+      <div class="level-tag" style="color:var(--gold);">⭐ COURS</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:46%;background:var(--gold2);"></div></div>
+      <div class="level-price" style="color:var(--gold);">$130</div>
+      <div class="level-note">📍 Vous êtes ici</div>
+    </div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--amber);">🟡 ZONE ACHAT</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:42%;background:#fbbf24;opacity:.6;"></div></div>
+      <div class="level-price" style="color:var(--amber);">$120–130</div>
+      <div class="level-note">Entrée optimale</div>
+    </div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--red);">🔴 STOP-LOSS</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:39%;background:#f87171;opacity:.7;"></div></div>
+      <div class="level-price" style="color:var(--red);">$112</div>
+      <div class="level-note">Vente obligatoire</div>
+    </div>
+    <div class="level-row">
+      <div class="level-tag" style="color:var(--muted);">⬇ PLANCHER</div>
+      <div class="level-bar-bg"><div class="level-bar" style="width:35%;background:#9ca3af;opacity:.5;"></div></div>
+      <div class="level-price" style="color:var(--muted);">$103</div>
+      <div class="level-note">Plus bas 52 sem.</div>
+    </div>
+  </div>
+
+  <!-- SCÉNARIOS -->
+  <div class="sec"><span class="sec-t">Scénarios · 3 cas possibles</span></div>
+  <div class="scenarios">
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(23,107,53,.06);">
+        <div class="sc-name" style="color:var(--green);">🟢 Haussier</div>
+        <div class="sc-proba" style="background:rgba(23,107,53,.1);color:var(--green);">50%</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-label">Déclencheur</span><span class="sc-val" style="color:var(--green);font-size:11px;">Cloud +40% H2 · détente US-CN</span></div>
+        <div class="sc-row"><span class="sc-label">Cible 6 mois</span><span class="sc-val up">$165–191</span></div>
+        <div class="sc-row"><span class="sc-label">Retour sur 1 000€</span><span class="sc-val up">+$270–$470</span></div>
+        <div class="sc-row"><span class="sc-label">Stop-loss actif ?</span><span class="sc-val" style="color:var(--green);">Non déclenché</span></div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(138,92,0,.06);">
+        <div class="sc-name" style="color:var(--amber);">🟡 Neutre</div>
+        <div class="sc-proba" style="background:rgba(138,92,0,.1);color:var(--amber);">30%</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-label">Déclencheur</span><span class="sc-val am" style="font-size:11px;">Statu quo · tensions persistantes</span></div>
+        <div class="sc-row"><span class="sc-label">Fourchette</span><span class="sc-val am">$115–140</span></div>
+        <div class="sc-row"><span class="sc-label">Retour sur 1 000€</span><span class="sc-val am">−$115 à +$77</span></div>
+        <div class="sc-row"><span class="sc-label">Action recommandée</span><span class="sc-val am">Tenir position</span></div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head" style="background:rgba(176,28,28,.05);">
+        <div class="sc-name" style="color:var(--red);">🔴 Baissier</div>
+        <div class="sc-proba" style="background:rgba(176,28,28,.1);color:var(--red);">20%</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-label">Déclencheur</span><span class="sc-val dn" style="font-size:11px;">Escalade guerre US-CN · délisting</span></div>
+        <div class="sc-row"><span class="sc-label">Cours cible</span><span class="sc-val dn">$90–104</span></div>
+        <div class="sc-row"><span class="sc-label">Retour sur 1 000€</span><span class="sc-val dn">−$140 max (stop)</span></div>
+        <div class="sc-row"><span class="sc-label">Stop-loss</span><span class="sc-val dn">$112 → vente auto</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISQUES -->
+  <div class="sec"><span class="sec-t">Risques · Ce qu'il faut savoir avant d'investir</span></div>
+  <div class="risks">
+    <div class="risk-row">
+      <div class="risk-icon">🇺🇸</div>
+      <div class="risk-content">
+        <div class="risk-title">Risque de délisting NYSE (le plus important)</div>
+        <div class="risk-body">Les tensions US-Chine pourraient forcer Alibaba à quitter le NYSE. <strong>Solution :</strong> BABA est aussi cotée à Hong Kong (9988.HK). Mais un délisting américain provoquerait une chute brutale à court terme. Probabilité : faible mais non nulle.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">🏛️</div>
+      <div class="risk-content">
+        <div class="risk-title">Régulation chinoise — le précédent Jack Ma</div>
+        <div class="risk-body">En 2021, le gouvernement chinois a imposé une amende de $2.8 milliards à Alibaba et limité son expansion. Ce risque réglementaire est permanent avec les entreprises chinoises. À intégrer dans la taille de votre position.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">📉</div>
+      <div class="risk-content">
+        <div class="risk-title">Bénéfices court terme sous pression</div>
+        <div class="risk-body">Q4 2026 : perte opérationnelle de 848M yuan à cause des investissements IA massifs. Free cash flow négatif de 17.3Mds yuan. <strong>C'est temporaire</strong> (investissement stratégique), mais ça peut faire baisser le cours encore 3–6 mois.</div>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">💱</div>
+      <div class="risk-content">
+        <div class="risk-title">Risque de change yuan/dollar</div>
+        <div class="risk-body">Alibaba gagne en yuan mais l'ADR est coté en dollars. Si le yuan se déprécie, vos gains en dollars diminuent. Risque modéré mais à surveiller dans le contexte des tensions commerciales US-CN.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RÉSUMÉ FINAL -->
+  <div class="final-box">
+    <div class="final-label">Fiche récapitulative · Par Yacine AOUABED</div>
+    <div class="final-checklist">
+      <div class="check-item"><span class="ci">📌</span><div><strong>Prix d'entrée :</strong> $120–132 (entrée progressive — achetez en 3 fois, pas tout d'un coup)</div></div>
+      <div class="check-item"><span class="ci">🛑</span><div><strong>Stop-loss OBLIGATOIRE à $112</strong> — sans ça, ne pas investir</div></div>
+      <div class="check-item"><span class="ci">🎯</span><div><strong>Cible 1 : $165</strong> (+27%) · Vendez 50% de votre position ici pour sécuriser les gains</div></div>
+      <div class="check-item"><span class="ci">🚀</span><div><strong>Cible 2 : $191</strong> (+47%) · Consensus des 41 analystes professionnels</div></div>
+      <div class="check-item"><span class="ci">🌟</span><div><strong>Cible long terme : $267</strong> (+105%) · Valeur intrinsèque Morningstar sur 2–3 ans</div></div>
+      <div class="check-item"><span class="ci">⚖️</span><div><strong>Ne jamais investir plus de 3–5% de votre épargne</strong> sur une seule action</div></div>
+      <div class="check-item"><span class="ci">📊</span><div><strong>Ratio R/R = 1:3.4 minimum</strong> — pour chaque dollar risqué, vous pouvez gagner 3.4 dollars</div></div>
+    </div>
+    <div class="disclaimer">⚠️ Cette analyse est fournie à titre informatif par YAASAP Notes — Yacine AOUABED. Elle ne constitue pas un conseil en investissement. Tout investissement comporte un risque de perte en capital. Les performances passées ne préjugent pas des performances futures. Consultez un conseiller financier agréé avant toute décision.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <span>Notes</span></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> · Analyse BABA · 25 mai 2026 · Ne constitue pas un conseil en investissement</div>
+</footer>
+
+<script>
+// ── DATE ──
+(function(){
+  var d = new Date();
+  var el = document.getElementById('topDate');
+  if(el) el.textContent = d.toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+})();
+
+// ── CHART DATA ──
+const chartData = {
+  '1m': {
+    labels: ['01/05','05/05','09/05','13/05','15/05','19/05','22/05','25/05'],
+    prices: [148, 145, 142, 132, 135, 133, 128, 130],
+    mm50:   [148, 147, 146, 143, 142, 141, 140, 138],
+    mm200:  [150, 149, 148, 147, 146, 146, 145, 145]
+  },
+  '6m': {
+    labels: ['Nov','Déc','Jan','Fév','Mar','Avr','Mai'],
+    prices: [165, 180, 192, 175, 160, 148, 130],
+    mm50:   [155, 165, 175, 180, 172, 162, 148],
+    mm200:  [140, 145, 150, 155, 157, 155, 147]
+  },
+  '1y': {
+    labels: ['Mai25','Jul','Sep','Nov','Jan26','Mar','Mai'],
+    prices: [103, 118, 135, 155, 192, 165, 130],
+    mm50:   [100, 108, 120, 138, 158, 168, 150],
+    mm200:  [92,  98,  105, 115, 130, 145, 147]
+  },
+  '3y': {
+    labels: ['2023','Mid23','2024','Mid24','2025','Mid25','2026'],
+    prices: [85, 95, 78, 86, 103, 155, 130],
+    mm50:   [90, 88, 82, 80, 90, 120, 148],
+    mm200:  [95, 92, 88, 83, 85, 105, 147]
+  }
+};
+
+let currentChart = null;
+
+function renderChart(period) {
+  document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.chart-btn').forEach(b => { if(b.textContent.toLowerCase().includes(period.replace('m',' mois').replace('y',' an'))) b.classList.add('active'); });
+  
+  const d = chartData[period];
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if(currentChart) currentChart.destroy();
+
+  const prices = d.prices;
+  const min = Math.min(...prices) * 0.92;
+  const max = Math.max(...prices) * 1.05;
+
+  currentChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: d.labels,
+      datasets: [
+        {
+          label: 'BABA',
+          data: prices,
+          borderColor: '#fbbf24',
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointBackgroundColor: '#fbbf24',
+          fill: {target: 'origin', above: 'rgba(251,191,36,0.06)'},
+          tension: 0.4,
+          order: 1
+        },
+        {
+          label: 'MM50',
+          data: d.mm50,
+          borderColor: 'rgba(255,255,255,0.3)',
+          borderWidth: 1.2,
+          pointRadius: 0,
+          borderDash: [4,3],
+          fill: false,
+          tension: 0.4,
+          order: 2
+        },
+        {
+          label: 'MM200',
+          data: d.mm200,
+          borderColor: 'rgba(255,255,255,0.15)',
+          borderWidth: 1.2,
+          pointRadius: 0,
+          borderDash: [2,4],
+          fill: false,
+          tension: 0.4,
+          order: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15,13,11,.95)',
+          titleColor: '#fbbf24',
+          bodyColor: 'rgba(255,255,255,.8)',
+          borderColor: 'rgba(251,191,36,.3)',
+          borderWidth: 1,
+          padding: 8,
+          callbacks: {
+            label: ctx => {
+              if(ctx.dataset.label === 'BABA') return ` $${ctx.parsed.y.toFixed(0)}`;
+              return ` ${ctx.dataset.label}: $${ctx.parsed.y.toFixed(0)}`;
+            }
+          }
+        },
+        annotation: {}
+      },
+      scales: {
+        x: {
+          ticks: { color: 'rgba(255,255,255,.3)', font: {size:9, family:"'DM Mono',monospace"}, maxRotation:0 },
+          grid: { color: 'rgba(255,255,255,.04)' }
+        },
+        y: {
+          min: min,
+          max: max,
+          ticks: { color: 'rgba(255,255,255,.3)', font: {size:9, family:"'DM Mono',monospace"}, callback: v => '$'+v.toFixed(0) },
+          grid: { color: 'rgba(255,255,255,.05)' }
+        }
+      }
+    }
+  });
+
+  // Draw horizontal lines for levels
+  const chartInstance = currentChart;
+  const originalDraw = chartInstance.draw.bind(chartInstance);
+  chartInstance.draw = function() {
+    originalDraw();
+    const chart = this;
+    const ctx = chart.ctx;
+    const yAxis = chart.scales.y;
+    const xAxis = chart.scales.x;
+    const levels = [
+      { price: 191, color: 'rgba(74,222,128,0.6)', label: 'Cible $191' },
+      { price: 165, color: 'rgba(134,239,172,0.5)', label: 'Cible $165' },
+      { price: 130, color: '#fbbf24', label: 'Cours $130' },
+      { price: 112, color: 'rgba(248,113,113,0.7)', label: 'Stop $112' }
+    ];
+    levels.forEach(lvl => {
+      if(lvl.price >= yAxis.min && lvl.price <= yAxis.max) {
+        const y = yAxis.getPixelForValue(lvl.price);
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([5,4]);
+        ctx.strokeStyle = lvl.color;
+        ctx.lineWidth = 1.2;
+        ctx.moveTo(xAxis.left, y);
+        ctx.lineTo(xAxis.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = lvl.color;
+        ctx.font = "9px 'DM Mono',monospace";
+        ctx.fillText(lvl.label, xAxis.right - 58, y - 3);
+        ctx.restore();
+      }
+    });
+  };
+  chartInstance.draw();
+}
+
+// Init chart
+renderChart('6m');
+
+// Fix button labels
+document.querySelectorAll('.chart-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.chart-btn').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

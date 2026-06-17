@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>YAASAP Consulting — Flash Marché Ecosystème IA</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg:#faf8f4; --bg2:#f3efe8; --bg3:#ece7dd; --bg4:#e4ddd0;
+  --ink:#1a1612; --ink2:#3d3628; --ink3:#6b5f4a; --muted:#9a8e7a;
+  --border:rgba(0,0,0,0.09); --border2:rgba(0,0,0,0.14);
+  --gold:#b8952a; --gold2:#d4aa40; --gold3:#f0c956;
+  --goldbg:rgba(184,149,42,0.10); --goldbd:rgba(184,149,42,0.30);
+  --green:#2a7a4b; --red:#c0392b;
+  /* LLM colors */
+  --claude:#c17a2a;   /* Anthropic amber */
+  --openai:#10a37f;   /* OpenAI green */
+  --gemini:#4285f4;   /* Google blue */
+  --grok:#1d9bf0;     /* xAI/Twitter blue */
+  --deepseek:#e53935; /* DeepSeek red */
+  --meta:#0866ff;     /* Meta blue */
+  /* Hardware colors */
+  --nvda:#76b900;
+  --amd:#cc2200;
+  --mu:#0057b8;
+  --stx:#ff6d00;
+  --wdc:#0078d4;
+  --smci:#7b2fbe;
+  --mono:'SF Mono', Consolas, 'Courier New', monospace; --sans:system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+html,body { width:1122px; height:794px; overflow:hidden; background:var(--bg); font-family:var(--sans); color:var(--ink); font-size:10.5px; -webkit-font-smoothing:antialiased; }
+.page { width:1122px; height:794px; display:flex; flex-direction:column; }
+
+/* HEADER */
+.hdr { background:var(--ink); border-bottom:3px solid var(--gold2); padding:9px 22px; display:flex; align-items:center; justify-content:space-between; height:50px; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-pill { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 9px; letter-spacing:.05em; }
+.brand-name { font-size:13px; font-weight:600; color:#fff; }
+.brand-sub { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.38); letter-spacing:.12em; text-transform:uppercase; margin-top:1px; }
+.hdr-kpis { display:flex; }
+.hkpi { padding:0 13px; border-right:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; gap:1px; }
+.hkpi:last-child { border-right:none; }
+.hkpi-v { font-family:var(--mono); font-size:12px; font-weight:500; line-height:1; color:#fff; }
+.hkpi-l { font-family:var(--mono); font-size:6.5px; color:rgba(255,255,255,.38); letter-spacing:.1em; text-transform:uppercase; }
+.hdr-right { text-align:right; }
+.hdr-title { font-size:13px; font-weight:600; color:var(--gold3); }
+.hdr-date { font-family:var(--mono); font-size:7.5px; color:rgba(255,255,255,.3); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+
+/* TICKER TAPE — double row */
+.tape { background:var(--bg2); border-bottom:1px solid var(--border2); display:grid; grid-template-columns:1fr 1fr; flex-shrink:0; }
+.tape-row { display:flex; padding:4px 22px; border-bottom:1px solid var(--border); }
+.tape-row:last-child { border-bottom:none; }
+.tape-label { font-family:var(--mono); font-size:7px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); background:var(--goldbg); border-left:2px solid var(--gold2); padding:1px 6px; display:flex; align-items:center; margin-right:8px; flex-shrink:0; white-space:nowrap; }
+.tick { display:flex; align-items:center; gap:6px; padding:0 10px; border-right:1px solid var(--border2); }
+.tick:last-child { border-right:none; }
+.tick-name { font-family:var(--mono); font-size:7.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.tick-price { font-family:var(--mono); font-size:11px; font-weight:500; }
+.tick-delta { font-family:var(--mono); font-size:8px; }
+.tick-badge { font-family:var(--mono); font-size:6.5px; padding:1px 4px; border-radius:2px; border:1px solid; white-space:nowrap; }
+.up{color:var(--green);} .dn{color:var(--red);} .nt{color:var(--muted);} .gd{color:var(--gold);}
+
+/* BODY */
+.body { flex:1; display:grid; grid-template-columns:370px 1fr 244px; min-height:0; }
+.col { padding:10px 14px; overflow:hidden; }
+.col-l { border-right:1px solid var(--border2); background:var(--bg); }
+.col-m { border-right:1px solid var(--border2); background:var(--bg); }
+.col-r { padding:10px 13px; background:var(--bg2); }
+
+/* SECTION */
+.sec { font-family:var(--mono); font-size:6.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); background:var(--goldbg); border-left:2px solid var(--gold2); padding:2px 6px; display:inline-block; margin-bottom:6px; }
+
+/* CARD */
+.cbox { background:#fff; border:1px solid var(--border2); border-radius:3px; overflow:hidden; margin-bottom:7px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+.cbox:last-child { margin-bottom:0; }
+.cbox-h { padding:4px 9px; border-bottom:1px solid var(--border); background:var(--bg2); display:flex; justify-content:space-between; align-items:center; }
+.cbox-t { font-family:var(--mono); font-size:7px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); }
+.cbox-s { font-family:var(--mono); font-size:6.5px; color:var(--muted); }
+.cbox-b { padding:7px 9px; }
+
+/* LLM CARDS GRID */
+.llm-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-bottom:7px; }
+.lcard { border:1px solid var(--border2); border-radius:3px; padding:6px 8px; background:var(--bg2); border-top-width:2px; }
+.lcard-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
+.lcard-name { font-family:var(--mono); font-size:9px; font-weight:600; line-height:1; }
+.lcard-tag { font-family:var(--mono); font-size:6.5px; padding:1px 4px; border-radius:2px; }
+.lcard-val { font-family:var(--mono); font-size:15px; font-weight:500; line-height:1; color:var(--ink); margin-bottom:2px; }
+.lcard-sub { font-size:7.5px; color:var(--muted); line-height:1.3; }
+.lcard-bench { display:flex; gap:4px; margin-top:4px; flex-wrap:wrap; }
+.bench-pill { font-family:var(--mono); font-size:6.5px; padding:1px 5px; border-radius:10px; background:var(--bg3); color:var(--ink3); }
+
+/* SUPPORT LEVELS */
+.slev { display:flex; align-items:center; gap:5px; padding:3px 0; border-bottom:1px solid var(--border); }
+.slev:last-child { border-bottom:none; }
+.slev-tick { font-family:var(--mono); font-size:7.5px; font-weight:600; width:34px; flex-shrink:0; }
+.slev-name { font-size:7.5px; color:var(--muted); width:72px; flex-shrink:0; }
+.slev-bg { flex:1; height:3px; background:var(--bg3); border-radius:2px; overflow:hidden; }
+.slev-bar { height:100%; border-radius:2px; }
+.slev-s { font-family:var(--mono); font-size:8px; font-weight:500; width:44px; text-align:right; flex-shrink:0; }
+.slev-r { font-family:var(--mono); font-size:8px; width:44px; text-align:right; flex-shrink:0; }
+
+/* EXPO TABLE */
+.etab { width:100%; border-collapse:collapse; }
+.etab th { font-family:var(--mono); font-size:7px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:3px 5px; text-align:left; border-bottom:1px solid var(--border2); background:var(--bg2); }
+.etab td { font-size:9px; padding:3.5px 5px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:middle; }
+.etab tr:last-child td { border-bottom:none; }
+.etab td:not(:first-child) { font-family:var(--mono); font-size:8.5px; }
+.expo-bar { height:3px; border-radius:2px; margin-top:2px; }
+
+/* CORR BADGES */
+.corr-badges { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; padding:3px 9px 7px; }
+.cbdg { border-radius:3px; padding:5px 7px; border:1px solid var(--border2); background:var(--bg2); border-top-width:2px; }
+.cbdg-l { font-family:var(--mono); font-size:7px; color:var(--muted); margin-bottom:2px; }
+.cbdg-v { font-family:var(--mono); font-size:13px; font-weight:500; line-height:1; }
+.cbdg-d { font-size:7px; color:var(--muted); margin-top:2px; line-height:1.3; }
+
+/* MINI STATS */
+.ms-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-bottom:7px; }
+.ms { background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 7px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.ms-l { font-family:var(--mono); font-size:6.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.ms-v { font-family:var(--mono); font-size:12px; font-weight:500; line-height:1; color:var(--ink); }
+
+/* RULES */
+.rule { display:flex; gap:5px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 7px; margin-bottom:4px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.rule:last-child { margin-bottom:0; }
+.rule-n { font-family:var(--mono); font-size:8px; font-weight:600; color:var(--gold); min-width:10px; }
+.rule-h { font-size:8.5px; font-weight:600; margin-bottom:1px; }
+.rule-b { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+
+/* CALENDAR */
+.cal { display:flex; gap:6px; background:#fff; border:1px solid var(--border2); border-radius:3px; padding:5px 7px; margin-bottom:4px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.cal:last-child { margin-bottom:0; }
+.cal-d { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:600; padding:3px 4px; text-align:center; min-width:34px; border-radius:2px; line-height:1.4; flex-shrink:0; }
+.cal-e { font-size:8.5px; font-weight:600; color:var(--ink); margin-bottom:1px; }
+.cal-n { font-size:7.5px; color:var(--ink3); line-height:1.4; }
+
+/* LEGEND */
+.legend { display:flex; gap:8px; flex-wrap:wrap; padding:2px 9px 5px; }
+.li { display:flex; align-items:center; gap:3px; font-family:var(--mono); font-size:6.5px; color:var(--muted); text-transform:uppercase; }
+.ldot { width:6px; height:6px; border-radius:1px; flex-shrink:0; }
+
+/* VERDICT */
+.verdict { background:var(--ink2); border-top:2px solid var(--gold2); padding:7px 22px; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.vtag { background:var(--gold2); color:var(--ink); font-family:var(--mono); font-size:7px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:3px 7px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+.vtext { font-size:9.5px; color:rgba(255,255,255,.82); font-style:italic; line-height:1.6; }
+.vtext strong { font-style:normal; color:var(--gold3); }
+
+/* FOOTER */
+.footer { background:var(--bg3); border-top:1px solid var(--border2); padding:5px 22px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; height:26px; }
+.foot-l { font-family:var(--mono); font-size:6px; color:var(--muted); max-width:700px; }
+.foot-r { font-family:var(--mono); font-size:7.5px; color:var(--ink3); text-align:right; white-space:nowrap; }
+.foot-r span { color:var(--gold); font-weight:600; }
+
+/* MARKET SHARE BAR */
+.mshare { display:flex; height:14px; border-radius:2px; overflow:hidden; margin:6px 0; }
+.ms-seg { display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:6px; color:rgba(255,255,255,.9); font-weight:500; overflow:hidden; white-space:nowrap; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="brand">
+    <div class="brand-pill">YC</div>
+    <div>
+      <div class="brand-name">YAASAP Consulting</div>
+      <div class="brand-sub">Flash Marché · N°15 · Ecosystème IA — LLMs · GPU · Stockage</div>
+    </div>
+  </div>
+  <div class="hdr-kpis">
+    <div class="hkpi"><div class="hkpi-v" style="color:var(--gold3);">$900B</div><div class="hkpi-l">Valoris. Anthropic</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:var(--gold3);">$852B</div><div class="hkpi-l">Valoris. OpenAI</div></div>
+    <div class="hkpi"><div class="hkpi-v">$5.46T</div><div class="hkpi-l">Capi. NVDA</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">+115%</div><div class="hkpi-l">AMD YTD</div></div>
+    <div class="hkpi"><div class="hkpi-v">$700B+</div><div class="hkpi-l">CapEx IA 2026</div></div>
+    <div class="hkpi"><div class="hkpi-v" style="color:#7ecfa0;">+49%</div><div class="hkpi-l">SanDisk (mém.)</div></div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-title">🧠 Ecosystème IA — Cartographie Complète</div>
+    <div class="hdr-date">19 Mai 2026 · LLMs · GPU · Stockage · 12 acteurs</div>
+  </div>
+</div>
+
+<!-- TICKER TAPE — 2 lignes : LLMs non cotés | Valeurs cotées -->
+<div class="tape">
+  <!-- Ligne 1 : LLMs (valorisations privées) -->
+  <div class="tape-row" style="border-right:1px solid var(--border2);">
+    <div class="tape-label">LLMs Privés</div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--claude);">CLAUDE</div>
+      <div class="tick-price" style="color:var(--claude);">$900B</div>
+      <div class="tick-badge" style="background:rgba(193,122,42,.1);color:var(--claude);border-color:rgba(193,122,42,.3);">#1 GPQA</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--openai);">OPENAI</div>
+      <div class="tick-price" style="color:var(--openai);">$852B</div>
+      <div class="tick-badge" style="background:rgba(16,163,127,.1);color:var(--openai);border-color:rgba(16,163,127,.3);">GPT-5.5</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--gemini);">GEMINI</div>
+      <div class="tick-price" style="color:var(--gemini);">$2T+</div>
+      <div class="tick-delta nt">GOOGL</div>
+      <div class="tick-badge" style="background:rgba(66,133,244,.1);color:var(--gemini);border-color:rgba(66,133,244,.3);">#1 bench.</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--grok);">GROK/xAI</div>
+      <div class="tick-price" style="color:var(--grok);">$1.25T</div>
+      <div class="tick-delta nt">xAI+SpaceX</div>
+      <div class="tick-badge" style="background:rgba(29,155,240,.1);color:var(--grok);border-color:rgba(29,155,240,.3);">Colossus</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--deepseek);">DEEPSEEK</div>
+      <div class="tick-price" style="color:var(--deepseek);">Open</div>
+      <div class="tick-delta nt">source</div>
+      <div class="tick-badge" style="background:rgba(229,57,53,.1);color:var(--deepseek);border-color:rgba(229,57,53,.3);">$5.6M train</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--meta);">META/LLAMA</div>
+      <div class="tick-price" style="color:var(--meta);">$1.5T</div>
+      <div class="tick-delta nt">cotée</div>
+      <div class="tick-badge" style="background:rgba(8,102,255,.1);color:var(--meta);border-color:rgba(8,102,255,.3);">CapEx +60%</div>
+    </div>
+  </div>
+  <!-- Ligne 2 : Hardware coté -->
+  <div class="tape-row">
+    <div class="tape-label">Hardware Coté</div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--nvda);">NVDA</div>
+      <div class="tick-price" style="color:var(--nvda);">$220</div>
+      <div class="tick-delta up">▲+18%YTD</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--amd);">AMD</div>
+      <div class="tick-price" style="color:var(--amd);">$108</div>
+      <div class="tick-delta up">▲+115%YTD</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--mu);">MU</div>
+      <div class="tick-price" style="color:var(--mu);">~$120</div>
+      <div class="tick-delta up">▲+8.5%</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--stx);">STX</div>
+      <div class="tick-price" style="color:var(--stx);">~$110</div>
+      <div class="tick-delta up">▲+25.8%</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--wdc);">WDC</div>
+      <div class="tick-price" style="color:var(--wdc);">~$85</div>
+      <div class="tick-delta up">▲+26.4%</div>
+    </div>
+    <div class="tick">
+      <div class="tick-name" style="color:var(--smci);">SMCI</div>
+      <div class="tick-price" style="color:var(--smci);">$31</div>
+      <div class="tick-delta dn">▼ -200MA</div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+<!-- COL LEFT : LLMs + Parts de marché -->
+<div class="col col-l">
+  <div class="sec">01 · Cartographie LLMs — Valorisations & Benchmarks (mai 2026)</div>
+
+  <div class="llm-grid">
+    <!-- Claude / Anthropic -->
+    <div class="lcard" style="border-top-color:var(--claude);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--claude);">Claude · Anthropic</div>
+        <div class="lcard-tag" style="background:rgba(193,122,42,.12);color:var(--claude);border:1px solid rgba(193,122,42,.3);">Non coté</div>
+      </div>
+      <div class="lcard-val">$900B</div>
+      <div class="lcard-sub">Rev. annualisé $43B · IPO possible oct. 2026<br>Claude Code $2.5B ARR · 1000+ clients $1M+</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">GPQA 94.6% #1</div>
+        <div class="bench-pill">SWE 74%+</div>
+        <div class="bench-pill">MCP 97M installs</div>
+      </div>
+    </div>
+    <!-- OpenAI -->
+    <div class="lcard" style="border-top-color:var(--openai);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--openai);">ChatGPT · OpenAI</div>
+        <div class="lcard-tag" style="background:rgba(16,163,127,.1);color:var(--openai);border:1px solid rgba(16,163,127,.3);">Non coté</div>
+      </div>
+      <div class="lcard-val">$852B</div>
+      <div class="lcard-sub">GPT-5.5 · Rev $10B+ FY2025<br>Part marché web : 64.5% (−22pts/an)</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">GPQA 92.8%</div>
+        <div class="bench-pill">SWE 74.9%</div>
+        <div class="bench-pill">$20/mo</div>
+      </div>
+    </div>
+    <!-- Gemini / Google -->
+    <div class="lcard" style="border-top-color:var(--gemini);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--gemini);">Gemini · Google</div>
+        <div class="lcard-tag" style="background:rgba(66,133,244,.1);color:var(--gemini);border:1px solid rgba(66,133,244,.25);">GOOGL coté</div>
+      </div>
+      <div class="lcard-val">$396</div>
+      <div class="lcard-sub">Part marché +21.5% · CapEx $180–190B<br>Gemini 3.1 Pro — leader benchmarks 2026</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">GPQA 94.3% #1</div>
+        <div class="bench-pill">ARC-AGI 77.1%</div>
+        <div class="bench-pill">$2/$12 /M</div>
+      </div>
+    </div>
+    <!-- xAI / Grok -->
+    <div class="lcard" style="border-top-color:var(--grok);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--grok);">Grok · xAI</div>
+        <div class="lcard-tag" style="background:rgba(29,155,240,.1);color:var(--grok);border:1px solid rgba(29,155,240,.25);">Non coté</div>
+      </div>
+      <div class="lcard-val">$1.25T</div>
+      <div class="lcard-sub">Fusion xAI + SpaceX · Rev ~$2B 2026 est.<br>Colossus 200K GPU · IPO attendu 2026</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">SWE 75% #1</div>
+        <div class="bench-pill">Elo 1505</div>
+        <div class="bench-pill">$30/mo</div>
+      </div>
+    </div>
+    <!-- DeepSeek -->
+    <div class="lcard" style="border-top-color:var(--deepseek);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--deepseek);">DeepSeek</div>
+        <div class="lcard-tag" style="background:rgba(229,57,53,.1);color:var(--deepseek);border:1px solid rgba(229,57,53,.25);">Open source</div>
+      </div>
+      <div class="lcard-val">?</div>
+      <div class="lcard-sub">Entraîn. $5.6M · Architecture MoE 671B<br>Perturbateur prix : $0/M tokens (open)</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">MoE 671B</div>
+        <div class="bench-pill">37B actifs</div>
+        <div class="bench-pill">R2 retardé</div>
+      </div>
+    </div>
+    <!-- Meta / Llama -->
+    <div class="lcard" style="border-top-color:var(--meta);">
+      <div class="lcard-top">
+        <div class="lcard-name" style="color:var(--meta);">Llama · Meta</div>
+        <div class="lcard-tag" style="background:rgba(8,102,255,.1);color:var(--meta);border:1px solid rgba(8,102,255,.25);">META coté</div>
+      </div>
+      <div class="lcard-val">$616</div>
+      <div class="lcard-sub">CapEx +60% en 2026 · MTIA chip propre<br>Llama open-weights : référence marché</div>
+      <div class="lcard-bench">
+        <div class="bench-pill">Open weights</div>
+        <div class="bench-pill">MTIA chip</div>
+        <div class="bench-pill">ρ NVDA 0.68</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTS DE MARCHÉ WEB -->
+  <div class="sec">02 · Parts de marché trafic web (SimilarWeb, jan. 2026)</div>
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Part de marché chatbot IA — trafic desktop mondial</span><span class="cbox-s">Jan 2026 vs Jan 2025</span></div>
+    <div class="cbox-b" style="padding:7px 9px;">
+      <div class="mshare">
+        <div class="ms-seg" style="width:64.5%;background:#10a37f;">ChatGPT 64.5%</div>
+        <div class="ms-seg" style="width:21.5%;background:#4285f4;">Gemini 21.5%</div>
+        <div class="ms-seg" style="width:3.7%;background:#e53935;">DS 3.7%</div>
+        <div class="ms-seg" style="width:3%;background:#1d9bf0;">Grok 3%</div>
+        <div class="ms-seg" style="width:7.3%;background:var(--bg4);color:var(--muted);">Autres</div>
+      </div>
+      <div style="font-size:7.5px;color:var(--muted);margin-top:4px;">ChatGPT −22pts YoY · Gemini +18pts · Grok ↑ rapidement · Claude ~2% (API non comptabilisé)</div>
+      <div style="display:flex;gap:8px;margin-top:5px;flex-wrap:wrap;">
+        <div style="font-family:var(--mono);font-size:7px;color:var(--muted);display:flex;align-items:center;gap:3px;"><div style="width:7px;height:7px;background:#10a37f;border-radius:1px;"></div>ChatGPT 64.5% (−22pts)</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--muted);display:flex;align-items:center;gap:3px;"><div style="width:7px;height:7px;background:#4285f4;border-radius:1px;"></div>Gemini 21.5% (+18pts)</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--muted);display:flex;align-items:center;gap:3px;"><div style="width:7px;height:7px;background:#e53935;border-radius:1px;"></div>DeepSeek 3.7%</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--muted);display:flex;align-items:center;gap:3px;"><div style="width:7px;height:7px;background:#1d9bf0;border-radius:1px;"></div>Grok 3.0%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COL MIDDLE : Hardware coté + Corrélations + Expo -->
+<div class="col col-m">
+  <div class="sec">03 · Performance GPU & Stockage YTD — Base 100 (jan 2026)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Perf. normalisée — NVDA / AMD / MU / STX / WDC · Jan–Mai 2026</span>
+      <span class="cbox-s">Rotation compute → mémoire</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 9px 3px;">
+      <div style="position:relative;height:108px;">
+        <canvas id="perfChart"></canvas>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="li"><div class="ldot" style="background:var(--nvda);"></div>NVDA</div>
+      <div class="li"><div class="ldot" style="background:var(--amd);"></div>AMD</div>
+      <div class="li"><div class="ldot" style="background:var(--mu);"></div>MU (Micron)</div>
+      <div class="li"><div class="ldot" style="background:var(--stx);"></div>STX (Seagate)</div>
+      <div class="li"><div class="ldot" style="background:var(--wdc);"></div>WDC (W.Digital)</div>
+      <div class="li"><div class="ldot" style="background:var(--smci);"></div>SMCI</div>
+    </div>
+  </div>
+
+  <div class="sec">04 · Corrélations avec NVDA (ρ Pearson, 6 mois)</div>
+  <div class="cbox">
+    <div class="cbox-h">
+      <span class="cbox-t">Corrélations 6 mois — ρ proche de 1 = même cycle que NVDA</span>
+      <span class="cbox-s">Jan–Mai 2026</span>
+    </div>
+    <div class="cbox-b" style="padding:6px 9px 3px;">
+      <div style="position:relative;height:78px;">
+        <canvas id="corrChart"></canvas>
+      </div>
+    </div>
+    <div class="corr-badges">
+      <div class="cbdg" style="border-top-color:var(--amd);">
+        <div class="cbdg-l">AMD/NVDA</div>
+        <div class="cbdg-v up">ρ 0.82</div>
+        <div class="cbdg-d">Très forte · semi-cond.</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--smci);">
+        <div class="cbdg-l">SMCI/NVDA</div>
+        <div class="cbdg-v up">ρ 0.74</div>
+        <div class="cbdg-d">Forte · serveurs IA</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--mu);">
+        <div class="cbdg-l">MU/NVDA</div>
+        <div class="cbdg-v gd">ρ 0.65</div>
+        <div class="cbdg-d">Bonne · HBM mémoire</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--stx);">
+        <div class="cbdg-l">STX/NVDA</div>
+        <div class="cbdg-v gd">ρ 0.52</div>
+        <div class="cbdg-d">Modérée · stockage</div>
+      </div>
+      <div class="cbdg" style="border-top-color:var(--deepseek);">
+        <div class="cbdg-l">DEEPSEEK/NVDA</div>
+        <div class="cbdg-v dn">ρ −0.31</div>
+        <div class="cbdg-d">Négative · disruption</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">05 · Exposition au supercycle IA · Supports & Cibles</div>
+  <div class="cbox">
+    <div class="cbox-h"><span class="cbox-t">Valeurs cotées · Cours · Cibles · Exposition · Couche IA</span></div>
+    <div class="cbox-b" style="padding:0;">
+      <table class="etab">
+        <thead><tr><th>Ticker</th><th>Cours</th><th>Support</th><th>Cible</th><th>Upside</th><th>Bêta</th><th style="width:118px;">Exposition</th><th>Couche</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--nvda);">NVDA</span><span style="font-size:7.5px;color:var(--muted);"> NVIDIA</span></td>
+            <td>$220</td><td style="color:var(--muted);">$195</td><td class="up">$259</td><td class="up">+17%</td><td>1.68</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--nvda);">████████████ 98%</div><div class="expo-bar" style="width:98%;background:var(--nvda);opacity:.4;"></div></td>
+            <td><span style="background:rgba(118,185,0,.1);color:var(--nvda);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(118,185,0,.25);">GPU 🔬</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--amd);">AMD</span><span style="font-size:7.5px;color:var(--muted);"> Adv.Micro</span></td>
+            <td>$108</td><td style="color:var(--muted);">$90</td><td class="up">$140</td><td class="up">+29%</td><td>1.51</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--amd);">███████████░ 92%</div><div class="expo-bar" style="width:92%;background:var(--amd);opacity:.4;"></div></td>
+            <td><span style="background:rgba(204,34,0,.08);color:var(--amd);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(204,34,0,.2);">GPU+CPU 🔬</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--mu);">MU</span><span style="font-size:7.5px;color:var(--muted);"> Micron</span></td>
+            <td>$120</td><td style="color:var(--muted);">$105</td><td class="up">$160</td><td class="up">+33%</td><td>1.42</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--mu);">█████████░░░ 78%</div><div class="expo-bar" style="width:78%;background:var(--mu);opacity:.4;"></div></td>
+            <td><span style="background:rgba(0,87,184,.08);color:var(--mu);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(0,87,184,.2);">HBM/DRAM 💾</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--stx);">STX</span><span style="font-size:7.5px;color:var(--muted);"> Seagate</span></td>
+            <td>$110</td><td style="color:var(--muted);">$92</td><td class="up">$145</td><td class="up">+31%</td><td>1.18</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--stx);">████████░░░░ 65%</div><div class="expo-bar" style="width:65%;background:var(--stx);opacity:.4;"></div></td>
+            <td><span style="background:rgba(255,109,0,.1);color:var(--stx);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(255,109,0,.25);">HDD IA 💾</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--wdc);">WDC</span><span style="font-size:7.5px;color:var(--muted);"> W.Digital</span></td>
+            <td>$85</td><td style="color:var(--muted);">$72</td><td class="up">$110</td><td class="up">+29%</td><td>1.25</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--wdc);">███████░░░░░ 60%</div><div class="expo-bar" style="width:60%;background:var(--wdc);opacity:.4;"></div></td>
+            <td><span style="background:rgba(0,120,212,.08);color:var(--wdc);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(0,120,212,.2);">NAND/HDD 💾</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-family:var(--mono);font-weight:600;color:var(--smci);">SMCI</span><span style="font-size:7.5px;color:var(--muted);"> Supermicro</span></td>
+            <td>$31</td><td style="color:var(--muted);">$28</td><td class="up">$52</td><td class="up">+67%</td><td>1.88</td>
+            <td><div style="font-family:var(--mono);font-size:7.5px;color:var(--smci);">██████████░░ 82%</div><div class="expo-bar" style="width:82%;background:var(--smci);opacity:.4;"></div></td>
+            <td><span style="background:rgba(123,47,190,.08);color:var(--smci);font-family:var(--mono);font-size:6.5px;padding:1px 4px;border-radius:2px;border:1px solid rgba(123,47,190,.2);">Serveurs IA 🖥</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- COL RIGHT -->
+<div class="col col-r">
+  <div class="sec">06 · Métriques NVDA (résult. 20 mai)</div>
+  <div class="ms-grid">
+    <div class="ms"><div class="ms-l">Capitalisation</div><div class="ms-v">$5.46T</div></div>
+    <div class="ms"><div class="ms-l">Bêta</div><div class="ms-v dn">1.68</div></div>
+    <div class="ms"><div class="ms-l">Cible moy.</div><div class="ms-v up">$259</div></div>
+    <div class="ms"><div class="ms-l">EPS Q1 est.</div><div class="ms-v up">+118%</div></div>
+    <div class="ms"><div class="ms-l">Rev. Q1 est.</div><div class="ms-v up">+78.7%</div></div>
+    <div class="ms"><div class="ms-l">Marge EBITDA</div><div class="ms-v gd">61.7%</div></div>
+  </div>
+
+  <div class="sec">07 · Risques clés écosystème</div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--red);">Disruption DeepSeek</div>
+    <div class="rule-b">Entraînement à $5.6M vs milliards. Pression tarifaire sur tous les LLMs. R2 retardé mais inévitable.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">⚠</div>
+    <div><div class="rule-h" style="color:var(--gold);">Insourcing hyperscalers</div>
+    <div class="rule-b">TPU Google, MTIA Meta, Trainium Amazon. Menace long terme pour NVDA/AMD sur les GPU.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">✓</div>
+    <div><div class="rule-h" style="color:var(--green);">Rotation compute → stockage</div>
+    <div class="rule-b">STX +25.8%, WDC +26.4%, SanDisk +49.3%. Micron sold-out 2026. La mémoire devient le goulot.</div></div>
+  </div>
+  <div class="rule">
+    <div class="rule-n">✓</div>
+    <div><div class="rule-h" style="color:var(--green);">Anthropic IPO oct. 2026 ?</div>
+    <div class="rule-b">$900B + rev. $43B annualisés. Entrée indirecte : AMZN (25B$) + GOOG (40B$) investisseurs.</div></div>
+  </div>
+
+  <div class="sec" style="margin-top:7px;">08 · Agenda catalyseurs</div>
+  <div class="cal">
+    <div class="cal-d">20<br>MAI</div>
+    <div><div class="cal-e">Résultats Q1 NVDA</div>
+    <div class="cal-n">EPS +118% · Rev +78.7%. Vera Rubin H2 · Catalyseur #1 secteur.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">MAI<br>2026</div>
+    <div><div class="cal-e">Clôture round Anthropic</div>
+    <div class="cal-n">$900B + $30–50B levée. Précédent IPO possible oct. 2026.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">H2<br>2026</div>
+    <div><div class="cal-e">NVDA Vera Rubin + IPO xAI</div>
+    <div class="cal-n">Nouvelle arch. GPU + fusion xAI/SpaceX cotation. Double catalyseur.</div></div>
+  </div>
+  <div class="cal">
+    <div class="cal-d">OCT<br>2026</div>
+    <div><div class="cal-e">IPO Anthropic (possible)</div>
+    <div class="cal-n">Si confirmé : 1er IPO LLM pur. Valorisation référence pour tout l'écosystème IA.</div></div>
+  </div>
+</div>
+
+</div><!-- end body -->
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="vtag">Verdict YAASAP</div>
+  <div class="vtext">
+    <strong>NVDA reste le pivot</strong> (ρ référence, résultats 20 mai) mais <strong>la rotation s'accélère vers la mémoire</strong> : STX, WDC, MU sont les valeurs sous-estimées du cycle (MU sold-out 2026, SanDisk +49%).
+    Sur les LLMs, <strong>Claude dépasse OpenAI en valorisation ($900B)</strong> et reste #1 GPQA. <strong>DeepSeek est le perturbateur à surveiller</strong> (ρ=−0.31 vs NVDA). SMCI : upside +67% mais bêta 1.88, réservé aux profils agressifs.
+    Entrée indirecte sur Anthropic : acheter <strong>AMZN ou GOOG</strong> qui portent l'exposition pré-IPO.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="foot-l">Analyse technique et sectorielle à titre informatif uniquement · Ne constitue pas un conseil en investissement · YAASAP Consulting décline toute responsabilité · Consultez un conseiller financier agréé</div>
+  <div class="foot-r">YAASAP Consulting · <span>Flash Marché N°15</span> · 19 Mai 2026</div>
+</div>
+
+</div><!-- end page -->
+
+<script>
+const labels6=['Jan','Fév','Mar','Avr','Mai-1','Mai-19'];
+const gc='rgba(0,0,0,0.05)', tc='#9a8e7a', tf={size:7.5,family:'IBM Plex Mono'};
+
+new Chart(document.getElementById('perfChart'),{
+  type:'line',
+  data:{labels:labels6,datasets:[
+    {label:'NVDA', data:[100,95,103,112,118,122], borderColor:'#76b900',borderWidth:2.5,pointRadius:2,fill:false,tension:0.35},
+    {label:'AMD',  data:[100,112,138,170,205,215], borderColor:'#cc2200',borderWidth:2.5,pointRadius:2,fill:false,tension:0.35},
+    {label:'MU',   data:[100,98,105,109,112,115],  borderColor:'#0057b8',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35,borderDash:[3,2]},
+    {label:'STX',  data:[100,104,112,120,125,128],  borderColor:'#ff6d00',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35},
+    {label:'WDC',  data:[100,106,115,122,126,128],  borderColor:'#0078d4',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35,borderDash:[3,2]},
+    {label:'SMCI', data:[100,90, 85, 78, 72, 70],  borderColor:'#7b2fbe',borderWidth:1.5,pointRadius:2,fill:false,tension:0.35,borderDash:[5,3]},
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,22,18,.92)',titleColor:tc,bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6,
+      callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y.toFixed(0)} (${ctx.parsed.y>=100?'+':''}${(ctx.parsed.y-100).toFixed(0)}%)`}}},
+    scales:{
+      x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},
+      y:{min:60,max:225,ticks:{color:tc,font:tf},grid:{color:gc}}
+    }
+  }
+});
+
+new Chart(document.getElementById('corrChart'),{
+  type:'bar',
+  data:{labels:['AMD/NVDA','SMCI/NVDA','MU/NVDA','STX/NVDA','DeepSeek/NVDA'],
+    datasets:[{data:[0.82,0.74,0.65,0.52,-0.31],
+      backgroundColor:['rgba(204,34,0,.5)','rgba(123,47,190,.5)','rgba(0,87,184,.5)','rgba(255,109,0,.5)','rgba(229,57,53,.5)'],
+      borderColor:['#cc2200','#7b2fbe','#0057b8','#ff6d00','#e53935'],
+      borderWidth:1,borderRadius:3
+    }]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(26,22,18,.92)',bodyColor:'#faf8f4',borderColor:'rgba(184,149,42,.3)',borderWidth:1,padding:6,
+      callbacks:{label:ctx=>`ρ = ${ctx.parsed.x.toFixed(2)}`}}},
+    scales:{
+      x:{min:-0.45,max:1.0,ticks:{color:tc,font:tf,callback:v=>'ρ '+v.toFixed(1)},grid:{color:gc}},
+      y:{ticks:{color:tc,font:tf},grid:{display:false}}
+    }
+  }
+});
+</script>
+</body>
+</html>

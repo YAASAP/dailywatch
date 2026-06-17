@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Volatilite & Fondamentaux v4 · Minieres d'or sous-cotees · Juin 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+.hero-banner{background:var(--ink);padding:22px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#c8902a;font-weight:700;margin-bottom:8px;font-family:var(--sans);}
+.hero-headline{font-family:var(--serif);font-size:26px;font-weight:700;color:#f0ebe3;line-height:1.15;margin-bottom:8px;}
+.hero-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:16px;}
+.hero-kpis{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding:12px 0 14px;}
+.hkpi{padding:5px 16px;border-right:1px solid rgba(255,255,255,.08);text-align:center;}
+.hkpi:first-child{padding-left:0;}
+.hkpi:last-child{border-right:none;}
+.hkpi-v{font-family:var(--mono);font-size:16px;font-weight:600;line-height:1;}
+.hkpi-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;font-family:var(--sans);}
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+.stock-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;margin-bottom:18px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.sc-header{padding:12px 16px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:flex-start;background:var(--paper2);}
+.sc-ticker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;margin-bottom:2px;}
+.sc-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);}
+.sc-sector{font-size:9px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.sc-right{text-align:right;}
+.sc-price{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);line-height:1;}
+.sc-change{font-family:var(--mono);font-size:11px;margin-top:3px;}
+.sc-tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-top:5px;display:inline-block;font-family:var(--sans);}
+.sc-body{padding:14px 16px;}
+.sc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.sc-m{background:var(--paper2);border-radius:2px;padding:6px 8px;}
+.sc-m-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-m-v{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+.sc-analysis{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px;font-family:var(--sans);}
+.sc-analysis strong{font-weight:700;color:var(--ink);}
+.corr-reason{background:rgba(139,58,26,.04);border:1px solid rgba(139,58,26,.15);border-left:3px solid var(--accent);border-radius:0 2px 2px 0;padding:8px 10px;margin-bottom:10px;font-size:12px;color:var(--ink3);font-family:var(--sans);line-height:1.5;}
+.corr-reason strong{color:var(--accent);font-weight:700;}
+.sc-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sc-level{background:var(--paper2);border-radius:2px;padding:6px 8px;text-align:center;}
+.sc-level-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-level-v{font-family:var(--mono);font-size:12px;font-weight:600;}
+.sc-catalyseur{margin-top:10px;background:rgba(30,92,50,.05);border:1px solid rgba(30,92,50,.15);border-radius:2px;padding:8px 10px;font-size:12px;color:var(--ink3);font-style:italic;font-family:var(--sans);line-height:1.5;}
+.sc-catalyseur strong{font-style:normal;color:var(--green);font-weight:700;}
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:210px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:12px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+.buffett-rule{display:flex;gap:12px;background:#fff;border:1px solid var(--rule);border-radius:2px;padding:12px 14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);align-items:flex-start;}
+.br-num{font-family:var(--serif);font-size:20px;font-weight:700;color:#c8902a;line-height:1;flex-shrink:0;width:22px;}
+.br-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;font-family:var(--sans);}
+.br-body{font-size:12.5px;color:var(--ink3);line-height:1.5;font-family:var(--sans);}
+.br-body strong{color:var(--ink2);font-weight:700;}
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#c8902a;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:#c8902a;}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'--';color:#c8902a;flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financiere -- Usage exclusif clients</div></div>
+  <div class="masthead-center"><span class="issue-line">Analyse speciale · Volatilite & Fondamentaux v4 · Minieres d'or sous-cotees · Juin 2026</span></div>
+  <div class="masthead-right"><div class="mast-date" id="liveDate">15 juin 2026</div></div>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Nouvelle selection · Secteur distinct des notes v1, v2 et v3</div>
+    <div class="hero-headline">L'or flambe, les minieres plongent : le decouplage le plus extreme du secteur en 2026</div>
+    <div class="hero-deck">Newmont, Barrick et Agnico Eagle generent un cash-flow libre record alors que leurs cours decrochent severement depuis janvier. Croissance de benefices attendue entre +43% et +72%. Le marche price une recession des marges qui n'existe pas dans les chiffres.</div>
+    <div class="hero-kpis">
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">-24,5%</div><div class="hkpi-l">Barrick depuis pic jan.</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">-15,4%</div><div class="hkpi-l">Newmont depuis pic jan.</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">-11%</div><div class="hkpi-l">Agnico Eagle / 1 mois</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#4ade80;">6,72 Md$</div><div class="hkpi-l">FCF cumule Q1 2026</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#4ade80;">+43 a +72%</div><div class="hkpi-l">Croissance BNA attendue</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#fbbf24;">$5 000+</div><div class="hkpi-l">Cible or fin 2026 (banques)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Barrick (B / GOLD)</div><div class="kk-v dn">-24,5% depuis pic</div><div class="kk-n">cible moy. $26,99 -- range $21,93-$35,04</div></div>
+    <div class="kk"><div class="kk-l">Newmont (NEM)</div><div class="kk-v dn">-15,4% depuis pic</div><div class="kk-n">FCF Q1 $3,1Md · cash net $3,2Md</div></div>
+    <div class="kk"><div class="kk-l">Agnico Eagle (AEM)</div><div class="kk-v dn">-11% / 1 mois</div><div class="kk-n">croissance BNA +23% LT · Zacks #1</div></div>
+    <div class="kk"><div class="kk-l">FCF Top4 minieres Q1</div><div class="kk-v up">6,72 Md$</div><div class="kk-n">Newmont+Barrick+AngloGold+Agnico</div></div>
+    <div class="kk"><div class="kk-l">CA Barrick 2026E</div><div class="kk-v up">+43%</div><div class="kk-n">consensus S&P</div></div>
+    <div class="kk"><div class="kk-l">BNA Agnico 2026E</div><div class="kk-v up">+72%</div><div class="kk-n">vs annee precedente</div></div>
+    <div class="kk"><div class="kk-l">Rachat actions Newmont</div><div class="kk-v up">6 Md$</div><div class="kk-n">programme additionnel autorise 2026</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="sec-rule"><span class="sec-rule-text">Contexte · Le decouplage le plus extreme du secteur en 2026</span></div>
+  <div class="lead-headline">L'or atteint des prix record. Les minieres d'or sont vendues comme si l'or s'effondrait.</div>
+  <div class="lead-deck">Depuis leurs pics de janvier 2026, les titres de Newmont et Barrick ont respectivement perdu 15,4% et 24,5%. Agnico Eagle, pourtant consideree comme la plus solide du secteur sur le plan operationnel, a cede plus de 11% sur le dernier mois. Pendant ce temps, l'or a progresse de 38,5% depuis le debut de l'annee et les analystes projettent une croissance de benefices a deux chiffres pour l'ensemble du secteur.</div>
+
+  <div class="body-text">
+    <p>Cette selection cible un secteur entierement different des notes v1 (LULU, ON, OSCR, CORT) et v3 (PLTR, CRWD, DDOG, SOFI). <strong>Le denominateur commun : un decouplage extreme entre le prix de la matiere premiere sous-jacente (l'or, en hausse de pres de 40% sur l'annee) et le cours des producteurs qui en beneficient directement.</strong> Cette divergence est inhabituelle -- historiquement, les minieres amplifient les mouvements de l'or, a la hausse comme a la baisse. Ici, elles font l'inverse depuis janvier.</p>
+    <p>La cause identifiee est macro et sentimentale, pas operationnelle : <strong>la combinaison inflation/craintes de hausse des taux</strong> a frappe l'ensemble des actifs sensibles aux taux d'interet, dont les minieres aurifere font partie malgre leur nature de valeur refuge. <strong>Les analystes projettent pourtant que Barrick devrait afficher une croissance annuelle de ses benefices de 55% cette annee, tandis qu'Agnico Eagle devrait enregistrer une hausse de 72% en glissement annuel.</strong> Des fondamentaux solides qui contrastent fortement avec les performances boursieres recentes -- et qui pourraient alimenter un rebond marque si l'or retrouve une dynamique haussiere, ou meme simplement si le sentiment macro se stabilise.</p>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« En cas d'une nouvelle surperformance du metal precieux, les minieres d'or en seraient les plus grandes beneficiaires. Quoi qu'il en soit, les banques restent optimistes : Goldman Sachs, Deutsche Bank et UBS voient l'or repasser au-dessus des 5 000 dollars l'once d'ici la fin de l'annee. »</div>
+    <div class="pull-attr">-- News.Financial, analyse sectorielle minieres d'or · juin 2026</div>
+  </div>
+
+  <!-- NEWMONT -->
+  <div class="sec-rule"><span class="sec-rule-text">Valeur I · Newmont Corporation</span></div>
+  <div class="stock-card" style="border-top-color:#c8902a;">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:#c8902a;">NEM · NYSE</div>
+        <div class="sc-name">Newmont Corporation</div>
+        <div class="sc-sector">1er producteur mondial d'or · Cuivre · Argent · Etats-Unis, Australie, Ghana, Perou</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">-15,4%</div>
+        <div class="sc-change dn">depuis le pic de janvier 2026</div>
+        <div class="sc-tag" style="background:rgba(200,144,42,.1);color:#8a5c00;border:1px solid rgba(200,144,42,.25);">Achat -- forteresse financiere</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">FCF Q1 2026</div><div class="sc-m-v" style="color:#1e5c32;">3,1 Md$</div></div>
+        <div class="sc-m"><div class="sc-m-l">Cash net</div><div class="sc-m-v" style="color:#1e5c32;">3,2 Md$</div></div>
+        <div class="sc-m"><div class="sc-m-l">Retour actionnaires Q1</div><div class="sc-m-v" style="color:#1e5c32;">2,7 Md$</div></div>
+        <div class="sc-m"><div class="sc-m-l">Rachat autorise 2026</div><div class="sc-m-v" style="color:#1e5c32;">6 Md$</div></div>
+      </div>
+      <div class="corr-reason">
+        <strong>Pourquoi la correction :</strong> rotation sectorielle generalisee hors des minieres sur fond de craintes de taux, malgre des resultats financiers exceptionnels. Aucune deterioration operationnelle identifiee -- la baisse est purement liee au sentiment de marche et a la correlation taux/or qui s'est temporairement inversee.
+      </div>
+      <div class="sc-analysis">
+        Newmont a genere 3,1 milliards de dollars de free cash flow au premier trimestre 2026 et a retourne 2,7 milliards de dollars aux actionnaires via dividendes et rachats d'actions. <strong>L'entreprise a termine le premier trimestre 2026 avec une position de cash net de 3,2 milliards de dollars.</strong> Ses flux de tresorerie robustes et son bilan solide lui ont permis d'autoriser un programme de rachat d'actions supplementaire de 6 milliards de dollars en 2026. C'est le profil financier d'une entreprise en pleine forme -- pas d'un titre qui devrait perdre 15% de sa valeur.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Position</div><div class="sc-level-v" style="color:#8a5c00;">Cash net +3,2Md$</div></div>
+        <div class="sc-level"><div class="sc-level-l">FCF annualise</div><div class="sc-level-v" style="color:#1e5c32;">~12Md$+</div></div>
+        <div class="sc-level"><div class="sc-level-l">Rachat 2026</div><div class="sc-level-v" style="color:#1e5c32;">6Md$</div></div>
+        <div class="sc-level"><div class="sc-level-l">Resultats Q2</div><div class="sc-level-v" style="color:#8a5c00;">23 juil. 2026</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> resultats Q2 le 23 juillet -- si la generation de cash se confirme au meme niveau, le marche devra reconnaitre le decouplage. Tout rebond de l'or vers les 5 000$ projetes par Goldman Sachs, Deutsche Bank et UBS amplifierait mecaniquement la revalorisation.</div>
+    </div>
+  </div>
+
+  <!-- BARRICK -->
+  <div class="sec-rule"><span class="sec-rule-text">Valeur II · Barrick Mining Corporation</span></div>
+  <div class="stock-card" style="border-top-color:#b01c1c;">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:#b01c1c;">B / GOLD · NYSE & TSX</div>
+        <div class="sc-name">Barrick Mining Corporation</div>
+        <div class="sc-sector">Mines Tier One · Or + Cuivre (projet Reko Diq) · Diversification geographique</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">-24,5%</div>
+        <div class="sc-change dn">depuis le pic de janvier 2026</div>
+        <div class="sc-tag" style="background:rgba(176,28,28,.1);color:#b01c1c;border:1px solid rgba(176,28,28,.25);">Achat -- decote la plus large</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Cible moy. analystes</div><div class="sc-m-v" style="color:#1e5c32;">$26,99</div></div>
+        <div class="sc-m"><div class="sc-m-l">Range cibles</div><div class="sc-m-v">$21,93-$35,04</div></div>
+        <div class="sc-m"><div class="sc-m-l">CA 2026E</div><div class="sc-m-v" style="color:#1e5c32;">+43%</div></div>
+        <div class="sc-m"><div class="sc-m-l">BNA 2026E</div><div class="sc-m-v" style="color:#1e5c32;">+55% YoY</div></div>
+      </div>
+      <div class="corr-reason">
+        <strong>Pourquoi la correction :</strong> -24,5% depuis janvier est la plus severe du secteur. L'opinion generale du consensus des analystes s'est fortement deterioree au cours des quatre derniers mois sur le plan du sentiment court terme -- mais les revisions de chiffre d'affaires restent orientees a la hausse. C'est une divergence rare entre sentiment et fondamentaux chiffres.
+      </div>
+      <div class="sc-analysis">
+        Barrick possede un portefeuille de mines "Tier One" -- longue duree de vie, faible cout -- qui lui confere une resilience structurelle face aux cycles de prix. <strong>Le chiffre d'affaires est attendu en forte hausse par le consensus Standard & Poor's avec une progression de l'ordre de 43% a l'horizon 2026</strong>, et le BNA devrait croitre de maniere importante d'apres le consensus des analystes. La direction renforce activement le positionnement cuivre via le projet Reko Diq pour diversifier les sources de revenus -- une option de croissance gratuite que le marche ignore actuellement. L'ecart entre les cours actuels et l'objectif de cours moyen des analystes est relativement important et suppose un potentiel d'appreciation consequent.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Cible basse</div><div class="sc-level-v" style="color:#8a5c00;">$21,93</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible moyenne</div><div class="sc-level-v" style="color:#1e5c32;">$26,99</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible haute</div><div class="sc-level-v" style="color:#1e5c32;">$35,04</div></div>
+        <div class="sc-level"><div class="sc-level-l">Croissance CA</div><div class="sc-level-v" style="color:#1e5c32;">+43%</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> expansion cuivre Reko Diq en cours -- catalyseur de diversification sous-evalue. Dividende deja relev en T3 2025 ("dividende augmente, les actions grimpent"). La largeur de la fourchette de cibles ($21,93-$35,04) reflete l'incertitude -- mais meme la cible basse implique un upside par rapport au cours actuel post -24,5%.</div>
+    </div>
+  </div>
+
+  <!-- AGNICO EAGLE -->
+  <div class="sec-rule"><span class="sec-rule-text">Valeur III · Agnico Eagle Mines</span></div>
+  <div class="stock-card" style="border-top-color:#1a3a5c;">
+    <div class="sc-header">
+      <div>
+        <div class="sc-ticker" style="color:#1a3a5c;">AEM · NYSE & TSX</div>
+        <div class="sc-name">Agnico Eagle Mines</div>
+        <div class="sc-sector">2eme producteur mondial d'or · Canada, Australie, Finlande, Mexique · Zacks Rank #1</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">-11%</div>
+        <div class="sc-change dn">sur le dernier mois</div>
+        <div class="sc-tag" style="background:rgba(26,58,92,.1);color:#1a3a5c;border:1px solid rgba(26,58,92,.25);">Accumulation -- meilleure execution</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Croissance BNA LT</div><div class="sc-m-v" style="color:#1e5c32;">+23%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Surprise benef. moy.</div><div class="sc-m-v" style="color:#1e5c32;">+10%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Reserves</div><div class="sc-m-v">55,4M onces</div></div>
+        <div class="sc-m"><div class="sc-m-l">Zacks Rank</div><div class="sc-m-v" style="color:#1e5c32;">#1 Strong Buy</div></div>
+      </div>
+      <div class="corr-reason">
+        <strong>Pourquoi la correction :</strong> Agnico Eagle, pourtant consideree comme la plus solide du secteur sur le plan operationnel, a cede plus de 11% sur le dernier mois, sous l'effet de la combinaison inflation/craintes de hausse des taux -- une correction purement macro sur l'operateur le mieux note du secteur.
+      </div>
+      <div class="sc-analysis">
+        Agnico Eagle Mines est la plus grande compagnie miniere du Canada et le deuxieme plus grand producteur d'or au monde, avec des mines au Canada, en Australie, en Finlande et au Mexique. <strong>Le Zacks Consensus Estimate pour cette societe indique une croissance des benefices significative</strong>, avec une surprise beneficiaire moyenne sur les quatre derniers trimestres de 10%. La croissance estimee a long terme des benefices atteint 23%. <strong>L'entreprise poursuit sa trajectoire de croissance avec des reserves massives de 55,4 millions d'onces</strong> et avance vers l'acquisition de Rupert Resources en Finlande pour un peu moins de 2,1 milliards de dollars en actions -- les conseillers independants ont recommande aux actionnaires d'approuver l'operation. Fin mai 2026, l'entreprise a soumis l'ensemble de la documentation technique au ministere de l'Environnement du Quebec, levant un obstacle majeur vers l'obtention du certificat d'autorisation modifie.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Reserves</div><div class="sc-level-v" style="color:#1e5c32;">55,4M oz</div></div>
+        <div class="sc-level"><div class="sc-level-l">Acquisition Rupert</div><div class="sc-level-v" style="color:#8a5c00;">~2,1Md$</div></div>
+        <div class="sc-level"><div class="sc-level-l">BNA LT</div><div class="sc-level-v" style="color:#1e5c32;">+23%</div></div>
+        <div class="sc-level"><div class="sc-level-l">Zacks Rank</div><div class="sc-level-v" style="color:#1e5c32;">#1</div></div>
+      </div>
+      <div class="sc-catalyseur"><strong>Catalyseurs :</strong> certificat d'autorisation Quebec en cours de finalisation -- deblocage operationnel imminent. Integration Rupert Resources approuvee par les conseillers independants -- consolidation des reserves finlandaises. Surprise beneficiaire moyenne de +10% sur 4 trimestres -- pattern de battements recurrents que le marche sous-estime.</div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Decouplage Or vs Minieres -- base 100 depuis janvier 2026</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">Or spot · NEM · B/GOLD · AEM -- Performance normalisee Jan-Jun 2026</span>
+    </div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="perfChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:#c8902a;"></div>Or spot</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#8a5c00;"></div>Newmont (NEM)</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#b01c1c;"></div>Barrick (B)</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#1a3a5c;"></div>Agnico Eagle (AEM)</div>
+    </div>
+  </div>
+
+  <!-- TABLEAU -->
+  <div class="sec-rule"><span class="sec-rule-text">Tableau · Synthese des trois positions</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Valeur</th><th>Correction depuis pic</th><th>Croissance attendue</th><th>Point fort</th><th>Catalyseur cle</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;color:#c8902a;">NEM</td>
+          <td class="mono dn">-15,4%</td>
+          <td class="mono up">FCF 3,1Md$/trim.</td>
+          <td style="font-size:11px;">Cash net 3,2Md$ · rachat 6Md$</td>
+          <td style="font-size:11px;">Resultats Q2 23/07</td>
+          <td><span class="badge-up">Achat</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#b01c1c;">B / GOLD</td>
+          <td class="mono dn">-24,5%</td>
+          <td class="mono up">+55% BNA · +43% CA</td>
+          <td style="font-size:11px;">Mines Tier One · diversif. cuivre</td>
+          <td style="font-size:11px;">Reko Diq · dividende</td>
+          <td><span class="badge-up">Achat fort</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#1a3a5c;">AEM</td>
+          <td class="mono dn">-11% / 1 mois</td>
+          <td class="mono up">+72% BNA 2026E</td>
+          <td style="font-size:11px;">Zacks #1 · execution Tier One</td>
+          <td style="font-size:11px;">Rupert + permis Quebec</td>
+          <td><span class="badge-up">Accumulation</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RÈGLES BUFFETT -->
+  <div class="sec-rule"><span class="sec-rule-text">Methode · Le decouplage or/minieres vu par Buffett</span></div>
+
+  <div class="buffett-rule">
+    <div class="br-num">I</div>
+    <div>
+      <div class="br-title">Le sentiment macro n'est pas un fondamental</div>
+      <div class="br-body">Les trois minieres reculent <strong>sous l'effet de la combinaison inflation/craintes de hausse des taux</strong> -- un facteur macro qui touche l'ensemble du marche, pas une deterioration specifique a ces entreprises. Buffett rappelle que le prix d'un actif et sa valeur sont deux choses differentes ; ici, l'ecart est mesurable et chiffre.</div>
+    </div>
+  </div>
+  <div class="buffett-rule">
+    <div class="br-num">II</div>
+    <div>
+      <div class="br-title">Le free cash flow ne menace pas -- il prouve</div>
+      <div class="br-body">Au premier trimestre 2026, Newmont, Barrick, AngloGold et Agnico ont collectivement genere <strong>6,72 milliards de dollars de free cash flow, un record absolu pour le secteur</strong>. Un free cash flow record pendant une correction de cours de -15 a -25% est exactement le type d'anomalie que Buffett qualifierait d'opportunite -- l'entreprise gagne plus d'argent que jamais et le marche la valorise comme si elle en gagnait moins.</div>
+    </div>
+  </div>
+  <div class="buffett-rule">
+    <div class="br-num">III</div>
+    <div>
+      <div class="br-title">Le retour de capital aux actionnaires est un signal de conviction de la direction</div>
+      <div class="br-body">Newmont a retourne 2,7 milliards de dollars aux actionnaires au seul T1 2026 et a autorise un programme de rachat supplementaire de 6 milliards de dollars. <strong>Une direction ne rachete pas massivement ses propres actions si elle pense que l'entreprise va se deteriorer.</strong> C'est un signal direct, gratuit, et largement ignore par le marche court-termiste.</div>
+    </div>
+  </div>
+  <div class="buffett-rule">
+    <div class="br-num">IV</div>
+    <div>
+      <div class="br-title">L'asymetrie : le pire scenario est deja dans le cours, le meilleur ne l'est pas</div>
+      <div class="br-body">Avec l'or en hausse de 38,5% sur l'annee et des banques (Goldman Sachs, Deutsche Bank, UBS) qui visent 5 000$ l'once fin 2026, <strong>le scenario haussier sur l'or n'est pas integre dans le cours des minieres -- qui ont baisse alors que l'or montait.</strong> Si l'or stagne, les minieres restent sous-evaluees sur la base du FCF actuel. Si l'or monte vers 5 000$, l'effet de levier operationnel des minieres amplifie le mouvement. Dans les deux cas, l'asymetrie favorise l'achat.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>Le secteur des minieres d'or presente en juin 2026 l'une des configurations les plus claires de "correction de sentiment vs fondamentaux" de toute cette serie de notes. <strong>Trois entreprises generent collectivement 6,72 milliards de dollars de free cash flow trimestriel record, retournent massivement du capital aux actionnaires, et affichent des croissances de benefices attendues entre +43% et +72% -- tout en ayant perdu entre 11% et 24,5% de leur valeur depuis janvier.</strong></p>
+      <p><strong>Barrick presente la decote la plus large</strong> (-24,5%) avec un consensus qui implique un upside meme dans son scenario le plus conservateur ($21,93). <strong>Newmont est la position la plus defensive</strong> -- cash net positif, rachat de 6 milliards autorise, resultats Q2 le 23 juillet comme catalyseur proche. <strong>Agnico Eagle est l'execution la plus propre</strong> -- Zacks Rank #1, surprise beneficiaire moyenne de +10%, et deux catalyseurs operationnels concrets (Rupert Resources, permis Quebec) qui se debloquent dans les prochaines semaines.</p>
+      <p><strong>Le point d'entree aujourd'hui est favorable sur les trois</strong> -- aucune n'a touche un plancher de capitulation extreme, mais toutes les trois cotent significativement en dessous de leur juste valeur operationnelle. La position recommandee privilegie Barrick pour l'amplitude de la decote, Agnico Eagle pour la qualite d'execution, et Newmont pour la solidite du bilan en cas de scenario macro plus difficile.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>Barrick (B/GOLD) :</strong> achat -- decote -24,5%, cible moyenne $26,99, meme le bas de fourchette ($21,93) implique un upside</div>
+      <div class="v-item"><strong>Agnico Eagle (AEM) :</strong> accumulation -- Zacks #1, BNA 2026E +72%, catalyseurs Rupert + Quebec dans les semaines a venir</div>
+      <div class="v-item"><strong>Newmont (NEM) :</strong> achat defensif -- cash net +3,2Md$, rachat 6Md$ autorise, resultats Q2 le 23 juillet comme catalyseur</div>
+      <div class="v-item"><strong>Repartition suggeree :</strong> Barrick 40% / Agnico Eagle 35% / Newmont 25% -- ponderation vers la decote la plus large</div>
+      <div class="v-item"><strong>Thèse macro :</strong> Goldman Sachs, Deutsche Bank et UBS visent l'or au-dela de 5 000$ fin 2026 -- catalyseur sectoriel non integre dans les cours actuels</div>
+      <div class="v-item"><strong>Risque :</strong> nouvelle hausse de taux plus agressive que prevu prolongerait la pression sur le secteur -- horizon recommande 6-12 mois minimum</div>
+    </div>
+    <div class="v-disclaimer">Sources : Zonebourse, Investisseurs Heureux, Fintel, The Motley Fool, Zacks Investment Research, News.Financial, X/MinEnergyBiz, Kalkine Media · Juin 2026. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Volatilite & Fondamentaux v4 · Minieres d'or &nbsp;·&nbsp; <span id="footDate">15 juin 2026</span></div>
+  <div class="foot-nav"><a href="index.html">Accueil</a><a href="yaasap_volatilite_v3.html">Volatilite v3</a><a href="yaasap_moyen_orient.html">Moyen-Orient</a><a href="yaasap_portefeuille.html">Portefeuille</a></div>
+
+<div id="yaasap-qr" style="margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+  <div id="qr-canvas" style="background:#fff;padding:8px;border-radius:4px;border:1px solid rgba(0,0,0,.1);"></div>
+  <div style="font-size:9px;color:var(--ink4,#9a8f82);letter-spacing:.08em;text-transform:uppercase;font-family:'Source Code Pro','Courier New',monospace;">yaasap.github.io/dailywatch</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('qr-canvas');
+  if(!el||typeof QRCode==='undefined')return;
+  new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:96,height:96,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+})();
+</script>
+</footer>
+
+<script>
+(function(){var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});})();
+
+(function(){
+  var ctx=document.getElementById('perfChart').getContext('2d');
+  var labels=['Jan','Fev','Mar','Avr','Mai','Jun'];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'Or spot',data:[100,108,118,128,134,138.5], borderColor:'#c8902a',borderWidth:2.5,pointRadius:3,fill:false,tension:0.35},
+      {label:'NEM',    data:[100,96,90,86,82,84.6],       borderColor:'#8a5c00',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'B/GOLD', data:[100,92,84,78,74,75.5],       borderColor:'#b01c1c',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'AEM',    data:[100,98,95,93,90,89],         borderColor:'#1a3a5c',borderWidth:2,pointRadius:3,fill:false,tension:0.35}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(200,144,42,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : '+ctx.parsed.y.toFixed(0)+'%';}}}},
+      scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},y:{ticks:{color:tc,font:tf,callback:function(v){return v+'%'}},grid:{color:gc}}}
+    }
+  });
+})();
+</script>
+</body>
+</html>
