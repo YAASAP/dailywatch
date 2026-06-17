@@ -2,254 +2,851 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YAASAP Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="YAASAP Notes — Analyse financière indépendante par Yacine AOUABED. Marchés, IPO, actions sous-cotées, stratégie Buffett.">
+<meta property="og:title" content="YAASAP Notes · Analyse financière indépendante">
+<meta property="og:description" content="Chaque lundi : marchés, IPO, opportunités et points d'entrée par Yacine AOUABED.">
+<meta property="og:url" content="https://yaasap.github.io/dailywatch/">
+<title>YAASAP Notes · Analyse financière indépendante</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
   --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
   --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
-  --accent:#8b3a1a;
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;
   --serif:'Libre Baskerville',Georgia,serif;
-  --sans:'Source Sans 3',system-ui,sans-serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
 }
-body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;-webkit-font-smoothing:antialiased;}
-.masthead{border-bottom:3px double var(--rule);padding:20px 32px 14px;text-align:center;background:var(--paper);}
-.pub-name{font-family:var(--serif);font-size:42px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* ── MASTHEAD ── */
+.masthead{
+  background:var(--ink);
+  border-bottom:3px double rgba(255,255,255,.15);
+  padding:14px 24px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,.3);
+}
+.mast-left{}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;color:#fff;}
 .pub-name em{font-style:italic;color:var(--accent);}
-.pub-rule{display:flex;align-items:center;gap:12px;margin:10px 0 6px;justify-content:center;}
-.pub-rule::before,.pub-rule::after{content:'';flex:1;max-width:100px;height:1px;background:var(--ink);}
-.pub-tagline{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink4);}
-.pub-date{font-family:var(--serif);font-size:11px;color:var(--ink4);font-style:italic;margin-top:4px;}
-.container{max-width:720px;margin:0 auto;padding:24px 24px 60px;}
-.sec{font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:4px;margin:28px 0 14px;display:flex;align-items:center;gap:8px;}
-.sec::after{content:'';flex:1;}
-.today-box{background:#fff;border:1px solid rgba(0,0,0,.1);border-left:3px solid var(--accent);padding:14px 18px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-radius:0 3px 3px 0;}
-.today-box a{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);text-decoration:none;display:block;line-height:1.3;}
-.today-box a:hover{color:var(--accent);}
-.today-meta{font-size:10px;color:var(--ink4);font-style:italic;margin-top:5px;}
-ul.note-list{list-style:none;padding:0;margin-bottom:28px;}
-ul.note-list li{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule2);}
-ul.note-list li:last-child{border-bottom:none;}
-ul.note-list li::before{content:'&mdash;';color:var(--accent);flex-shrink:0;font-size:14px;}
-.note-link{font-family:var(--serif);font-size:15px;color:var(--ink);text-decoration:none;line-height:1.3;}
-.note-link:hover{color:var(--accent);}
-.li-meta{font-size:10px;color:var(--ink4);font-style:italic;display:block;margin-top:2px;}
-.badge-new{font-size:8px;font-weight:700;background:var(--accent);color:#fff;padding:1px 5px;border-radius:2px;margin-left:6px;letter-spacing:.05em;vertical-align:middle;}
-.archive-link{display:inline-block;font-family:var(--serif);font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--accent);padding:5px 12px;border-radius:2px;margin-top:6px;}
-.archive-link:hover{background:var(--accent);color:#fff;}
-footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 32px;text-align:center;font-size:10px;color:var(--ink4);font-style:italic;}
-footer strong{color:var(--ink3);font-style:normal;}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.mast-center{text-align:center;flex:1;}
+.issue-line{
+  font-size:8px;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;
+  border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);
+  padding:2px 10px;display:inline-block;font-family:var(--sans);
+}
+.mast-right{display:flex;align-items:center;gap:14px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.45);font-style:italic;}
+.mast-qr{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.mast-qr-box{background:#fff;padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.06em;text-transform:uppercase;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--ink);
+  padding:32px 24px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.hero-inner{max-width:760px;margin:0 auto;}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;
+}
+.hero-hl{
+  font-family:var(--serif);font-size:30px;font-weight:700;
+  color:#f0ebe3;line-height:1.12;margin-bottom:10px;
+  max-width:620px;
+}
+.hero-sub{
+  font-family:var(--serif);font-size:14px;font-style:italic;
+  color:rgba(255,255,255,.45);line-height:1.6;
+  max-width:560px;margin-bottom:20px;
+}
+.hero-stats{
+  display:flex;gap:0;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:12px 0 16px;
+}
+.hero-stat{
+  padding:5px 20px;
+  border-right:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+.hero-stat:first-child{padding-left:0;}
+.hero-stat:last-child{border-right:none;}
+.hs-val{font-family:var(--mono);font-size:18px;font-weight:600;color:#f0ebe3;line-height:1;}
+.hs-lbl{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:3px;font-family:var(--sans);}
+
+/* ── TICKER ── */
+.ticker-bar{
+  background:var(--accent);
+  overflow:hidden;white-space:nowrap;
+  padding:6px 0;
+  border-bottom:1px solid rgba(0,0,0,.1);
+}
+.ticker-inner{
+  display:inline-flex;gap:0;
+  animation:ticker 28s linear infinite;
+  will-change:transform;
+}
+.ticker-item{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  color:#fff;letter-spacing:.04em;padding:0 28px;
+  white-space:nowrap;
+}
+.ticker-sep{color:rgba(255,255,255,.4);font-weight:300;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ── MAIN ── */
+.main{max-width:760px;margin:0 auto;padding:32px 24px 60px;}
+
+/* Sections */
+.sec-rule{display:flex;align-items:center;gap:8px;margin:32px 0 18px;}
+.sec-rule::before{content:'';width:22px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+/* ── NOTE EN UNE ── */
+.note-une{
+  background:#fff;border:1px solid var(--rule);
+  border-top:3px solid var(--accent);border-radius:2px;
+  overflow:hidden;margin-bottom:28px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  display:grid;grid-template-columns:1fr auto;
+}
+.une-body{padding:18px 20px;}
+.une-eyebrow{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:6px;
+}
+.une-title{
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--ink);line-height:1.2;margin-bottom:6px;
+}
+.une-deck{
+  font-family:var(--serif);font-size:12px;font-style:italic;
+  color:var(--ink3);line-height:1.55;margin-bottom:12px;
+}
+.une-kpis{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.une-kpi{
+  background:var(--paper2);border-radius:2px;padding:5px 10px;
+  text-align:center;
+}
+.une-kpi-v{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink);line-height:1;display:block;}
+.une-kpi-l{font-size:7.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink4);margin-top:2px;display:block;font-family:var(--sans);}
+.une-link{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;background:var(--accent);border-radius:2px;
+  font-family:var(--sans);font-size:12px;font-weight:700;color:#fff;
+  text-decoration:none;transition:background .15s;
+}
+.une-link:hover{background:#6a2612;}
+.une-meta{
+  background:var(--ink);padding:18px 20px;min-width:140px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  align-items:flex-end;
+}
+.une-date{font-family:var(--serif);font-size:11px;font-style:italic;color:rgba(255,255,255,.45);}
+.une-badge{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(30,92,50,.25);border:1px solid rgba(30,92,50,.45);
+  color:#4ade80;padding:3px 8px;border-radius:2px;margin-top:6px;
+}
+
+/* ── GRILLE DE NOTES ── */
+.notes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+.note-card{
+  background:#fff;border:1px solid var(--rule);
+  border-top:2px solid var(--rule);border-radius:2px;
+  overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);
+  transition:box-shadow .15s,transform .12s;
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;
+}
+.note-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-1px);}
+.nc-top{padding:10px 12px 8px;flex:1;}
+.nc-tag{
+  font-family:var(--mono);font-size:7.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:1px 6px;border-radius:2px;margin-bottom:6px;
+  display:inline-block;
+}
+.nc-title{
+  font-family:var(--serif);font-size:13px;font-weight:700;
+  color:var(--ink);line-height:1.25;margin-bottom:4px;
+}
+.nc-desc{font-size:11px;color:var(--ink3);line-height:1.45;}
+.nc-bottom{
+  padding:6px 12px;border-top:1px solid var(--rule2);
+  background:var(--paper2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nc-date{font-family:var(--mono);font-size:9px;color:var(--ink4);}
+.nc-arrow{font-size:11px;color:var(--accent);}
+
+/* Catégories de couleur */
+.cat-position{border-top-color:#1e5c32;}.nc-tag.cat-position{background:rgba(30,92,50,.1);color:#1e5c32;}
+.cat-analyse{border-top-color:var(--blue);}.nc-tag.cat-analyse{background:rgba(26,58,92,.1);color:var(--blue);}
+.cat-flash{border-top-color:var(--accent);}.nc-tag.cat-flash{background:rgba(139,58,26,.1);color:var(--accent);}
+.cat-macro{border-top-color:var(--amber);}.nc-tag.cat-macro{background:rgba(138,92,0,.1);color:var(--amber);}
+.cat-marche{border-top-color:var(--gold);}.nc-tag.cat-marche{background:rgba(200,144,42,.1);color:var(--amber);}
+.cat-tech{border-top-color:#7c2d8a;}.nc-tag.cat-tech{background:rgba(124,45,138,.1);color:#7c2d8a;}
+
+/* ── NEWSLETTER ── */
+.yaasap-nl{
+  background:var(--ink);border-radius:3px;overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.18);
+  margin-bottom:32px;
+}
+.nl-head{
+  padding:16px 22px 12px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:8px;
+}
+.nl-brand-nm{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;}
+.nl-brand-nm em{font-style:italic;color:var(--accent);}
+.nl-badge-free{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(30,92,50,.25);border:1px solid rgba(30,92,50,.45);
+  color:#4ade80;padding:2px 9px;border-radius:2px;
+}
+.nl-intro{padding:12px 22px 8px;}
+.nl-headline-nl{
+  font-family:var(--serif);font-size:17px;font-weight:700;
+  color:#f0ebe3;line-height:1.22;margin-bottom:4px;
+}
+.nl-sub-nl{
+  font-family:var(--serif);font-size:11.5px;font-style:italic;
+  color:rgba(255,255,255,.42);line-height:1.55;
+}
+.nl-perks{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nl-perk{padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
+.nl-perk:last-child{border-right:none;}
+.nl-perk-icon{font-size:13px;margin-bottom:2px;}
+.nl-perk-txt{font-size:9.5px;color:rgba(255,255,255,.5);line-height:1.3;}
+.nl-perk-txt strong{color:#f0ebe3;font-weight:700;display:block;}
+.nl-plans{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:5px;padding:12px 22px 0;
+}
+.nl-plan{
+  border:1.5px solid rgba(255,255,255,.1);border-radius:3px;
+  padding:6px 8px;text-align:center;position:relative;
+}
+.nl-plan.current{border-color:var(--gold);background:rgba(200,144,42,.07);}
+.nl-plan-nm{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;display:block;}
+.nl-plan-pr{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.32);margin-top:1px;display:block;}
+.nl-plan.current .nl-plan-pr{color:var(--gold);}
+.nl-plan-soon{
+  position:absolute;top:-7px;right:4px;
+  font-size:7px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--accent);color:#fff;padding:1px 5px;border-radius:2px;
+}
+.nl-form-zone{padding:14px 22px 10px;}
+.nl-state-el{display:none;}
+.nl-state-el.visible{display:block;}
+.nl-fields{display:flex;gap:7px;margin-bottom:7px;}
+.nl-field{
+  flex:1;height:42px;padding:0 13px;
+  border:1.5px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.07);border-radius:3px;
+  font-family:var(--sans);font-size:13.5px;color:#fff;
+  outline:none;transition:border-color .15s;-webkit-appearance:none;
+}
+.nl-field::placeholder{color:rgba(255,255,255,.28);}
+.nl-field:focus{border-color:var(--gold);background:rgba(255,255,255,.1);}
+.nl-btn{
+  width:100%;height:44px;background:var(--accent);border:none;border-radius:3px;
+  color:#fff;font-family:var(--serif);font-size:14px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:background .15s,transform .08s;margin-bottom:8px;
+}
+.nl-btn:hover{background:#6e2812;}
+.nl-btn:active{transform:scale(.99);}
+.nl-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.nl-rgpd{font-size:10px;color:rgba(255,255,255,.26);line-height:1.5;font-family:var(--sans);}
+.nl-rgpd a{color:rgba(255,255,255,.38);text-decoration:underline;}
+.nl-err{
+  display:none;margin-top:7px;padding:8px 12px;
+  background:rgba(176,28,28,.12);border:1px solid rgba(176,28,28,.28);
+  border-radius:3px;font-size:11.5px;color:#f87171;font-family:var(--sans);
+}
+#nl-loading{text-align:center;padding:14px 0;}
+.nl-spinner{
+  width:26px;height:26px;margin:0 auto 8px;
+  border:2.5px solid rgba(255,255,255,.12);border-top-color:var(--gold);
+  border-radius:50%;animation:nlspin .65s linear infinite;
+}
+@keyframes nlspin{to{transform:rotate(360deg);}}
+.nl-loading-txt{font-family:var(--serif);font-size:12px;font-style:italic;color:rgba(255,255,255,.42);}
+#nl-success{text-align:center;padding:14px 0;animation:nlfade .3s ease;}
+@keyframes nlfade{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:none;}}
+.nl-ok-icon{font-size:30px;margin-bottom:6px;}
+.nl-ok-title{font-family:var(--serif);font-size:16px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
+.nl-ok-sub{font-family:var(--serif);font-size:11.5px;font-style:italic;color:rgba(255,255,255,.42);line-height:1.5;}
+.nl-ok-next{margin-top:8px;font-size:10px;color:rgba(255,255,255,.26);font-family:var(--sans);}
+.nl-foot{
+  border-top:1px solid rgba(255,255,255,.06);padding:8px 22px 10px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;
+}
+.nl-foot-l{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.22);}
+.nl-foot-l strong{color:rgba(255,255,255,.4);}
+.nl-foot-r{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.18);}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);border-top:2px solid var(--accent);
+  padding:20px 24px;text-align:center;
+}
+.foot-brand{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-author{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.35);margin-bottom:8px;letter-spacing:.06em;}
+.foot-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:10px;}
+.foot-links a{font-size:11px;color:rgba(255,255,255,.4);text-decoration:none;font-family:var(--sans);}
+.foot-links a:hover{color:rgba(255,255,255,.7);}
+.foot-legal{font-size:10px;color:rgba(255,255,255,.22);line-height:1.5;max-width:500px;margin:0 auto;font-family:var(--sans);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .hero-hl{font-size:22px;}
+  .note-une{grid-template-columns:1fr;}
+  .une-meta{flex-direction:row;border-top:1px solid rgba(255,255,255,.08);border-left:none;padding:10px 16px;}
+  .hero-stats{justify-content:center;}
+  .notes-grid{grid-template-columns:1fr;}
+  .nl-fields,.nl-plans{flex-direction:column;}
+  .nl-plan{border-right:none;}
+  .nl-perks{grid-template-columns:1fr;}
+  .nl-perk{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+}
 </style>
 </head>
 <body>
+
+<!-- MASTHEAD -->
 <div class="masthead">
-  <div class="pub-name">YAASAP <em>Notes</em></div>
-  <div class="pub-rule"><span class="pub-tagline">Analyse financiere quotidienne &mdash; Petrole &middot; Geopolitique &middot; IA &middot; Pharma &middot; IT</span></div>
-  <div class="pub-date" id="pubDate"></div>
-</div>
-<div class="container">
-
-  <div class="sec">Note du jour</div>
-  <div class="today-box">
-    <a href="docs/note-du-jour.html">Analyse quotidienne &mdash; Petrole &middot; Geopolitique &middot; IA &middot; Pharma &middot; IT</a>
-    <div class="today-meta" id="todayMeta"></div>
+  <div class="mast-left">
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière indépendante · Par Yacine AOUABED</div>
   </div>
-  <a class="archive-link" href="docs/index.html">Voir toutes les archives (17 June 2026) &rarr;</a>
-
-  <div class="sec">Analyses sectorielles</div>
-  <ul class="note-list">
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_volatilite_v4.html">Volatilite V4<span class="badge-new">Nouveau</span></a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_volatilite_v3 (1).html">Volatilite V3 (1)<span class="badge-new">Nouveau</span></a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_volatilite.html">Volatilite<span class="badge-new">Nouveau</span></a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_value.html">Actions sous-cotées — PER bas · Fondamentaux solides</a>
-        <span class="li-meta">N°16 · MSFT · PFE · BABA · VZ</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_v3_paysage.html">Flash Marché MRNA — Bandes de Bollinger</a>
-        <span class="li-meta">N°12 · Moderna · Scénarios trading</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_ttwo.html">Ttwo</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_sqm (1).html">Sqm (1)</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_spatial_live.html">Secteur Spatial — SpaceX IPO · Cotations live</a>
-        <span class="li-meta">N°18 · RKLB · ASTS · LUNR · Corrélations</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_spatial.html">Spatial</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_spacex_ipo (2).html">Spacex Ipo (2)</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_semi_smallcap.html">Semi Smallcap</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_poutine_xi.html">Poutine & Xi — Grand échiquier 2026</a>
-        <span class="li-meta">Ukraine · Iran · Israël · Commerce mondial · Scénarios</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_oil_gas.html">Oil & Gas — TotalEnergies · Majors pétrolières</a>
-        <span class="li-meta">N°17 · Brent · Ormuz · Strategika · Machiavel</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_nvidia (1).html">Nvidia (1)</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_newglenn.html">Newglenn</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_midterms.html">Midterms 2026 — Trump sans Congrès : l'arsenal résiduel</a>
-        <span class="li-meta">Tarifs · Guerre Iran · Fed · Scénarios marchés</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_gta6_light.html">GTA VI — Cartographie boursière</a>
-        <span class="li-meta">N°13 · TTWO · SONY · NVDA · Corrélations</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_gta6.html">Gta6</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_eutelsat.html">Eutelsat</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_ecosysteme_ia_v2.html">Ecosysteme Ia V2</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_ecosysteme_ia.html">Ecosystème IA — LLMs · GPU · Stockage</a>
-        <span class="li-meta">N°15 · Claude · NVDA · OpenAI · DeepSeek</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_baba_v2.html">Alibaba (BABA) — Analyse d'investissement complète</a>
-        <span class="li-meta">Achat progressif · Stop-loss $112 · Cible $191 · Guide novices</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_baba.html">Baba</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_argenx_position.html">Argenx Position</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-    <li class="note-item">
-      <span class="note-bullet">&mdash;</span>
-      <div>
-        <a class="note-link" href="yaasap_argenx.html">Argenx</a>
-        <span class="li-meta">Analyse YAASAP Notes</span>
-      </div>
-    </li>
-  </ul>
-
+  <div class="mast-center">
+    <span class="issue-line">yaasap.github.io/dailywatch · Marchés · IPO · Stratégie · Positions</span>
+  </div>
+  <div class="mast-right">
+    <div class="mast-date" id="mastDate">15 juin 2026</div>
+    <div class="mast-qr">
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
 </div>
-<footer>YAASAP Notes &nbsp;&middot;&nbsp; Par <strong>Yacine AOUABED</strong> &nbsp;&middot;&nbsp; Analyse informative uniquement &nbsp;&middot;&nbsp; Ne constitue pas un conseil en investissement</footer>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker-inner">
+    <span class="ticker-item">SPCX +19,2% · IPO historique 85,7 Md$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">ARGX 780€ · Conserver · EMPASSION T4 2026</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">TTWO ~223$ · GTA VI · 19 nov. 2026 · Achat</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Barrick −24,5% · BNA +55% · FCF record 6,72 Md$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Stellantis ~5,90€ · PER &lt;6× · 44 Md€ liquidités</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">BABA ~124$ · 40 analystes Buy · cible 210$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">SVCO +82% potentiel · PDFS +20% rev. · COHU Neon +65%</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Or &gt;3 500$/oz · Minières décotées · Goldman 5 000$ fin 2026</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <!-- Duplication pour boucle infinie -->
+    <span class="ticker-item">SPCX +19,2% · IPO historique 85,7 Md$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">ARGX 780€ · Conserver · EMPASSION T4 2026</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">TTWO ~223$ · GTA VI · 19 nov. 2026 · Achat</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Barrick −24,5% · BNA +55% · FCF record 6,72 Md$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Stellantis ~5,90€ · PER &lt;6× · 44 Md€ liquidités</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">BABA ~124$ · 40 analystes Buy · cible 210$</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">SVCO +82% potentiel · PDFS +20% rev. · COHU Neon +65%</span>
+    <span class="ticker-item ticker-sep">◆</span>
+    <span class="ticker-item">Or &gt;3 500$/oz · Minières décotées · Goldman 5 000$ fin 2026</span>
+    <span class="ticker-item ticker-sep">◆</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Intelligence financière indépendante · Juin 2026</div>
+    <div class="hero-hl">L'analyse de marché que votre banque ne vous envoie pas</div>
+    <div class="hero-sub">YAASAP Notes décrypte chaque semaine les marchés mondiaux : actions sous-cotées, IPO, positions personnelles, stratégie Buffett — avec des données chiffrées, des points d'entrée précis et un verdict clair.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hs-val">44</div><div class="hs-lbl">Notes publiées</div></div>
+      <div class="hero-stat"><div class="hs-val">15+</div><div class="hs-lbl">Marchés couverts</div></div>
+      <div class="hero-stat"><div class="hs-val">100%</div><div class="hs-lbl">Indépendant</div></div>
+      <div class="hero-stat"><div class="hs-val">0 €</div><div class="hs-lbl">Gratuit</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<div class="main">
+
+  <!-- NOTE EN UNE -->
+  <div class="sec-rule"><span class="sec-rule-text">Note de la semaine · Flash spécial IPO</span></div>
+
+  <div class="note-une">
+    <div class="une-body">
+      <div class="une-eyebrow">Flash IPO · SPCX · Nasdaq · Mis à jour 15 juin 2026</div>
+      <div class="une-title">SpaceX entre en bourse et pulvérise tous les records — 85,7 Md$ levés, +19% le jour J</div>
+      <div class="une-deck">IPO totale relevée à 85,7 Md$ après exercice de la surallocation. +19,22% en séance lundi. Accord USA-Iran amplifie le risk-on. FTSE Russell le 26 juin, MSCI le 29 juin — catalyseurs indiciels non encore joués.</div>
+      <div class="une-kpis">
+        <div class="une-kpi"><span class="une-kpi-v" style="color:var(--accent);">85,7 Md$</span><span class="une-kpi-l">Levée totale</span></div>
+        <div class="une-kpi"><span class="une-kpi-v" style="color:#1e5c32;">+19,2%</span><span class="une-kpi-l">Hausse J1</span></div>
+        <div class="une-kpi"><span class="une-kpi-v" style="color:var(--gold);">2 100 Md$</span><span class="une-kpi-l">Capitalisation</span></div>
+        <div class="une-kpi"><span class="une-kpi-v">26 juin</span><span class="une-kpi-l">FTSE Russell</span></div>
+      </div>
+      <a href="./yaasap_spacex_ipo.html" class="une-link">Lire la note complète →</a>
+    </div>
+    <div class="une-meta">
+      <div class="une-date">15 juin 2026</div>
+      <div class="une-badge">Flash · IPO</div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="sec-rule"><span class="sec-rule-text">Newsletter · Recevez les notes chaque lundi</span></div>
+
+  <div class="yaasap-nl">
+    <div class="nl-head">
+      <div class="nl-brand-nm">YAASAP <em>Notes</em></div>
+      <span class="nl-badge-free">Gratuit · Bêta</span>
+    </div>
+    <div class="nl-intro">
+      <div class="nl-headline-nl">Recevez l'analyse financière de la semaine dans votre boîte mail</div>
+      <div class="nl-sub-nl">Chaque lundi matin : marchés, IPO, opportunités et points d'entrée — par Yacine AOUABED, consultant senior.</div>
+    </div>
+    <div class="nl-perks">
+      <div class="nl-perk"><div class="nl-perk-icon">📊</div><div class="nl-perk-txt"><strong>Note hebdo</strong>Marchés &amp; actions</div></div>
+      <div class="nl-perk"><div class="nl-perk-icon">⚡</div><div class="nl-perk-txt"><strong>Flash IPO</strong>Alertes instantanées</div></div>
+      <div class="nl-perk"><div class="nl-perk-icon">🎯</div><div class="nl-perk-txt"><strong>Stop &amp; cibles</strong>Points d'entrée</div></div>
+    </div>
+    <div class="nl-plans">
+      <div class="nl-plan current"><span class="nl-plan-nm">Gratuit</span><span class="nl-plan-pr">1 note/sem · 0 €</span></div>
+      <div class="nl-plan"><span class="nl-plan-soon">Bientôt</span><span class="nl-plan-nm">Premium</span><span class="nl-plan-pr">Quotidien · 9,90€/mois</span></div>
+      <div class="nl-plan"><span class="nl-plan-soon">Bientôt</span><span class="nl-plan-nm">Pro</span><span class="nl-plan-pr">Alertes · 24,90€/mois</span></div>
+    </div>
+    <div class="nl-form-zone">
+      <!-- Formulaire -->
+      <div class="nl-state-el visible" id="nl-form">
+        <div class="nl-fields">
+          <input class="nl-field" type="text" id="nl-prenom" placeholder="Prénom (optionnel)" autocomplete="given-name" maxlength="60">
+          <input class="nl-field" type="email" id="nl-email" placeholder="votre@email.com" autocomplete="email" maxlength="120" required>
+        </div>
+        <button class="nl-btn" id="nl-btn" onclick="nlSubmit()">
+          <span>✉</span><span id="nl-btn-lbl">Je m'abonne gratuitement</span>
+        </button>
+        <div class="nl-rgpd">Données transmises via Formspree (hébergé UE). Désabonnement en 1 clic. <a href="mailto:contact@yaasap.fr">contact@yaasap.fr</a></div>
+        <div class="nl-err" id="nl-err"></div>
+      </div>
+      <!-- Loading -->
+      <div class="nl-state-el" id="nl-loading">
+        <div class="nl-spinner"></div>
+        <div class="nl-loading-txt">Inscription en cours…</div>
+      </div>
+      <!-- Succès -->
+      <div class="nl-state-el" id="nl-success">
+        <div class="nl-ok-icon">✅</div>
+        <div class="nl-ok-title">Vous êtes inscrit !</div>
+        <div class="nl-ok-sub">Vérifiez votre boîte mail — pensez à vérifier vos spams.</div>
+        <div class="nl-ok-next">Prochaine note : lundi matin · yaasap.github.io/dailywatch</div>
+      </div>
+    </div>
+    <div class="nl-foot">
+      <div class="nl-foot-l"><strong id="nl-count">0</strong> abonnés · Rejoignez la communauté</div>
+      <div class="nl-foot-r">✉ Formspree · RGPD conforme</div>
+    </div>
+  </div>
+
+  <!-- POSITIONS PERSONNELLES -->
+  <div class="sec-rule"><span class="sec-rule-text">Positions · Analyses de portefeuille personnel</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-position" href="./yaasap_spcx_position.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-position">Position</div>
+        <div class="nc-title">SpaceX SPCX — 15×166$ + 15×172,93$ → Vente 204$ → Rachat 203$</div>
+        <div class="nc-desc">+1 144,92 $ réalisés · PRU 203$ · catalyseurs indiciels à venir</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-position" href="./yaasap_argenx_position.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-position">Position</div>
+        <div class="nc-title">argenx — Achat 645€ · Cours 780€ · Conserver ou vendre ?</div>
+        <div class="nc-desc">+20,9% · stop 680€ · EMPASSION MMN T4 2026 · conserver</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">12 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-position" href="./yaasap_oscr_position.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-position">Position</div>
+        <div class="nc-title">Oscar Health OSCR — Achat 19,28€ · Cours 25,11€ · +250€</div>
+        <div class="nc-desc">87% au-dessus du consensus · vendre · R/R 1:12 défavorable</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+  <!-- FLASH & IPO -->
+  <div class="sec-rule"><span class="sec-rule-text">Flash · IPO &amp; événements de marché</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-flash" href="./yaasap_spacex_ipo.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-flash">Flash IPO</div>
+        <div class="nc-title">SpaceX SPCX — IPO historique 85,7 Md$ · Séance du 15 juin</div>
+        <div class="nc-desc">+19,22% en séance · accord USA-Iran · FTSE 26 juin · MSCI 29 juin</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-flash" href="./yaasap_newglenn.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-flash">Flash</div>
+        <div class="nc-title">Explosion New Glenn (28 mai) — Impact ASTS, CRWD, DDOG</div>
+        <div class="nc-desc">Analyse des conséquences sur le secteur spatial coté</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-flash" href="./yaasap_ttwo.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-flash">Achat avant événement</div>
+        <div class="nc-title">Take-Two TTWO — GTA VI · 19 novembre 2026 · Point d'entrée</div>
+        <div class="nc-desc">~223$ · cible BofA 320$ · 25/28 analystes Buy · achat maintenant</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+  <!-- ANALYSES FONDAMENTALES -->
+  <div class="sec-rule"><span class="sec-rule-text">Analyses · Fondamentaux &amp; sous-cotées</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-analyse" href="./yaasap_argenx.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-analyse">Analyse</div>
+        <div class="nc-title">argenx ARGX — Bollinger · Prise de bénéfices · Fondamentaux</div>
+        <div class="nc-desc">Pic 934€ → correction −19% → zone achat 640-680€</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">11 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-analyse" href="./yaasap_nvidia.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-analyse">Analyse</div>
+        <div class="nc-title">Nvidia NVDA — Bilan provision H20 · Marge 74,9% · Verdict</div>
+        <div class="nc-desc">Correction, pas bulle · stop 155$ · cible 272$</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-analyse" href="./yaasap_sqm_light.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-analyse">Analyse</div>
+        <div class="nc-title">SQM — Lithium · Accord Codelco · CA +69,8% Q1 2026</div>
+        <div class="nc-desc">Stop 70$ · cible Scotiabank 105$ · Bollinger interactif</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-analyse" href="./yaasap_baba_v2.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-analyse">Analyse</div>
+        <div class="nc-title">Alibaba BABA — 40 analystes Buy · Upside 69% · Cloud IA x2</div>
+        <div class="nc-desc">~124$ · cible TIKR 210$ · stop 100$ · horizon 2031</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-analyse" href="./yaasap_sept_magnifiques.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-analyse">Dossier</div>
+        <div class="nc-title">Les Sept Magnifiques 2023-2026 — Performance &amp; perspectives</div>
+        <div class="nc-desc">NVDA +238,9% · META +194% · TSLA −40% · poids S&P 30%</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+  <!-- VOLATILITÉ & OPPORTUNITÉS -->
+  <div class="sec-rule"><span class="sec-rule-text">Sélections · Volatilité &amp; corrections injustifiées</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-marche" href="./yaasap_volatilite_v4.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Sélection v4</div>
+        <div class="nc-title">Minières d'or — NEM · Barrick · Agnico Eagle · FCF 6,72 Md$</div>
+        <div class="nc-desc">Or +38,5% YTD / minières −15 à −25% · décalage extrême · achat</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-marche" href="./yaasap_volatilite_v3.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Sélection v3</div>
+        <div class="nc-title">PLTR · CRWD · DDOG · SoFi — IA, cyber, fintech en correction</div>
+        <div class="nc-desc">PLTR −23% YTD · CRWD split 4:1 juil. · DDOG selloff Claude</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">11 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-marche" href="./yaasap_europe_souscotee.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Europe</div>
+        <div class="nc-title">Europe sous-cotée — Stellantis · EVS Broadcast · Vivendi</div>
+        <div class="nc-desc">PER &lt;6× · BPA Europe +12% 2026E · PEA éligible</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-marche" href="./yaasap_global_souscote.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Tous marchés v5</div>
+        <div class="nc-title">PFE · BABA · GM · Comcast — PER bas, tous marchés</div>
+        <div class="nc-desc">Pfizer PER 8× dividende 6,4% · BABA +69% · GM EV/EBITDA 4,7×</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-marche" href="./yaasap_semi_smallcap.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Semi small-caps</div>
+        <div class="nc-title">Comparables Silvaco SVCO — PLAB · PDFS · FORM · COHU</div>
+        <div class="nc-desc">SVCO +82% potentiel · PDFS BPA GAAP positif Q1 · COHU Neon +65%</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">15 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-marche" href="./yaasap_volatilite_v2.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-marche">Sélection v2</div>
+        <div class="nc-title">LULU · ON Semi · Oscar Health · Corcept — Stratégie Buffett</div>
+        <div class="nc-desc">PER 14,7× ROE 41% · ON +98% potentiel · CORT golden cross</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">9 juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+  <!-- MACRO & GÉOPOLITIQUE -->
+  <div class="sec-rule"><span class="sec-rule-text">Macro · Géopolitique &amp; secteurs</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-macro" href="./yaasap_moyen_orient.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-macro">Macro</div>
+        <div class="nc-title">Moyen-Orient · OPEP+ · Ormuz · TTE · Shell · BP · ENI</div>
+        <div class="nc-desc">Tensions géopolitiques et impact sur les majors pétrolières</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-macro" href="./yaasap_portefeuille.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-macro">Portefeuille</div>
+        <div class="nc-title">Portefeuille BABA/OSCR/SQM — Corrélation &amp; rééquilibrage</div>
+        <div class="nc-desc">Corrélation 0,31 · rééquilibrage proposé · analyse risque</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-macro" href="./yaasap_poutine_xi.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-macro">Géopolitique</div>
+        <div class="nc-title">Russie-Chine · Poutine-Xi · Analyse stratégique</div>
+        <div class="nc-desc">Impact sur les marchés émergents et les commodités</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-macro" href="./yaasap_midterms.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-macro">Politique US</div>
+        <div class="nc-title">Midterms 2026 · Scénarios Trump · Impact marchés</div>
+        <div class="nc-desc">Analyse des scenarios politiques et leurs implications boursières</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+  <!-- TECH & SPATIAL -->
+  <div class="sec-rule"><span class="sec-rule-text">Tech &amp; Spatial · IA, satellites, exploration</span></div>
+  <div class="notes-grid">
+    <a class="note-card cat-tech" href="./yaasap_spatial_live.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-tech">Spatial</div>
+        <div class="nc-title">Secteur spatial coté — Analyse complète</div>
+        <div class="nc-desc">ASTS, RKLB, SPCE, MNTS — opportunités et risques</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-tech" href="./yaasap_ecosysteme_ia_v2.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-tech">IA</div>
+        <div class="nc-title">Ecosystème IA v2 — Infrastructure, modèles, applications</div>
+        <div class="nc-desc">Cartographie de l'écosystème IA investissable en 2026</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+    <a class="note-card cat-tech" href="./yaasap_eutelsat.html">
+      <div class="nc-top">
+        <div class="nc-tag cat-tech">Satellite</div>
+        <div class="nc-title">Eutelsat — Analyse fondamentale · Concurrence Starlink</div>
+        <div class="nc-desc">Restructuration en cours · impact SpaceX sur le secteur GEO</div>
+      </div>
+      <div class="nc-bottom"><span class="nc-date">Juin 2026</span><span class="nc-arrow">→</span></div>
+    </a>
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-author">Par Yacine AOUABED · Consultant senior · Analyse financière indépendante</div>
+  <div class="foot-links">
+    <a href="./yaasap_spacex_ipo.html">Flash IPO</a>
+    <a href="./yaasap_argenx.html">argenx</a>
+    <a href="./yaasap_ttwo.html">GTA VI / TTWO</a>
+    <a href="./yaasap_volatilite_v4.html">Minières or</a>
+    <a href="./yaasap_europe_souscotee.html">Europe</a>
+    <a href="mailto:contact@yaasap.fr">Contact</a>
+  </div>
+  <div class="foot-legal">
+    Ce site est publié à titre informatif uniquement et ne constitue pas un conseil en investissement au sens des articles L533-1 et suivants du Code monétaire et financier. Les analyses publiées reflètent l'opinion de l'auteur et ne sont pas contractuelles. Investir comporte des risques de perte en capital.
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
 <script>
+/* ── DATE ── */
 (function(){
-  var d=new Date();
-  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  var s=d.toLocaleDateString('fr-FR',opts);
-  var p=document.getElementById('pubDate');
-  var t=document.getElementById('todayMeta');
-  if(p) p.textContent=s;
-  if(t) t.textContent=s;
+  var d = new Date();
+  var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s = d.toLocaleDateString('fr-FR', opts);
+  var el = document.getElementById('mastDate');
+  if (el) el.textContent = s;
 })();
+
+/* ── QR CODE MASTHEAD ── */
+(function(){
+  function tryQR(){
+    var el = document.getElementById('qr-mast');
+    if (!el || typeof QRCode === 'undefined'){ setTimeout(tryQR, 80); return; }
+    new QRCode(el, {
+      text: 'https://yaasap.github.io/dailywatch/index.html',
+      width: 48, height: 48,
+      colorDark: '#1c1814', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+  tryQR();
+})();
+
+/* ── NEWSLETTER FORMSPREE ── */
+var FORMSPREE_URL = 'https://formspree.io/f/meewwqep';
+
+function nlShowState(id){
+  ['nl-form','nl-loading','nl-success'].forEach(function(s){
+    var el = document.getElementById(s);
+    if (el) el.classList.remove('visible');
+  });
+  var t = document.getElementById(id);
+  if (t) t.classList.add('visible');
+}
+
+function nlShowErr(msg){
+  var el = document.getElementById('nl-err');
+  if (!el) return;
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+  setTimeout(function(){ el.style.display = 'none'; }, 6000);
+}
+
+function nlValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+function nlSubmit(){
+  var email  = ((document.getElementById('nl-email')  ||{}).value||'').trim();
+  var prenom = ((document.getElementById('nl-prenom') ||{}).value||'').trim();
+
+  if (!email)             { nlShowErr('Veuillez saisir votre adresse email.'); return; }
+  if (!nlValidEmail(email)){ nlShowErr('Adresse email invalide — vérifiez le format.'); return; }
+
+  var btn = document.getElementById('nl-btn');
+  var lbl = document.getElementById('nl-btn-lbl');
+  if (btn) btn.disabled = true;
+  if (lbl) lbl.textContent = 'Inscription…';
+
+  nlShowState('nl-loading');
+
+  var body = new FormData();
+  body.append('email',    email);
+  body.append('prenom',   prenom);
+  body.append('plan',     'free');
+  body.append('source',   'yaasap-index');
+  body.append('_subject', 'Nouvelle inscription YAASAP Notes — ' + email);
+  body.append('_next',    'false');
+
+  fetch(FORMSPREE_URL, {
+    method:  'POST',
+    body:    body,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(res){
+    if (res.ok){
+      nlShowState('nl-success');
+      var cnt = document.getElementById('nl-count');
+      if (cnt){
+        var n = parseInt((cnt.textContent||'0').replace(/\s/g,''));
+        cnt.textContent = isNaN(n) ? '1' : (n+1).toLocaleString('fr-FR');
+      }
+    } else {
+      return res.json().then(function(data){
+        nlShowState('nl-form');
+        if (btn) btn.disabled = false;
+        if (lbl) lbl.textContent = 'Je m\'abonne gratuitement';
+        var msg = (data&&data.errors&&data.errors.length)
+          ? data.errors.map(function(e){return e.message;}).join(' · ')
+          : (data&&data.error ? data.error : 'Erreur lors de l\'inscription.');
+        nlShowErr(msg);
+      });
+    }
+  })
+  .catch(function(){
+    nlShowState('nl-form');
+    if (btn) btn.disabled = false;
+    if (lbl) lbl.textContent = 'Je m\'abonne gratuitement';
+    nlShowErr('Connexion impossible. Vérifiez votre réseau et réessayez.');
+  });
+}
+
+/* Entrée clavier */
+document.addEventListener('keydown', function(e){
+  if (e.key !== 'Enter') return;
+  var id = document.activeElement ? document.activeElement.id : '';
+  if (id === 'nl-email' || id === 'nl-prenom') nlSubmit();
+});
 </script>
+
 </body>
 </html>
