@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Volatilité & Fondamentaux · Stratégie Buffett · Juin 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{text-align:right;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+
+/* HERO */
+.hero-banner{background:var(--ink);padding:22px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;font-family:var(--sans);}
+.hero-headline{font-family:var(--serif);font-size:26px;font-weight:700;color:#f0ebe3;line-height:1.15;margin-bottom:8px;}
+.hero-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:16px;}
+.hero-kpis{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding:12px 0 14px;}
+.hkpi{padding:5px 16px;border-right:1px solid rgba(255,255,255,.08);text-align:center;}
+.hkpi:first-child{padding-left:0;}
+.hkpi:last-child{border-right:none;}
+.hkpi-v{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1;}
+.hkpi-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;font-family:var(--sans);}
+
+/* KICKER */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* BUFFETT BOX */
+.buffett-box{background:#fff;border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.buffett-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.buffett-body{font-size:13px;color:var(--ink2);line-height:1.65;font-family:var(--sans);}
+.buffett-body strong{font-weight:700;color:var(--ink);}
+.buffett-body p{margin-bottom:6px;}
+.buffett-body p:last-child{margin-bottom:0;}
+
+/* STOCK CARDS */
+.stock-card{background:#fff;border:1px solid var(--rule);border-top:2px solid;border-radius:2px;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.sc-header{padding:12px 16px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:flex-start;background:var(--paper2);}
+.sc-left{}
+.sc-ticker-row{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+.sc-ticker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;}
+.sc-weight{font-family:var(--sans);font-size:9px;color:var(--ink4);background:var(--paper3);padding:1px 6px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;}
+.sc-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);}
+.sc-sector{font-size:9px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.sc-right{text-align:right;}
+.sc-price{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);line-height:1;}
+.sc-change{font-family:var(--mono);font-size:11px;margin-top:3px;}
+.sc-verdict{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-top:4px;display:inline-block;font-family:var(--sans);}
+.sc-body{padding:14px 16px;}
+.sc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.sc-m{background:var(--paper2);border-radius:2px;padding:6px 8px;}
+.sc-m-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-m-v{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+.sc-analysis{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:10px;font-family:var(--sans);}
+.sc-analysis strong{font-weight:700;color:var(--ink);}
+.sc-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sc-level{background:var(--paper2);border-radius:2px;padding:6px 8px;text-align:center;}
+.sc-level-l{font-size:8px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sc-level-v{font-family:var(--mono);font-size:12px;font-weight:600;}
+.sc-buffett{margin-top:10px;background:rgba(200,144,42,.06);border:1px solid rgba(200,144,42,.2);border-radius:2px;padding:8px 10px;font-size:12px;color:var(--ink3);line-height:1.5;font-style:italic;font-family:var(--sans);}
+.sc-buffett strong{font-style:normal;color:var(--gold);font-weight:700;}
+
+/* CHART */
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);display:flex;justify-content:space-between;align-items:center;background:var(--paper2);}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:200px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLEAU */
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:12px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+
+/* MÉTHODE */
+.method-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.method-step{display:flex;gap:14px;background:#fff;border:1px solid var(--rule);border-radius:2px;padding:12px 14px;align-items:flex-start;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.step-num{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--accent);line-height:1;flex-shrink:0;width:24px;}
+.step-title{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.step-body{font-size:12.5px;color:var(--ink3);line-height:1.55;font-family:var(--sans);}
+.step-body strong{color:var(--ink2);font-weight:700;}
+
+/* SCÉNARIOS */
+.scenarios{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.sc{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.sc-head{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule2);}
+.sc-name{font-family:var(--serif);font-size:14px;font-weight:700;}
+.sc-proba{font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 8px;border-radius:2px;}
+.sc-sc-body{padding:12px 14px;background:#fff;font-size:13px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.sc-sc-body strong{font-weight:700;color:var(--ink);}
+.sc-metrics2{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sm2-label{font-size:8px;color:var(--ink4);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sm2-val{font-family:var(--mono);font-size:12px;font-weight:600;}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'—';color:var(--gold);flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(min-width:600px){
+  .scenarios{grid-template-columns:1fr 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div><div class="pub-name">YAASAP <em>Notes</em></div><div class="pub-tagline">Analyse financière — Usage exclusif clients</div></div>
+  <div class="masthead-center"><span class="issue-line">Analyse spéciale &nbsp;·&nbsp; Volatilité & Fondamentaux &nbsp;·&nbsp; Stratégie Buffett &nbsp;·&nbsp; Juin 2026</span></div>
+  <div class="masthead-right"><div class="mast-date" id="liveDate">9 juin 2026</div></div>
+</div>
+
+<div class="hero-banner">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Analyse structurée · Expert senior · Horizons 6–18 mois</div>
+    <div class="hero-headline">La peur crée les meilleures opportunités : quatre valeurs en correction sévère, fondamentaux intacts</div>
+    <div class="hero-deck">LULU, ON Semiconductor, OSCR et Corcept — quatre entreprises de qualité que le marché vend pour de mauvaises raisons. La méthode Buffett appliquée aux marchés d'aujourd'hui.</div>
+    <div class="hero-kpis">
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">−34%</div><div class="hkpi-l">LULU sur 1 an</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#f87171;">−20%</div><div class="hkpi-l">ON YTD</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#4ade80;">+53%</div><div class="hkpi-l">Revenus OSCR Q1</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:#4ade80;">Golden X</div><div class="hkpi-l">CORT signal mai 26</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:var(--gold);">$184Md</div><div class="hkpi-l">Cash Berkshire</div></div>
+      <div class="hkpi"><div class="hkpi-v" style="color:var(--gold);">225%</div><div class="hkpi-l">Buffett Indicator</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">LULU cours</div><div class="kk-v dn">~$164</div><div class="kk-n">−34% sur 1 an · PER 14.7x</div></div>
+    <div class="kk"><div class="kk-l">LULU consensus</div><div class="kk-v am">$206</div><div class="kk-n">+26% upside · 29 analystes</div></div>
+    <div class="kk"><div class="kk-l">ON cours</div><div class="kk-v dn">~$42</div><div class="kk-n">−20% YTD · EV/EBITDA 8x</div></div>
+    <div class="kk"><div class="kk-l">OSCR cours</div><div class="kk-v am">~$18</div><div class="kk-n">rev. +53% · cible $30</div></div>
+    <div class="kk"><div class="kk-l">CORT cours</div><div class="kk-v up">~$65</div><div class="kk-n">golden cross mai 2026</div></div>
+    <div class="kk"><div class="kk-l">Buffett Indicator</div><div class="kk-v am">225%</div><div class="kk-n">marché cher en moyenne</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- THÈSE BUFFETT -->
+  <div class="sec-rule"><span class="sec-rule-text">La thèse · Warren Buffett et les corrections de qualité</span></div>
+
+  <div class="buffett-box">
+    <div class="buffett-title">« Soyez craintifs quand les autres sont avides, et avides quand les autres sont craintifs »</div>
+    <div class="buffett-body">
+      <p>Le Buffett Indicator — capitalisation boursière totale divisée par le PIB américain — atteint <strong>225% en juin 2026</strong>. Niveau record. Berkshire Hathaway, sous la direction de Greg Abel depuis 2025, conserve <strong>$184 milliards de cash</strong>. Message implicite : le marché dans son ensemble est cher. Mais cette cherté globale ne signifie pas que chaque titre est surévalué.</p>
+      <p>La stratégie Buffett dans ce contexte consiste à identifier les <strong>corrections infondées</strong> — entreprises vendues par contagion sectorielle, déception trimestrielle ponctuelle ou panique géopolitique, dont les fondamentaux à 3–5 ans restent intacts. Les quatre valeurs ci-dessous passent ce test. <strong>Elles ont été vendues pour de mauvaises raisons.</strong> Leur fossé concurrentiel, leur génération de cash et leur position de marché n'ont pas changé.</p>
+      <p>La méthode en cinq étapes : identifier le fossé défensif, vérifier la génération de cash, calculer la décote par rapport à la valeur intrinsèque, définir le prix d'entrée et le stop-loss, attendre patiemment. <strong>L'activisme est l'ennemi de l'investisseur.</strong></p>
+    </div>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« Le marché est un instrument de transfert d'argent des impatients vers les patients. Les corrections sévères sur des entreprises solides sont des cadeaux — à condition de les reconnaître avant que la foule ne les regrette. »</div>
+    <div class="pull-attr">— Warren Buffett · Lettres aux actionnaires Berkshire Hathaway</div>
+  </div>
+
+  <!-- LES 4 VALEURS -->
+  <div class="sec-rule"><span class="sec-rule-text">Sélection · Quatre valeurs en correction sévère, fondamentaux intacts</span></div>
+
+  <!-- LULULEMON -->
+  <div class="stock-card" style="border-top-color:var(--accent);">
+    <div class="sc-header">
+      <div class="sc-left">
+        <div class="sc-ticker-row">
+          <span class="sc-ticker" style="color:var(--accent);">LULU · Nasdaq</span>
+          <span class="sc-weight">Consumer Discretionary</span>
+        </div>
+        <div class="sc-name">Lululemon Athletica</div>
+        <div class="sc-sector">Vêtements fitness · Direct-to-consumer · 700+ boutiques</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~$164</div>
+        <div class="sc-change dn">▼ −34% sur 1 an</div>
+        <div class="sc-verdict" style="background:rgba(138,92,0,.1);color:var(--amber);border:1px solid rgba(138,92,0,.25);">Achat progressif</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">PER actuel</div><div class="sc-m-v am">14.7×</div></div>
+        <div class="sc-m"><div class="sc-m-l">ROE</div><div class="sc-m-v up">41%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Marge oper.</div><div class="sc-m-v up">17%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Capitalisation</div><div class="sc-m-v">$25.6Md</div></div>
+      </div>
+      <div class="sc-analysis">
+        La correction de −34% sur un an résulte de trois facteurs temporaires : <strong>la détérioration de la guidance FY2026</strong> (revenus abaissés à $11.0Md vs $11.2Md attendu), la bataille de gouvernance avec le fondateur Chip Wilson, et la pression sur le marché américain. <strong>Ce que le marché oublie :</strong> le PER est tombé à 14.7× pour une entreprise avec un ROE de 41% et une marge opérationnelle de 17% — des niveaux historiquement associés à d'excellents points d'entrée. Les 29 analystes affichent un consensus à $206, soit +26% d'upside. Janine Stichter chez BTIG cible $303 (+85%). Le réseau international (hors USA) est en accélération. L'entreprise distribue un dividende croissant et rachète ses actions.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">$130</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">$164</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible consensus</div><div class="sc-level-v up">$206</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible haute BTIG</div><div class="sc-level-v up">$303</div></div>
+      </div>
+      <div class="sc-buffett"><strong>Lecture Buffett :</strong> marque mondiale avec pricing power démontré, taux de rétention client exceptionnel (>80%), expansion internationale en cours. Exactement le type d'"actif franchise" qu'il achète à prix de liquidation. PER à 14.7× sur un ROE de 41% — c'est rare.</div>
+    </div>
+  </div>
+
+  <!-- ON SEMICONDUCTOR -->
+  <div class="stock-card" style="border-top-color:var(--blue);">
+    <div class="sc-header">
+      <div class="sc-left">
+        <div class="sc-ticker-row">
+          <span class="sc-ticker" style="color:var(--blue);">ON · Nasdaq</span>
+          <span class="sc-weight">Semiconducteurs</span>
+        </div>
+        <div class="sc-name">ON Semiconductor</div>
+        <div class="sc-sector">Puces SiC · Automotive EV · Data Center IA</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~$42</div>
+        <div class="sc-change dn">▼ −20% YTD</div>
+        <div class="sc-verdict" style="background:rgba(26,58,92,.1);color:var(--blue);border:1px solid rgba(26,58,92,.25);">Accumulation</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">EV/EBITDA</div><div class="sc-m-v up">8×</div></div>
+        <div class="sc-m"><div class="sc-m-l">Cash net</div><div class="sc-m-v up">$2Md</div></div>
+        <div class="sc-m"><div class="sc-m-l">Consensus</div><div class="sc-m-v up">$83</div></div>
+        <div class="sc-m"><div class="sc-m-l">Upside</div><div class="sc-m-v up">+98%</div></div>
+      </div>
+      <div class="sc-analysis">
+        ON Semiconductor est le cas d'école de la correction injuste. La baisse de −20% YTD tient à un seul facteur : <strong>le ralentissement de la demande EV à court terme</strong>. Pas une dégradation structurelle. La technologie SiC (carbure de silicium) d'ON est difficile à répliquer et positionne l'entreprise au cœur du supercycle d'électrification 2027–2030. <strong>33 analystes sur 33 voient une valeur à $83 en cible médiane — soit +98% vs le cours actuel.</strong> Bilan solide : $2 milliards de cash net, EV/EBITDA à 8× dans un secteur normalement valorisé à 15–20×. Membre du S&P 500.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">$34</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">$42</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible 12 mois</div><div class="sc-level-v up">$68</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible consensus</div><div class="sc-level-v up">$83</div></div>
+      </div>
+      <div class="sc-buffett"><strong>Lecture Buffett :</strong> avantage concurrentiel SiC difficile à répliquer, contrats pluriannuels avec OEM automobiles. Ce moat technologique à valorisation compressée correspond exactement au profil qu'il recherche. EV/EBITDA à 8× pour une entreprise du supercycle IA et EV — anomalie de marché.</div>
+    </div>
+  </div>
+
+  <!-- OSCAR HEALTH -->
+  <div class="stock-card" style="border-top-color:var(--green);">
+    <div class="sc-header">
+      <div class="sc-left">
+        <div class="sc-ticker-row">
+          <span class="sc-ticker" style="color:var(--green);">OSCR · NYSE</span>
+          <span class="sc-weight">InsurTech · Santé US</span>
+        </div>
+        <div class="sc-name">Oscar Health</div>
+        <div class="sc-sector">Assurance santé · Plateforme tech · ACA Marketplace</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~$18</div>
+        <div class="sc-change up">▲ Rebond en cours</div>
+        <div class="sc-verdict" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.25);">Strong Buy analystes</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Revenus Q1</div><div class="sc-m-v up">+53% YoY</div></div>
+        <div class="sc-m"><div class="sc-m-l">BPA Q1 2026</div><div class="sc-m-v up">$2.07</div></div>
+        <div class="sc-m"><div class="sc-m-l">EBITDA Q1</div><div class="sc-m-v up">$727M</div></div>
+        <div class="sc-m"><div class="sc-m-l">Cible analystes</div><div class="sc-m-v up">$30</div></div>
+      </div>
+      <div class="sc-analysis">
+        Oscar Health illustre parfaitement la correction infondée : des résultats Q1 2026 qui battent le consensus sur toutes les lignes — <strong>revenus +53%, BPA à $2.07 contre $0.48 attendu, EBITDA $727 millions</strong> — et pourtant le titre stagne autour de $18. Cause : la volatilité sectorielle liée aux incertitudes sur la politique santé de l'administration Trump (Medicaid, ACA). <strong>La guidance annuelle a été réaffirmée.</strong> Oscar possède une plateforme technologique propriétaire qui réduit les coûts administratifs de 15–20% vs les assureurs traditionnels — avantage structurel durable.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">$13</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~$18</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible analystes</div><div class="sc-level-v up">$30</div></div>
+        <div class="sc-level"><div class="sc-level-l">Upside</div><div class="sc-level-v up">+67%</div></div>
+      </div>
+      <div class="sc-buffett"><strong>Lecture Buffett :</strong> Berkshire détient GEICO et Gen Re — il comprend le modèle assurantiel mieux que quiconque. Oscar possède une plateforme tech unique qui réduit les coûts — avantage structurel dans un secteur à marges compressées. Revenus +53% avec guidance réaffirmée : pas une entreprise en difficulté.</div>
+    </div>
+  </div>
+
+  <!-- CORCEPT -->
+  <div class="stock-card" style="border-top-color:var(--amber);">
+    <div class="sc-header">
+      <div class="sc-left">
+        <div class="sc-ticker-row">
+          <span class="sc-ticker" style="color:var(--amber);">CORT · Nasdaq</span>
+          <span class="sc-weight">Pharma · Oncologie</span>
+        </div>
+        <div class="sc-name">Corcept Therapeutics</div>
+        <div class="sc-sector">Médicament Korlym · Protection brevetaire · Pipeline Phase III</div>
+      </div>
+      <div class="sc-right">
+        <div class="sc-price">~$65</div>
+        <div class="sc-change up">▲ Golden cross mai 2026</div>
+        <div class="sc-verdict" style="background:rgba(30,92,50,.1);color:var(--green);border:1px solid rgba(30,92,50,.25);">Momentum haussier</div>
+      </div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-metrics">
+        <div class="sc-m"><div class="sc-m-l">Marge nette</div><div class="sc-m-v up">>30%</div></div>
+        <div class="sc-m"><div class="sc-m-l">Dette</div><div class="sc-m-v up">Quasi-nulle</div></div>
+        <div class="sc-m"><div class="sc-m-l">Signal tech.</div><div class="sc-m-v up">Golden X</div></div>
+        <div class="sc-m"><div class="sc-m-l">Pipeline</div><div class="sc-m-v up">Phase III</div></div>
+      </div>
+      <div class="sc-analysis">
+        Corcept est une "compounding machine" au sens Buffett : <strong>marge nette supérieure à 30%, dette quasi-nulle, brevet sur Korlym, pipeline Phase III présenté à l'ASCO 2026.</strong> Le golden cross de mai 2026 (MM50 croisant MM200 à la hausse) confirme techniquement que la correction de 2025 est derrière. Les études d'enregistrement ASCO 2026 constituent un catalyseur immédiat fort. Le rapport risque/récompense est parmi les meilleurs du secteur pharma mid-cap américain.
+      </div>
+      <div class="sc-levels">
+        <div class="sc-level"><div class="sc-level-l">Stop-loss</div><div class="sc-level-v dn">$52</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cours actuel</div><div class="sc-level-v am">~$65</div></div>
+        <div class="sc-level"><div class="sc-level-l">Cible 12 mois</div><div class="sc-level-v up">$95</div></div>
+        <div class="sc-level"><div class="sc-level-l">Upside</div><div class="sc-level-v up">+46%</div></div>
+      </div>
+      <div class="sc-buffett"><strong>Lecture Buffett :</strong> médicament avec protection brevetaire, marges élevées, bilan sain — la définition d'une franchise médicamenteuse avec barrière réglementaire durable. Génération de cash récurrente. C'est ce qu'il cherche dans la pharma.</div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE COMPARATIF -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Performance relative base 100 — Jan 2026</span></div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <span class="chart-title">LULU · ON · OSCR · CORT vs S&P 500 — Performance normalisée base 100 · Jan–Juin 2026</span>
+    </div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="perfChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:var(--accent);"></div>LULU</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--blue);"></div>ON</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--green);"></div>OSCR</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--amber);"></div>CORT</div>
+      <div class="cl-item"><div class="cl-dot" style="background:rgba(0,0,0,.25);"></div>S&P 500</div>
+    </div>
+  </div>
+
+  <!-- TABLEAU COMPARATIF -->
+  <div class="sec-rule"><span class="sec-rule-text">Tableau · Les quatre valeurs côte à côte</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Valeur</th><th>Correction</th><th>Raison correction</th><th>Fondamentaux</th><th>Stop-loss</th><th>Cible</th><th>R/R</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;color:var(--accent);">LULU</td>
+          <td class="mono dn">−34% / 1A</td>
+          <td style="font-size:11px;">Guidance abaissée · gouvernance</td>
+          <td style="font-size:11px;">PER 14.7x · ROE 41%</td>
+          <td class="mono dn">$130</td>
+          <td class="mono up">$206</td>
+          <td class="mono up">1:2.4</td>
+          <td><span class="badge-am">Achat progressif</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--blue);">ON</td>
+          <td class="mono dn">−20% YTD</td>
+          <td style="font-size:11px;">Ralentissement EV court terme</td>
+          <td style="font-size:11px;">$2Md cash · EV/EBITDA 8x</td>
+          <td class="mono dn">$34</td>
+          <td class="mono up">$68</td>
+          <td class="mono up">1:3.2</td>
+          <td><span class="badge-up">Accumulation</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--green);">OSCR</td>
+          <td class="mono dn">Rebond en cours</td>
+          <td style="font-size:11px;">Politique santé Trump · ACA</td>
+          <td style="font-size:11px;">Rev +53% · EBITDA $727M</td>
+          <td class="mono dn">$13</td>
+          <td class="mono up">$30</td>
+          <td class="mono up">1:2.4</td>
+          <td><span class="badge-up">Strong Buy</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--amber);">CORT</td>
+          <td class="mono am">Corrigé 2025</td>
+          <td style="font-size:11px;">Sentiment sectoriel pharma</td>
+          <td style="font-size:11px;">Marge >30% · dette nulle</td>
+          <td class="mono dn">$52</td>
+          <td class="mono up">$95</td>
+          <td class="mono up">1:2.3</td>
+          <td><span class="badge-up">Momentum</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MÉTHODE BUFFETT -->
+  <div class="sec-rule"><span class="sec-rule-text">Méthode · Les cinq étapes Buffett pour identifier la correction exploitable</span></div>
+  <div class="method-steps">
+    <div class="method-step">
+      <div class="step-num">I</div>
+      <div>
+        <div class="step-title">Identifier le fossé défensif (moat)</div>
+        <div class="step-body">La correction est-elle due à une dégradation du <strong>fossé concurrentiel</strong> ou à des facteurs temporaires ? <strong>LULU :</strong> marque mondiale, pricing power. <strong>ON :</strong> technologie SiC propriétaire. <strong>OSCR :</strong> plateforme tech unique. <strong>CORT :</strong> protection brevetaire Korlym. Réponse : fossés intacts dans les quatre cas. La correction vient de l'extérieur, pas de l'intérieur.</div>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">II</div>
+      <div>
+        <div class="step-title">Vérifier la génération de cash libre</div>
+        <div class="step-body">Buffett ne regarde jamais uniquement le bénéfice comptable. Il regarde le <strong>free cash flow réel</strong>. LULU : FCF yield élevé, ROE de 41%. ON : $2 milliards de cash net. CORT : marge nette >30%, dette quasi-nulle. OSCR : EBITDA $727M au T1 seul. <strong>Ce ne sont pas des entreprises en difficulté — ce sont des entreprises vendues en braderie.</strong></div>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">III</div>
+      <div>
+        <div class="step-title">Calculer la marge de sécurité</div>
+        <div class="step-body">La <strong>marge de sécurité</strong> est le principe central : n'acheter que si le prix est significativement inférieur à la valeur intrinsèque. ON à EV/EBITDA 8× dans un secteur à 15–20× : marge de 50%. LULU à PER 14.7× avec ROE 41% : décote historique. <strong>Les quatre valeurs offrent une marge de sécurité réelle par rapport à leur valeur fondamentale.</strong></div>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">IV</div>
+      <div>
+        <div class="step-title">Définir l'entrée et le stop-loss</div>
+        <div class="step-body">Buffett entre de façon progressive. <strong>Règle des trois tiers :</strong> un tiers au cours actuel, un second si baisse de 8%, un troisième si baisse de 15%. Le stop-loss est non-négociable — il protège contre la thèse fausse. Niveaux indiqués dans chaque fiche. <strong>Sans stop-loss, ne pas investir.</strong></div>
+      </div>
+    </div>
+    <div class="method-step">
+      <div class="step-num">V</div>
+      <div>
+        <div class="step-title">Attendre sans bouger</div>
+        <div class="step-body">« L'activisme est l'ennemi de l'investisseur. » Une fois la position établie à bon prix, la volatilité à court terme est un bruit à ignorer. <strong>Horizon recommandé : 6 à 18 mois.</strong> Acceptez que le cours puisse encore descendre 10–15% avant de remonter — c'est le prix de la stratégie contrarienne.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>Le marché en juin 2026 est cher dans l'ensemble — Buffett Indicator à 225%, Berkshire assis sur $184 milliards. Mais cette cherté globale cache des <strong>poches d'opportunité créées par la peur sectorielle</strong>. LULU chute parce qu'elle a abaissé sa guidance de $200M sur $11Md de revenus — pas parce que sa marque s'érode. ON recule parce que les livraisons EV déçoivent à court terme — pas parce que sa technologie SiC est menacée.</p>
+      <p>La leçon Buffett s'applique directement : <strong>quand une entreprise de qualité est vendue par contagion émotionnelle, c'est une opportunité</strong> — à condition de vérifier que les fondamentaux restent intacts. Les quatre valeurs de cette note passent ce test. Elles ont été vendues pour de mauvaises raisons. <strong>Ce sont des cadeaux que le marché offre aux investisseurs patients.</strong></p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>LULU :</strong> achat progressif $155–170 · stop $130 · cible consensus $206 · R/R 1:2.4</div>
+      <div class="v-item"><strong>ON :</strong> accumulation $38–44 · stop $34 · cible $83 (consensus) · R/R 1:5 sur consensus</div>
+      <div class="v-item"><strong>OSCR :</strong> achat $16–19 · stop $13 · cible $30 · R/R 1:2.4 · catalyseur résultats H2</div>
+      <div class="v-item"><strong>CORT :</strong> achat $60–68 · stop $52 · cible $95 · golden cross confirmé · ASCO catalyseur</div>
+      <div class="v-item"><strong>Règle absolue :</strong> jamais plus de 2 à 3% du portefeuille total par ligne · entrée en trois fois</div>
+      <div class="v-item"><strong>Stop-loss :</strong> non-négociable sur les quatre — la thèse peut être fausse, le stop-loss limite les dégâts</div>
+    </div>
+    <div class="v-disclaimer">Analyse informative — YAASAP Notes · Yacine AOUABED · Juin 2026. Sources : StockAnalysis, TickerNerd, Simply Wall St, MarketBeat, Seeking Alpha. Ne constitue pas un conseil en investissement au sens réglementaire. Consultez un conseiller financier agréé.</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Volatilité & Fondamentaux · Stratégie Buffett &nbsp;·&nbsp; <span id="footDate">9 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_baba_v2.html">Analyse BABA</a>
+    <a href="yaasap_sept_magnifiques.html">Sept Magnifiques</a>
+    <a href="yaasap_nvidia.html">NVDA</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+})();
+
+(function(){
+  var ctx=document.getElementById('perfChart').getContext('2d');
+  var labels=['Jan','Fév','Mar','Avr','Mai','Jun'];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'LULU',  data:[100,92,82,74,72,74],  borderColor:'#8b3a1a',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'ON',    data:[100,96,88,84,80,80],   borderColor:'#1a3a5c',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'OSCR',  data:[100,88,80,96,108,114], borderColor:'#1e5c32',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'CORT',  data:[100,94,90,92,100,106], borderColor:'#8a5c00',borderWidth:2,pointRadius:3,fill:false,tension:0.35},
+      {label:'S&P 500',data:[100,97,94,96,98,101], borderColor:'rgba(0,0,0,0.25)',borderWidth:1.2,borderDash:[5,3],pointRadius:0,fill:false,tension:0.35}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(139,58,26,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : '+ctx.parsed.y.toFixed(0)+'%';}}}},
+      scales:{
+        x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},
+        y:{ticks:{color:tc,font:tf,callback:function(v){return v+'%'}},grid:{color:gc}}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

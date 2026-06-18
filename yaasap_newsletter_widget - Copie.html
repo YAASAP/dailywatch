@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YAASAP Notes · Widget Newsletter — Brevo Embedded + Formspree</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{
+  background:#d0ccc5;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:24px;gap:20px;
+  font-family:var(--sans);
+}
+.demo-label{
+  font-family:var(--mono);font-size:10px;color:rgba(0,0,0,.4);
+  letter-spacing:.1em;text-transform:uppercase;text-align:center;
+  background:rgba(0,0,0,.08);padding:4px 14px;border-radius:20px;
+}
+
+/* ====== CADRE YAASAP NEWSLETTER ====== */
+.yaasap-newsletter{
+  width:100%;max-width:620px;
+  background:var(--ink);border-radius:3px;
+  overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.2);
+}
+.nl-header{
+  padding:18px 24px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:8px;
+}
+.nl-brand{font-family:var(--serif);font-size:18px;font-weight:700;color:#fff;line-height:1;}
+.nl-brand em{font-style:italic;color:var(--accent);}
+.nl-badge{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(30,92,50,.25);border:1px solid rgba(30,92,50,.5);
+  color:#4ade80;padding:2px 10px;border-radius:2px;
+}
+.nl-intro{padding:14px 24px 10px;}
+.nl-headline{
+  font-family:var(--serif);font-size:18px;font-weight:700;
+  color:#f0ebe3;line-height:1.2;margin-bottom:5px;
+}
+.nl-sub{
+  font-family:var(--serif);font-size:12px;font-style:italic;
+  color:rgba(255,255,255,.45);line-height:1.55;
+}
+.nl-perks{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nl-perk{padding:9px 12px;border-right:1px solid rgba(255,255,255,.06);text-align:center;}
+.nl-perk:last-child{border-right:none;}
+.nl-perk-icon{font-size:14px;margin-bottom:2px;}
+.nl-perk-label{font-size:10px;color:rgba(255,255,255,.55);line-height:1.3;}
+.nl-perk-label strong{color:#f0ebe3;font-weight:700;display:block;}
+
+/* Zone formulaire interchangeable */
+.nl-form-zone{padding:18px 24px 14px;}
+
+/* Plans */
+.nl-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:14px;}
+.nl-plan{
+  border:1.5px solid rgba(255,255,255,.12);border-radius:3px;
+  padding:7px 8px;text-align:center;cursor:default;position:relative;
+}
+.nl-plan.active{border-color:var(--gold);background:rgba(200,144,42,.06);}
+.nl-plan-name{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;display:block;}
+.nl-plan-price{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.35);margin-top:1px;display:block;}
+.nl-plan.active .nl-plan-price{color:var(--gold);}
+.nl-plan-soon{
+  position:absolute;top:-7px;right:4px;
+  font-size:7px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--accent);color:#fff;padding:1px 4px;border-radius:2px;
+}
+
+/* ---- SLOT FORMSPREE (Solution A) ---- */
+.slot-formspree{display:none;}
+.slot-formspree.visible{display:block;}
+.slot-formspree input[type=text],
+.slot-formspree input[type=email]{
+  width:100%;height:42px;margin-bottom:8px;
+  padding:0 13px;
+  border:1.5px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.07);
+  border-radius:3px;font-family:var(--sans);font-size:13.5px;
+  color:#fff;outline:none;transition:border-color .15s;
+  display:block;
+}
+.slot-formspree input::placeholder{color:rgba(255,255,255,.3);}
+.slot-formspree input:focus{border-color:var(--gold);background:rgba(255,255,255,.1);}
+.slot-formspree button[type=submit]{
+  width:100%;height:44px;
+  background:var(--accent);border:none;border-radius:3px;
+  color:#fff;font-family:var(--serif);font-size:14px;font-weight:700;
+  cursor:pointer;letter-spacing:.02em;transition:background .15s;
+  margin-bottom:8px;
+}
+.slot-formspree button[type=submit]:hover{background:#6a2612;}
+
+/* ---- SLOT BREVO (Solution B) ---- */
+.slot-brevo{display:none;}
+.slot-brevo.visible{display:block;}
+/* Override des styles Brevo pour coller à YAASAP */
+.slot-brevo .sib-form,
+.slot-brevo .sib-form-block{background:transparent !important;padding:0 !important;border:none !important;}
+.slot-brevo .sib-form__declaration,
+.slot-brevo .sib-form__submit-button{
+  background:var(--accent) !important;
+  border-radius:3px !important;font-family:var(--serif) !important;
+  font-size:14px !important;font-weight:700 !important;width:100% !important;
+  height:44px !important;cursor:pointer !important;
+}
+.slot-brevo input.input{
+  background:rgba(255,255,255,.07) !important;
+  border:1.5px solid rgba(255,255,255,.15) !important;
+  border-radius:3px !important;color:#fff !important;
+  font-family:var(--sans) !important;font-size:13px !important;
+  height:42px !important;width:100% !important;
+  margin-bottom:8px !important;padding:0 13px !important;
+  box-sizing:border-box !important;
+}
+.slot-brevo label{color:rgba(255,255,255,.55) !important;font-size:11px !important;font-family:var(--sans) !important;}
+.slot-brevo .sib-form-message-panel{border-radius:3px !important;}
+
+/* Instruction placeholder pour Brevo */
+.brevo-placeholder{
+  border:2px dashed rgba(255,255,255,.15);border-radius:3px;
+  padding:20px;text-align:center;
+}
+.brevo-placeholder-icon{font-size:24px;margin-bottom:6px;}
+.brevo-placeholder-title{font-family:var(--serif);font-size:13px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
+.brevo-placeholder-text{font-family:var(--sans);font-size:11px;color:rgba(255,255,255,.4);line-height:1.5;}
+.brevo-placeholder-code{
+  font-family:var(--mono);font-size:9px;
+  background:rgba(0,0,0,.3);color:var(--gold);
+  padding:4px 8px;border-radius:2px;margin-top:6px;display:inline-block;
+}
+
+/* Toggle method */
+.nl-method-toggle{
+  display:flex;gap:0;margin-bottom:14px;
+  border:1px solid rgba(255,255,255,.15);border-radius:3px;overflow:hidden;
+}
+.nl-method-btn{
+  flex:1;padding:6px 8px;background:transparent;border:none;
+  color:rgba(255,255,255,.45);font-family:var(--mono);font-size:9px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;border-right:1px solid rgba(255,255,255,.1);
+  text-align:center;
+}
+.nl-method-btn:last-child{border-right:none;}
+.nl-method-btn.active{background:rgba(255,255,255,.1);color:#fff;}
+
+/* RGPD */
+.nl-rgpd{
+  font-size:10px;color:rgba(255,255,255,.28);line-height:1.5;margin-top:4px;
+  font-family:var(--sans);
+}
+.nl-rgpd a{color:rgba(255,255,255,.4);text-decoration:underline;}
+
+/* Footer */
+.nl-foot{
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:8px 24px 10px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:4px;
+}
+.nl-foot-left{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.22);}
+.nl-foot-left strong{color:rgba(255,255,255,.4);}
+.nl-foot-right{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);}
+
+/* ====== VERSION MINI ====== */
+.yaasap-newsletter-mini{
+  width:100%;max-width:620px;
+  background:var(--paper2);
+  border:1px solid var(--rule);
+  border-left:4px solid var(--accent);
+  border-radius:0 3px 3px 0;
+  padding:14px 18px;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.nl-mini-label{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;
+}
+.nl-mini-title{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.nl-mini-sub{font-size:11.5px;color:var(--ink3);margin-bottom:9px;line-height:1.4;}
+.nl-mini-row{display:flex;gap:6px;}
+.nl-mini-input{
+  flex:1;height:38px;padding:0 11px;
+  border:1.5px solid var(--rule);background:#fff;
+  border-radius:3px;font-family:var(--sans);font-size:13px;color:var(--ink);
+  outline:none;transition:border-color .15s;
+}
+.nl-mini-input:focus{border-color:var(--accent);}
+.nl-mini-btn{
+  height:38px;padding:0 14px;background:var(--accent);border:none;
+  border-radius:3px;color:#fff;font-family:var(--sans);font-size:13px;
+  font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s;
+}
+.nl-mini-btn:hover{background:#6a2612;}
+.nl-mini-note{font-size:10px;color:var(--ink4);margin-top:6px;line-height:1.4;}
+
+/* Responsive */
+@media(max-width:500px){
+  .nl-perks,.nl-plans{grid-template-columns:1fr;}
+  .nl-perk,.nl-plan{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .nl-mini-row{flex-direction:column;}
+  .nl-mini-btn{height:40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-label">Widget pleine largeur — 2 méthodes (Brevo officiel / Formspree)</div>
+
+<!-- ============================================================
+     BLOC NEWSLETTER YAASAP — COPIER DANS index.html
+     ============================================================ -->
+<div class="yaasap-newsletter">
+
+  <div class="nl-header">
+    <div class="nl-brand">YAASAP <em>Notes</em></div>
+    <span class="nl-badge">Gratuit · Bêta</span>
+  </div>
+
+  <div class="nl-intro">
+    <div class="nl-headline">Recevez l'analyse financière de la semaine dans votre boîte mail</div>
+    <div class="nl-sub">Chaque lundi : marchés, IPO, opportunités et points d'entrée — rédigés par Yacine AOUABED, consultant financier senior.</div>
+  </div>
+
+  <div class="nl-perks">
+    <div class="nl-perk"><div class="nl-perk-icon">📊</div><div class="nl-perk-label"><strong>Note hebdo</strong>Marchés & actions</div></div>
+    <div class="nl-perk"><div class="nl-perk-icon">⚡</div><div class="nl-perk-label"><strong>Flash IPO</strong>Alertes instantanées</div></div>
+    <div class="nl-perk"><div class="nl-perk-icon">🎯</div><div class="nl-perk-label"><strong>Stop &amp; cibles</strong>Points d'entrée</div></div>
+  </div>
+
+  <div class="nl-form-zone">
+
+    <!-- Plans -->
+    <div class="nl-plans">
+      <div class="nl-plan active">
+        <span class="nl-plan-name">Gratuit</span>
+        <span class="nl-plan-price">1 note/semaine · 0 €</span>
+      </div>
+      <div class="nl-plan">
+        <span class="nl-plan-soon">Bientôt</span>
+        <span class="nl-plan-name">Premium</span>
+        <span class="nl-plan-price">Quotidien · 9,90 €/mois</span>
+      </div>
+      <div class="nl-plan">
+        <span class="nl-plan-soon">Bientôt</span>
+        <span class="nl-plan-name">Pro</span>
+        <span class="nl-plan-price">Alertes · 24,90 €/mois</span>
+      </div>
+    </div>
+
+    <!-- Toggle méthode -->
+    <div class="nl-method-toggle">
+      <button class="nl-method-btn active" onclick="showMethod('formspree',this)">✉ Formspree (actif maintenant)</button>
+      <button class="nl-method-btn" onclick="showMethod('brevo',this)">🔵 Brevo officiel (recommandé)</button>
+    </div>
+
+    <!-- =====================================================
+         MÉTHODE A · FORMSPREE
+         Remplacez ACTION_FORMSPREE par votre endpoint :
+         1. Aller sur formspree.io → New Form
+         2. Copier l'URL : https://formspree.io/f/XXXXXXXX
+         3. Coller ci-dessous dans action=""
+         ===================================================== -->
+    <div class="slot-formspree visible" id="slot-formspree">
+      <form
+        action="https://formspree.io/f/REMPLACEZ_PAR_VOTRE_ID"
+        method="POST"
+        id="formspree-form"
+        onsubmit="handleFormspree(event)"
+      >
+        <input type="hidden" name="_subject" value="Nouvelle inscription YAASAP Notes">
+        <input type="hidden" name="_next" value="https://yaasap.github.io/dailywatch/?inscrit=1">
+        <input type="hidden" name="plan" value="free">
+        <input
+          type="text"
+          name="prenom"
+          placeholder="Votre prénom (optionnel)"
+          autocomplete="given-name"
+          maxlength="60"
+        >
+        <input
+          type="email"
+          name="email"
+          placeholder="votre@email.com"
+          autocomplete="email"
+          required
+          maxlength="120"
+        >
+        <button type="submit" id="fs-btn">✉&nbsp; Je m'abonne gratuitement</button>
+      </form>
+      <div id="fs-success" style="display:none;text-align:center;padding:12px 0;animation:fadeIn .3s ease;">
+        <div style="font-size:28px;margin-bottom:6px;">✅</div>
+        <div style="font-family:var(--serif);font-size:15px;font-weight:700;color:#f0ebe3;margin-bottom:4px;">Inscription confirmée !</div>
+        <div style="font-family:var(--serif);font-size:11px;font-style:italic;color:rgba(255,255,255,.45);">Vérifiez vos spams · Prochaine note : lundi matin</div>
+      </div>
+      <div id="fs-error" style="display:none;background:rgba(176,28,28,.15);border:1px solid rgba(176,28,28,.3);border-radius:3px;padding:8px 12px;font-size:11px;color:#f87171;margin-top:6px;"></div>
+    </div>
+
+    <!-- =====================================================
+         MÉTHODE B · BREVO FORMULAIRE OFFICIEL
+         1. Brevo → Contacts → Formulaires → Créer
+         2. Personnaliser les champs et couleurs
+         3. Copier le code HTML généré par Brevo
+         4. Coller à la place du bloc ci-dessous
+
+         LE CODE BREVO RESSEMBLE À :
+         <div class="sib-form"> ... </div>
+         <link rel="stylesheet" href="https://sibforms.com/...">
+         <script src="https://sibforms.com/..."></script>
+         ===================================================== -->
+    <div class="slot-brevo" id="slot-brevo">
+      <!-- ↓↓↓ REMPLACER CE BLOC PAR VOTRE CODE BREVO ↓↓↓ -->
+      <div class="brevo-placeholder">
+        <div class="brevo-placeholder-icon">🔵</div>
+        <div class="brevo-placeholder-title">Collez ici votre formulaire Brevo</div>
+        <div class="brevo-placeholder-text">
+          Brevo → Contacts → Formulaires → Créer un formulaire<br>
+          Copiez le code HTML généré et remplacez ce bloc
+        </div>
+        <div class="brevo-placeholder-code">Contacts → Formulaires → Obtenir le code</div>
+      </div>
+      <!-- ↑↑↑ FIN DU BLOC À REMPLACER ↑↑↑ -->
+    </div>
+
+    <div class="nl-rgpd" style="margin-top:10px;">
+      Données traitées conformément au RGPD. Désabonnement en 1 clic à tout moment. <a href="#">Politique de confidentialité</a>.
+    </div>
+
+  </div>
+
+  <div class="nl-foot">
+    <div class="nl-foot-left">
+      <strong id="nl-count">—</strong> abonnés · Rejoignez la communauté YAASAP Notes
+    </div>
+    <div class="nl-foot-right">✉ Formspree · Brevo · RGPD conforme</div>
+  </div>
+
+</div><!-- /yaasap-newsletter -->
+
+
+<div class="demo-label">Version compacte — à placer en bas de chaque note HTML</div>
+
+<!-- ============================================================
+     BLOC MINI — COPIER EN BAS DE CHAQUE NOTE HTML
+     ============================================================ -->
+<div class="yaasap-newsletter-mini">
+  <div class="nl-mini-label">YAASAP Notes · Newsletter</div>
+  <div class="nl-mini-title">Recevez l'analyse financière chaque lundi</div>
+  <div class="nl-mini-sub">Gratuit · Désabonnement en 1 clic · Conforme RGPD</div>
+  <!-- Mini form Formspree -->
+  <form
+    action="https://formspree.io/f/REMPLACEZ_PAR_VOTRE_ID"
+    method="POST"
+    class="nl-mini-row"
+    onsubmit="handleMini(event)"
+    id="mini-form"
+  >
+    <input type="hidden" name="_subject" value="Inscription YAASAP Notes (mini)">
+    <input class="nl-mini-input" type="email" name="email" id="mini-email" placeholder="votre@email.com" autocomplete="email" required>
+    <button class="nl-mini-btn" type="submit">S'abonner →</button>
+  </form>
+  <div id="mini-ok" style="display:none;font-size:12px;color:var(--green);font-weight:700;margin-top:6px;">✅ Inscrit ! Vérifiez votre boîte mail.</div>
+  <div class="nl-mini-note">RGPD · Brevo (UE) · <a href="https://yaasap.github.io/dailywatch/" style="color:var(--accent);">yaasap.github.io/dailywatch</a></div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* Toggle Formspree / Brevo */
+function showMethod(method, btn){
+  document.querySelectorAll('.nl-method-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('slot-formspree').classList.remove('visible');
+  document.getElementById('slot-brevo').classList.remove('visible');
+  document.getElementById('slot-' + method).classList.add('visible');
+}
+
+/* Formspree AJAX (évite la redirection) */
+function handleFormspree(e){
+  e.preventDefault();
+  var form   = e.target;
+  var btn    = document.getElementById('fs-btn');
+  var ok     = document.getElementById('fs-success');
+  var errDiv = document.getElementById('fs-error');
+
+  btn.disabled = true;
+  btn.textContent = 'Inscription en cours…';
+  errDiv.style.display = 'none';
+
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(res){
+    if(res.ok){
+      form.style.display = 'none';
+      ok.style.display = 'block';
+      // Incrémenter le compteur visuellement
+      var cnt = document.getElementById('nl-count');
+      if(cnt && !isNaN(parseInt(cnt.textContent))){
+        cnt.textContent = (parseInt(cnt.textContent) + 1).toLocaleString('fr-FR');
+      }
+    } else {
+      return res.json().then(function(data){
+        var msg = (data.errors && data.errors.length) ? data.errors.map(function(x){return x.message;}).join(', ') : 'Erreur inconnue.';
+        errDiv.textContent = '⚠ ' + msg;
+        errDiv.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = '✉&nbsp; Je m\'abonne gratuitement';
+      });
+    }
+  })
+  .catch(function(){
+    errDiv.textContent = '⚠ Connexion impossible. Réessayez dans quelques instants.';
+    errDiv.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '✉&nbsp; Je m\'abonne gratuitement';
+  });
+}
+
+/* Mini form */
+function handleMini(e){
+  e.preventDefault();
+  var form = e.target;
+  var ok   = document.getElementById('mini-ok');
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(res){
+    if(res.ok){ form.style.display = 'none'; ok.style.display = 'block'; }
+  })
+  .catch(function(){});
+}
+
+/* Compteur — hardcodé, à mettre à jour manuellement */
+document.getElementById('nl-count').textContent = '0';
+</script>
+<style>@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}</style>
+
+<!--
+=================================================================
+INSTRUCTIONS COMPLÈTES
+=================================================================
+
+── MÉTHODE A : FORMSPREE (actif immédiatement, 5 min) ──────────
+
+1. Aller sur https://formspree.io → Sign Up (gratuit)
+2. New Form → donner un nom "YAASAP Notes Newsletter"
+3. Copier l'URL générée : https://formspree.io/f/XXXXXXXX
+4. Dans ce fichier, chercher les deux occurrences de :
+      action="https://formspree.io/f/REMPLACEZ_PAR_VOTRE_ID"
+   et les remplacer par votre vraie URL Formspree.
+5. À chaque inscription, Formspree vous envoie un email.
+6. Dans Formspree Dashboard → Integrations → Brevo (Sendinblue)
+   → brancher directement pour ajouter le contact dans Brevo !
+
+Limite gratuite : 50 soumissions/mois
+Upgrade : 10$/mois pour illimité
+
+── MÉTHODE B : BREVO FORMULAIRE OFFICIEL ───────────────────────
+
+1. Aller sur https://www.brevo.com → Se connecter
+2. Contacts → Formulaires → Créer un formulaire
+3. Ajouter les champs : Email (obligatoire), Prénom (optionnel)
+4. Dans "Paramètres", cocher "Double opt-in" (RGPD)
+5. Dans "Design", mettre :
+      Couleur principale : #8b3a1a
+      Police : Arial / sans-serif
+      Fond : transparent
+6. Enregistrer → Obtenir le code → Copier le HTML
+7. Dans ce fichier, remplacer le bloc entre
+      <!-- ↓↓↓ REMPLACER CE BLOC PAR VOTRE CODE BREVO ↓↓↓ -->
+      et
+      <!-- ↑↑↑ FIN DU BLOC À REMPLACER ↑↑↑ -->
+   par votre code Brevo copié.
+
+Limite gratuite : 300 emails/jour, contacts illimités
+
+── DÉPLOIEMENT SUR GITHUB PAGES ─────────────────────────────────
+
+1. Copier le bloc "BLOC NEWSLETTER YAASAP" dans votre index.html
+2. Copier le bloc "BLOC MINI" à la fin de chaque note HTML
+3. Copier le bloc JAVASCRIPT à la fin du <body>
+4. git add -A && git commit -m "feat: newsletter formspree" && git push
+
+── MODÈLE PAYANT (futur Stripe) ─────────────────────────────────
+
+Quand vous activerez Premium/Pro :
+1. Créer compte Stripe → stripe.com
+2. Créer deux produits récurrents (9,90€/mois, 24,90€/mois)
+3. Copier les Payment Links Stripe
+4. Dans le widget, les boutons Premium/Pro ouvriront :
+      window.open('https://buy.stripe.com/VOTRE_LIEN','_blank')
+5. Après paiement Stripe, webhook → ajoute contact dans Brevo
+   avec attribut PLAN = premium ou pro
+6. Dans Brevo : deux listes séparées par plan + automations
+
+=================================================================
+-->
+
+</body>
+</html>

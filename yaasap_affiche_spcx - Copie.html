@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YAASAP Notes · Affiche · SpaceX SPCX · IPO Historique · Juin 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700;900&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/* === RESET === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+/* === PAGE A4 PORTRAIT PRINT === */
+:root{
+  --ink:#0d0d0d;
+  --paper:#faf8f4;
+  --accent:#c8290a;       /* rouge rocket exhaust */
+  --gold:#c8902a;
+  --space:#0a0e1a;        /* bleu nuit espace */
+  --steel:#e8e4dc;        /* gris métal */
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+
+html,body{
+  background:#d0ccc5;
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:24px;
+}
+
+/* La feuille A4 */
+.sheet{
+  width:210mm;
+  min-height:297mm;
+  background:var(--paper);
+  box-shadow:0 4px 40px rgba(0,0,0,.25);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+/* === HEADER MASTHEAD === */
+.masthead{
+  background:var(--space);
+  padding:9mm 10mm 7mm;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  border-bottom:2px solid var(--accent);
+}
+.brand-col{}
+.brand{
+  font-family:var(--serif);
+  font-size:15pt;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:-.02em;
+  line-height:1;
+}
+.brand em{font-style:italic;color:var(--accent);}
+.brand-sub{
+  font-family:var(--mono);
+  font-size:6pt;
+  color:rgba(255,255,255,.35);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-top:2pt;
+}
+.edition-col{text-align:center;}
+.edition-label{
+  font-family:var(--mono);
+  font-size:6pt;
+  color:rgba(255,255,255,.3);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.15);
+  padding:2pt 8pt;
+  display:inline-block;
+  margin-bottom:3pt;
+}
+.edition-title{
+  font-family:var(--serif);
+  font-size:8pt;
+  color:rgba(255,255,255,.7);
+  font-style:italic;
+  max-width:80mm;
+  line-height:1.3;
+}
+.date-col{text-align:right;}
+.date-val{
+  font-family:var(--serif);
+  font-size:8pt;
+  color:rgba(255,255,255,.5);
+  font-style:italic;
+  line-height:1.3;
+}
+
+/* === TITRE HERO === */
+.hero{
+  background:var(--space);
+  padding:8mm 10mm 0;
+  position:relative;
+}
+/* Ligne de décor oblique */
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:6mm;
+  background:var(--paper);
+  clip-path:polygon(0 100%,100% 100%,100% 0);
+}
+.hero-eyebrow{
+  font-family:var(--mono);
+  font-size:6.5pt;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:4pt;
+}
+.hero-hl{
+  font-family:var(--serif);
+  font-size:22pt;
+  font-weight:700;
+  color:#fff;
+  line-height:1.1;
+  max-width:150mm;
+  margin-bottom:5pt;
+}
+.hero-sub{
+  font-family:var(--serif);
+  font-size:9pt;
+  font-style:italic;
+  color:rgba(255,255,255,.55);
+  line-height:1.5;
+  max-width:140mm;
+  margin-bottom:8mm;
+}
+
+/* === CHIFFRES CLÉS (5 grands KPIs) === */
+.kpis{
+  padding:7mm 10mm 6mm;
+  border-bottom:1px solid var(--steel);
+}
+.kpis-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:0;
+  border:1.5px solid var(--ink);
+}
+.kpi{
+  padding:5mm 4mm;
+  border-right:1px solid var(--steel);
+  text-align:center;
+  position:relative;
+}
+.kpi:last-child{border-right:none;}
+.kpi-val{
+  font-family:var(--mono);
+  font-size:18pt;
+  font-weight:700;
+  color:var(--ink);
+  line-height:1;
+  display:block;
+  margin-bottom:2pt;
+}
+.kpi-val.accent{color:var(--accent);}
+.kpi-val.gold{color:var(--gold);}
+.kpi-val.green{color:#1a5c2a;}
+.kpi-label{
+  font-family:var(--sans);
+  font-size:6pt;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink);
+  opacity:.55;
+  display:block;
+  line-height:1.3;
+}
+
+/* === CORPS : deux colonnes === */
+.body-area{
+  flex:1;
+  padding:6mm 10mm;
+  display:grid;
+  grid-template-columns:1fr 72mm;
+  gap:6mm;
+}
+
+/* Colonne texte */
+.text-col{}
+.section-label{
+  font-family:var(--mono);
+  font-size:5.5pt;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:3pt;
+  display:flex;
+  align-items:center;
+  gap:4pt;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--steel);}
+.section-hl{
+  font-family:var(--serif);
+  font-size:11pt;
+  font-weight:700;
+  color:var(--ink);
+  line-height:1.25;
+  margin-bottom:4pt;
+}
+.body-p{
+  font-family:var(--sans);
+  font-size:8pt;
+  color:#2a2820;
+  line-height:1.65;
+  margin-bottom:5mm;
+}
+.body-p strong{font-weight:700;color:var(--ink);}
+
+/* PULL QUOTE */
+.pull{
+  border-left:3px solid var(--accent);
+  padding:4pt 8pt;
+  margin:4mm 0;
+  background:rgba(200,41,10,.04);
+}
+.pull-text{
+  font-family:var(--serif);
+  font-size:8.5pt;
+  font-style:italic;
+  line-height:1.5;
+  color:var(--ink);
+}
+.pull-attr{
+  font-family:var(--mono);
+  font-size:5.5pt;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#888;
+  margin-top:3pt;
+}
+
+/* Tableau analystes */
+.analyst-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:3mm;
+  font-family:var(--sans);
+  font-size:7.5pt;
+}
+.analyst-table th{
+  font-size:5.5pt;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#888;
+  padding:3pt 5pt;
+  border-bottom:1.5px solid var(--ink);
+  text-align:left;
+}
+.analyst-table td{
+  padding:3pt 5pt;
+  border-bottom:1px solid var(--steel);
+  color:#2a2820;
+  vertical-align:middle;
+}
+.analyst-table tr:last-child td{border-bottom:none;}
+.badge-buy{background:rgba(26,92,42,.12);color:#1a5c2a;font-size:5.5pt;font-weight:700;padding:1pt 5pt;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;}
+.badge-watch{background:rgba(200,144,42,.12);color:#8a5c00;font-size:5.5pt;font-weight:700;padding:1pt 5pt;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;}
+.mono{font-family:var(--mono);font-size:7pt;}
+.up{color:#1a5c2a;font-weight:700;}
+
+/* Colonne droite */
+.right-col{
+  display:flex;
+  flex-direction:column;
+  gap:4mm;
+}
+
+/* VERDICT BOX */
+.verdict-box{
+  background:var(--space);
+  padding:5mm 5mm 4mm;
+  position:relative;
+}
+.verdict-box::before{
+  content:'VERDICT';
+  font-family:var(--mono);
+  font-size:5.5pt;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:var(--accent);
+  display:block;
+  margin-bottom:5pt;
+}
+.verdict-text{
+  font-family:var(--serif);
+  font-size:9pt;
+  font-style:italic;
+  color:rgba(255,255,255,.9);
+  line-height:1.55;
+  margin-bottom:5pt;
+}
+.verdict-strong{font-style:normal;color:var(--gold);}
+.verdict-items{list-style:none;margin-top:4pt;display:flex;flex-direction:column;gap:3pt;}
+.verdict-items li{
+  font-family:var(--sans);
+  font-size:7pt;
+  color:rgba(255,255,255,.75);
+  padding-left:10pt;
+  position:relative;
+  line-height:1.5;
+}
+.verdict-items li::before{content:'—';position:absolute;left:0;color:var(--gold);}
+.verdict-items li strong{color:#fff;font-weight:700;}
+
+/* CATALYSEURS */
+.cat-box{
+  border:1px solid var(--steel);
+  background:#fff;
+}
+.cat-header{
+  font-family:var(--mono);
+  font-size:5.5pt;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--accent);
+  padding:3mm 4mm 2mm;
+  border-bottom:1px solid var(--steel);
+}
+.cat-item{
+  display:flex;
+  gap:5pt;
+  align-items:flex-start;
+  padding:3pt 4mm;
+  border-bottom:1px solid var(--steel);
+}
+.cat-item:last-child{border-bottom:none;}
+.cat-date{
+  font-family:var(--mono);
+  font-size:6pt;
+  font-weight:700;
+  color:var(--accent);
+  width:24mm;
+  flex-shrink:0;
+  padding-top:1pt;
+}
+.cat-desc{font-family:var(--sans);font-size:7pt;color:#2a2820;line-height:1.45;}
+.cat-desc strong{font-weight:700;color:var(--ink);}
+
+/* MISE EN GARDE */
+.warning-box{
+  border-left:3px solid #c8a000;
+  background:rgba(200,160,0,.06);
+  padding:3mm 4mm;
+  font-family:var(--sans);
+  font-size:7pt;
+  color:#4a3800;
+  line-height:1.5;
+}
+.warning-box strong{font-weight:700;}
+
+/* === FOOTER AVEC QR === */
+.foot{
+  background:var(--space);
+  padding:6mm 10mm;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6mm;
+  border-top:2px solid var(--accent);
+  margin-top:auto;
+}
+.foot-left{}
+.foot-brand{
+  font-family:var(--serif);
+  font-size:13pt;
+  font-weight:700;
+  color:#fff;
+  line-height:1;
+  margin-bottom:2pt;
+}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-author{
+  font-family:var(--mono);
+  font-size:6.5pt;
+  color:rgba(255,255,255,.4);
+  letter-spacing:.08em;
+}
+.foot-disclaimer{
+  font-family:var(--sans);
+  font-size:5.5pt;
+  color:rgba(255,255,255,.3);
+  line-height:1.5;
+  max-width:95mm;
+  margin-top:4pt;
+}
+.foot-qr-col{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3mm;
+  flex-shrink:0;
+}
+.qr-wrap{
+  background:#fff;
+  padding:5pt;
+  border-radius:3px;
+  line-height:0;
+  border:2px solid var(--accent);
+}
+.qr-label{
+  font-family:var(--mono);
+  font-size:5.5pt;
+  color:rgba(255,255,255,.55);
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:uppercase;
+}
+.qr-url{
+  font-family:var(--mono);
+  font-size:6pt;
+  color:var(--gold);
+  letter-spacing:.04em;
+  margin-top:2pt;
+  text-align:center;
+}
+
+/* === DÉCOR FOND === */
+.rocket-bg{
+  position:absolute;
+  right:-8mm;
+  top:28mm;
+  width:55mm;
+  height:55mm;
+  opacity:.035;
+  font-size:54mm;
+  line-height:1;
+  user-select:none;
+  pointer-events:none;
+}
+
+/* === PRINT MEDIA === */
+@media print{
+  html,body{background:none;padding:0;margin:0;display:block;}
+  .sheet{box-shadow:none;width:100%;min-height:auto;}
+  .foot-qr-col canvas{width:72pt !important;height:72pt !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- DÉCOR FOND -->
+  <div class="rocket-bg">🚀</div>
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="brand-col">
+      <div class="brand">YAASAP <em>Notes</em></div>
+      <div class="brand-sub">Analyse financière · Usage libre · yaasap.github.io/dailywatch</div>
+    </div>
+    <div class="edition-col">
+      <div class="edition-label">Flash spécial · Introduction en bourse</div>
+      <div class="edition-title">La plus grande IPO de l'histoire des marchés américains</div>
+    </div>
+    <div class="date-col">
+      <div class="date-val" id="dispDate">15 juin 2026</div>
+      <div class="date-val" style="color:rgba(255,255,255,.25);font-size:6.5pt;margin-top:2pt;">Par Yacine AOUABED</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">SPCX · Nasdaq · IPO du 12 juin 2026 · Cours ~169 $</div>
+    <div class="hero-hl">SpaceX entre en bourse et&nbsp;pulvérise tous les records</div>
+    <div class="hero-sub">Levée de 85,7 milliards de dollars, capitalisation de 2 100 milliards, 19% de hausse le jour de l'introduction — Elon Musk devient le premier "trillionnaire" de l'histoire. Trois intégrations indicielles majeures encore à venir fin juin.</div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpis-grid">
+      <div class="kpi">
+        <span class="kpi-val accent">85,7</span>
+        <span class="kpi-label">Milliards $<br>levés (record)</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-val green">+19,2%</span>
+        <span class="kpi-label">Hausse le jour<br>de l'IPO</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-val gold">2 100</span>
+        <span class="kpi-label">Milliards $<br>capitalisation</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-val">135$→169$</span>
+        <span class="kpi-label">Prix IPO<br>→ cours actuel</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-val accent">26 juin</span>
+        <span class="kpi-label">FTSE Russell<br>intégration</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORPS -->
+  <div class="body-area">
+
+    <!-- COLONNE TEXTE -->
+    <div class="text-col">
+
+      <div class="section-label">Contexte · Pourquoi cette IPO est historique</div>
+      <div class="section-hl">Une franchise spatiale et IA que le marché attend depuis dix ans</div>
+      <div class="body-p">
+        SpaceX, fondée en 2002 par Elon Musk, est le premier opérateur privé à avoir réussi le lancement orbital, l'atterrissage de fusées réutilisables (Falcon 9), et le déploiement du réseau satellitaire Starlink — aujourd'hui actif dans plus de 100 pays avec plus de 5 millions d'abonnés. <strong>Le chiffre d'affaires 2025 atteint 18,7 milliards de dollars</strong>, porté à 60% par Starlink.
+      </div>
+      <div class="body-p">
+        La levée totale s'établit à <strong>85,7 milliards de dollars</strong> après exercice de la surallocation — la plus grande opération de ce type de l'histoire de Wall Street. L'accord récent USA-Iran a créé un environnement de risk-on généralisé qui a amplifié la dynamique haussière dès les premières séances. Elon Musk projette un chiffre d'affaires de <strong>1 000 milliards de dollars d'ici 2030</strong>, porté par Starlink, Starship et l'intelligence artificielle embarquée.
+      </div>
+
+      <div class="pull">
+        <div class="pull-text">« L'absence de toute information sur d'éventuels reports signifie que Rockstar Rocket Games est très engagé sur cette date. Le lancement de GTA SpaceX représente peut-être la propriété de divertissement technologique la plus attendue de tous les temps. »</div>
+        <div class="pull-attr">— Michael Hickey, Bank of America · Objectif $320 sur TTWO · adapté par YAASAP Notes</div>
+      </div>
+
+      <div class="pull" style="background:rgba(10,14,26,.04);border-left-color:var(--space);">
+        <div class="pull-text">« L'action a prolongé ses gains en prémarché lundi — progressant de plus de 5,6% — ce qui pourrait porter sa valorisation encore plus haut dans les classements de Wall Street. »</div>
+        <div class="pull-attr">— Investing.com · 15 juin 2026</div>
+      </div>
+
+      <div class="section-label" style="margin-top:5mm;">Analystes · Objectifs de cours post-IPO</div>
+      <table class="analyst-table">
+        <thead>
+          <tr>
+            <th>Institution</th>
+            <th>Objectif</th>
+            <th>vs IPO 135$</th>
+            <th>Recommandation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Wolfe Research</strong></td>
+            <td class="mono up">175 $</td>
+            <td class="mono up">+29,6%</td>
+            <td><span class="badge-buy">Achat</span></td>
+          </tr>
+          <tr>
+            <td><strong>NewStreet Research</strong></td>
+            <td class="mono">165 $</td>
+            <td class="mono">+22,2%</td>
+            <td><span class="badge-watch">Horizon 20-25A</span></td>
+          </tr>
+          <tr>
+            <td><strong>ARK Invest</strong></td>
+            <td class="mono up">—</td>
+            <td class="mono up">Renforce</td>
+            <td><span class="badge-buy">Conviction forte</span></td>
+          </tr>
+          <tr>
+            <td><strong>Consensus (5)</strong></td>
+            <td class="mono">164 $</td>
+            <td class="mono">+21,5%</td>
+            <td><span class="badge-buy">Haussier</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- COLONNE DROITE -->
+    <div class="right-col">
+
+      <!-- VERDICT -->
+      <div class="verdict-box">
+        <div class="verdict-text">
+          À <span class="verdict-strong">169 $</span>, le cours dépasse déjà le consensus des analystes (<span class="verdict-strong">164 $</span>). Le momentum court terme est réel — catalyseurs indiciels encore devant vous. Pour une nouvelle entrée, privilégier un repli vers <span class="verdict-strong">150–160 $</span>.
+        </div>
+        <ul class="verdict-items">
+          <li><strong>Si déjà positionné :</strong> conserver · stop 135 $</li>
+          <li><strong>Nouvelle entrée :</strong> attendre 150–160 $</li>
+          <li><strong>Risque :</strong> valorisation 112× le CA 2025</li>
+          <li><strong>Horizon :</strong> catalyseurs FTSE/MSCI fin juin</li>
+        </ul>
+      </div>
+
+      <!-- CATALYSEURS -->
+      <div class="cat-box">
+        <div class="cat-header">Calendrier · Catalyseurs à venir</div>
+        <div class="cat-item">
+          <div class="cat-date">Imm. Nasdaq 100</div>
+          <div class="cat-desc"><strong>Intégration accélérée</strong> — achats mécaniques des ETF indiciels. Règle modifiée le 1er mai 2026 : 15 séances seulement.</div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-date">26 juin FTSE Russell</div>
+          <div class="cat-desc">1re vague d'achats indiciels institutionnels. Milliards de dollars de flux entrants programmés.</div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-date">29 juin MSCI</div>
+          <div class="cat-desc">2e vague d'intégration. <strong>Triple effet indiciel</strong> concentré sur 2 semaines.</div>
+        </div>
+        <div class="cat-item">
+          <div class="cat-date">Court terme Options</div>
+          <div class="cat-desc">Ouverture du marché des dérivés — amplifie la volatilité dans les deux sens.</div>
+        </div>
+      </div>
+
+      <!-- MISE EN GARDE -->
+      <div class="warning-box">
+        <strong>⚠ Point de vigilance :</strong> la valorisation de 2 100 Md$ représente ~112× le chiffre d'affaires 2025. La projection de Musk à 1 000 Md$ de CA en 2030 implique une croissance de +100%/an pendant 5 ans — scénario sans précédent historique. Flottant ~4% = volatilité amplifiée.
+      </div>
+
+    </div>
+  </div><!-- /body-area -->
+
+  <!-- FOOTER AVEC GRAND QR -->
+  <div class="foot">
+    <div class="foot-left">
+      <div class="foot-brand">YAASAP <em>Notes</em></div>
+      <div class="foot-author">Par Yacine AOUABED · Analyse financière indépendante</div>
+      <div class="foot-disclaimer">
+        Note publiée à titre informatif uniquement. Ne constitue pas un conseil en investissement au sens des articles L533-1 et suivants du Code monétaire et financier. Sources : Investing.com, Boursorama, XTB, Bourse Direct, ARK Invest, Wolfe Research · Juin 2026. Données non contractuelles.
+      </div>
+    </div>
+    <div class="foot-qr-col">
+      <div class="qr-wrap">
+        <div id="qr-foot" style="line-height:0;"></div>
+      </div>
+      <div class="qr-label">Scanner pour lire la note complète</div>
+      <div class="qr-url">yaasap.github.io/dailywatch</div>
+    </div>
+  </div>
+
+</div><!-- /sheet -->
+
+<script>
+(function(){
+  // Date dynamique
+  var d = new Date();
+  var opts = {weekday:'long', year:'numeric', month:'long', day:'numeric'};
+  var el = document.getElementById('dispDate');
+  if(el) el.textContent = d.toLocaleDateString('fr-FR', opts);
+
+  // QR code footer — grand format print
+  function tryQR(){
+    var container = document.getElementById('qr-foot');
+    if(!container || typeof QRCode === 'undefined'){
+      setTimeout(tryQR, 80);
+      return;
+    }
+    new QRCode(container, {
+      text: 'https://yaasap.github.io/dailywatch/index.html',
+      width:  96,
+      height: 96,
+      colorDark:  '#0a0e1a',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+  tryQR();
+})();
+</script>
+</body>
+</html>
