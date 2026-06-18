@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Block Inc (XYZ/SQ) · Square · Cash App · Analyse complète · Juin 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --block:#00d632;  /* vert Block/Cash App */
+  --block2:#006e1c; /* vert foncé */
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{display:flex;align-items:center;gap:12px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+.mast-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.mast-qr-box{background:#fff;padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.06em;text-transform:uppercase;}
+
+/* HERO */
+.hero{background:var(--ink);padding:20px 24px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
+.ticker-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.ticker{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.1em;}
+.exch{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:2px;}
+.stock-name{font-family:var(--serif);font-size:22px;color:#f0ebe3;line-height:1.1;}
+.stock-sub{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-family:var(--sans);}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:6px;}
+.price-main{font-family:var(--mono);font-size:38px;font-weight:600;color:#f0ebe3;line-height:1;}
+.price-tag-up{font-family:var(--mono);font-size:13px;font-weight:600;padding:3px 8px;border-radius:2px;background:rgba(30,92,50,.25);color:#4ade80;}
+.price-tag-am{font-family:var(--mono);font-size:13px;font-weight:600;padding:3px 8px;border-radius:2px;background:rgba(200,144,42,.2);color:#fbbf24;}
+.hero-right{text-align:right;}
+.verdict-badge{display:inline-flex;flex-direction:column;align-items:center;background:rgba(30,92,50,.15);border:1px solid rgba(30,92,50,.35);border-radius:2px;padding:10px 14px;}
+.verdict-val{font-family:var(--mono);font-size:12px;font-weight:600;color:#4ade80;line-height:1;}
+.verdict-label{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;font-family:var(--sans);}
+.verdict-sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;font-family:var(--sans);}
+.stats-strip{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.06);}
+.stat{padding:9px 0 9px 12px;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;font-family:var(--sans);}
+.stat-v{font-family:var(--mono);font-size:11.5px;font-weight:500;color:#f0ebe3;}
+
+/* KICKER */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* SEGMENT CARDS */
+.segments{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.seg-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.seg-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.seg-tag{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:2px;display:inline-block;margin-bottom:8px;font-family:var(--sans);}
+.seg-body{font-size:12.5px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.seg-body strong{font-weight:700;color:var(--ink);}
+.seg-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule2);}
+.seg-kpi{background:var(--paper2);border-radius:2px;padding:5px 7px;}
+.seg-kpi-l{font-size:7.5px;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px;font-family:var(--sans);}
+.seg-kpi-v{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink);}
+
+/* CHART */
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);background:var(--paper2);}
+.chart-title-txt{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:210px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* NIVEAUX */
+.level-gauge{background:#fff;border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.lv-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule2);}
+.lv-row:last-child{border-bottom:none;}
+.lv-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;width:140px;flex-shrink:0;font-family:var(--sans);}
+.lv-bar-bg{flex:1;height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.lv-bar{height:100%;border-radius:3px;}
+.lv-price{font-family:var(--mono);font-size:13px;font-weight:600;width:54px;text-align:right;flex-shrink:0;}
+.lv-note{font-size:9px;color:var(--ink4);width:155px;text-align:right;flex-shrink:0;font-style:italic;font-family:var(--sans);}
+.lv-current{background:rgba(30,92,50,.04);border-radius:2px;}
+
+/* TABLE */
+.table-wrap{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{font-size:12px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table td.mono{font-family:var(--mono);font-size:11.5px;}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(30,92,50,.2);}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(176,28,28,.2);}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;border:1px solid rgba(138,92,0,.2);}
+
+/* CATALYSEURS */
+.cat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.cat-item{background:#fff;border:1px solid var(--rule);border-left:3px solid;border-radius:0 2px 2px 0;padding:10px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04);display:flex;gap:12px;align-items:flex-start;}
+.cat-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.cat-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;font-family:var(--sans);}
+.cat-body{font-size:12px;color:var(--ink3);line-height:1.45;font-family:var(--sans);}
+.cat-body strong{color:var(--ink2);font-weight:700;}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'—';color:var(--gold);flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+/* NL MINI */
+.nl-mini{background:var(--ink);border-top:2px solid var(--accent);padding:14px 18px;margin-top:28px;border-radius:2px;}
+.nl-mini-title{font-family:var(--serif);font-size:14px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
+.nl-mini-sub{font-size:11.5px;color:rgba(255,255,255,.4);margin-bottom:9px;line-height:1.4;font-family:var(--sans);}
+.nl-mini-row{display:flex;gap:6px;}
+.nl-mini-input{flex:1;height:38px;padding:0 11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);border-radius:3px;font-family:var(--sans);font-size:13px;color:#fff;outline:none;transition:border-color .15s;}
+.nl-mini-input:focus{border-color:var(--gold);}
+.nl-mini-input::placeholder{color:rgba(255,255,255,.3);}
+.nl-mini-btn{height:38px;padding:0 14px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.nl-mini-btn:hover{background:#6e2812;}
+.nl-mini-note{font-size:10px;color:rgba(255,255,255,.25);margin-top:6px;font-family:var(--sans);}
+#nlm-ok{display:none;font-size:12px;font-weight:700;color:#4ade80;margin-top:6px;}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(max-width:560px){
+  .segments{grid-template-columns:1fr;}
+  .stats-strip{grid-template-columns:repeat(3,1fr);}
+  .nl-mini-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière — Usage exclusif clients</div>
+  </div>
+  <div class="masthead-center">
+    <span class="issue-line">Analyse · Block Inc (XYZ) · Square · Cash App · Bitcoin · Stablecoin · Juin 2026</span>
+  </div>
+  <div class="masthead-right">
+    <div class="mast-date" id="liveDate">18 juin 2026</div>
+    <div class="mast-qr-wrap">
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="ticker-row">
+          <span class="ticker">XYZ</span>
+          <span class="exch">NYSE</span>
+          <span class="exch">ex-SQ · ex-Square Inc.</span>
+        </div>
+        <div class="stock-name">Block, Inc.</div>
+        <div class="stock-sub">Square · Cash App · Bitcoin · Stablecoin · Afterpay · BNPL</div>
+        <div class="price-row">
+          <span class="price-main">~70$</span>
+          <span class="price-tag-up">37 analystes Buy</span>
+          <span class="price-tag-am">+30,75% upside</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="verdict-badge">
+          <div class="verdict-val">ACHAT — CONSENSUS FORT</div>
+          <div class="verdict-label">Verdict YAASAP</div>
+          <div class="verdict-sub">BPA Q1 +25,9% vs est. · Stablecoin catalyseur</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-l">Cours actuel</div><div class="stat-v" style="color:#fbbf24;">~70$</div></div>
+      <div class="stat"><div class="stat-l">Consensus cible</div><div class="stat-v" style="color:#4ade80;">90,44$</div></div>
+      <div class="stat"><div class="stat-l">Cible haute</div><div class="stat-v" style="color:#4ade80;">119,16$</div></div>
+      <div class="stat"><div class="stat-l">BPA Q1 2026</div><div class="stat-v" style="color:#4ade80;">0,85$ vs 0,68$</div></div>
+      <div class="stat"><div class="stat-l">CA Q1 2026</div><div class="stat-v" style="color:#4ade80;">6,06 Md$</div></div>
+      <div class="stat"><div class="stat-l">EBITDA annuel</div><div class="stat-v" style="color:#4ade80;">4,16 Md$</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Cours XYZ</div><div class="kk-v am">~70$</div><div class="kk-n">vs 52S haut 82,50$</div></div>
+    <div class="kk"><div class="kk-l">BPA Q1 surprise</div><div class="kk-v up">+25,9%</div><div class="kk-n">0,85$ vs 0,68$ attendu</div></div>
+    <div class="kk"><div class="kk-l">CA Q1 2026</div><div class="kk-v up">6,06 Md$</div><div class="kk-n">vs 6,03 Md$ attendu</div></div>
+    <div class="kk"><div class="kk-l">Rev. CA 2031E</div><div class="kk-v up">55,77 Md$</div><div class="kk-n">×9 vs aujourd'hui</div></div>
+    <div class="kk"><div class="kk-l">Stablecoin Cash App</div><div class="kk-v up">60M utilisateurs</div><div class="kk-n">déploiement mai 2026</div></div>
+    <div class="kk"><div class="kk-l">Beta</div><div class="kk-v dn">2,20</div><div class="kk-n">volatilité élevée</div></div>
+    <div class="kk"><div class="kk-l">Proch. résultats</div><div class="kk-v am">30 juil. 2026</div><div class="kk-n">Q2 FY2026 · BPA attendu 0,87$</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- THÈSE -->
+  <div class="sec-rule"><span class="sec-rule-text">Thèse · Block Inc — le conglomérat fintech le plus mal compris de Wall Street</span></div>
+  <div class="lead-headline">Block n'est plus Square — c'est une super-app financière en cours de construction, avec une position Bitcoin unique et un stablecoin qui change la donne</div>
+  <div class="lead-deck">Rebaptisée Block en 2021, l'entreprise de Jack Dorsey opère deux écosystèmes distincts — Square (B2B PME) et Cash App (B2C grand public) — plus une infrastructure Bitcoin et un stablecoin lancé en mai 2026. Le marché valorise encore l'entreprise comme un simple processeur de paiements. C'est une erreur.</div>
+
+  <div class="body-text">
+    <p>Block, Inc. a publié des résultats financiers impressionnants pour le premier trimestre 2026, <strong>dépassant largement ses propres prévisions</strong>. Le BPA atteint 0,85 dollar par action contre 0,68 dollar estimé — une surprise positive de +25,9%. Le chiffre d'affaires de 6,06 milliards de dollars dépasse légèrement le consensus de 6,03 milliards. L'EBITDA annualisé s'établit à 4,16 milliards, avec une marge EBITDA de 14,87%.</p>
+    <p>Ces chiffres solides s'accompagnent d'une dynamique stratégique majeure : <strong>le déploiement progressif du stablecoin Cash App auprès de ses 60 millions d'utilisateurs</strong>, annoncé fin mai 2026. Ce catalyseur est fondamentalement différent des précédents — il ne s'agit plus d'améliorer la monétisation existante, mais de créer un nouveau rail de paiement qui court-circuite Visa et Mastercard sur les transactions entre utilisateurs.</p>
+    <p>Le PDG Jack Dorsey a souligné la stratégie d'automatisation et l'intégration de l'IA, y compris les nouvelles innovations de produits comme <strong>Square AI</strong> et l'intégration des paiements en Bitcoin pour les vendeurs. L'entreprise vise la règle des 40 d'ici 2026, en se concentrant sur une croissance du bénéfice brut à deux chiffres et une marge de résultat d'exploitation ajustée de l'ordre de 20%.</p>
+  </div>
+
+  <!-- DEUX SEGMENTS -->
+  <div class="sec-rule"><span class="sec-rule-text">Structure · Deux écosystèmes, une ambition commune</span></div>
+  <div class="segments">
+    <div class="seg-card" style="border-top-color:#1a3a5c;">
+      <div class="seg-tag" style="background:rgba(26,58,92,.1);color:#1a3a5c;">Segment B2B</div>
+      <div class="seg-title">Square — L'écosystème des marchands</div>
+      <div class="seg-body">
+        Square permet aux petites et moyennes entreprises d'accepter les paiements par carte et d'accéder à des services financiers intégrés — logiciels, matériel, prêts. La verticalisation des secteurs (restaurants, commerce de détail, santé) est en cours avec Square AI. <strong>Part de marché en volume Visa/Mastercard US : &lt;2% actuellement → cible 3%+</strong>. 91,7% du CA est réalisé aux États-Unis.
+        <div class="seg-kpis">
+          <div class="seg-kpi"><div class="seg-kpi-l">Part marché US</div><div class="seg-kpi-v">&lt;2% → 3%</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">Square AI</div><div class="seg-kpi-v" style="color:#1e5c32;">Lancé 2026</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">CA géo.</div><div class="seg-kpi-v">91,7% US</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">CA estimé 2031</div><div class="seg-kpi-v" style="color:#1e5c32;">55,77 Md$</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="seg-card" style="border-top-color:#006e1c;">
+      <div class="seg-tag" style="background:rgba(0,110,28,.1);color:#006e1c;">Segment B2C</div>
+      <div class="seg-title">Cash App — La super-app financière</div>
+      <div class="seg-body">
+        Cash App est l'application financière grand public de Block : virement, investissement, Bitcoin, carte de débit, BNPL via Afterpay. Avec <strong>60 millions d'utilisateurs actifs</strong> et un stablecoin en déploiement depuis mai 2026, Cash App ambitionne de devenir la banque digitale des Américains sans compte bancaire traditionnel. BNPL estimé en croissance de +20%.
+        <div class="seg-kpis">
+          <div class="seg-kpi"><div class="seg-kpi-l">Utilisateurs</div><div class="seg-kpi-v" style="color:#1e5c32;">60M</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">Stablecoin</div><div class="seg-kpi-v" style="color:#1e5c32;">Mai 2026</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">BNPL (Afterpay)</div><div class="seg-kpi-v" style="color:#1e5c32;">+20% BB est.</div></div>
+          <div class="seg-kpi"><div class="seg-kpi-l">Cash Card</div><div class="seg-kpi-v">Afterpay intégré</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · XYZ cours 2026 — base vs objectifs analystes</span></div>
+  <div class="chart-section">
+    <div class="chart-header"><div class="chart-title-txt">Block XYZ · Cours 2025-2026 · Niveaux analystes · 52 semaines</div></div>
+    <div class="chart-inner"><div class="chart-wrap"><canvas id="courseChart"></canvas></div></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:#1a3a5c;"></div>XYZ cours</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--green);"></div>Consensus 90,44$</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--amber);"></div>Stop-loss 54$</div>
+      <div class="cl-item"><div class="cl-dot" style="background:var(--accent);"></div>Cible haute 119$</div>
+    </div>
+  </div>
+
+  <!-- NIVEAUX -->
+  <div class="sec-rule"><span class="sec-rule-text">Niveaux · Structure de prix</span></div>
+  <div class="level-gauge">
+    <div style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;font-family:var(--sans);">Block XYZ · Objectifs analystes vs cours · Juin 2026</div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--accent);">Cible haute (Mizuho)</div><div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:var(--accent);opacity:.5;"></div></div><div class="lv-price up">119,16$</div><div class="lv-note">Surperformance Mizuho</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Consensus 37 analystes</div><div class="lv-bar-bg"><div class="lv-bar" style="width:76%;background:var(--green);opacity:.6;"></div></div><div class="lv-price up">90,44$</div><div class="lv-note">+30,75% d'upside</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">Bernstein / Canaccord</div><div class="lv-bar-bg"><div class="lv-bar" style="width:71%;background:var(--green);opacity:.4;"></div></div><div class="lv-price up">85$</div><div class="lv-note">Surperformance réitérée</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--green);">52S haut</div><div class="lv-bar-bg"><div class="lv-bar" style="width:69%;background:var(--green);opacity:.3;"></div></div><div class="lv-price up">82,50$</div><div class="lv-note">Plus haut annuel</div></div>
+    <div class="lv-row lv-current"><div class="lv-label" style="color:var(--amber);">Cours actuel</div><div class="lv-bar-bg"><div class="lv-bar" style="width:59%;background:var(--amber);"></div></div><div class="lv-price am">~70$</div><div class="lv-note">Vous êtes ici</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--ink4);">52S bas</div><div class="lv-bar-bg"><div class="lv-bar" style="width:40%;background:var(--ink4);opacity:.4;"></div></div><div class="lv-price" style="color:var(--ink4);">48,21$</div><div class="lv-note">Plus bas annuel</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--red);">Stop-loss conseillé</div><div class="lv-bar-bg"><div class="lv-bar" style="width:45%;background:var(--red);opacity:.5;"></div></div><div class="lv-price dn">54$</div><div class="lv-note">−23% · sous 52S midpoint</div></div>
+    <div class="lv-row"><div class="lv-label" style="color:var(--red);">Cible basse consensus</div><div class="lv-bar-bg"><div class="lv-bar" style="width:49%;background:var(--red);opacity:.3;"></div></div><div class="lv-price dn">58,37$</div><div class="lv-note">Scénario baissier</div></div>
+  </div>
+
+  <!-- FONDAMENTAUX -->
+  <div class="sec-rule"><span class="sec-rule-text">Fondamentaux · Les chiffres clés</span></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Indicateur</th><th>Valeur</th><th>Variation</th><th>Signal</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:700;">BPA Q1 2026</td><td class="mono up">0,85$</td><td class="mono up">vs 0,68$ estimé (+25,9%)</td><td><span class="badge-up">Surprise positive</span></td></tr>
+        <tr><td style="font-weight:700;">BPA Q2 2026 estimé</td><td class="mono up">0,87$</td><td class="mono up">+2% vs Q1</td><td><span class="badge-up">Accélération</span></td></tr>
+        <tr><td style="font-weight:700;">CA Q1 2026</td><td class="mono up">6,06 Md$</td><td class="mono up">vs 6,03 Md$ attendu</td><td><span class="badge-up">En ligne</span></td></tr>
+        <tr><td style="font-weight:700;">CA Q2 2026 estimé</td><td class="mono up">6,48 Md$</td><td class="mono up">+7% vs Q1</td><td><span class="badge-up">Accélération</span></td></tr>
+        <tr><td style="font-weight:700;">EBITDA annuel</td><td class="mono up">4,16 Md$</td><td class="mono">Marge 14,87%</td><td><span class="badge-up">Solide</span></td></tr>
+        <tr><td style="font-weight:700;">CA projeté 2031</td><td class="mono up">55,77 Md$</td><td class="mono up">×9 vs aujourd'hui</td><td><span class="badge-am">Ambitieux mais lisible</span></td></tr>
+        <tr><td style="font-weight:700;">Beta</td><td class="mono dn">2,20</td><td class="mono dn">Volatilité élevée</td><td><span class="badge-dn">Risque élevé</span></td></tr>
+        <tr><td style="font-weight:700;">Marge EBITDA cible</td><td class="mono up">~20%</td><td class="mono">Règle des 40 d'ici 2026</td><td><span class="badge-up">Objectif confirmé</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CATALYSEURS -->
+  <div class="sec-rule"><span class="sec-rule-text">Catalyseurs · Ce qui peut faire décoller le titre</span></div>
+  <div class="cat-list">
+    <div class="cat-item" style="border-left-color:var(--green);">
+      <div class="cat-ico">💚</div>
+      <div>
+        <div class="cat-title">Stablecoin Cash App — 60 millions d'utilisateurs · déploiement mai 2026</div>
+        <div class="cat-body">Block lance le déploiement progressif du stablecoin de Cash App auprès de ses quelque 60 millions d'utilisateurs. <strong>Ce catalyseur crée un nouveau rail de paiement entre utilisateurs</strong> — potentiellement une menace directe aux commissions Visa/Mastercard sur les transactions P2P. Si l'adoption atteint 10% des utilisateurs, c'est 6 millions de wallets stablecoin actifs. Aucun autre acteur fintech américain n'a encore déployé un stablecoin à cette échelle.</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--blue);">
+      <div class="cat-ico">🤖</div>
+      <div>
+        <div class="cat-title">Square AI — verticalisation IA des PME · nouvelles fonctionnalités 2026</div>
+        <div class="cat-body">Le PDG Jack Dorsey a souligné la stratégie d'automatisation et l'intégration de l'IA, y compris les nouvelles innovations de produits comme <strong>Square AI</strong>. Objectif : permettre aux marchands de piloter leur activité depuis une seule interface IA — gestion des stocks, prévisions de ventes, pricing dynamique. Chaque nouvelle fonctionnalité augmente le switching cost et le revenu moyen par marchand.</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--gold);">
+      <div class="cat-ico">₿</div>
+      <div>
+        <div class="cat-title">Bitcoin pour les marchands Square — intégration directe des paiements</div>
+        <div class="cat-body">Block intègre les paiements en Bitcoin pour les vendeurs Square — <strong>premier processeur mainstream à offrir Bitcoin comme rail de paiement</strong> aux PME américaines. Avec 700+ millions de détenteurs de Bitcoin dans le monde, l'accès à ce marché est potentiellement transformateur pour le volume de transactions Square.</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--amber);">
+      <div class="cat-ico">📅</div>
+      <div>
+        <div class="cat-title">Résultats Q2 FY2026 · 30 juillet 2026 · BPA estimé 0,87$</div>
+        <div class="cat-body">Si Block réplique la surprise de +25,9% du Q1, le BPA Q2 pourrait largement dépasser 0,87$. <strong>Deux trimestres consécutifs de battements significatifs déclencheraient une révision haussière du consensus</strong> — potentiellement vers 100$+.</div>
+      </div>
+    </div>
+    <div class="cat-item" style="border-left-color:var(--accent);">
+      <div class="cat-ico">📈</div>
+      <div>
+        <div class="cat-title">Afterpay BNPL sur Cash Card · croissance estimée +20%</div>
+        <div class="cat-body">L'intégration d'Afterpay directement dans la Cash Card (en supposant que le ratio entre le volume brut de marchandises BNPL de Block et celui d'Affirm reste constant) implique une <strong>croissance du bénéfice brut BNPL de Block de l'ordre de 20% pour 2025-2026</strong>. Afterpay devient ainsi un levier de croissance sous-estimé au sein de Cash App.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« Block vise à atteindre la règle des 40 d'ici 2026, en se concentrant sur une croissance du bénéfice brut à deux chiffres et une marge de résultat d'exploitation ajustée de l'ordre de 20%. »</div>
+    <div class="pull-attr">— Mizuho Securities · Objectif relevé à 110$ · Surperformance maintenue · YAASAP Notes</div>
+  </div>
+
+  <div class="verdict">
+    <div class="v-tag">Verdict · Par Yacine AOUABED · YAASAP Notes</div>
+    <div class="v-body">
+      <p>Block, Inc. est une valeur mal étiquetée — le marché la traite encore comme un processeur de paiements en concurrence directe avec PayPal et Stripe. <strong>C'est une erreur de classification.</strong> Block est en train de construire une infrastructure financière parallèle au système bancaire traditionnel : Square pour les PME, Cash App pour les particuliers, Bitcoin comme réserve de valeur, et maintenant un stablecoin comme rail de paiement alternatif à Visa/Mastercard.</p>
+      <p>Les chiffres Q1 2026 confirment l'exécution : <strong>BPA à 0,85$ contre 0,68$ attendu, soit +25,9% de surprise positive</strong>. 37 analystes sur 38 recommandent l'achat avec un objectif moyen de 90,44$ — soit +30% d'upside depuis les niveaux actuels. La cible haute de Mizuho à 110-119$ implique un potentiel de +57 à +70% pour les investisseurs patients.</p>
+      <p><strong>Le risque est réel :</strong> un beta de 2,20 signifie que Block amplifie les mouvements du marché dans les deux sens. En cas de retournement macro ou de choc crypto, le titre peut corriger de 25-30% rapidement. La position doit être calibrée en conséquence — 2 à 3% du portefeuille maximum.</p>
+    </div>
+    <div class="v-checklist">
+      <div class="v-item"><strong>Achat :</strong> ~70$ · point d'entrée en zone de support avant Q2 (30 juillet)</div>
+      <div class="v-item"><strong>Stop-loss :</strong> 54$ · −23% · sous le midpoint du range 52 semaines</div>
+      <div class="v-item"><strong>Cible intermédiaire :</strong> 90,44$ (consensus médian) · +29%</div>
+      <div class="v-item"><strong>Cible haute :</strong> 110–119$ (Mizuho) · +57 à +70% · sur 12–18 mois</div>
+      <div class="v-item"><strong>Catalyseur immédiat :</strong> résultats Q2 le 30 juillet · BPA attendu 0,87$ · surveiller la progression du stablecoin</div>
+      <div class="v-item"><strong>Sizing :</strong> 2 à 3% du portefeuille maximum · beta 2,20 = volatilité amplifiée dans les deux sens</div>
+    </div>
+    <div class="v-disclaimer">Sources : Investing.com, TradingView, Fintel, Zonebourse, Capital.com · 18 juin 2026. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes.</div>
+  </div>
+
+  <!-- NL MINI -->
+  <div class="nl-mini">
+    <div class="nl-mini-title">Recevez la prochaine note YAASAP chaque lundi</div>
+    <div class="nl-mini-sub">Gratuit · 1 analyse par semaine · Désabonnement en 1 clic</div>
+    <div class="nl-mini-row">
+      <input class="nl-mini-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+      <button class="nl-mini-btn" onclick="nlmSubmit()">S'abonner →</button>
+    </div>
+    <div id="nlm-ok">✅ Inscrit ! Vérifiez votre boîte mail.</div>
+    <div class="nl-mini-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Block Inc XYZ · Square · Cash App &nbsp;·&nbsp; <span id="footDate">18 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_global_souscote.html">Tous marchés v5</a>
+    <a href="yaasap_volatilite_v3.html">Volatilité v3</a>
+    <a href="yaasap_spcx_position.html">Position SPCX</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+  function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:48,height:48,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  }
+  tryQR();
+})();
+
+/* Chart */
+(function(){
+  var ctx=document.getElementById('courseChart').getContext('2d');
+  var labels=['Juil 25','Août','Sept','Oct','Nov','Déc','Jan 26','Fév','Mar','Avr','Mai','Juin'];
+  var prices=[72,65,60,58,55,62,68,75,80,72,69,70];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'XYZ',data:prices,borderColor:'#1a3a5c',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#1a3a5c',fill:{target:'origin',above:'rgba(26,58,92,0.04)'},tension:0.35}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(26,58,92,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' XYZ : $'+ctx.parsed.y.toFixed(2);}}}},
+      scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},y:{min:40,max:130,ticks:{color:tc,font:tf,callback:function(v){return '$'+v;}},grid:{color:gc}}}
+    },
+    plugins:[{id:'ann',afterDraw:function(chart){
+      var ctx2=chart.ctx,yA=chart.scales.y,xA=chart.scales.x;
+      [{p:119.16,c:'rgba(139,58,26,.55)',l:'Cible haute $119'},{p:90.44,c:'rgba(30,92,50,.6)',l:'Consensus $90,44'},{p:70,c:'rgba(26,58,92,.65)',l:'Cours ~$70'},{p:54,c:'rgba(176,28,28,.5)',l:'Stop $54'}].forEach(function(lv){
+        if(lv.p<yA.min||lv.p>yA.max)return;
+        var y=yA.getPixelForValue(lv.p);
+        ctx2.save();ctx2.beginPath();ctx2.setLineDash([6,4]);ctx2.strokeStyle=lv.c;ctx2.lineWidth=1;ctx2.moveTo(xA.left,y);ctx2.lineTo(xA.right,y);ctx2.stroke();ctx2.setLineDash([]);ctx2.fillStyle=lv.c;ctx2.font="9px 'Source Code Pro',monospace";ctx2.fillText(lv.l,xA.right-72,y-3);ctx2.restore();
+      });
+    }}]
+  });
+})();
+
+/* Newsletter mini */
+function nlmSubmit(){
+  var emailEl=document.getElementById('nlm-email');
+  var email=emailEl?emailEl.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    if(emailEl){emailEl.style.borderColor='rgba(255,100,100,.6)';setTimeout(function(){emailEl.style.borderColor='';},2000);}
+    return;
+  }
+  var body=new FormData();
+  body.append('email',email);body.append('source','yaasap-block-sq');body.append('_subject','Inscription YAASAP Notes — Block SQ');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(res){
+    if(res.ok){
+      var row=emailEl?emailEl.parentElement:null;
+      if(row)row.style.display='none';
+      var ok=document.getElementById('nlm-ok');
+      if(ok)ok.style.display='block';
+    }
+  }).catch(function(){});
+}
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='nlm-email')nlmSubmit();});
+</script>
+</body>
+</html>
