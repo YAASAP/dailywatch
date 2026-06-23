@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes — Oscar Health OSCR · Position · Achat 19,28€ → 28,40$ · Vendre ou conserver ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;--oscr:#1e7a4a;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:#e8a87c;}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:3px 0;margin-top:4px;}
+.masthead-nav{display:flex;gap:16px;align-items:center;}
+.masthead-nav a{color:rgba(255,255,255,.6);font-size:11px;text-decoration:none;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;}
+.masthead-nav a:hover{color:#fff;}
+
+/* QR */
+.qr-block{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.qr-img{width:44px;height:44px;border:2px solid rgba(255,255,255,.2);border-radius:3px;}
+.qr-label{font-size:7px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;}
+
+/* LAYOUT */
+.wrapper{max-width:860px;margin:0 auto;padding:0 20px 60px;}
+
+/* HERO */
+.hero{border-bottom:3px solid var(--ink);padding:32px 0 24px;margin-bottom:0;}
+.hero-kicker{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--oscr);margin-bottom:10px;}
+.hero-title{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--ink);margin-bottom:12px;}
+.hero-sub{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:18px;max-width:680px;}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:11px;color:var(--ink4);border-top:1px solid var(--rule);padding-top:10px;}
+.hero-meta strong{color:var(--ink2);}
+
+/* VERDICT BANNER */
+.verdict-band{margin:0;padding:16px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.verdict-band.sell{background:#fff5f5;border-left:5px solid var(--red);}
+.verdict-band.hold{background:#fffbf0;border-left:5px solid var(--amber);}
+.verdict-band.watch{background:#f0f7f3;border-left:5px solid var(--oscr);}
+.verdict-pill{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:2px;}
+.verdict-pill.sell{background:var(--red);color:#fff;}
+.verdict-pill.hold{background:var(--amber);color:#fff;}
+.verdict-pill.watch{background:var(--oscr);color:#fff;}
+.verdict-text{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ink2);flex:1;}
+
+/* SCORECARD */
+.scorecard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:20px 0;}
+.sc-cell{background:var(--paper);padding:14px 16px;}
+.sc-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:4px;}
+.sc-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--ink);line-height:1;}
+.sc-val.green{color:var(--green);}
+.sc-val.red{color:var(--red);}
+.sc-val.amber{color:var(--amber);}
+.sc-val.oscr{color:var(--oscr);}
+.sc-sub{font-size:10px;color:var(--ink4);margin-top:3px;}
+
+/* COLUMNS */
+.col-wrap{display:grid;grid-template-columns:2fr 1fr;gap:24px;margin:24px 0;align-items:start;}
+@media(max-width:640px){.col-wrap{grid-template-columns:1fr;}}
+
+/* SECTIONS */
+.section{margin:24px 0;}
+.section-rule{border:none;border-top:2px solid var(--ink);margin:0 0 16px;}
+.section-title{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.body-text{font-family:var(--serif);font-size:15px;line-height:1.75;color:var(--ink2);margin-bottom:12px;}
+.body-text strong{color:var(--ink);font-weight:700;}
+
+/* CHART */
+.chart-box{background:var(--paper2);border:1px solid var(--rule);padding:16px;border-radius:2px;}
+.chart-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;}
+canvas{max-height:220px;}
+
+/* SIDEBAR */
+.sidebar{}
+.side-card{background:var(--paper2);border:1px solid var(--rule);padding:14px 16px;margin-bottom:12px;}
+.side-card-title{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink4);border-bottom:1px solid var(--rule2);padding-bottom:6px;margin-bottom:10px;}
+.side-row{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;padding:3px 0;border-bottom:1px solid var(--rule2);}
+.side-row:last-child{border-bottom:none;}
+.side-row .label{color:var(--ink3);}
+.side-row .val{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink);}
+.side-row .val.green{color:var(--green);}
+.side-row .val.red{color:var(--red);}
+.side-row .val.amber{color:var(--amber);}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0;}
+.data-table th{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);font-weight:700;padding:6px 10px;border-bottom:2px solid var(--ink);text-align:left;background:var(--paper2);}
+.data-table td{padding:7px 10px;border-bottom:1px solid var(--rule2);color:var(--ink2);font-family:var(--mono);font-size:11px;}
+.data-table tr:hover td{background:var(--paper2);}
+
+/* CATALYST BOX */
+.cat-box{border:1px solid var(--rule);padding:14px 16px;margin:12px 0;position:relative;}
+.cat-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.cat-box.bull::before{background:var(--green);}
+.cat-box.bear::before{background:var(--red);}
+.cat-box.neutral::before{background:var(--amber);}
+.cat-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.cat-title.bull{color:var(--green);}
+.cat-title.bear{color:var(--red);}
+.cat-title.neutral{color:var(--amber);}
+.cat-body{font-size:12px;color:var(--ink2);line-height:1.6;}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.5);text-align:center;padding:20px 24px;font-size:11px;margin-top:48px;}
+footer .foot-brand{font-family:var(--serif);font-size:16px;color:#fff;margin-bottom:4px;}
+footer .foot-brand em{font-style:italic;color:#e8a87c;}
+footer .foot-note{font-size:10px;color:rgba(255,255,255,.4);margin-top:8px;}
+footer .foot-nav{display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+footer .foot-nav a{color:rgba(255,255,255,.4);font-size:10px;text-decoration:none;letter-spacing:.08em;text-transform:uppercase;}
+footer .foot-nav a:hover{color:#fff;}
+.disclaimer{background:var(--paper3);border:1px solid var(--rule);padding:12px 16px;font-size:10px;color:var(--ink4);line-height:1.5;margin:24px 0;font-style:italic;}
+
+/* ALERT */
+.alert-box{background:#fff8f0;border:2px solid var(--gold);padding:14px 18px;margin:16px 0;border-radius:2px;}
+.alert-box strong{color:var(--amber);}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="pub-left">
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière indépendante · Par Yacine AOUABED</div>
+  </div>
+  <div class="masthead-center">
+    <div style="font-size:12px;color:rgba(255,255,255,.7);font-family:var(--serif);font-style:italic;">Position personnelle · Oscar Health</div>
+    <div class="issue-line" id="liveDate">23 juin 2026</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <nav class="masthead-nav">
+      <a href="index.html">Accueil</a>
+      <a href="yaasap_argenx_position.html">argenx</a>
+      <a href="yaasap_portefeuille.html">Portefeuille</a>
+    </nav>
+    <div class="qr-block">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=88x88&data=https://yaasap.github.io/dailywatch/index.html" alt="QR YAASAP" class="qr-img">
+      <div class="qr-label">yaasap.github.io</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-kicker">NYSE : OSCR &nbsp;·&nbsp; Assurance santé tech &nbsp;·&nbsp; Analyse de position</div>
+    <h1 class="hero-title">Oscar Health — La plus-value s'est encore envolée.<br>Jusqu'où laisser courir ?</h1>
+    <p class="hero-sub">Acheté à 19,28 € en début d'année, OSCR cote désormais 28,40 $ — soit une performance de +47 % en USD. Entre un BPA T1 qui a quasi-doublé les attentes, un consensus resté prudemment en dessous du cours actuel, et la menace réglementaire ACA, la décision vendre/conserver est plus nuancée qu'en juin.</p>
+    <div class="hero-meta">
+      <span><strong>Cours live</strong> ~28,40 $</span>
+      <span><strong>Achat</strong> 19,28 €</span>
+      <span><strong>+/−</strong> <span style="color:var(--green);font-weight:700;">+47 % USD</span></span>
+      <span><strong>Consensus</strong> 22,60 $ (Neutre)</span>
+      <span><strong>Mise à jour</strong> <span id="liveDate2">23 juin 2026</span></span>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-band watch">
+    <span class="verdict-pill watch">Conserver avec stop</span>
+    <span class="verdict-text">La dynamique fondamentale est réelle, le titre est au-dessus du consensus — mais le momentum est fort. Stratégie : stop à 24 $ (–15 %), prendre la moitié si 30 $ est atteint.</span>
+  </div>
+
+  <!-- SCORECARD -->
+  <div class="scorecard-grid">
+    <div class="sc-cell">
+      <div class="sc-label">Cours actuel</div>
+      <div class="sc-val oscr">28,40 $</div>
+      <div class="sc-sub">NYSE · ~19 juin 2026</div>
+    </div>
+    <div class="sc-cell">
+      <div class="sc-label">Prix d'achat</div>
+      <div class="sc-val">19,28 €</div>
+      <div class="sc-sub">~21,00 $ au taux d'époque</div>
+    </div>
+    <div class="sc-cell">
+      <div class="sc-label">Performance USD</div>
+      <div class="sc-val green">+47 %</div>
+      <div class="sc-sub">vs S&P 500 YTD ~+12 %</div>
+    </div>
+    <div class="sc-cell">
+      <div class="sc-label">Consensus 12M</div>
+      <div class="sc-val amber">22,60 $</div>
+      <div class="sc-sub">Prime vs consensus : +26 %</div>
+    </div>
+    <div class="sc-cell">
+      <div class="sc-label">BPA T1 2026</div>
+      <div class="sc-val green">2,07 $</div>
+      <div class="sc-sub">vs 1,06 $ attendu (+95 %)</div>
+    </div>
+    <div class="sc-cell">
+      <div class="sc-label">Plus haut 52S</div>
+      <div class="sc-val">29,81 $</div>
+      <div class="sc-sub">Près des résistances</div>
+    </div>
+  </div>
+
+  <!-- BODY + SIDEBAR -->
+  <div class="col-wrap">
+    <div class="main-col">
+
+      <!-- SITUATION -->
+      <div class="section">
+        <hr class="section-rule">
+        <div class="section-title">Situation actuelle — ce qui a changé</div>
+        <p class="body-text">
+          Depuis la première version de cette note (juin 2026, cours ~25 $), Oscar Health a continué de progresser pour atteindre <strong>28,40 $</strong>, soit désormais <strong>+47 % en USD</strong> depuis votre point d'entrée. Le titre frôle son plus haut sur 52 semaines à 29,81 $.
+        </p>
+        <p class="body-text">
+          Ce rallye repose sur des fondamentaux concrets : <strong>le BPA du T1 2026 a atteint 2,07 $, quasi le double des 1,06 $ anticipés</strong>. Les membres ont bondi de 56 % à 3,2 millions, la marge opérationnelle a progressé de 540 pb à 15,2 %, et le bénéfice net a atteint un record de 679 M$. Le ratio sinistres-primes (MLR) reste bien maîtrisé à 91,1 %.
+        </p>
+        <p class="body-text">
+          Sur le plan des catalyseurs institutionnels, Wells Fargo a rehaussé son objectif de 11 $ à 20 $ (Pondération neutre), et Barclays a relevé OSCR à <strong>Surpondérer</strong>. La nomination d'un nouveau président du CA (Siddhartha Sankaran, ex-MetLife) a été bien accueillie. Ces signaux expliquent la progression récente.
+        </p>
+        <p class="body-text">
+          Paradoxe de la situation : <strong>le consensus à 12 mois reste à 22,60 $</strong> — soit 20 % en dessous du cours actuel. Cela signifie que le marché « paye » déjà 2026 et une partie de 2027, ce qui réduit mécaniquement la marge de sécurité pour un acheteur entrant aujourd'hui. Pour vous, qui êtes dans le vert à +47 %, la question n'est plus la même.
+        </p>
+      </div>
+
+      <!-- CHART -->
+      <div class="chart-box">
+        <div class="chart-title">Trajectoire de prix · OSCR · YTD 2026 (estimé)</div>
+        <canvas id="posChart"></canvas>
+      </div>
+
+      <!-- FONDAMENTAUX -->
+      <div class="section" style="margin-top:20px;">
+        <hr class="section-rule">
+        <div class="section-title">Fondamentaux — les chiffres qui comptent</div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Indicateur</th>
+              <th>Valeur</th>
+              <th>Contexte</th>
+              <th>Signal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>BPA T1 2026</td><td>2,07 $</td><td>Estim. 1,06 $</td><td style="color:var(--green);font-weight:700;">↑ Fort</td></tr>
+            <tr><td>Membres</td><td>3,2 M</td><td>+56 % YoY</td><td style="color:var(--green);font-weight:700;">↑ Fort</td></tr>
+            <tr><td>CA T1</td><td>4,6 Mds $</td><td>+53 % YoY</td><td style="color:var(--green);font-weight:700;">↑ Fort</td></tr>
+            <tr><td>Marge opérat.</td><td>15,2 %</td><td>+540 pb YoY</td><td style="color:var(--green);font-weight:700;">↑ Fort</td></tr>
+            <tr><td>MLR</td><td>91,1 %</td><td>sous consensus</td><td style="color:var(--green);">↑ OK</td></tr>
+            <tr><td>Cap. boursière</td><td>8,55 Mds $</td><td>au cours 28,40 $</td><td style="color:var(--amber);">→ Juste prix</td></tr>
+            <tr><td>Consensus 12M</td><td>22,60 $</td><td>8 analystes</td><td style="color:var(--red);">↓ Sous cours</td></tr>
+            <tr><td>P/E implicite</td><td>~34x</td><td>sector ~22x</td><td style="color:var(--amber);">→ Premium</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RISQUES / CATALYSEURS -->
+      <div class="section">
+        <hr class="section-rule">
+        <div class="section-title">Catalyseurs & risques à surveiller</div>
+
+        <div class="cat-box bull">
+          <div class="cat-title bull">↑ HAUSSIERS</div>
+          <div class="cat-body">
+            <strong>Momentum réglementaire :</strong> les données du marché ACA 2026 évoluent mieux que prévu. Les inscriptions et la morbidité s'améliorent, réduisant le risque d'adverse selection.<br><br>
+            <strong>Croissance organique :</strong> +56 % de membres, +53 % de CA — la dynamique opérationnelle est rare dans l'assurance santé. La plateforme +Oscar génère des économies de gestion.<br><br>
+            <strong>Révisions à la hausse :</strong> Barclays Surpondérer, Wells Fargo +82 % sur son objectif. Si d'autres maisons suivent, le consensus 22,60 $ pourrait être rapidement dépassé.
+          </div>
+        </div>
+
+        <div class="cat-box bear">
+          <div class="cat-title bear">↓ BAISSIERS</div>
+          <div class="cat-body">
+            <strong>Expiration des E-APTCs :</strong> si les aides ACA ne sont pas prolongées par le Congrès fin 2025, jusqu'à 6,1 M de membres pourraient quitter le marché. Oscar, très exposé au marché des échanges, serait directement impacté.<br><br>
+            <strong>Valorisation tendue :</strong> à 28,40 $, le titre cote +26 % au-dessus du consensus à 12 mois. Le moindre raté sur le T2 pourrait déclencher une correction sévère.<br><br>
+            <strong>52 semaines high à 29,81 $ :</strong> zone de résistance technique forte. Un rejet ici ouvrirait un retour vers 24–25 $.
+          </div>
+        </div>
+
+        <div class="cat-box neutral">
+          <div class="cat-title neutral">→ À SURVEILLER</div>
+          <div class="cat-body">
+            <strong>Résultats T2 2026</strong> (attendus mi-août) : seul vrai test de la pérennité du BPA. Si le MLR se dégrade, le marché corrigera vite.<br><br>
+            <strong>Vote Congrès ACA :</strong> tout signal de prolongation des aides serait fortement positif. Un vote négatif serait l'événement tail-risk principal.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-col -->
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="side-card">
+        <div class="side-card-title">Ma position</div>
+        <div class="side-row"><span class="label">Achat</span><span class="val">19,28 €</span></div>
+        <div class="side-row"><span class="label">~USD époque</span><span class="val">~21,00 $</span></div>
+        <div class="side-row"><span class="label">Cours actuel</span><span class="val oscr" style="color:var(--oscr);">28,40 $</span></div>
+        <div class="side-row"><span class="label">Perf. USD</span><span class="val green">+47 %</span></div>
+        <div class="side-row"><span class="label">Statut</span><span class="val green">En gain</span></div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-title">Consensus analystes</div>
+        <div class="side-row"><span class="label">Objectif moyen</span><span class="val amber">22,60 $</span></div>
+        <div class="side-row"><span class="label">Objectif haut</span><span class="val green">35,00 $</span></div>
+        <div class="side-row"><span class="label">Objectif bas</span><span class="val red">13,00 $</span></div>
+        <div class="side-row"><span class="label">Achat</span><span class="val">3</span></div>
+        <div class="side-row"><span class="label">Conserver</span><span class="val">2</span></div>
+        <div class="side-row"><span class="label">Vendre</span><span class="val red">2–3</span></div>
+        <div class="side-row"><span class="label">Note globale</span><span class="val amber">Neutre</span></div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-title">Stratégie recommandée</div>
+        <div class="side-row"><span class="label">Stop-loss</span><span class="val red">24,00 $</span></div>
+        <div class="side-row"><span class="label">Objectif T1</span><span class="val green">30,00 $</span></div>
+        <div class="side-row"><span class="label">Action à 30 $</span><span class="val amber">Vendre 50 %</span></div>
+        <div class="side-row"><span class="label">Objectif T2</span><span class="val green">35,00 $</span></div>
+        <div class="side-row"><span class="label">Risque principal</span><span class="val red">ACA/Congrès</span></div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-title">Technique 52 semaines</div>
+        <div class="side-row"><span class="label">Plancher</span><span class="val">10,69 $</span></div>
+        <div class="side-row"><span class="label">Cours actuel</span><span class="val oscr" style="color:var(--oscr);">28,40 $</span></div>
+        <div class="side-row"><span class="label">Résistance</span><span class="val amber">29,81 $</span></div>
+        <div class="side-row"><span class="label">Distance 52S high</span><span class="val red">−5 %</span></div>
+      </div>
+
+    </div><!-- /sidebar -->
+  </div><!-- /col-wrap -->
+
+  <!-- VERDICT DÉTAILLÉ -->
+  <div class="section">
+    <hr class="section-rule">
+    <div class="section-title">Verdict — Conserver avec stop dynamique</div>
+    <p class="body-text">
+      La situation a radicalement changé par rapport à juin : <strong>vous avez +47 % en USD</strong>. La question n'est plus « vendre ? » mais <strong>« comment gérer cette plus-value ? »</strong>. Les fondamentaux sont réels — le T1 2026 ne laisse pas de doute sur la qualité opérationnelle d'Oscar. Mais le titre est au-dessus de tous les objectifs de consensus, à 5 % de son plus haut annuel.
+    </p>
+    <p class="body-text">
+      La stratégie recommandée est un <strong>trailing stop à 24 $</strong> (–15 % depuis le cours actuel, mais encore +14 % au-dessus de votre prix d'achat en USD). Si le titre franchit les <strong>30 $</strong>, vendez la moitié de la position pour sécuriser la performance. Gardez l'autre moitié avec un objectif à <strong>35 $</strong> (objectif haut analyste), qui ne sera atteint que si les résultats T2 confirment la trajectoire T1 et si le risque ACA se dissipe.
+    </p>
+    <div class="alert-box">
+      <strong>⚠ Risque tail :</strong> L'expiration des aides ACA (E-APTCs) est le scénario catastrophe. Un vote défavorable au Congrès pourrait ramener le titre à 15–18 $. Votre stop à 24 $ vous protègerait dans ce cas. Ne laissez pas le titre descendre sous 22 $ sans agir.
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    Ce document constitue une analyse personnelle rédigée à titre informatif uniquement. Il ne constitue pas un conseil en investissement au sens des articles L533-13 et suivants du Code monétaire et financier. Les performances passées ne préjugent pas des performances futures. Tout investissement comporte un risque de perte en capital. Par Yacine AOUABED · YAASAP Notes · <span id="disclaimerDate">23 juin 2026</span>.
+  </div>
+
+</div><!-- /wrapper -->
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; Oscar Health OSCR · Position · Achat 19,28€ → 28,40 $ · +47 % USD</div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_argenx_position.html">argenx Position</a>
+    <a href="yaasap_portefeuille.html">Portefeuille</a>
+  </div>
+</footer>
+
+<script>
+// Date live
+(function(){
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','liveDate2','disclaimerDate'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.textContent=s;
+  });
+})();
+
+// Chart
+(function(){
+  var ctx=document.getElementById('posChart').getContext('2d');
+  var labels=['Jan 2026','Fév','Mar','Avr','Achat ~19€','Mai','Jun 15','Jun 23'];
+  var prices=[15.5, 14.2, 17.8, 20.5, 19.28, 22.0, 25.1, 28.40];
+  var gc='rgba(0,0,0,0.04)';
+  var tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+
+  new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:labels,
+      datasets:[
+        {
+          label:'OSCR ($)',
+          data:prices,
+          borderColor:'#1e7a4a',
+          borderWidth:2.5,
+          pointRadius:function(ctx){ return ctx.dataIndex===4 ? 7 : 4; },
+          pointBackgroundColor:function(ctx){ return ctx.dataIndex===4 ? '#8b3a1a' : '#1e7a4a'; },
+          pointBorderColor:'#fff',
+          pointBorderWidth:1.5,
+          fill:true,
+          backgroundColor:'rgba(30,122,74,0.06)',
+          tension:0.35
+        },
+        {
+          label:'Consensus 22,60$',
+          data:[22.60,22.60,22.60,22.60,22.60,22.60,22.60,22.60],
+          borderColor:'#8a5c00',
+          borderWidth:1.5,
+          borderDash:[6,4],
+          pointRadius:0,
+          fill:false
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{labels:{font:tf,color:'#6a5f52',boxWidth:14}},
+        tooltip:{
+          backgroundColor:'rgba(28,24,20,0.9)',
+          titleFont:tf,
+          bodyFont:tf,
+          callbacks:{label:function(ctx){return ' '+ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)+' $';}}
+        },
+        annotation:{}
+      },
+      scales:{
+        x:{grid:{color:gc},ticks:{font:tf,color:'#9a8f82'}},
+        y:{grid:{color:gc},ticks:{font:tf,color:'#9a8f82',callback:function(v){return v.toFixed(0)+' $';}}}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
