@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAASAP Notes — SpaceX SPCX · Position · 15×166$ + 15×172,93$ + 3×167,71$ → Vente 204$ → Rachat 30×203$</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.issue-line{font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:2px 8px;display:inline-block;font-family:var(--sans);}
+.masthead-right{display:flex;align-items:center;gap:12px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.5);font-style:italic;}
+
+/* HERO */
+.hero{background:var(--ink);padding:20px 24px 0;}
+.hero-inner{max-width:720px;margin:0 auto;}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
+.ticker{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;}
+.exch{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:2px;margin-left:6px;}
+.stock-name{font-family:var(--serif);font-size:22px;color:#f0ebe3;line-height:1.1;margin-top:4px;}
+.stock-sub{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-family:var(--sans);}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:8px;}
+.price-main{font-family:var(--mono);font-size:36px;font-weight:600;color:#4ade80;line-height:1;}
+.price-tag{font-family:var(--mono);font-size:12px;font-weight:600;padding:3px 8px;border-radius:2px;background:rgba(30,92,50,.25);color:#4ade80;}
+
+.ops-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 16px;min-width:200px;}
+.ops-title{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;font-family:var(--sans);}
+.ops-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ops-row:last-child{border-bottom:none;}
+.ops-label{font-size:9px;color:rgba(255,255,255,.5);font-family:var(--sans);}
+.ops-val{font-family:var(--mono);font-size:12.5px;font-weight:600;}
+
+.stats-strip{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(255,255,255,.06);}
+.stat{padding:9px 0 9px 12px;border-right:1px solid rgba(255,255,255,.06);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;font-family:var(--sans);}
+.stat-v{font-family:var(--mono);font-size:11.5px;font-weight:500;color:#f0ebe3;}
+
+.verdict-banner{background:rgba(30,92,50,.1);border-top:2px solid var(--green);border-bottom:1px solid rgba(30,92,50,.2);padding:10px 24px;}
+.vb-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.vb-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(30,92,50,.2);border:1px solid rgba(30,92,50,.4);color:#4ade80;padding:3px 10px;border-radius:2px;flex-shrink:0;}
+.vb-text{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--green);}
+.vb-sub{font-size:11px;color:var(--ink3);font-style:italic;font-family:var(--sans);}
+
+.kicker{overflow-x:auto;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--accent);}.am{color:var(--amber);}
+
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 16px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+.lead-headline{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* PNL */
+.pnl-block{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.pnl-header{background:var(--paper2);padding:10px 16px;border-bottom:1px solid var(--rule2);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.pnl-body{padding:14px 16px;}
+.pnl-op{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:2px;border:1px solid var(--rule2);margin-bottom:6px;}
+.pnl-op-num{font-family:var(--mono);font-size:11px;font-weight:700;width:18px;flex-shrink:0;color:var(--ink4);}
+.pnl-op-type{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:2px;flex-shrink:0;font-family:var(--sans);}
+.pnl-op-desc{font-size:13px;color:var(--ink2);flex:1;font-family:var(--sans);}
+.pnl-op-amount{font-family:var(--mono);font-size:13px;font-weight:700;text-align:right;flex-shrink:0;}
+.pnl-total{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--paper2);border-radius:2px;border:1px solid var(--rule);margin-top:12px;}
+.pnl-total-label{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);}
+
+/* CHART */
+.chart-section{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);background:var(--paper2);}
+.chart-title-txt{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-inner{padding:12px 14px 6px;}
+.chart-wrap{position:relative;height:220px;}
+.chart-legend{display:flex;gap:14px;padding:6px 14px 10px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-line{width:16px;height:2px;flex-shrink:0;}
+
+/* NIVEAUX */
+.level-gauge{background:#fff;border:1px solid var(--rule);border-radius:2px;padding:14px 16px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.lv-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule2);}
+.lv-row:last-child{border-bottom:none;}
+.lv-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;width:145px;flex-shrink:0;font-family:var(--sans);}
+.lv-bar-bg{flex:1;height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.lv-bar{height:100%;border-radius:3px;}
+.lv-price{font-family:var(--mono);font-size:13px;font-weight:600;width:56px;text-align:right;flex-shrink:0;}
+.lv-note{font-size:9px;color:var(--ink4);width:155px;text-align:right;flex-shrink:0;font-style:italic;font-family:var(--sans);}
+
+/* SCÉNARIOS */
+.scenarios{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.sc{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.sc-head{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule2);}
+.sc-name{font-family:var(--serif);font-size:14px;font-weight:700;}
+.sc-proba{font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 8px;border-radius:2px;}
+.sc-body{padding:12px 14px;background:#fff;font-size:13px;color:var(--ink2);line-height:1.6;font-family:var(--sans);}
+.sc-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule2);}
+.sm-l{font-size:8px;color:var(--ink4);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;font-family:var(--sans);}
+.sm-v{font-family:var(--mono);font-size:12px;font-weight:600;}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:18px 20px;margin:24px 0 16px;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.v-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.v-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.v-body strong{font-style:normal;color:var(--gold);}
+.v-body p{margin-bottom:7px;}
+.v-body p:last-child{margin-bottom:0;}
+.v-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.v-item::before{content:'--';color:var(--gold);flex-shrink:0;}
+.v-item strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+@media(min-width:600px){.scenarios{grid-template-columns:1fr 1fr 1fr;}.stats-strip{grid-template-columns:repeat(6,1fr);}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financiere -- Usage exclusif clients</div>
+  </div>
+  <div class="masthead-center">
+    <span class="issue-line">Position SPCX · 15x166$ + 15x172,93$ + 3x167,71$ &rarr; Vente 204$ &rarr; Rachat 30x203$ · 15 juin 2026</span>
+  </div>
+  <div class="masthead-right">
+    <div class="mast-date" id="liveDate">15 juin 2026</div>
+    <div id="yaasap-qr-hdr" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;margin-left:8px;">
+      <div id="qr-hdr-canvas" style="background:#fff;padding:5px;border-radius:3px;line-height:0;"></div>
+      <div style="font-size:7px;color:rgba(255,255,255,.35);letter-spacing:.07em;text-transform:uppercase;font-family:'Source Code Pro','Courier New',monospace;">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+<div class="hero-inner">
+<div class="hero-top">
+  <div>
+    <div><span class="ticker">SPCX</span><span class="exch">Nasdaq</span><span class="exch">IPO 12/06/2026</span></div>
+    <div class="stock-name">Space Exploration Technologies</div>
+    <div class="stock-sub">Position personnelle &middot; 3 tranches d'achat &middot; 1 vente &middot; 1 rachat</div>
+    <div class="price-row">
+      <span class="price-main">+1 144,92 $</span>
+      <span class="price-tag">P&amp;L realise &middot; +20,49%</span>
+    </div>
+  </div>
+  <div class="ops-card">
+    <div class="ops-title">Recap operations</div>
+    <div class="ops-row"><span class="ops-label">Achat moy. initial</span><span class="ops-val" style="color:var(--gold);">168,70 $</span></div>
+    <div class="ops-row"><span class="ops-label">Vente (33 actions)</span><span class="ops-val" style="color:#4ade80;">204,00 $</span></div>
+    <div class="ops-row"><span class="ops-label">Plus-value realisee</span><span class="ops-val" style="color:#4ade80;">+1 144,92 $</span></div>
+    <div class="ops-row"><span class="ops-label">Rachat (30 actions)</span><span class="ops-val" style="color:#fbbf24;">203,00 $</span></div>
+    <div class="ops-row"><span class="ops-label">Position ouverte</span><span class="ops-val" style="color:#f0ebe3;">30 x 203 $</span></div>
+  </div>
+</div>
+<div class="stats-strip">
+  <div class="stat"><div class="stat-l">P&amp;L realise</div><div class="stat-v" style="color:#4ade80;">+1 144,92 $</div></div>
+  <div class="stat"><div class="stat-l">Performance vente</div><div class="stat-v" style="color:#4ade80;">+20,49%</div></div>
+  <div class="stat"><div class="stat-l">Nouveau PRU</div><div class="stat-v" style="color:#fbbf24;">203,00 $</div></div>
+  <div class="stat"><div class="stat-l">Seuil rentabilite</div><div class="stat-v" style="color:#fbbf24;">203,00 $</div></div>
+  <div class="stat"><div class="stat-l">Exposition actuelle</div><div class="stat-v">6 090 $</div></div>
+  <div class="stat"><div class="stat-l">Gap vente/rachat</div><div class="stat-v" style="color:#4ade80;">-1,00 $</div></div>
+</div>
+</div>
+</div>
+
+<div class="verdict-banner">
+<div class="vb-inner">
+  <span class="vb-tag">Bilan operation</span>
+  <div>
+    <div class="vb-text">Manouvre quasi parfaite -- +1 144 $ securises, repositionne a 0,5% sous votre prix de vente</div>
+    <div class="vb-sub">Catalyseurs indiciels Nasdaq 100 &middot; FTSE Russell 26 juin &middot; MSCI 29 juin encore devant vous</div>
+  </div>
+</div>
+</div>
+
+<div class="kicker">
+<div class="kicker-inner">
+  <div class="kk"><div class="kk-l">Achat moyen initial</div><div class="kk-v">168,70 $</div><div class="kk-n">15x166 + 15x172,93 + 3x167,71</div></div>
+  <div class="kk"><div class="kk-l">Vente 33 actions</div><div class="kk-v up">204,00 $</div><div class="kk-n">+20,49% -- +1 144,92 $ realise</div></div>
+  <div class="kk"><div class="kk-l">Rachat 30 actions</div><div class="kk-v am">203,00 $</div><div class="kk-n">0,5% sous le prix de vente</div></div>
+  <div class="kk"><div class="kk-l">Gain "en transit"</div><div class="kk-v up">+1 144,92 $</div><div class="kk-n">P&amp;L definitif -- ne peut plus etre repris</div></div>
+  <div class="kk"><div class="kk-l">FTSE Russell</div><div class="kk-v up">26 juin</div><div class="kk-n">1re vague d'achats indiciels</div></div>
+  <div class="kk"><div class="kk-l">MSCI</div><div class="kk-v up">29 juin</div><div class="kk-n">2e vague d'achats indiciels</div></div>
+</div>
+</div>
+
+<div class="content">
+
+<div class="sec-rule"><span class="sec-rule-text">Comptabilite exacte · Le detail de vos operations</span></div>
+
+<div class="pnl-block">
+  <div class="pnl-header">Recapitulatif complet des operations SPCX -- 15 juin 2026</div>
+  <div class="pnl-body">
+    <div class="pnl-op" style="background:rgba(200,144,42,.04);border-color:rgba(200,144,42,.2);">
+      <div class="pnl-op-num">1</div>
+      <div class="pnl-op-type" style="background:rgba(200,144,42,.12);color:var(--amber);border:1px solid rgba(200,144,42,.3);">Achat</div>
+      <div class="pnl-op-desc">15 actions x 166,00 $</div>
+      <div class="pnl-op-amount am">-2 490,00 $</div>
+    </div>
+    <div class="pnl-op" style="background:rgba(200,144,42,.04);border-color:rgba(200,144,42,.2);">
+      <div class="pnl-op-num">2</div>
+      <div class="pnl-op-type" style="background:rgba(200,144,42,.12);color:var(--amber);border:1px solid rgba(200,144,42,.3);">Achat</div>
+      <div class="pnl-op-desc">15 actions x 172,93 $</div>
+      <div class="pnl-op-amount am">-2 593,95 $</div>
+    </div>
+    <div class="pnl-op" style="background:rgba(200,144,42,.04);border-color:rgba(200,144,42,.2);">
+      <div class="pnl-op-num">3</div>
+      <div class="pnl-op-type" style="background:rgba(200,144,42,.12);color:var(--amber);border:1px solid rgba(200,144,42,.3);">Achat</div>
+      <div class="pnl-op-desc">3 actions x 167,71 $</div>
+      <div class="pnl-op-amount am">-503,13 $</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:7px 12px;background:var(--paper2);border-radius:2px;font-size:12px;color:var(--ink3);margin-bottom:8px;">
+      <span>Total investi -- <strong style="color:var(--ink);">33 actions -- Prix moyen 168,70 $</strong></span>
+      <span style="font-family:var(--mono);font-weight:700;color:var(--accent);">-5 587,08 $</span>
+    </div>
+    <div class="pnl-op" style="background:rgba(30,92,50,.05);border-color:rgba(30,92,50,.2);">
+      <div class="pnl-op-num">4</div>
+      <div class="pnl-op-type" style="background:rgba(30,92,50,.15);color:var(--green);border:1px solid rgba(30,92,50,.3);">Vente</div>
+      <div class="pnl-op-desc">33 actions x 204,00 $</div>
+      <div class="pnl-op-amount up">+6 732,00 $</div>
+    </div>
+    <div class="pnl-op" style="background:rgba(26,58,92,.04);border-color:rgba(26,58,92,.2);">
+      <div class="pnl-op-num">5</div>
+      <div class="pnl-op-type" style="background:rgba(26,58,92,.12);color:var(--blue);border:1px solid rgba(26,58,92,.25);">Rachat</div>
+      <div class="pnl-op-desc">30 actions x 203,00 $</div>
+      <div class="pnl-op-amount" style="color:var(--blue);">-6 090,00 $</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+      <div style="background:rgba(30,92,50,.06);border:1px solid rgba(30,92,50,.2);border-radius:2px;padding:10px 14px;text-align:center;">
+        <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:4px;font-family:var(--sans);">P&amp;L realise (definitif)</div>
+        <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:var(--green);">+1 144,92 $</div>
+        <div style="font-size:11px;color:var(--ink4);margin-top:2px;font-family:var(--sans);">+20,49% sur la 1re position</div>
+      </div>
+      <div style="background:rgba(26,58,92,.05);border:1px solid rgba(26,58,92,.15);border-radius:2px;padding:10px 14px;text-align:center;">
+        <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:4px;font-family:var(--sans);">Position ouverte actuelle</div>
+        <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:var(--blue);">30 x 203 $</div>
+        <div style="font-size:11px;color:var(--ink4);margin-top:2px;font-family:var(--sans);">PRU 203 $ -- exposition 6 090 $</div>
+      </div>
+    </div>
+
+    <div class="pnl-total">
+      <div class="pnl-total-label">Gain definitif encaisse (independant de la position ouverte)</div>
+      <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--green);">+1 144,92 $</div>
+    </div>
+  </div>
+</div>
+
+<!-- GRAPHIQUE -->
+<div class="sec-rule"><span class="sec-rule-text">Graphique · Vos points d'operation dans la trajectoire SPCX</span></div>
+<div class="chart-section">
+  <div class="chart-header"><div class="chart-title-txt">SPCX cours IPO &rarr; vos operations &rarr; catalyseurs indiciels juin 2026</div></div>
+  <div class="chart-inner"><div class="chart-wrap"><canvas id="posChart"></canvas></div></div>
+  <div class="chart-legend">
+    <div class="cl-item"><div class="cl-line" style="background:#8b3a1a;"></div>SPCX cours</div>
+    <div class="cl-item"><div class="cl-line" style="background:var(--gold);border-top:2px solid var(--gold);height:0;"></div>Achat moy. 168,70$</div>
+    <div class="cl-item"><div class="cl-line" style="background:var(--green);border-top:2px solid var(--green);height:0;"></div>Vente 204$</div>
+    <div class="cl-item"><div class="cl-line" style="background:var(--blue);border-top:1.5px dashed var(--blue);height:0;"></div>Rachat 203$ / Stop 180$</div>
+  </div>
+</div>
+
+<!-- NIVEAUX -->
+<div class="sec-rule"><span class="sec-rule-text">Niveaux · Structure sur vos 30 actions a 203 $</span></div>
+<div class="level-gauge">
+  <div style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;font-family:var(--sans);">SPCX -- Niveaux cles pour votre position actuelle (30 actions a 203 $)</div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--green);">Cible Wolfe Research</div><div class="lv-bar-bg"><div class="lv-bar" style="width:100%;background:var(--green);opacity:.5;"></div></div><div class="lv-price up">175 $</div><div class="lv-note">Initiee post-IPO</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--green);">Cible NewStreet</div><div class="lv-bar-bg"><div class="lv-bar" style="width:94%;background:var(--green);opacity:.4;"></div></div><div class="lv-price up">165 $</div><div class="lv-note">Horizon 20-25 ans</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--blue);">Rachat / PRU actuel</div><div class="lv-bar-bg"><div class="lv-bar" style="width:87%;background:var(--blue);opacity:.7;"></div></div><div class="lv-price" style="color:var(--blue);">203 $</div><div class="lv-note">Vous etes ici -- seuil BP</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--green);">Votre vente</div><div class="lv-bar-bg"><div class="lv-bar" style="width:88%;background:var(--green);opacity:.35;"></div></div><div class="lv-price up">204 $</div><div class="lv-note">+1 144,92 $ encaisse</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--accent);">Stop-loss conseille</div><div class="lv-bar-bg"><div class="lv-bar" style="width:77%;background:var(--accent);opacity:.5;"></div></div><div class="lv-price dn">180 $</div><div class="lv-note">-690 $ mais P&amp;L net +455 $</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--gold);">Achat moyen initial</div><div class="lv-bar-bg"><div class="lv-bar" style="width:72%;background:var(--gold);opacity:.55;"></div></div><div class="lv-price am">168,70 $</div><div class="lv-note">Prix moyen pondere</div></div>
+  <div class="lv-row"><div class="lv-label" style="color:var(--ink4);">Prix IPO</div><div class="lv-bar-bg"><div class="lv-bar" style="width:58%;background:var(--ink4);opacity:.35;"></div></div><div class="lv-price" style="color:var(--ink4);">135 $</div><div class="lv-note">Cours d'introduction</div></div>
+</div>
+
+<div class="sec-rule"><span class="sec-rule-text">Analyse · Ce que votre manouvre a produit</span></div>
+<div class="lead-headline">Vous avez extrait 1 144 $ de certitude et racheté presque au même prix -- c'est la définition d'une gestion efficace</div>
+<div class="lead-deck">La vente à 204 $ et le rachat à 203 $ sont séparés d'un seul dollar. Vous avez encaissé un gain réel définitif de +1 144,92 $ tout en maintenant une exposition quasi identique sur SPCX. Le seul "coût" de la manœuvre : 3 actions de moins pour +1 144 $ de P&L encaissé.</div>
+
+<div class="body-text">
+  <p>La logique est irréprochable. En vendant à 204 $ et rachetant à 203 $, <strong>vous avez sécurisé définitivement 1 144,92 $ de gain qui ne peut plus être effacé par une baisse future de SPCX.</strong> Votre nouveau PRU est 203 $ : vous repartez de zéro sur la position rachetée, avec 1 144 $ de trésorerie en poche.</p>
+  <p>Le seul point à surveiller : vous avez racheté 30 actions au lieu de 33. Si SPCX monte fortement (vers 250-300 $), vous participez à 90% de la hausse. C'est un trade-off acceptable -- vous avez préféré sécuriser du cash plutôt que maintenir l'exposition intégrale. C'est une bonne décision de gestion.</p>
+  <p>Les catalyseurs d'intégration indicielle restent intacts : <strong>FTSE Russell le 26 juin, MSCI le 29 juin, Nasdaq 100 imminent</strong> -- trois sources de demande mécanique non encore jouées. Vous êtes positionné avant ces événements avec un gain déjà encaissé en sécurité.</p>
+</div>
+
+<div class="pull">
+  <div class="pull-text">« Vous avez 1 144 $ de certitude dans votre poche, et 30 actions d'incertitude bien calibrée. C'est exactement l'équilibre que recherche un bon gestionnaire : sécuriser une partie, laisser courir le reste. »</div>
+  <div class="pull-attr">-- Analyse YAASAP Notes · 15 juin 2026</div>
+</div>
+
+<!-- SCÉNARIOS -->
+<div class="sec-rule"><span class="sec-rule-text">Scenarios · Les trois trajectoires possibles pour vos 30 actions</span></div>
+<div class="scenarios">
+  <div class="sc">
+    <div class="sc-head" style="background:rgba(30,92,50,.05);">
+      <span class="sc-name" style="color:var(--green);">Integration indicielle reussie</span>
+      <span class="sc-proba" style="background:rgba(30,92,50,.1);color:var(--green);">45%</span>
+    </div>
+    <div class="sc-body">
+      FTSE Russell (26 jun) + MSCI (29 jun) + Nasdaq 100 creent une vague d'achats mecaniques. SPCX monte vers 220-240 $.
+      <div class="sc-metrics">
+        <div><div class="sm-l">Cours cible</div><div class="sm-v up">220-240 $</div></div>
+        <div><div class="sm-l">+/- sur 30 act.</div><div class="sm-v up">+510 a +1 110 $</div></div>
+        <div><div class="sm-l">P&amp;L total</div><div class="sm-v up">+1 655 a +2 255 $</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sc">
+    <div class="sc-head" style="background:rgba(138,92,0,.05);">
+      <span class="sc-name" style="color:var(--amber);">Consolidation 195-210 $</span>
+      <span class="sc-proba" style="background:rgba(138,92,0,.1);color:var(--amber);">40%</span>
+    </div>
+    <div class="sc-body">
+      Digestion du rallye, prises de benefices souscripteurs IPO. SPCX oscille autour de 200 $ en attente des indices de fin juin.
+      <div class="sc-metrics">
+        <div><div class="sm-l">Fourchette</div><div class="sm-v am">195-210 $</div></div>
+        <div><div class="sm-l">+/- sur 30 act.</div><div class="sm-v am">-240 a +210 $</div></div>
+        <div><div class="sm-l">P&amp;L total</div><div class="sm-v up">+905 a +1 355 $</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sc">
+    <div class="sc-head" style="background:rgba(176,28,28,.05);">
+      <span class="sc-name" style="color:var(--red);">Correction -- stop declenche</span>
+      <span class="sc-proba" style="background:rgba(176,28,28,.1);color:var(--red);">15%</span>
+    </div>
+    <div class="sc-body">
+      Retour aux fondamentaux (valorisation 112x CA), retournement macro. Stop a 180 $ declenche -- sortie immediate.
+      <div class="sc-metrics">
+        <div><div class="sm-l">Stop a</div><div class="sm-v dn">180 $</div></div>
+        <div><div class="sm-l">Perte rachat</div><div class="sm-v dn">-690 $</div></div>
+        <div><div class="sm-l">P&amp;L net total</div><div class="sm-v up">+455 $ !</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="body-text">
+  <p><strong>Point cle du scenario baissier :</strong> meme si SPCX corrige fortement et declenche votre stop a 180 $, vous perdrez 690 $ sur les 30 actions rachetees -- mais il vous reste les <strong>1 144,92 $ deja realises</strong>. Votre P&L net total resterait positif a environ +455 $. <strong>Le gain realise vous protege dans tous les scenarios.</strong></p>
+</div>
+
+<div class="verdict">
+  <div class="v-tag">Verdict -- Par Yacine AOUABED -- YAASAP Notes</div>
+  <div class="v-body">
+    <p>Votre manouvre sur SPCX est analytiquement solide. Vous avez achete lors des premiers jours de cotation d'une IPO historique, encaisse +20,49% en quelques jours, puis rachete quasi au meme niveau pour maintenir l'exposition aux catalyseurs a venir. <strong>Le gain de 1 144 $ est reel, definitif, et ne peut plus etre repris par le marche.</strong></p>
+    <p>La situation actuelle est favorable : PRU a 203 $ avec les trois integrations indicielles (Nasdaq 100, FTSE Russell, MSCI) encore devant vous. Ces evenements creent une demande mecanique previsible sur les deux prochaines semaines -- vous en beneficierez sur vos 30 actions.</p>
+    <p><strong>Actions immediates recommandees :</strong> poser un stop-loss a 180 $ pour proteger une partie du gain realise, et envisager une vente partielle (15 actions) a 220-225 $ pour securiser encore +255 a +330 $ supplementaires avant l'integration MSCI.</p>
+  </div>
+  <div class="v-checklist">
+    <div class="v-item"><strong>P&amp;L realise securise :</strong> +1 144,92 $ -- definitif -- ne peut plus etre efface</div>
+    <div class="v-item"><strong>Position actuelle :</strong> 30 actions x 203 $ = 6 090 $ -- PRU 203 $ -- seuil de rentabilite 203 $</div>
+    <div class="v-item"><strong>Stop-loss immediat :</strong> poser a 180 $ -- si declenche P&amp;L net total reste positif (+455 $)</div>
+    <div class="v-item"><strong>Cible intermed. :</strong> 220-230 $ sur FTSE Russell (26 jun) + MSCI (29 jun) -- demande mecanique entrante</div>
+    <div class="v-item"><strong>Sortie partielle possible :</strong> vendre 15 des 30 actions a 220 $ -- securiser +255 $ supp. -- tenir 15 vers 250 $+</div>
+    <div class="v-item"><strong>Risque :</strong> flottant ~4% + beta eleve = volatilite amplifiee dans les deux sens -- position non a surponderer</div>
+  </div>
+  <div class="v-disclaimer">Calculs bases sur les donnees de position fournies. Prix de marche au 15 juin 2026. Ne constitue pas un conseil en investissement. Par Yacine AOUABED -- YAASAP Notes.</div>
+</div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;·&nbsp; SpaceX SPCX -- Position personnelle -- <span id="footDate">15 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="yaasap_spacex_ipo.html">Flash IPO SPCX</a>
+    <a href="yaasap_oscr_position.html">Position OSCR</a>
+    <a href="yaasap_argenx_position.html">Position argenx</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var d=new Date(),opts={weekday:'long',year:'numeric',month:'long',day:'numeric'},s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+  function tryQR(){
+    var el=document.getElementById('qr-hdr-canvas');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:"https://yaasap.github.io/dailywatch/index.html",width:52,height:52,colorDark:"#1c1814",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  }
+  tryQR();
+})();
+
+(function(){
+  var ctx=document.getElementById('posChart').getContext('2d');
+  var labels=['IPO\n135$','Ouv.\n150$','Clt. vend.\n161$','Vos achats\n168,70$','Vente\n204$','Rachat\n203$','FTSE\n26 jun','MSCI\n29 jun'];
+  var cours=[135,150,161,null,204,203,null,null];
+  var proj=[null,null,null,168.70,204,203,215,222];
+  var gc='rgba(0,0,0,0.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'SPCX',data:cours,borderColor:'#8b3a1a',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#8b3a1a',fill:false,tension:0.3,spanGaps:false},
+      {label:'Vos ops.',data:proj,borderColor:'rgba(30,92,50,.6)',borderWidth:1.5,borderDash:[5,4],pointRadius:4,pointBackgroundColor:function(ctx){var i=ctx.dataIndex;return i===3?'#c8902a':i===4?'#1e5c32':i===5?'#1a3a5c':'rgba(30,92,50,.5)';},fill:false,tension:0.35,spanGaps:false}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.75)',borderColor:'rgba(139,58,26,.4)',borderWidth:1,padding:8,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : $'+ctx.parsed.y.toFixed(2);}}}},
+      scales:{x:{ticks:{color:tc,font:tf,maxRotation:0},grid:{color:gc}},y:{min:120,max:240,ticks:{color:tc,font:tf,callback:function(v){return '$'+v;}},grid:{color:gc}}}
+    },
+    plugins:[{id:'ann',afterDraw:function(chart){
+      var ctx2=chart.ctx,yA=chart.scales.y,xA=chart.scales.x;
+      [{p:203,c:'rgba(26,58,92,.6)',l:'PRU / Rachat 203$'},{p:168.70,c:'rgba(200,144,42,.55)',l:'Achat moy. 168,70$'},{p:180,c:'rgba(139,58,26,.5)',l:'Stop-loss 180$'}].forEach(function(lv){
+        if(lv.p<yA.min||lv.p>yA.max)return;
+        var y=yA.getPixelForValue(lv.p);
+        ctx2.save();ctx2.beginPath();ctx2.setLineDash([6,4]);ctx2.strokeStyle=lv.c;ctx2.lineWidth=1;ctx2.moveTo(xA.left,y);ctx2.lineTo(xA.right,y);ctx2.stroke();ctx2.setLineDash([]);ctx2.fillStyle=lv.c;ctx2.font="9px 'Source Code Pro',monospace";ctx2.fillText(lv.l,xA.left+6,y-3);ctx2.restore();
+      });
+    }}]
+  });
+})();
+</script>
+</body>
+</html>
