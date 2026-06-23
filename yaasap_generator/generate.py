@@ -418,16 +418,28 @@ footer{{background:#f2ede4;border-top:1px solid rgba(0,0,0,.1);padding:14px 20px
     print(f"OK docs/index.html — {len(note_files)} archives")
 
 # ─────────────────────────────────────────────
-# 5. INDEX RACINE (toutes les analyses)
+# 5. INDEX RACINE — PROTÉGÉ
 # ─────────────────────────────────────────────
 def build_root_index():
-    # Scanner tous les fichiers yaasap_*.html a la racine du repo
+    """
+    NE REGENERE JAMAIS index.html si le fichier existe déjà.
+    La page d'accueil est gérée manuellement — le workflow ne la touche pas.
+    Pour forcer une regénération, supprimer index.html du repo et relancer.
+    """
+    index_path = os.path.join(ROOT_DIR, "index.html")
+
+    if os.path.exists(index_path):
+        print(f"SKIP index.html racine — fichier existant protégé (supprimer pour regénérer)")
+        return
+
+    # Arrivée ici uniquement si index.html n'existe pas encore dans le repo
+    print("index.html absent — génération initiale")
+
     pattern = os.path.join(ROOT_DIR, "yaasap_*.html")
     found_files = sorted(glob.glob(pattern), reverse=True)
     print(f"ROOT_DIR = {ROOT_DIR}")
-    print(f"Fichiers trouves : {[os.path.basename(f) for f in found_files]}")
+    print(f"Fichiers trouvés : {[os.path.basename(f) for f in found_files]}")
 
-    # Dictionnaire titre+meta pour les fichiers connus
     KNOWN = {f: (t, m) for f, t, m in ANALYSES}
 
     analyses_items = ""
@@ -436,7 +448,6 @@ def build_root_index():
         if fname in KNOWN:
             title, meta = KNOWN[fname]
         else:
-            # Fichier inconnu : generer un titre lisible depuis le nom
             title = fname.replace("yaasap_","").replace(".html","").replace("_"," ").title()
             meta  = "Analyse YAASAP Notes"
         badge = '<span class="badge-new">Nouveau</span>' if i < 3 else ''
@@ -483,7 +494,7 @@ body{{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size
 ul.note-list{{list-style:none;padding:0;margin-bottom:28px;}}
 ul.note-list li{{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule2);}}
 ul.note-list li:last-child{{border-bottom:none;}}
-ul.note-list li::before{{content:'&mdash;';color:var(--accent);flex-shrink:0;font-size:14px;}}
+ul.note-list li::before{{content:'\\2014';color:var(--accent);flex-shrink:0;font-size:14px;}}
 .note-link{{font-family:var(--serif);font-size:15px;color:var(--ink);text-decoration:none;line-height:1.3;}}
 .note-link:hover{{color:var(--accent);}}
 .li-meta{{font-size:10px;color:var(--ink4);font-style:italic;display:block;margin-top:2px;}}
@@ -528,10 +539,9 @@ footer strong{{color:var(--ink3);font-style:normal;}}
 </script>
 </body>
 </html>"""
-    path = os.path.join(ROOT_DIR, "index.html")
-    with open(path, "w", encoding="utf-8") as f:
+    with open(index_path, "w", encoding="utf-8") as f:
         f.write(html)
-    print("OK index.html racine mis a jour")
+    print("OK index.html racine généré (première fois)")
 
 # ─────────────────────────────────────────────
 # 6. MAIN
@@ -568,8 +578,10 @@ def main():
         f.write(html)
     print("OK note-du-jour.html")
 
-    # Reconstruire les deux index
+    # Reconstruire docs/index.html (archives) — TOUJOURS
     build_docs_index()
+
+    # index.html racine — PROTÉGÉ, jamais écrasé si existant
     build_root_index()
 
     print(f"\nPublie : https://YAASAP.github.io/dailywatch/")
