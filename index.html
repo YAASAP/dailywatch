@@ -165,6 +165,25 @@ html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-
   color:#4ade80;padding:3px 8px;border-radius:2px;margin-top:6px;
 }
 
+/* ── NOTE EN UNE — SKELETON LOADING ── */
+.une-skeleton{
+  background:#fff;border:1px solid var(--rule);
+  border-top:3px solid var(--rule);border-radius:2px;
+  overflow:hidden;margin-bottom:28px;
+  padding:22px 20px;
+}
+.skel-line{
+  background:linear-gradient(90deg,var(--paper2) 25%,var(--paper3) 50%,var(--paper2) 75%);
+  background-size:200% 100%;
+  animation:skel 1.2s ease infinite;
+  border-radius:3px;height:14px;margin-bottom:10px;
+}
+@keyframes skel{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skel-line.w80{width:80%;}
+.skel-line.w60{width:60%;}
+.skel-line.w40{width:40%;}
+.skel-line.h20{height:20px;margin-bottom:14px;}
+
 /* ── GRILLE DE NOTES ── */
 .notes-grid{
   display:grid;
@@ -355,7 +374,7 @@ footer{
     <span class="issue-line">yaasap.github.io/dailywatch · Marchés · IPO · Stratégie · Positions</span>
   </div>
   <div class="mast-right">
-    <div class="mast-date" id="mastDate">15 juin 2026</div>
+    <div class="mast-date" id="mastDate"></div>
     <div class="mast-qr">
       <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
       <div class="mast-qr-lbl">dailywatch</div>
@@ -420,25 +439,51 @@ footer{
 <!-- CONTENU PRINCIPAL -->
 <div class="main">
 
-  <!-- NOTE EN UNE -->
-  <div class="sec-rule"><span class="sec-rule-text">Note de la semaine · Flash spécial IPO</span></div>
+  <!-- NOTE EN UNE — DYNAMIQUE -->
+  <div class="sec-rule"><span class="sec-rule-text" id="une-section-label">Note du jour · Dernière publication</span></div>
 
-  <div class="note-une">
+  <!-- Skeleton affiché pendant le chargement -->
+  <div class="une-skeleton" id="une-skeleton">
+    <div class="skel-line w40"></div>
+    <div class="skel-line h20 w80"></div>
+    <div class="skel-line w60"></div>
+    <div class="skel-line w40" style="margin-top:16px;"></div>
+  </div>
+
+  <!-- Bloc rempli dynamiquement -->
+  <div class="note-une" id="note-une-dynamic" style="display:none;">
     <div class="une-body">
-      <div class="une-eyebrow">Flash IPO · SPCX · Nasdaq · Mis à jour 15 juin 2026</div>
-      <div class="une-title">SpaceX entre en bourse et pulvérise tous les records — 85,7 Md$ levés, +19% le jour J</div>
-      <div class="une-deck">IPO totale relevée à 85,7 Md$ après exercice de la surallocation. +19,22% en séance lundi. Accord USA-Iran amplifie le risk-on. FTSE Russell le 26 juin, MSCI le 29 juin — catalyseurs indiciels non encore joués.</div>
-      <div class="une-kpis">
-        <div class="une-kpi"><span class="une-kpi-v" style="color:var(--accent);">85,7 Md$</span><span class="une-kpi-l">Levée totale</span></div>
-        <div class="une-kpi"><span class="une-kpi-v" style="color:#1e5c32;">+19,2%</span><span class="une-kpi-l">Hausse J1</span></div>
-        <div class="une-kpi"><span class="une-kpi-v" style="color:var(--gold);">2 100 Md$</span><span class="une-kpi-l">Capitalisation</span></div>
-        <div class="une-kpi"><span class="une-kpi-v">26 juin</span><span class="une-kpi-l">FTSE Russell</span></div>
-      </div>
-      <a href="./yaasap_spacex_ipo.html" class="une-link">Lire la note complète →</a>
+      <div class="une-eyebrow" id="une-eyebrow">Note quotidienne · YAASAP Notes</div>
+      <div class="une-title" id="une-title">Analyse du jour</div>
+      <div class="une-deck" id="une-deck">Chargement en cours…</div>
+      <div class="une-kpis" id="une-kpis"></div>
+      <a href="docs/note-du-jour.html" class="une-link" id="une-link">Lire la note complète →</a>
     </div>
     <div class="une-meta">
-      <div class="une-date">15 juin 2026</div>
-      <div class="une-badge">Flash · IPO</div>
+      <div class="une-date" id="une-date"></div>
+      <div class="une-badge" id="une-badge">Quotidienne</div>
+    </div>
+  </div>
+
+  <!-- Fallback si aucune note quotidienne disponible -->
+  <div id="une-fallback" style="display:none;">
+    <div class="note-une">
+      <div class="une-body">
+        <div class="une-eyebrow">Flash IPO · SPCX · Nasdaq · Mis à jour 15 juin 2026</div>
+        <div class="une-title">SpaceX entre en bourse et pulvérise tous les records — 85,7 Md$ levés, +19% le jour J</div>
+        <div class="une-deck">IPO totale relevée à 85,7 Md$ après exercice de la surallocation. +19,22% en séance lundi. Accord USA-Iran amplifie le risk-on. FTSE Russell le 26 juin, MSCI le 29 juin — catalyseurs indiciels non encore joués.</div>
+        <div class="une-kpis">
+          <div class="une-kpi"><span class="une-kpi-v" style="color:var(--accent);">85,7 Md$</span><span class="une-kpi-l">Levée totale</span></div>
+          <div class="une-kpi"><span class="une-kpi-v" style="color:#1e5c32;">+19,2%</span><span class="une-kpi-l">Hausse J1</span></div>
+          <div class="une-kpi"><span class="une-kpi-v" style="color:var(--gold);">2 100 Md$</span><span class="une-kpi-l">Capitalisation</span></div>
+          <div class="une-kpi"><span class="une-kpi-v">26 juin</span><span class="une-kpi-l">FTSE Russell</span></div>
+        </div>
+        <a href="./yaasap_spacex_ipo.html" class="une-link">Lire la note complète →</a>
+      </div>
+      <div class="une-meta">
+        <div class="une-date">15 juin 2026</div>
+        <div class="une-badge">Flash · IPO</div>
+      </div>
     </div>
   </div>
 
@@ -465,7 +510,6 @@ footer{
       <div class="nl-plan"><span class="nl-plan-soon">Bientôt</span><span class="nl-plan-nm">Pro</span><span class="nl-plan-pr">Alertes · 24,90€/mois</span></div>
     </div>
     <div class="nl-form-zone">
-      <!-- Formulaire -->
       <div class="nl-state-el visible" id="nl-form">
         <div class="nl-fields">
           <input class="nl-field" type="text" id="nl-prenom" placeholder="Prénom (optionnel)" autocomplete="given-name" maxlength="60">
@@ -477,12 +521,10 @@ footer{
         <div class="nl-rgpd">Données transmises via Formspree (hébergé UE). Désabonnement en 1 clic. <a href="mailto:contact@yaasap.fr">contact@yaasap.fr</a></div>
         <div class="nl-err" id="nl-err"></div>
       </div>
-      <!-- Loading -->
       <div class="nl-state-el" id="nl-loading">
         <div class="nl-spinner"></div>
         <div class="nl-loading-txt">Inscription en cours…</div>
       </div>
-      <!-- Succès -->
       <div class="nl-state-el" id="nl-success">
         <div class="nl-ok-icon">✅</div>
         <div class="nl-ok-title">Vous êtes inscrit !</div>
@@ -739,13 +781,12 @@ footer{
 
 <!-- SCRIPTS -->
 <script>
-/* ── DATE ── */
+/* ── DATE MASTHEAD ── */
 (function(){
   var d = new Date();
   var opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  var s = d.toLocaleDateString('fr-FR', opts);
   var el = document.getElementById('mastDate');
-  if (el) el.textContent = s;
+  if (el) el.textContent = d.toLocaleDateString('fr-FR', opts);
 })();
 
 /* ── QR CODE MASTHEAD ── */
@@ -761,6 +802,87 @@ footer{
     });
   }
   tryQR();
+})();
+
+/* ══════════════════════════════════════════════════
+   NOTE EN UNE — CHARGEMENT DYNAMIQUE
+   Lit docs/index.html, extrait la 1ère note dans la
+   liste <ul> et remplace le bloc skeleton.
+   Fallback → note SpaceX si le fetch échoue.
+   ══════════════════════════════════════════════════ */
+(function(){
+  var DOCS_INDEX = 'docs/index.html';
+
+  function showFallback(){
+    document.getElementById('une-skeleton').style.display  = 'none';
+    document.getElementById('note-une-dynamic').style.display = 'none';
+    document.getElementById('une-fallback').style.display  = 'block';
+    document.getElementById('une-section-label').textContent = 'Note de la semaine · Flash spécial IPO';
+  }
+
+  function formatDateFR(isoStr){
+    // isoStr = "2026-06-23" extrait du nom de fichier note-2026-06-23_0630.html
+    try {
+      var parts = isoStr.split('-');
+      if (parts.length < 3) return isoStr;
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      return d.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    } catch(e){ return isoStr; }
+  }
+
+  fetch(DOCS_INDEX)
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function(html){
+      // Parser le HTML de docs/index.html
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, 'text/html');
+
+      // Trouver le premier lien <a> dans la liste d'archives (li:not(.today-box) a)
+      // La today-box pointe vers note-du-jour.html — on cherche les archives timestampées
+      var links = doc.querySelectorAll('ul li a');
+      if (!links || links.length === 0) { showFallback(); return; }
+
+      var firstLink = links[0]; // note la plus récente
+      var href = firstLink.getAttribute('href');        // ex: "note-2026-06-23_0630.html"
+      var label = firstLink.textContent.trim();          // ex: "Lundi 23 juin 2026 — 06h30"
+
+      if (!href) { showFallback(); return; }
+
+      // Extraire la date depuis le nom de fichier
+      var dateMatch = href.match(/note-(\d{4}-\d{2}-\d{2})/);
+      var dateStr = dateMatch ? formatDateFR(dateMatch[1]) : label;
+
+      // Extraire l'heure si présente
+      var timeMatch = href.match(/_(\d{2})(\d{2})/);
+      var timeStr = timeMatch ? timeMatch[1] + 'h' + timeMatch[2] : '';
+
+      // Construire l'eyebrow
+      var eyebrow = 'Note quotidienne · YAASAP Notes · ' + (dateStr || label);
+      if (timeStr) eyebrow += ' · ' + timeStr;
+
+      // Titre et deck : on pointe vers note-du-jour.html (toujours la dernière)
+      // mais on affiche la date de la plus récente archive
+      document.getElementById('une-eyebrow').textContent = eyebrow;
+      document.getElementById('une-title').textContent   = label || 'Analyse du ' + dateStr;
+      document.getElementById('une-deck').textContent    = 'Pétrole · Géopolitique · IA · Pharma · IT — Analyse quotidienne des marchés financiers par Yacine AOUABED.';
+      document.getElementById('une-date').textContent    = dateStr;
+      document.getElementById('une-badge').textContent   = 'Quotidienne';
+      document.getElementById('une-link').href           = 'docs/note-du-jour.html';
+
+      // Label section
+      document.getElementById('une-section-label').textContent = 'Note du jour · ' + dateStr;
+
+      // Masquer skeleton, afficher bloc dynamique
+      document.getElementById('une-skeleton').style.display     = 'none';
+      document.getElementById('note-une-dynamic').style.display = 'grid';
+    })
+    .catch(function(e){
+      console.warn('YAASAP: impossible de charger docs/index.html —', e.message);
+      showFallback();
+    });
 })();
 
 /* ── NEWSLETTER FORMSPREE ── */
