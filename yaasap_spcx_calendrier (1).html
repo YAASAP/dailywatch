@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPCX — Calendrier IPO & Mécanique de Marché | YAASAP Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink:        #0f0f0f;
+    --paper:      #f7f4ef;
+    --rule:       #d4cfc7;
+    --accent:     #c8102e;
+    --accent-dim: #8a0b20;
+    --muted:      #6b6560;
+    --highlight:  #fff3cd;
+    --gold:       #b8860b;
+    --green:      #1a5c38;
+    --green-bg:   #edf7f1;
+    --red-bg:     #fdf2f2;
+    --warn:       #7a4f00;
+    --warn-bg:    #fff8e6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 18px 0 14px;
+    text-align: center;
+  }
+  .masthead-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .masthead-logo span { color: var(--accent); }
+  .masthead-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .masthead-line {
+    border-top: 1px solid var(--rule);
+    margin-top: 12px;
+    padding-top: 6px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── ARTICLE HEADER ── */
+  .article-header {
+    padding: 40px 0 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 32px;
+  }
+  .article-rubric {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1.12;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .article-deck {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #3a3633;
+    line-height: 1.55;
+    margin-bottom: 18px;
+    max-width: 680px;
+  }
+  .article-byline {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .byline-author { font-weight: 600; color: var(--ink); }
+
+  /* ── BODY TEXT ── */
+  .body-text p {
+    font-size: 0.97rem;
+    line-height: 1.75;
+    margin-bottom: 1.2em;
+    color: #1c1a18;
+  }
+  .body-text strong { font-weight: 600; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-top: 2px solid var(--accent);
+    padding-top: 8px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  /* ── STAT STRIP ── */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+  .stat-item {
+    padding: 16px 18px;
+    border-right: 1px solid var(--rule);
+    background: #fff;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .stat-value.up { color: var(--green); }
+  .stat-value.down { color: var(--accent); }
+  .stat-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin: 0 0 36px 0;
+    padding-left: 0;
+  }
+
+  .timeline-axis {
+    position: absolute;
+    left: 108px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rule) 0%, var(--ink) 15%, var(--ink) 85%, var(--rule) 100%);
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 106px 28px 1fr;
+    align-items: flex-start;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .tl-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-align: right;
+    padding-right: 14px;
+    padding-top: 13px;
+    line-height: 1.3;
+  }
+
+  .tl-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .tl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    margin-top: 15px;
+    flex-shrink: 0;
+  }
+
+  .tl-dot.major {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-color: var(--accent);
+    margin-top: 13px;
+  }
+  .tl-dot.warn {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .tl-dot.positive {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .tl-dot.neutral {
+    background: var(--muted);
+    border-color: var(--muted);
+  }
+
+  .tl-connector {
+    flex: 1;
+    width: 2px;
+    background: var(--ink);
+    opacity: 0.15;
+  }
+
+  .tl-card {
+    margin-left: 16px;
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--rule);
+  }
+  .tl-card.major {
+    border-left-color: var(--accent);
+    background: var(--red-bg);
+  }
+  .tl-card.warn {
+    border-left-color: var(--gold);
+    background: var(--warn-bg);
+  }
+  .tl-card.positive {
+    border-left-color: var(--green);
+    background: var(--green-bg);
+  }
+  .tl-card.critical {
+    border-left-color: #000;
+    background: #f0ece8;
+  }
+
+  .tl-tag {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 1px;
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+  .tag-ipo       { background: var(--accent); color: #fff; }
+  .tag-index     { background: #1a3a6b; color: #fff; }
+  .tag-earnings  { background: #1f5a3a; color: #fff; }
+  .tag-lockup    { background: var(--gold); color: #fff; }
+  .tag-critical  { background: #111; color: #fff; }
+  .tag-options   { background: #5c3870; color: #fff; }
+
+  .tl-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .tl-body {
+    font-size: 0.8rem;
+    color: #3a3633;
+    line-height: 1.55;
+  }
+  .tl-body strong { font-weight: 600; }
+  .tl-metric {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink);
+    background: rgba(0,0,0,0.06);
+    padding: 1px 6px;
+    margin: 0 2px;
+    border-radius: 2px;
+  }
+  .tl-metric.up   { color: var(--green); background: var(--green-bg); }
+  .tl-metric.down { color: var(--accent); background: var(--red-bg); }
+  .tl-metric.warn { color: var(--warn); background: var(--warn-bg); }
+
+  /* ── FLOAT VISUALISER ── */
+  .float-viz {
+    margin: 28px 0 36px;
+    border: 1px solid var(--rule);
+    background: #fff;
+    padding: 22px 24px;
+  }
+  .float-viz-title {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .float-bar-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 56px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  .float-bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  .float-bar-track {
+    height: 14px;
+    background: var(--rule);
+    border-radius: 1px;
+    overflow: hidden;
+    position: relative;
+  }
+  .float-bar-fill {
+    height: 100%;
+    transition: width 0.8s ease;
+    border-radius: 1px;
+  }
+  .float-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: right;
+  }
+
+  /* ── FINANCIAL TABLE ── */
+  .fin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    margin-bottom: 32px;
+  }
+  .fin-table thead tr {
+    border-bottom: 2px solid var(--ink);
+  }
+  .fin-table th {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    text-align: right;
+  }
+  .fin-table th:first-child { text-align: left; }
+  .fin-table td {
+    padding: 9px 12px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+  .fin-table td:first-child {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.83rem;
+    text-align: left;
+    font-weight: 500;
+    color: #2a2825;
+  }
+  .fin-table tr.segment-star td { background: #fafaf8; }
+  .fin-table tr.segment-star td:first-child { color: var(--green); font-weight: 600; }
+  .positive-val { color: var(--green); }
+  .negative-val { color: var(--accent); }
+
+  /* ── RISK MATRIX ── */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .risk-card {
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    background: #fff;
+  }
+  .risk-level {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .risk-level.high   { color: var(--accent); }
+  .risk-level.medium { color: var(--gold); }
+  .risk-level.low    { color: var(--green); }
+  .risk-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .risk-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .divider.thick {
+    border-top: 2px solid var(--ink);
+    margin: 40px 0;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 4px solid var(--accent);
+    padding: 12px 20px;
+    margin: 28px 0;
+    background: var(--red-bg);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 2px double var(--ink);
+    padding: 20px 0 32px;
+    margin-top: 48px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .footer-brand span { color: var(--accent); }
+  .footer-disclaimer {
+    font-size: 0.66rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .article-title { font-size: 1.8rem; }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3) { border-right: 1px solid var(--rule); border-top: 1px solid var(--rule); }
+    .stat-item:nth-child(4) { border-right: none; border-top: 1px solid var(--rule); }
+    .float-bar-row { grid-template-columns: 70px 1fr 48px; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .tl-date { font-size: 0.62rem; padding-right: 10px; }
+    .footer-inner { flex-direction: column; }
+    .timeline-axis { left: 96px; }
+    .tl-item { grid-template-columns: 94px 24px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-logo">YAASAP<span>·</span>NOTES</div>
+    <div class="masthead-sub">Analyse financière indépendante · Édition portefeuille</div>
+    <div class="masthead-line">
+      <span>24 juin 2026</span>
+      <span>Numéro spécial IPO</span>
+      <span>yaasap.github.io/dailywatch</span>
+    </div>
+  </div>
+</header>
+
+<!-- ARTICLE -->
+<main class="container">
+
+  <!-- HEADER -->
+  <div class="article-header">
+    <div class="article-rubric">Analyse · Actions · Technologie spatiale</div>
+    <h1 class="article-title">SPCX — Le calendrier qui gouverne les 12 prochains mois</h1>
+    <p class="article-deck">De l'IPO record à la libération du bloc Musk : mécanique d'inclusion indicielle, vagues de lock-up et dates de résultats. Ce que chaque date va faire au cours.</p>
+    <div class="article-byline">
+      <span class="byline-author">YAASAP Notes</span>
+      <span>Dossier portefeuille · Position SPCX</span>
+      <span>Données S-1 SEC · 424B4 · Prospectus définitif</span>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-value">135 $</div>
+      <div class="stat-label">Prix IPO · 11 juin 2026</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value up">225,64 $</div>
+      <div class="stat-label">Plus haut · 16 juin 2026</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value down">162 $</div>
+      <div class="stat-label">Cours actuel · 23 juin 2026</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">1 770 Mrd$</div>
+      <div class="stat-label">Capitalisation IPO</div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="body-text">
+    <p>SpaceX est cotée depuis douze jours. Le cours a bondi de 67 % en quatre séances, puis corrigé de 28 % pour revenir au niveau du prix d'IPO. Ce n'est pas un accident : c'est la mécanique d'un titre avec moins de 5 % de flottant libre, des options ouvertes deux jours après le premier échange, et dix-sept tranches de lock-up qui se libèrent entre maintenant et juin 2027. Ce calendrier est la carte routière de SPCX. Voici chaque date, son ampleur, et ce qu'elle implique pour le cours.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- SECTION 1 : TIMELINE -->
+  <div class="section-label">Calendrier · Événements à horizon 12 mois</div>
+  <h2 class="section-title">La chronologie complète</h2>
+
+  <div class="timeline">
+    <div class="timeline-axis"></div>
+
+    <!-- IPO -->
+    <div class="tl-item">
+      <div class="tl-date">11–12 juin<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot major"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:50px;"></div>
+      </div>
+      <div class="tl-card major">
+        <span class="tl-tag tag-ipo">IPO — Événement fondateur</span>
+        <div class="tl-headline">Cotation Nasdaq à 135 $ · Plus grosse IPO de l'histoire</div>
+        <div class="tl-body">
+          Levée de <span class="tl-metric">75 Mrd$</span> · 555,6 millions d'actions émises · Valorisation <span class="tl-metric">1 770 Mrd$</span>. Flottant initial : <span class="tl-metric warn">~4,25 %</span> du capital. Le cours touche 149 $ en intraday le jour 1, clôture à <span class="tl-metric up">161 $</span> (+19,3 %). Pic atteint le 16 juin à <span class="tl-metric up">225,64 $</span>, soit +67 % en quatre séances. Greenshoe exercé : 83,3 M d'actions supplémentaires portent le float à ~638,9 M d'actions.
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTIONS -->
+    <div class="tl-item">
+      <div class="tl-date">16 juin<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot" style="background:#5c3870;border-color:#5c3870;"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:44px;"></div>
+      </div>
+      <div class="tl-card">
+        <span class="tl-tag tag-options">Dérivés</span>
+        <div class="tl-headline">Ouverture des options SPCX — J+2 de cotation</div>
+        <div class="tl-body">
+          Aucun ancrage de volatilité implicite, pas d'historique GEX, pas de Call Wall ni Put Wall. Les teneurs de marché ouvrent un book sur une entreprise à <span class="tl-metric">1 750 Mrd$</span> avec <span class="tl-metric warn">4 % de flottant</span>. Si la demande retail afflue sur les calls, les dealers sont short gamma sur un titre déjà comprimé par les achats passifs d'indices. Résultat : le hedging <strong>amplifie</strong> les mouvements au lieu de les amortir. ETFs à effet de levier SPCX déjà en cours de dépôt SEC.
+        </div>
+      </div>
+    </div>
+
+    <!-- NASDAQ-100 inclusion -->
+    <div class="tl-item">
+      <div class="tl-date">Début juil.<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot positive"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:60px;"></div>
+      </div>
+      <div class="tl-card positive">
+        <span class="tl-tag tag-index">Indices · Achat forcé</span>
+        <div class="tl-headline">Inclusion Nasdaq-100 (J+15) · Russell 1000 (J+5 déjà actif)</div>
+        <div class="tl-body">
+          Le Nasdaq a modifié ses règles spécifiquement pour SPCX : entrée rapide après <span class="tl-metric">15 jours</span> de cotation pour tout nouveau venu dans le top-40 par capitalisation. Chaque ETF QQQ et fonds indiciel Nasdaq-100 est mécaniquement <strong>obligé d'acheter</strong>. BNP Paribas estime l'achat forcé Nasdaq-100 seul à <span class="tl-metric up">~8 Mrd$</span>, achats passifs totaux (MSCI inclus) jusqu'à <span class="tl-metric up">30 Mrd$</span>. En contrepartie : les fonds doivent <strong>vendre Apple, Nvidia, Microsoft</strong> pour financer l'entrée. FTSE Russell : entrée dès J+5 (déjà effectif). <strong>S&P 500 : refus d'inclure</strong> avant 12 mois et 4 trimestres GAAP bénéficiaires.
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 EARNINGS -->
+    <div class="tl-item">
+      <div class="tl-date">6 août<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot major"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:72px;"></div>
+      </div>
+      <div class="tl-card major">
+        <span class="tl-tag tag-earnings">★ Résultats Q2 2026</span>
+        <div class="tl-headline">Publication des résultats + Première fenêtre de vente insider</div>
+        <div class="tl-body">
+          Date de publication confirmée : <strong>6 août 2026</strong>. C'est le déclencheur de la <strong>première tranche de lock-up</strong> : dès le deuxième jour de bourse suivant la publication, <span class="tl-metric warn">20 %</span> des actions bloquées deviennent vendables. <br/><br/>
+          Tranche bonus conditionnelle : si SPCX clôture à <span class="tl-metric warn">≥ 175,50 $</span> (+30 % vs IPO) sur au moins 5 des 10 séances précédant la publication, <span class="tl-metric warn">10 % supplémentaires</span> se libèrent. Le cours actuel (~162 $) est à 8 % du seuil. À surveiller impérativement les semaines précédant le 6 août.
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANCHE employés 1 -->
+    <div class="tl-item">
+      <div class="tl-date">~21 août<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot warn"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:38px;"></div>
+      </div>
+      <div class="tl-card warn">
+        <span class="tl-tag tag-lockup">Lock-up · Tranche 1</span>
+        <div class="tl-headline">Employés & RSUs — Première libération calendaire (J+70)</div>
+        <div class="tl-body">+<span class="tl-metric warn">7 %</span> du bloc 180j. Ingénieurs, techniciens, cadres ayant des RSUs vestis au moment de l'IPO. Pression de vente concentrée : objectif diversification patrimoniale (immobilier, retraite). Float cumulé post-tranche : ~<span class="tl-metric">11–12 %</span> du capital.</div>
+      </div>
+    </div>
+
+    <!-- TRANCHE employés 2 -->
+    <div class="tl-item">
+      <div class="tl-date">~10 sept.<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot warn"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:38px;"></div>
+      </div>
+      <div class="tl-card warn">
+        <span class="tl-tag tag-lockup">Lock-up · Tranche 2</span>
+        <div class="tl-headline">Employés — Deuxième libération (J+90)</div>
+        <div class="tl-body">+<span class="tl-metric warn">7 %</span> supplémentaires. Selon 22V Research, les insiders pourraient avoir vendu jusqu'à <span class="tl-metric warn">44 %</span> du bloc total d'ici début septembre. Float en hausse de <span class="tl-metric warn">900 %</span> vs IPO.</div>
+      </div>
+    </div>
+
+    <!-- TRANCHES 3-4-5 groupées -->
+    <div class="tl-item">
+      <div class="tl-date">Fin sept.<br/>— oct. 2026</div>
+      <div class="tl-node">
+        <div class="tl-dot warn"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:48px;"></div>
+      </div>
+      <div class="tl-card warn">
+        <span class="tl-tag tag-lockup">Lock-up · Tranches 3, 4, 5</span>
+        <div class="tl-headline">Trois nouvelles libérations employés (J+105 / J+120 / J+135)</div>
+        <div class="tl-body">+<span class="tl-metric warn">7 %</span> toutes les 2–3 semaines. Dates indicatives : ~25 sept., ~10 oct., ~26 oct. Ces tranches régulières ont pour objectif déclaré d'étaler la pression vendeuse — mais elles créent aussi un <strong>calendrier de supply prévisible</strong>, exploitable pour les positions short ou les stratégies de couverture.</div>
+      </div>
+    </div>
+
+    <!-- Q3 EARNINGS -->
+    <div class="tl-item">
+      <div class="tl-date">Novembre<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot major"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:60px;"></div>
+      </div>
+      <div class="tl-card major">
+        <span class="tl-tag tag-earnings">★ Résultats Q3 2026</span>
+        <div class="tl-headline">Deuxième publication trimestrielle + Tranche post-earnings (28 %)</div>
+        <div class="tl-body">
+          La publication des résultats Q3 déclenche la libération de <span class="tl-metric warn">~28 %</span> des actions restantes dans le bloc 180j. C'est la plus grosse tranche trimestrielle. À ce stade, <span class="tl-metric">~48 % du capital total</span> sera en théorie libéré. C'est ici que la pression vendeuse cumulée est la plus forte sur 2026. <strong>Les marchés actualiseront probablement cette échéance dès septembre.</strong> Point de vigilance : si Starlink manque ses objectifs d'abonnés Q3, la conjonction earnings + unlock peut créer un gap baissier important.
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 DEC -->
+    <div class="tl-item">
+      <div class="tl-date">8 déc.<br/>2026</div>
+      <div class="tl-node">
+        <div class="tl-dot" style="background:#333;border-color:#333;"></div>
+        <div class="tl-connector" style="flex:1;width:2px;background:var(--ink);opacity:.15;min-height:52px;"></div>
+      </div>
+      <div class="tl-card critical">
+        <span class="tl-tag tag-critical">Lock-up 180j — Expiration totale</span>
+        <div class="tl-headline">Fin du lock-up employés · 66 % du capital libéré au total</div>
+        <div class="tl-body">
+          Le lock-up standard de 180 jours (compté depuis le 11 juin 2026) expire. Toutes les actions restantes du groupe "employés & initiés internes" deviennent vendables. Historiquement, cette date génère une pression vendeuse même si elle est anticipée. Les précédents Facebook, Rivian et Beyond Meat montrent que l'impact varie selon que le cours a déjà corrigé ou non en amont. <strong>Le float passe de ~5 % à ~66 % du capital en six mois.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUIN 2027 -->
+    <div class="tl-item">
+      <div class="tl-date">12 juin<br/>2027</div>
+      <div class="tl-node">
+        <div class="tl-dot" style="background:#000;border-color:#000;width:18px;height:18px;margin-top:12px;"></div>
+      </div>
+      <div class="tl-card" style="border-left:4px solid #000;background:#0f0f0f08;">
+        <span class="tl-tag tag-critical">★★ Événement majeur 2027</span>
+        <div class="tl-headline">Bloc Elon Musk — 6,4 milliards d'actions libérées (366 jours)</div>
+        <div class="tl-body">
+          Le verrou ultime. Musk contrôle <span class="tl-metric">85,1 %</span> du capital via actions de classe B (droits de vote multiples). Son bloc de <span class="tl-metric warn">6,4 Mrd d'actions</span> est verrouillé 366 jours après l'IPO, soit jusqu'au <strong>12 juin 2027</strong>. C'est l'événement d'offre potentielle le plus significatif dans l'histoire récente des marchés. Il dépasse en taille l'ensemble des tranches 2026 réunies. Le marché commencera à l'intégrer dès le printemps 2027.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- FLOAT VISUALIZER -->
+  <div class="float-viz">
+    <div class="float-viz-title">Évolution du flottant libre — De 4 % à 100 % du capital (juin 2026 → juin 2027)</div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">IPO · J1</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:4%;background:#c8102e;"></div></div>
+      <div class="float-pct">4 %</div>
+    </div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">6 août</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:8%;background:#c8102e;"></div></div>
+      <div class="float-pct">~8 %</div>
+    </div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">Sept. 2026</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:22%;background:#b8860b;"></div></div>
+      <div class="float-pct">~22 %</div>
+    </div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">Nov. 2026</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:48%;background:#7a4f00;"></div></div>
+      <div class="float-pct">~48 %</div>
+    </div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">8 déc. 2026</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:66%;background:#555;"></div></div>
+      <div class="float-pct">~66 %</div>
+    </div>
+    <div class="float-bar-row">
+      <div class="float-bar-label">12 juin 2027</div>
+      <div class="float-bar-track"><div class="float-bar-fill" style="width:100%;background:#111;"></div></div>
+      <div class="float-pct">100 %</div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- SECTION 2 : FINANCIALS -->
+  <div class="section-label">Fondamentaux · Données S-1 & 424B4</div>
+  <h2 class="section-title">Chiffres clés issus du prospectus définitif</h2>
+
+  <table class="fin-table">
+    <thead>
+      <tr>
+        <th>Segment</th>
+        <th>CA 2025</th>
+        <th>Résop. 2025</th>
+        <th>CA Q1 2026</th>
+        <th>Résop. Q1 2026</th>
+        <th>EBITDA aj. Q1</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="segment-star">
+        <td>★ Connectivity (Starlink)</td>
+        <td class="positive-val">11,4 Mrd$</td>
+        <td class="positive-val">+4,4 Mrd$</td>
+        <td class="positive-val">3,3 Mrd$</td>
+        <td class="positive-val">+1,2 Mrd$</td>
+        <td class="positive-val">+2,1 Mrd$</td>
+      </tr>
+      <tr>
+        <td>Space (lancements)</td>
+        <td>4,1 Mrd$</td>
+        <td class="negative-val">−0,7 Mrd$</td>
+        <td>0,6 Mrd$</td>
+        <td class="negative-val">−0,7 Mrd$</td>
+        <td class="negative-val">−0,4 Mrd$</td>
+      </tr>
+      <tr>
+        <td>AI (xAI + X)</td>
+        <td>3,2 Mrd$</td>
+        <td class="negative-val">—</td>
+        <td>~0,8 Mrd$</td>
+        <td class="negative-val">—</td>
+        <td class="negative-val">—</td>
+      </tr>
+      <tr style="border-top:2px solid var(--ink);font-weight:600;">
+        <td>Consolidé</td>
+        <td>18,7 Mrd$</td>
+        <td class="negative-val">−2,6 Mrd$</td>
+        <td>4,7 Mrd$</td>
+        <td class="negative-val">−1,9 Mrd$</td>
+        <td>+1,1 Mrd$</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="body-text">
+    <p><strong>Perte nette 2025 : −4,94 Mrd$</strong> (vs bénéfice +791 M$ en 2024). Les pertes s'accélèrent : le seul Q1 2026 représente 75 % des pertes totales 2025, tiré par le capex AI de <strong>7,7 Mrd$ en un trimestre</strong>. La dette long terme atteint <strong>29,1 Mrd$</strong> au 31 mars 2026.</p>
+    <p><strong>Starlink, seule encre de rentabilité :</strong> 10,3 millions d'abonnés dans 164 pays au 31 mars 2026, +105 % en un an. En mai 2026, SpaceX a relevé les tarifs de 10 $/mois — signal d'un pivot vers la monétisation après la phase d'acquisition. Contrat Anthropic : <strong>1,25 Mrd$/mois</strong> jusqu'en mai 2029 pour puissance de calcul. Accord Reflection AI (Nvidia) : <strong>6,3 Mrd$</strong> total.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PULL QUOTE -->
+  <div class="pull-quote">
+    <p>« Acheter SPCX à 1 750 Mrd$ de valorisation, c'est acheter un scénario 2030 où Starlink génère 40 Mrd$ de revenus, Starship est réutilisable à grande échelle, et le calcul orbital AI commence à imprimer de vrais chiffres. La valorisation intègre déjà cinq ans d'exécution parfaite. »</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- SECTION 3 : RISK MATRIX -->
+  <div class="section-label">Matrice de risques · Horizon 12 mois</div>
+  <h2 class="section-title">Ce qui peut faire dérailler le scénario</h2>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-level high">Risque élevé</div>
+      <div class="risk-title">Pression vendeuse cumulée des tranches</div>
+      <div class="risk-desc">44 % du capital potentiellement vendable d'ici septembre. Float multiplié par 10 en quelques mois, comprimant la prime de rareté qui a alimenté la hausse initiale.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-level high">Risque élevé</div>
+      <div class="risk-title">Exclusion S&P 500 pour 12+ mois</div>
+      <div class="risk-desc">20 billions $ benchmarkés sur le S&P 500 n'achèteront pas SPCX avant début 2028 au mieux. L'achat passif forcé est partiel et délayé.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-level high">Risque élevé</div>
+      <div class="risk-title">Accélération des pertes (AI capex)</div>
+      <div class="risk-desc">7,7 Mrd$ de capex AI en Q1 seul. Si le retour sur invest du segment AI tarde, les pertes GAAP repoussent l'éligibilité S&P 500 et pèsent sur le sentiment.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-level medium">Risque moyen</div>
+      <div class="risk-title">Gamma squeeze inversé post-options</div>
+      <div class="risk-desc">Si le cours corrige sous la Put Wall des dealers, le hedging amplifie la baisse. Float réduit = mouvements disproportionnés dans les deux sens.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-level medium">Risque moyen</div>
+      <div class="risk-title">Déception Starlink — abonnés ou ARPU</div>
+      <div class="risk-desc">Starlink est le seul segment profitable. Tout ralentissement de croissance des abonnés ou nouvelle baisse d'ARPU post-hausse de prix compromet la thèse.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-level low">Opportunité</div>
+      <div class="risk-title">Inclusion S&P 500 en 2027</div>
+      <div class="risk-desc">Si SpaceX atteint la rentabilité GAAP Q4 2026, l'éligibilité S&P 500 dès mi-2027 déclencherait 19 % du float en achats passifs forcés supplémentaires — le plus grand catalyseur long terme.</div>
+    </div>
+  </div>
+
+  <hr class="divider thick" />
+
+  <!-- SYNTHÈSE -->
+  <div class="section-label">Conclusion · Position portefeuille</div>
+  <h2 class="section-title">Les cinq dates que chaque investisseur SPCX doit surveiller</h2>
+
+  <div class="body-text">
+    <p><strong>1 · Début juillet 2026 (J+15) :</strong> Inclusion Nasdaq-100. Premier vrai test de la demande institutionnelle passive. Si le cours tient au-dessus de 175 $, le seuil bonus s'approche.</p>
+    <p><strong>2 · 6 août 2026 :</strong> Résultats Q2 + première fenêtre insider. Date la plus chargée à court terme. Deux scénarios : cours au-dessus de 175,50 $ → 30 % libéré d'un coup (20 % + bonus 10 %) ; cours en-dessous → 20 % seulement, mais le bonus reporte sur décembre.</p>
+    <p><strong>3 · Septembre 2026 :</strong> Accumulation des tranches employés. Float multiplié par 10 en trois mois. Compression mécanique de la volatilité, potentielle pression sur le cours.</p>
+    <p><strong>4 · Novembre 2026 :</strong> Résultats Q3 + tranche massive de 28 %. Conjonction la plus risquée de l'année. Surveiller les guidances Starlink pour H2.</p>
+    <p><strong>5 · 8 décembre 2026 :</strong> Expiration totale lock-up 180j. Milestone psychologique et offre peak annuelle. Après cette date, SPCX entre dans un régime de trading plus normal — jusqu'au bloc Musk de juin 2027.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">YAASAP<span>·</span>NOTES</div>
+      <div class="footer-disclaimer">
+        Ce document est produit à des fins d'analyse personnelle dans le cadre du portefeuille YAASAP. Il ne constitue pas un conseil en investissement. Les données financières sont issues du prospectus S-1 et 424B4 déposés auprès de la SEC par Space Exploration Technologies Corp. Cours au 23 juin 2026. © YAASAP — yaasap.github.io/dailywatch
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
