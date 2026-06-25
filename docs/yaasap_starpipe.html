@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YAASAP Notes — Flash · SpaceX Starpipe · Gazoduc 13km Texas · 25 juin 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --blue:#1a3a5c;--fire:#c8290a;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px solid var(--fire);padding:12px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+.pub-name{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1;}
+.pub-name em{font-style:italic;color:var(--fire);}
+.pub-tagline{font-size:7.5px;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.masthead-center{text-align:center;flex:1;}
+.flash-badge{display:inline-flex;align-items:center;gap:6px;background:var(--fire);padding:3px 10px;border-radius:2px;}
+.flash-dot{width:7px;height:7px;background:#fff;border-radius:50%;animation:blink .9s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.flash-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;}
+.masthead-right{display:flex;align-items:center;gap:12px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.45);font-style:italic;}
+.mast-qr-box{background:#fff;padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-size:6px;color:rgba(255,255,255,.28);letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono);margin-top:2px;text-align:center;}
+
+/* HERO FLASH */
+.hero-flash{background:var(--ink);padding:0;}
+.hero-flash-inner{max-width:720px;margin:0 auto;}
+
+/* BREAKING BANNER */
+.breaking{background:var(--fire);padding:8px 24px;display:flex;align-items:center;gap:10px;}
+.breaking-tag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.25);padding:2px 8px;border-radius:2px;white-space:nowrap;}
+.breaking-text{font-family:var(--sans);font-size:12px;font-weight:600;color:#fff;line-height:1.3;}
+
+/* HERO CONTENT */
+.hero-content{padding:20px 24px 0;}
+.hero-eyebrow{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.hero-hl{font-family:var(--serif);font-size:26px;font-weight:700;color:#f0ebe3;line-height:1.12;margin-bottom:8px;max-width:580px;}
+.hero-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.48);line-height:1.55;max-width:560px;margin-bottom:16px;}
+
+/* STATS STRIP */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(255,255,255,.07);}
+.stat{padding:9px 0 9px 14px;border-right:1px solid rgba(255,255,255,.07);}
+.stat:last-child{border-right:none;}
+.stat-l{font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:2px;font-family:var(--sans);}
+.stat-v{font-family:var(--mono);font-size:12px;font-weight:600;color:#f0ebe3;}
+
+/* KICKER */
+.kicker{overflow-x:auto;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker-inner{display:flex;padding:0 24px;min-width:max-content;}
+.kk{padding:7px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink);}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--fire);}.am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:24px 24px 48px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:24px 0 14px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--fire);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.lead-headline{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-text{font-size:13px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-text strong{font-weight:700;color:var(--ink);}
+.body-text p{margin-bottom:8px;}
+
+.pull{border-top:2px solid var(--fire);border-bottom:1px solid var(--rule);padding:10px 14px;margin:16px 0;}
+.pull-text{font-family:var(--serif);font-size:13.5px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-attr{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:5px;font-family:var(--sans);}
+
+/* INFOGRAPHIE PIPELINE */
+.pipeline-viz{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.pv-header{background:var(--paper2);padding:10px 14px;border-bottom:1px solid var(--rule2);}
+.pv-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.pv-body{padding:16px 20px;}
+.pv-track{position:relative;height:60px;margin:8px 0 20px;}
+.pv-line{position:absolute;top:50%;left:0;right:0;height:8px;background:linear-gradient(90deg,#1a3a5c,var(--fire));border-radius:4px;transform:translateY(-50%);}
+.pv-point{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px;z-index:2;}
+.pv-label{position:absolute;top:calc(50% + 16px);transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--ink);font-family:var(--sans);white-space:nowrap;text-align:center;}
+.pv-sublabel{position:absolute;top:calc(50% - 26px);transform:translateX(-50%);font-size:8px;color:var(--ink4);font-family:var(--mono);white-space:nowrap;}
+.pv-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;}
+.pv-stat{background:var(--paper2);border-radius:2px;padding:8px 10px;text-align:center;}
+.pv-stat-v{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink);line-height:1;display:block;margin-bottom:2px;}
+.pv-stat-l{font-size:8px;color:var(--ink4);letter-spacing:.07em;text-transform:uppercase;font-family:var(--sans);}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;margin-bottom:20px;}
+.tl-item{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--rule2);}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:3px;}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.tl-line{width:1px;flex:1;background:var(--rule);margin-top:4px;min-height:20px;}
+.tl-item:last-child .tl-line{display:none;}
+.tl-date{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ink3);margin-bottom:3px;white-space:nowrap;}
+.tl-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:var(--sans);}
+.tl-body{font-size:12px;color:var(--ink3);line-height:1.5;font-family:var(--sans);}
+.tl-body strong{color:var(--ink2);font-weight:700;}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.impact-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.impact-tag{font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:7px;font-family:var(--sans);}
+.impact-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;font-family:var(--sans);}
+.impact-body{font-size:12px;color:var(--ink3);line-height:1.5;font-family:var(--sans);}
+.impact-body strong{color:var(--ink2);font-weight:700;}
+
+/* VERDICT FLASH */
+.verdict-flash{background:var(--ink);border-radius:2px;padding:16px 20px;margin:24px 0 16px;border-left:4px solid var(--fire);}
+.vf-tag{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--fire);margin-bottom:10px;display:flex;align-items:center;gap:8px;font-family:var(--sans);}
+.vf-tag::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1);}
+.vf-body{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.65;}
+.vf-body strong{font-style:normal;color:var(--gold);}
+.vf-body p{margin-bottom:7px;}
+.vf-body p:last-child{margin-bottom:0;}
+.vf-checklist{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.vf-item{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.8);align-items:baseline;font-family:var(--sans);}
+.vf-item::before{content:'--';color:var(--fire);flex-shrink:0;}
+.vf-item strong{color:#fff;font-weight:700;}
+.vf-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3);font-style:italic;line-height:1.5;font-family:var(--sans);}
+
+/* NL MINI */
+.nl-mini{background:var(--ink);border-top:2px solid var(--fire);padding:14px 18px;margin-top:28px;border-radius:2px;}
+.nl-mini-title{font-family:var(--serif);font-size:14px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
+.nl-mini-sub{font-size:11.5px;color:rgba(255,255,255,.4);margin-bottom:9px;font-family:var(--sans);}
+.nl-mini-row{display:flex;gap:6px;}
+.nl-mini-input{flex:1;height:38px;padding:0 11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);border-radius:3px;font-family:var(--sans);font-size:13px;color:#fff;outline:none;transition:border-color .15s;}
+.nl-mini-input:focus{border-color:var(--gold);}
+.nl-mini-input::placeholder{color:rgba(255,255,255,.28);}
+.nl-mini-btn{height:38px;padding:0 14px;background:var(--fire);border:none;border-radius:3px;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.nl-mini-btn:hover{background:#8a1800;}
+.nl-mini-note{font-size:10px;color:rgba(255,255,255,.22);margin-top:6px;font-family:var(--sans);}
+#nlm-ok{display:none;font-size:12px;font-weight:700;color:#4ade80;margin-top:6px;}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 24px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.foot-brand em{font-style:italic;color:var(--fire);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.foot-nav{display:flex;justify-content:center;gap:16px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(max-width:560px){
+  .stats-strip{grid-template-columns:repeat(3,1fr);}
+  .impact-grid{grid-template-columns:1fr;}
+  .pv-stats{grid-template-columns:repeat(2,1fr);}
+  .nl-mini-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financiere -- Usage exclusif clients</div>
+  </div>
+  <div class="masthead-center">
+    <div class="flash-badge">
+      <div class="flash-dot"></div>
+      <span class="flash-label">Flash news -- 25 juin 2026</span>
+    </div>
+  </div>
+  <div class="masthead-right">
+    <div>
+      <div class="mast-date" id="liveDate">25 juin 2026</div>
+    </div>
+    <div>
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- BREAKING -->
+<div class="hero-flash">
+  <div class="hero-flash-inner">
+    <div class="breaking">
+      <span class="breaking-tag">Breaking</span>
+      <span class="breaking-text">Reuters · 25 juin 2026 14h52 — SpaceX debute la construction de "Starpipe" le mois prochain</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Flash infrastructure · SPCX · Nasdaq · SpaceX Starbase Texas</div>
+      <div class="hero-hl">SpaceX va construire son propre gazoduc de 13 km pour alimenter Starship en methane — et forger ses propres puits de gaz au Texas</div>
+      <div class="hero-deck">Baptise "Starpipe", ce pipeline de gaz naturel de 13 kilometres reliera la zone portuaire de Brownsville a Starbase. Mis en service prevu : 26 janvier 2027. La filiale SpaceX "Lone Star Mineral Development" a deja signe 100+ baux petroliers au Texas. L'entreprise spatiale devient operateur d'infrastructure energetique.</div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="stat-l">Longueur pipeline</div><div class="stat-v" style="color:#fbbf24;">13 km</div></div>
+      <div class="stat"><div class="stat-l">Diametre</div><div class="stat-v" style="color:#fbbf24;">406 mm</div></div>
+      <div class="stat"><div class="stat-l">Mise en service</div><div class="stat-v" style="color:#4ade80;">26 jan. 2027</div></div>
+      <div class="stat"><div class="stat-l">Methane / lancement</div><div class="stat-v" style="color:#f87171;">2,4 M litres</div></div>
+      <div class="stat"><div class="stat-l">Baux petroliers TX</div><div class="stat-v" style="color:#4ade80;">100+</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Nom du projet</div><div class="kk-v">Starpipe</div><div class="kk-n">Gazoduc gaz naturel -- Texas</div></div>
+    <div class="kk"><div class="kk-l">Filiale operatrice</div><div class="kk-v">Lone Star Mineral Dev.</div><div class="kk-n">Filiale SpaceX -- Texas Railroad Commission</div></div>
+    <div class="kk"><div class="kk-l">Depart pipeline</div><div class="kk-v">Port Brownsville</div><div class="kk-n">Bail 50 ans negocie avec la ville</div></div>
+    <div class="kk"><div class="kk-l">Arrivee</div><div class="kk-v">Starbase TX</div><div class="kk-n">Ville privee SpaceX -- site lancement</div></div>
+    <div class="kk"><div class="kk-l">Raccordement</div><div class="kk-v am">Enbridge</div><div class="kk-n">Gazoduc Valley Crossing -- connexion prevue</div></div>
+    <div class="kk"><div class="kk-l">Declaration Shotwell</div><div class="kk-v up">12 juin IPO</div><div class="kk-n">Annonce pipelines + forage propre le jour de l'IPO</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- INFOGRAPHIE -->
+  <div class="sec-rule"><span class="sec-rule-text">Infrastructure · Schema Starpipe</span></div>
+  <div class="pipeline-viz">
+    <div class="pv-header"><div class="pv-title">Starpipe · Trajet schematique · Port Brownsville → Starbase Texas · 13 km · D = 406 mm</div></div>
+    <div class="pv-body">
+      <div class="pv-track">
+        <div class="pv-line"></div>
+        <!-- Point 1 : Port Brownsville -->
+        <div class="pv-point" style="left:5%;background:#1a3a5c;box-shadow:0 0 0 2px #1a3a5c;"></div>
+        <div class="pv-sublabel" style="left:5%;">Gaz naturel<br>Pipeline Enbridge</div>
+        <div class="pv-label" style="left:5%;">Port Brownsville<br><span style="font-weight:400;color:var(--ink4);">Bail 50 ans · 83 acres</span></div>
+        <!-- Point 2 : Liquefaction -->
+        <div class="pv-point" style="left:52%;background:var(--amber);box-shadow:0 0 0 2px var(--amber);"></div>
+        <div class="pv-sublabel" style="left:52%;">Gaz → CH4 liquide</div>
+        <div class="pv-label" style="left:52%;">Station liquefaction<br><span style="font-weight:400;color:var(--ink4);">Methane liquide</span></div>
+        <!-- Point 3 : Starbase -->
+        <div class="pv-point" style="left:95%;background:var(--fire);box-shadow:0 0 0 2px var(--fire);"></div>
+        <div class="pv-sublabel" style="left:95%;">Plein en 1h<br>vs. 6h camions</div>
+        <div class="pv-label" style="left:95%;">Starbase<br><span style="font-weight:400;color:var(--ink4);">Site lanceur Starship</span></div>
+      </div>
+      <div class="pv-stats">
+        <div class="pv-stat"><span class="pv-stat-v" style="color:var(--fire);">13 km</span><span class="pv-stat-l">Longueur totale</span></div>
+        <div class="pv-stat"><span class="pv-stat-v" style="color:var(--amber);">406 mm</span><span class="pv-stat-l">Diametre · 16 pouces</span></div>
+        <div class="pv-stat"><span class="pv-stat-v" style="color:var(--green);">25+</span><span class="pv-stat-l">Lancements/an capacite</span></div>
+        <div class="pv-stat"><span class="pv-stat-v" style="color:var(--green);">26 jan.</span><span class="pv-stat-l">Mise en service 2027</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYSE -->
+  <div class="sec-rule"><span class="sec-rule-text">Analyse · Pourquoi Starpipe change la donne</span></div>
+  <div class="lead-headline">SpaceX ne construit pas juste un tuyau — elle construit une chaine d'approvisionnement verticale du gaz naturel jusqu'a l'orbite</div>
+  <div class="lead-deck">Starpipe est la consequence directe de la strategie de long terme d'Elon Musk : controler chaque maillon de la chaine de production. Un constructeur automobile qui fabrique ses batteries. Un reseau satellitaire qui construit ses propres fusees. Maintenant une entreprise spatiale qui extrait son propre carburant.</div>
+
+  <div class="body-text">
+    <p>SpaceX prevoit de commencer la construction le mois prochain d'un gazoduc de 13 kilometres baptise "Starpipe" pour alimenter ses installations de lancement au Texas. Le gazoduc est enregistre aupres de la Texas Railroad Commission par la filiale SpaceX "Lone Star Mineral Development" et doit etre mis en service d'ici le 26 janvier 2027.</p>
+    <p><strong>Le probleme actuel :</strong> la fusee Starship consomme environ 2,4 millions de litres de methane liquide par lancement. SpaceX livre ce carburant en utilisant des centaines de camions-citernes, un processus qui prend plusieurs heures et limite mecaniquement la cadence de lancement. Starpipe elimine ce goulot d'etranglement.</p>
+    <p>Le diametre de 406 mm du pipeline — 16 pouces — est significatif. <strong>Cette capacite depasse les besoins de Starship pour 25 lancements par an, soit la cadence annuelle actuellement approuvee par la FAA.</strong> SpaceX dimensionne donc Starpipe pour une cadence future bien superieure aux autorisations actuelles — et vise des centaines puis des milliers de lancements par an.</p>
+    <p>La presidente de SpaceX, Gwynne Shotwell, avait annonce cette direction des le 12 juin lors de l'introduction en bourse : l'entreprise prevoit de construire des pipelines, de traiter son propre ergol, et d'envisager de forer son propre gaz naturel. <strong>SpaceX a deja signe plus de 100 contrats de location petroliere et gaziere avec des proprietaires terriens texans depuis 2023</strong>, selon les registres fonciers du comte de Cameron examines par Reuters.</p>
+  </div>
+
+  <div class="pull">
+    <div class="pull-text">« Ce serait certainement la solution la plus efficace d'un point de vue operationnel. L'entreprise pourrait se raccorder au projet d'extension du gazoduc Valley Crossing d'Enbridge, qui passerait a proximite du point de depart de Starpipe. »</div>
+    <div class="pull-attr">— William Farrar, avocat specialise petrole & gaz Texas · Reuters · 25 juin 2026</div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="sec-rule"><span class="sec-rule-text">Calendrier · La strategie energetique SpaceX etape par etape</span></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--ink3);"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">Depuis 2023</div>
+        <div class="tl-title">100+ baux petroliers signes au Texas</div>
+        <div class="tl-body">SpaceX, via Lone Star Mineral Development, <strong>signe discretement plus de 100 contrats de location</strong> petroliere et gaziere avec des proprietaires terriens du comte de Cameron — la zone autour de Starbase. La strategie d'extraction de gaz propre est en preparation depuis 2 ans.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--amber);"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">12 juin 2026 — Jour de l'IPO</div>
+        <div class="tl-title">Gwynne Shotwell annonce pipelines + forage propre</div>
+        <div class="tl-body">Lors de l'introduction en bourse, la presidente de SpaceX declare publiquement que <strong>l'entreprise prevoit de construire des pipelines, de traiter son propre ergol et de forer son propre gaz naturel</strong>. L'information est dans le prospectus mais peu commentee dans l'euphorie de l'IPO.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--fire);"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">25 juin 2026 — Aujourd'hui</div>
+        <div class="tl-title">Reuters revele Starpipe — construction debut juillet</div>
+        <div class="tl-body">Reuters publie les documents administratifs du comte montrant que <strong>la construction debute le mois prochain</strong>. Starpipe partira d'un terrain de 83 acres au Port de Brownsville — bail 50 ans negocie avec la ville — jusqu'a Starbase. Connexion prevue au gazoduc Valley Crossing d'Enbridge.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--green);"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">26 janvier 2027 — Mise en service prevue</div>
+        <div class="tl-title">Premier remplissage Starship via Starpipe</div>
+        <div class="tl-body">Starpipe operationnel. <strong>La cadence de lancement peut desormais s'accelerer sans contrainte logistique camions.</strong> Le diametre de 406 mm permet une capacite bien superieure a 25 lancements/an — SpaceX se prepare a depasser les autorisations FAA actuelles.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot" style="background:var(--blue);"></div><div class="tl-line"></div></div>
+      <div>
+        <div class="tl-date">2027-2028 — Etape suivante</div>
+        <div class="tl-title">Forage propre + extraction gaz SpaceX</div>
+        <div class="tl-body">Si SpaceX commence a forer son propre gaz naturel sur les 100+ baux signes, <strong>le cout du carburant par lancement s'effondre</strong>. A terme Musk vise a integrer toute la chaine : gaz naturel du sous-sol texan → methane liquide → orbite → Lune → Mars.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPACT -->
+  <div class="sec-rule"><span class="sec-rule-text">Impact · Ce que Starpipe change pour SPCX</span></div>
+  <div class="impact-grid">
+    <div class="impact-card" style="border-top-color:var(--green);">
+      <div class="impact-tag" style="background:rgba(30,92,50,.1);color:var(--green);">Impact positif</div>
+      <div class="impact-title">Cadence de lancement debloquee</div>
+      <div class="impact-body">Le goulot d'etranglement actuel — des centaines de camions-citernes, plusieurs heures de remplissage — disparait. <strong>Starpipe permet de remplir Starship en continu</strong>, ouvrant la voie a des dizaines puis des centaines de lancements par an. Chaque lancement supplementaire = revenu supplementaire.</div>
+    </div>
+    <div class="impact-card" style="border-top-color:var(--green);">
+      <div class="impact-tag" style="background:rgba(30,92,50,.1);color:var(--green);">Impact positif</div>
+      <div class="impact-title">Marges en hausse — integration verticale</div>
+      <div class="impact-body">SpaceX produit aujourd'hui ses fusees, ses satellites, ses stations au sol. Demain elle produira son carburant. <strong>Chaque maillon integre elimine un fournisseur externe</strong> et capture sa marge. Sur des milliers de lancements, l'economie est potentiellement de plusieurs milliards par an.</div>
+    </div>
+    <div class="impact-card" style="border-top-color:var(--amber);">
+      <div class="impact-tag" style="background:rgba(138,92,0,.1);color:var(--amber);">A surveiller</div>
+      <div class="impact-title">Nouveau risque operationnel</div>
+      <div class="impact-body">SpaceX entre dans un metier qu'elle ne connait pas — petrole & gaz, reglementation environnementale, gestion de concessions. <strong>"L'extraction de gaz naturel representerait un defi de taille pour une entreprise sans experience dans ce secteur"</strong>, souligne Stan Lindsey, consultant en hydrocarbures.</div>
+    </div>
+    <div class="impact-card" style="border-top-color:var(--blue);">
+      <div class="impact-tag" style="background:rgba(26,58,92,.1);color:var(--blue);">Vision long terme</div>
+      <div class="impact-title">Ambition 1/5 du reseau electrique US</div>
+      <div class="impact-body">Selon le prospectus d'IPO, SpaceX vise a terme a deployer <strong>des milliers de satellites alimentes par energie solaire dedies a l'IA</strong>, dont la production energetique combinee pourrait approcher un cinquieme du reseau electrique americain. Starpipe est la brique zero de cette vision.</div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-flash">
+    <div class="vf-tag">Verdict flash · Par Yacine AOUABED · YAASAP Notes · 25 juin 2026</div>
+    <div class="vf-body">
+      <p>Starpipe n'est pas une anecdote operationnelle — c'est la confirmation de la strategie de Musk que le marche n'avait pas encore pleinement integree lors de l'IPO. <strong>SpaceX ne veut pas etre dependante de fournisseurs externes pour quoi que ce soit</strong> : ni pour ses lanceurs, ni pour ses satellites, ni pour son carburant. La chaine du gaz naturel texan jusqu'a l'orbite basse sera un jour entierement propriete de SpaceX.</p>
+      <p>Pour votre position SPCX a 174,44€ de PRU sur 41 actions : <strong>cette annonce est un catalyseur de confirmation de these, pas un catalyseur de cours immediat.</strong> Ce qui compte pour votre position dans les 5 prochains jours c'est toujours le FTSE Russell ce soir et le MSCI le 29 juin. Starpipe renforce la these long terme — il ne compense pas la correction court terme.</p>
+      <p>La vraie question que Starpipe pose : <strong>a quelle valorisation l'action SpaceX devient-elle juste une fois qu'elle maitrise sa chaine energetique, accelere sa cadence a 500+ lancements/an, et deploie ses satellites IA ?</strong> Les analystes qui parlent de 175-200$ ont peut-etre raison. Mais pas encore aujourd'hui.</p>
+    </div>
+    <div class="vf-checklist">
+      <div class="vf-item"><strong>Confirmation de these :</strong> SpaceX s'integre verticalement du gaz naturel a l'orbite -- exactement comme prevu dans le prospectus IPO</div>
+      <div class="vf-item"><strong>Impact court terme :</strong> neutre sur le cours aujourd'hui -- les investisseurs savent deja depuis l'IPO que Shotwell avait annonce les pipelines</div>
+      <div class="vf-item"><strong>Impact moyen terme :</strong> positif -- cadence Starship peut s'accelerer significativement apres janvier 2027</div>
+      <div class="vf-item"><strong>Impact long terme :</strong> tres positif -- integration energetique = marges operationnelles en hausse sur chaque lancement</div>
+      <div class="vf-item"><strong>Pour votre position :</strong> tenir -- Starpipe ne change pas la decision FTSE/MSCI de ce soir et du 29 juin</div>
+      <div class="vf-item"><strong>Nouveau risque :</strong> SpaceX entre dans petrole & gaz sans experience -- risque reglementaire et operationnel a surveiller</div>
+    </div>
+    <div class="vf-disclaimer">Sources : Reuters (Joey Roulette) · Zonebourse · Investing.com · Texas Railroad Commission · 25 juin 2026 14h52. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes.</div>
+  </div>
+
+  <div class="nl-mini">
+    <div class="nl-mini-title">Recevez les prochains Flash YAASAP en temps reel</div>
+    <div class="nl-mini-sub">Gratuit · Inscriptions ouvertes · Desabonnement en 1 clic</div>
+    <div class="nl-mini-row">
+      <input class="nl-mini-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+      <button class="nl-mini-btn" onclick="nlmSubmit()">S'abonner &rarr;</button>
+    </div>
+    <div id="nlm-ok">&#x2705; Inscrit ! Prochain flash dans votre boite mail.</div>
+    <div class="nl-mini-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> &nbsp;&middot;&nbsp; Flash News · SpaceX Starpipe · Gazoduc Texas · <span id="footDate">25 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="./yaasap_spacex_ipo.html">Flash IPO SPCX</a>
+    <a href="./yaasap_spcx_position.html">Position SPCX</a>
+    <a href="./yaasap_lvmh.html">LVMH</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','footDate'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.textContent=s;
+  });
+  function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{
+      text:'https://yaasap.github.io/dailywatch/index.html',
+      width:48,height:48,colorDark:'#1c1814',colorLight:'#ffffff',
+      correctLevel:QRCode.CorrectLevel.M
+    });
+  }
+  tryQR();
+})();
+
+function nlmSubmit(){
+  var emailEl=document.getElementById('nlm-email');
+  var email=emailEl?emailEl.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    if(emailEl){emailEl.style.borderColor='rgba(255,100,100,.6)';setTimeout(function(){emailEl.style.borderColor='';},2000);}
+    return;
+  }
+  var body=new FormData();
+  body.append('email',email);
+  body.append('source','yaasap-starpipe-flash');
+  body.append('_subject','Inscription YAASAP Notes -- Flash Starpipe');
+  body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{
+    method:'POST',body:body,headers:{'Accept':'application/json'}
+  }).then(function(res){
+    if(res.ok){
+      var row=emailEl?emailEl.parentElement:null;
+      if(row)row.style.display='none';
+      var ok=document.getElementById('nlm-ok');
+      if(ok)ok.style.display='block';
+    }
+  }).catch(function(){});
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='nlm-email')nlmSubmit();
+});
+</script>
+</body>
+</html>
