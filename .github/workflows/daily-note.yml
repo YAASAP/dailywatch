@@ -1,66 +1,58 @@
-name: YAASAP Notes — Publication quotidienne
+name: Bulletin quotidien YAASAP Notes
 
 on:
   schedule:
-    - cron: '30 4 * * *'
+    # 07h00 heure de Paris (CEST = UTC+2 en été, CET = UTC+1 en hiver)
+    # En été (CEST) : 05h00 UTC = 07h00 Paris
+    - cron: '0 5 * * 1-5'   # Lundi–Vendredi
+    # Pour 7 jours/7, remplacer par :
+    # - cron: '0 5 * * *'
+
+  # Déclenchement manuel possible depuis GitHub Actions
   workflow_dispatch:
     inputs:
-      force_date:
-        description: 'Date forcée (YYYY-MM-DD) — optionnel'
+      date_override:
+        description: 'Date à générer (YYYY-MM-DD) — laisser vide pour aujourd'"'"'hui'
         required: false
+        default: ''
 
 jobs:
-  generate-note:
+  generate-daily-note:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     permissions:
-      contents: write
+      contents: write   # Pour pousser les fichiers générés
 
     steps:
-
-      - name: Checkout repository
+      # 1. Récupérer le code du repo
+      - name: Checkout du repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
 
-      - name: Set up Python 3.11
+      # 2. Installer Python et les dépendances
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
-      - name: Install dependencies
+      - name: Installer les dépendances
         run: |
-          pip install --upgrade pip
-          pip install anthropic requests
+          pip install yfinance requests
 
-      - name: Generate YAASAP Note
+      # 3. Générer le bulletin
+      - name: Générer le bulletin quotidien
+        run: |
+          python generate.py
         env:
-          NEWSAPI_KEY:        ${{ secrets.NEWSAPI_KEY }}
-          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          cd yaasap_generator
-          python generate.py 2>&1
+          TZ: Europe/Paris
 
-      - name: Commit and push generated note
+      # 4. Pousser les fichiers générés sur GitHub
+      - name: Commit et push
         run: |
-          git config --global user.name  "YAASAP Bot"
-          git config --global user.email "bot@yaasap.fr"
-          git add -A
-          git add -f yaasap_generator/.issue_number 2>/dev/null || true
-          if git diff --staged --quiet; then
-            echo "Aucun changement — skip commit"
-          else
-            DATE=$(date +'%Y-%m-%d %H:%M')
-            git commit -m "📊 Note YAASAP — ${DATE}"
-            git push origin main
-            echo "✅ Note publiée"
-          fi
-
-      - name: Notify on failure
-        if: failure()
-        run: |
-          echo "❌ Échec — vérifier les secrets NEWSAPI_KEY et ANTHROPIC_API_KEY"
-          exit 1
+          git config user.name "YAASAP Bot"
+          git config user.email "bot@yaasap.fr"
+          git add notes/ index.html
+          git diff --staged --quiet || git commit -m "📊 Bulletin automatique du $(date +'%d %B %Y' --date='today')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
