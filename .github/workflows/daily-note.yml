@@ -2,13 +2,7 @@ name: Bulletin quotidien YAASAP Notes
 
 on:
   schedule:
-    # 07h00 heure de Paris (CEST = UTC+2 en été, CET = UTC+1 en hiver)
-    # En été (CEST) : 05h00 UTC = 07h00 Paris
-    - cron: '0 5 * * 1-5'   # Lundi–Vendredi
-    # Pour 7 jours/7, remplacer par :
-    # - cron: '0 5 * * *'
-
-  # Déclenchement manuel possible depuis GitHub Actions
+    - cron: '0 5 * * 1-5'   # Lundi–Vendredi 07h00 Paris (CEST)
   workflow_dispatch:
     inputs:
       date_override:
@@ -20,16 +14,23 @@ jobs:
   generate-daily-note:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # Pour pousser les fichiers générés
+      contents: write
 
     steps:
-      # 1. Récupérer le code du repo
-      - name: Checkout du repo
+      - name: Checkout dailywatch (repo de destination)
         uses: actions/checkout@v4
         with:
+          repository: YAASAP/dailywatch
           token: ${{ secrets.GITHUB_TOKEN }}
+          path: dailywatch
 
-      # 2. Installer Python et les dépendances
+      - name: Checkout yaasap_generator (script)
+        uses: actions/checkout@v4
+        with:
+          repository: YAASAP/yaasap_generator
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: yaasap_generator
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -37,22 +38,24 @@ jobs:
 
       - name: Installer les dépendances
         run: |
-          pip install yfinance requests
+          pip install requests anthropic yfinance
 
-      # 3. Générer le bulletin
       - name: Générer le bulletin quotidien
         run: |
-          python generate.py
+          python yaasap_generator/generate.py
         env:
           TZ: Europe/Paris
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}/dailywatch
 
-      # 4. Pousser les fichiers générés sur GitHub
-      - name: Commit et push
+      - name: Commit et push vers dailywatch
         run: |
+          cd dailywatch
           git config user.name "YAASAP Bot"
           git config user.email "bot@yaasap.fr"
-          git add notes/ index.html
-          git diff --staged --quiet || git commit -m "📊 Bulletin automatique du $(date +'%d %B %Y' --date='today')"
+          git add docs/
+          git diff --staged --quiet || git commit -m "📊 Bulletin automatique du $(date +'%d %B %Y')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
