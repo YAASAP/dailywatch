@@ -2,13 +2,8 @@ name: Bulletin quotidien YAASAP Notes
 
 on:
   schedule:
-    - cron: '0 5 * * 1-5'   # Lundi–Vendredi 07h00 Paris (CEST)
+    - cron: '0 5 * * 1-5'
   workflow_dispatch:
-    inputs:
-      date_override:
-        description: 'Date à générer (YYYY-MM-DD) — laisser vide pour aujourd'"'"'hui'
-        required: false
-        default: ''
 
 jobs:
   generate-daily-note:
@@ -17,14 +12,14 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout dailywatch (repo de destination)
+      - name: Checkout dailywatch
         uses: actions/checkout@v4
         with:
           repository: YAASAP/dailywatch
           token: ${{ secrets.GITHUB_TOKEN }}
           path: dailywatch
 
-      - name: Checkout yaasap_generator (script)
+      - name: Checkout yaasap_generator
         uses: actions/checkout@v4
         with:
           repository: YAASAP/yaasap_generator
@@ -36,13 +31,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Installer les dépendances
-        run: |
-          pip install requests anthropic yfinance
+      - name: Installer les dependances
+        run: pip install requests anthropic yfinance
 
-      - name: Générer le bulletin quotidien
-        run: |
-          python yaasap_generator/generate.py
+      - name: Generer le bulletin quotidien
+        run: python yaasap_generator/generate.py
         env:
           TZ: Europe/Paris
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
@@ -55,7 +48,7 @@ jobs:
           git config user.name "YAASAP Bot"
           git config user.email "bot@yaasap.fr"
           git add docs/
-          git diff --staged --quiet || git commit -m "📊 Bulletin automatique du $(date +'%d %B %Y')"
+          git diff --staged --quiet || git commit -m "Bulletin automatique du $(date +'%d %B %Y')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
