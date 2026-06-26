@@ -16,14 +16,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: YAASAP/dailywatch
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_YAASAP }}
           path: dailywatch
 
       - name: Checkout yaasap_generator
         uses: actions/checkout@v4
         with:
           repository: YAASAP/yaasap_generator
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_YAASAP }}
           path: yaasap_generator
 
       - name: Setup Python
@@ -51,4 +51,4 @@ jobs:
           git diff --staged --quiet || git commit -m "Bulletin automatique du $(date +'%d %B %Y')"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_YAASAP }}
