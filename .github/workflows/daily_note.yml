@@ -8,10 +8,14 @@ on:
 jobs:
   generate-daily-note:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout dailywatch
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -36,3 +40,5 @@ jobs:
           git add docs/
           git diff --staged --quiet || git commit -m "Bulletin automatique du $(date +'%d %B %Y')"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
