@@ -1,0 +1,54 @@
+name: Bulletin quotidien YAASAP Notes
+
+on:
+  schedule:
+    - cron: '0 5 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  generate-daily-note:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout dailywatch
+        uses: actions/checkout@v4
+        with:
+          repository: YAASAP/dailywatch
+          token: ${{ secrets.PAT_YAASAP }}
+          path: dailywatch
+
+      - name: Checkout yaasap_generator
+        uses: actions/checkout@v4
+        with:
+          repository: YAASAP/yaasap_generator
+          token: ${{ secrets.PAT_YAASAP }}
+          path: yaasap_generator
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installer les dependances
+        run: pip install requests anthropic yfinance
+
+      - name: Generer le bulletin quotidien
+        run: python yaasap_generator/generate.py
+        env:
+          TZ: Europe/Paris
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}/dailywatch
+
+      - name: Commit et push vers dailywatch
+        run: |
+          cd dailywatch
+          git config user.name "YAASAP Bot"
+          git config user.email "bot@yaasap.fr"
+          git add docs/
+          git diff --staged --quiet || git commit -m "Bulletin automatique du $(date +'%d %B %Y')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_YAASAP }}
