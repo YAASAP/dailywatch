@@ -173,6 +173,32 @@ footer{background:var(--ink);border-top:2px solid var(--accent);padding:18px 24p
   .nl-perks,.nl-plans{grid-template-columns:1fr;}
 }
 </style>
+
+<style id="yaasap-sidebar-css">
+/* ── SIDEBAR NOTES PONCTUELLES (injecte par generate.py) ── */
+.page-wrap{display:flex;gap:24px;max-width:1100px;margin:0 auto;padding:24px 20px 60px;align-items:flex-start;}
+.main-col{flex:1;min-width:0;}
+.sidebar{width:280px;flex-shrink:0;position:sticky;top:72px;max-height:calc(100vh - 90px);overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:2px;}
+.sb-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--ink,#1c1814);border-radius:3px 3px 0 0;}
+.sb-header-title{font-family:var(--mono,'Courier New'),monospace;font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.sb-header-count{font-family:var(--mono,'Courier New'),monospace;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);background:rgba(255,255,255,.08);padding:1px 6px;border-radius:2px;}
+.sb-list{display:flex;flex-direction:column;gap:0;border:1px solid rgba(0,0,0,.1);border-top:none;border-radius:0 0 3px 3px;overflow:hidden;}
+.sb-item{display:block;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.07);border-left:2.5px solid transparent;text-decoration:none;background:#fff;transition:background .12s;}
+.sb-item:last-child{border-bottom:none;}
+.sb-item:hover{background:var(--paper2,#f2ede4);}
+.sb-cat{font-family:var(--mono,'Courier New'),monospace;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:2px;display:inline-block;margin-bottom:4px;}
+.sb-title{font-family:var(--serif,'Georgia'),serif;font-size:12px;font-weight:700;color:var(--ink,#1c1814);line-height:1.3;margin-bottom:3px;}
+.sb-date{font-family:var(--mono,'Courier New'),monospace;font-size:9px;color:var(--ink4,#9a8f82);}
+/* Mobile : sidebar passe en bas */
+@media(max-width:768px){
+  .page-wrap{flex-direction:column;}
+  .sidebar{width:100%;position:static;max-height:none;}
+  .sb-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,.07);}
+  .sb-item{background:#fff;}
+}
+</style>
 </head>
 <body>
 
@@ -623,5 +649,166 @@ function nlSubmit(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&(document.activeElement.id==='nl-email'||document.activeElement.id==='nl-prenom'))nlSubmit();});
 </script>
+
+<!-- SIDEBAR_START -->
+<aside class="sidebar">
+  <div class="sb-header">
+    <span class="sb-header-title">Notes ponctuelles</span>
+    <span class="sb-header-count">30</span>
+  </div>
+  <div class="sb-list">
+<a class="sb-item" href="./yaasap_starpipe.html" style="border-left-color:#c8290a;">
+  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
+  <div class="sb-title">SpaceX Starpipe — Primeur gazoduc Texas<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#c8290a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
+  <div class="sb-date">25 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_lvmh.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">LVMH — -26% YTD · PER 23x · Achat progressif<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#1a5c9a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
+  <div class="sb-date">22 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_block_sq.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Block XYZ — BPA +25.9% · Stablecoin<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#1a5c9a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
+  <div class="sb-date">18 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_spcx_position.html" style="border-left-color:#1a8a3a;">
+  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
+  <div class="sb-title">SPCX — Position · PRU 174.44€ · 41 actions</div>
+  <div class="sb-date">22 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_spacex_ipo.html" style="border-left-color:#c8290a;">
+  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
+  <div class="sb-title">SpaceX IPO — 85.7 Md$ · +19% jour J</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_ttwo.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">TTWO — GTA VI 19 nov. · BofA 320$</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_semi_smallcap.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Silvaco SVCO · PDFS · COHU — Semi small-caps</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_volatilite_v4.html" style="border-left-color:#d4880a;">
+  <div class="sb-cat" style="color:#d4880a;background:rgba(212,136,10,.15);">MACRO</div>
+  <div class="sb-title">Minieres or — NEM · Barrick · FCF record</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_argenx_position.html" style="border-left-color:#1a8a3a;">
+  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
+  <div class="sb-title">ARGX — Achat 645€ · +20.9% · Conserver</div>
+  <div class="sb-date">12 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_oscr_position.html" style="border-left-color:#1a8a3a;">
+  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
+  <div class="sb-title">OSCR — Achat 19.28€ · Verdict vendre</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_argenx.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">argenx — Zone achat 640-680€ · Bollinger</div>
+  <div class="sb-date">11 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_affiche_spcx.html" style="border-left-color:#c8290a;">
+  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
+  <div class="sb-title">Affiche print A4 — SPCX · Diffusion physique</div>
+  <div class="sb-date">15 juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_baba_v2.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Alibaba BABA v2 — 40 analystes Buy</div>
+  <div class="sb-date">juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_spatial_live.html" style="border-left-color:#6b21a8;">
+  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
+  <div class="sb-title">Secteur Spatial — RKLB · ASTS · IPO SpaceX</div>
+  <div class="sb-date">juin 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_oil_gas.html" style="border-left-color:#d4880a;">
+  <div class="sb-cat" style="color:#d4880a;background:rgba(212,136,10,.15);">MACRO</div>
+  <div class="sb-title">Oil & Gas — TotalEnergies · Majors</div>
+  <div class="sb-date">mai 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_ecosysteme_ia.html" style="border-left-color:#6b21a8;">
+  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
+  <div class="sb-title">Ecosysteme IA — LLMs · GPU · Stockage</div>
+  <div class="sb-date">avr. 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_gta6_light.html" style="border-left-color:#6b21a8;">
+  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
+  <div class="sb-title">GTA VI — Cartographie boursiere</div>
+  <div class="sb-date">mars 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_value.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Actions sous-cotees — PER bas · FCF</div>
+  <div class="sb-date">avr. 2026</div>
+</a>
+<a class="sb-item" href="./yaasap_baba.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Baba</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_ecosysteme_ia_v2.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Ecosysteme Ia V2</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_eutelsat.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Eutelsat</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_gta6.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Gta6</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_midterms.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Midterms</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_newglenn.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Newglenn</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_poutine_xi.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Poutine Xi</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_spatial.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Spatial</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_spcx_calendrier (1).html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Spcx Calendrier (1)</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_spcx_calendrier.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Spcx Calendrier</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_v3_paysage.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">V3 Paysage</div>
+  <div class="sb-date"></div>
+</a>
+<a class="sb-item" href="./yaasap_volatilite.html" style="border-left-color:#1a5c9a;">
+  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
+  <div class="sb-title">Volatilite</div>
+  <div class="sb-date"></div>
+</a>
+  </div>
+</aside>
+<!-- SIDEBAR_END -->
 </body>
 </html>
