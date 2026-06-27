@@ -808,46 +808,254 @@ if(el)el.textContent=d.toLocaleDateString('fr-FR',{{weekday:'long',year:'numeric
 
 
 # =============================================================
-# 6. INDEX RACINE — PROTEGE (inchange)
+# 6. SIDEBAR NOTES PONCTUELLES — injection dans index.html racine
 # =============================================================
-def build_root_index():
+
+# Metadonnees connues des notes ponctuelles
+# Format : nom_fichier -> (titre_court, categorie, date_affichee)
+# "cat" : flash | position | analyse | macro | tech
+NOTES_META = {
+    "yaasap_starpipe.html":         ("SpaceX Starpipe — Primeur gazoduc Texas",     "flash",    "25 juin 2026"),
+    "yaasap_lvmh.html":             ("LVMH — -26% YTD · PER 23x · Achat progressif","analyse",  "22 juin 2026"),
+    "yaasap_viatris.html":          ("Viatris — Upside residuel · Attendre 12-13$", "analyse",  "22 juin 2026"),
+    "yaasap_block_sq.html":         ("Block XYZ — BPA +25.9% · Stablecoin",         "analyse",  "18 juin 2026"),
+    "yaasap_spcx_position.html":    ("SPCX — Position · PRU 174.44€ · 41 actions",  "position", "22 juin 2026"),
+    "yaasap_spacex_ipo.html":       ("SpaceX IPO — 85.7 Md$ · +19% jour J",         "flash",    "15 juin 2026"),
+    "yaasap_ttwo.html":             ("TTWO — GTA VI 19 nov. · BofA 320$",           "analyse",  "15 juin 2026"),
+    "yaasap_semi_smallcap.html":    ("Silvaco SVCO · PDFS · COHU — Semi small-caps","analyse",  "15 juin 2026"),
+    "yaasap_global_souscote.html":  ("Tous marches v5 — PFE · BABA · GM",           "analyse",  "15 juin 2026"),
+    "yaasap_volatilite_v4.html":    ("Minieres or — NEM · Barrick · FCF record",    "macro",    "15 juin 2026"),
+    "yaasap_europe_souscotee.html": ("Europe sous-cotee — Stellantis · Vivendi",    "analyse",  "15 juin 2026"),
+    "yaasap_argenx_position.html":  ("ARGX — Achat 645€ · +20.9% · Conserver",     "position", "12 juin 2026"),
+    "yaasap_oscr_position.html":    ("OSCR — Achat 19.28€ · Verdict vendre",        "position", "15 juin 2026"),
+    "yaasap_argenx.html":           ("argenx — Zone achat 640-680€ · Bollinger",    "analyse",  "11 juin 2026"),
+    "yaasap_volatilite_v3.html":    ("PLTR · CRWD · DDOG · SoFi — Correction",     "macro",    "11 juin 2026"),
+    "yaasap_volatilite_v2.html":    ("LULU · ON Semi · OSCR — Strategie Buffett",   "analyse",   "9 juin 2026"),
+    "yaasap_affiche_spcx.html":     ("Affiche print A4 — SPCX · Diffusion physique","flash",    "15 juin 2026"),
+    "yaasap_baba_v2.html":          ("Alibaba BABA v2 — 40 analystes Buy",          "analyse",  "juin 2026"),
+    "yaasap_spatial_live.html":     ("Secteur Spatial — RKLB · ASTS · IPO SpaceX",  "tech",     "juin 2026"),
+    "yaasap_oil_gas.html":          ("Oil & Gas — TotalEnergies · Majors",           "macro",    "mai 2026"),
+    "yaasap_ecosysteme_ia.html":    ("Ecosysteme IA — LLMs · GPU · Stockage",       "tech",     "avr. 2026"),
+    "yaasap_gta6_light.html":       ("GTA VI — Cartographie boursiere",             "tech",     "mars 2026"),
+    "yaasap_value.html":            ("Actions sous-cotees — PER bas · FCF",         "analyse",  "avr. 2026"),
+}
+
+CAT_COLORS = {
+    "flash":    ("#c8290a", "rgba(200,41,10,.15)"),
+    "position": ("#1a8a3a", "rgba(26,138,58,.15)"),
+    "analyse":  ("#1a5c9a", "rgba(26,92,154,.15)"),
+    "macro":    ("#d4880a", "rgba(212,136,10,.15)"),
+    "tech":     ("#6b21a8", "rgba(107,33,168,.15)"),
+}
+
+
+def _title_from_filename(fname):
+    """Genere un titre lisible depuis le nom de fichier."""
+    return (fname
+            .replace("yaasap_", "")
+            .replace(".html", "")
+            .replace("_", " ")
+            .title())
+
+
+def build_sidebar_html(root_dir):
     """
-    NE REGENERE JAMAIS index.html si le fichier existe deja.
-    Garde identique a la version originale.
+    Scanne tous les yaasap_*.html a la racine du repo,
+    les trie par date (les plus recents en premier via NOTES_META,
+    les inconnus en dernier), et retourne le HTML de la sidebar.
     """
+    pattern = os.path.join(root_dir, "yaasap_*.html")
+    found   = sorted(glob.glob(pattern), reverse=False)
+
+    # Ordonner : connus d'abord dans l'ordre de NOTES_META, inconnus ensuite
+    known_order = list(NOTES_META.keys())
+    known_set   = set(known_order)
+
+    ordered = []
+    for fname in known_order:
+        fpath = os.path.join(root_dir, fname)
+        if os.path.exists(fpath):
+            ordered.append(fname)
+    for fpath in found:
+        fname = os.path.basename(fpath)
+        if fname not in known_set:
+            ordered.append(fname)
+
+    items_html = ""
+    for i, fname in enumerate(ordered):
+        meta  = NOTES_META.get(fname)
+        title = meta[0] if meta else _title_from_filename(fname)
+        cat   = meta[1] if meta else "analyse"
+        date  = meta[2] if meta else ""
+        col, bg = CAT_COLORS.get(cat, ("#9a8f82", "rgba(154,143,130,.1)"))
+        is_new  = (i < 3)
+        new_tag = (f'<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;'
+                   f'letter-spacing:.1em;text-transform:uppercase;background:{col};color:#fff;'
+                   f'padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span>'
+                   if is_new else "")
+
+        items_html += f"""<a class="sb-item" href="./{fname}" style="border-left-color:{col};">
+  <div class="sb-cat" style="color:{col};background:{bg};">{cat.upper()}</div>
+  <div class="sb-title">{title}{new_tag}</div>
+  <div class="sb-date">{date}</div>
+</a>
+"""
+
+    count = len(ordered)
+    return f"""<!-- SIDEBAR_START -->
+<aside class="sidebar">
+  <div class="sb-header">
+    <span class="sb-header-title">Notes ponctuelles</span>
+    <span class="sb-header-count">{count}</span>
+  </div>
+  <div class="sb-list">
+{items_html}  </div>
+</aside>
+<!-- SIDEBAR_END -->"""
+
+
+def update_root_index_sidebar():
+    """
+    Injecte/met a jour la sidebar dans index.html racine.
+    - Si index.html n'existe pas : le cree avec un layout deux colonnes minimal.
+    - Si index.html existe et contient les marqueurs SIDEBAR_START/END : remplace le bloc.
+    - Si index.html existe sans marqueurs : ajoute le CSS sidebar + injecte avant </body>.
+    La zone editoriale de index.html (masthead, notes thematiques, newsletter) est preservee.
+    """
+    import re
     index_path = os.path.join(ROOT_DIR, "index.html")
-    if os.path.exists(index_path):
-        print("SKIP index.html racine — fichier existant protege (supprimer pour regenerer)")
+    sidebar_html = build_sidebar_html(ROOT_DIR)
+
+    # CSS a injecter une seule fois (si absent)
+    SIDEBAR_CSS = """
+<style id="yaasap-sidebar-css">
+/* ── SIDEBAR NOTES PONCTUELLES (injecte par generate.py) ── */
+.page-wrap{display:flex;gap:24px;max-width:1100px;margin:0 auto;padding:24px 20px 60px;align-items:flex-start;}
+.main-col{flex:1;min-width:0;}
+.sidebar{width:280px;flex-shrink:0;position:sticky;top:72px;max-height:calc(100vh - 90px);overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:2px;}
+.sb-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--ink,#1c1814);border-radius:3px 3px 0 0;}
+.sb-header-title{font-family:var(--mono,'Courier New'),monospace;font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.sb-header-count{font-family:var(--mono,'Courier New'),monospace;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);background:rgba(255,255,255,.08);padding:1px 6px;border-radius:2px;}
+.sb-list{display:flex;flex-direction:column;gap:0;border:1px solid rgba(0,0,0,.1);border-top:none;border-radius:0 0 3px 3px;overflow:hidden;}
+.sb-item{display:block;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.07);border-left:2.5px solid transparent;text-decoration:none;background:#fff;transition:background .12s;}
+.sb-item:last-child{border-bottom:none;}
+.sb-item:hover{background:var(--paper2,#f2ede4);}
+.sb-cat{font-family:var(--mono,'Courier New'),monospace;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:2px;display:inline-block;margin-bottom:4px;}
+.sb-title{font-family:var(--serif,'Georgia'),serif;font-size:12px;font-weight:700;color:var(--ink,#1c1814);line-height:1.3;margin-bottom:3px;}
+.sb-date{font-family:var(--mono,'Courier New'),monospace;font-size:9px;color:var(--ink4,#9a8f82);}
+/* Mobile : sidebar passe en bas */
+@media(max-width:768px){
+  .page-wrap{flex-direction:column;}
+  .sidebar{width:100%;position:static;max-height:none;}
+  .sb-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,.07);}
+  .sb-item{background:#fff;}
+}
+</style>"""
+
+    # ── CAS 1 : index.html absent ──
+    if not os.path.exists(index_path):
+        print("index.html absent — creation avec layout sidebar")
+        html = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+{SIDEBAR_CSS}
+<style>
+*,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
+:root{{--paper:#f9f6f0;--paper2:#f2ede4;--ink:#1c1814;--ink4:#9a8f82;--accent:#8b3a1a;
+  --serif:'Libre Baskerville',Georgia,serif;--sans:'Source Sans 3',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;}}
+body{{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;}}
+.masthead{{background:var(--ink);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px double rgba(255,255,255,.15);position:sticky;top:0;z-index:100;}}
+.pub-name{{font-family:var(--serif);font-size:22px;font-weight:700;color:#fff;letter-spacing:-.02em;}}
+.pub-name em{{font-style:italic;color:var(--accent);}}
+.mast-sub{{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;}}
+.main-col .today-box{{background:#fff;border:1px solid rgba(0,0,0,.1);border-left:3px solid var(--accent);padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-radius:0 3px 3px 0;}}
+.main-col .today-box a{{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);text-decoration:none;display:block;}}
+.main-col .today-box a:hover{{color:var(--accent);}}
+.today-meta{{font-size:10px;color:var(--ink4);font-style:italic;margin-top:5px;}}
+footer{{background:var(--paper2);border-top:1px solid rgba(0,0,0,.1);padding:14px 22px;text-align:center;font-size:10px;color:var(--ink4);font-style:italic;}}
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="mast-sub">Analyse financiere independante · Par Yacine AOUABED</div>
+  </div>
+</div>
+<div class="page-wrap">
+  <div class="main-col">
+    <div class="today-box">
+      <a href="docs/note-du-jour.html">Bulletin du jour &mdash; Marches · Positions · Analyse</a>
+      <div class="today-meta" id="todayMeta">{DATE_STR}</div>
+    </div>
+    <p style="font-size:13px;color:var(--ink4);font-style:italic;padding:10px 0;">
+      Personnalisez cette page en editant index.html — la colonne droite est mise a jour automatiquement.
+    </p>
+  </div>
+  {sidebar_html}
+</div>
+<footer>YAASAP Notes &middot; Par Yacine AOUABED &middot; Ne constitue pas un conseil en investissement</footer>
+<script>
+(function(){{var d=new Date();var opts={{weekday:'long',year:'numeric',month:'long',day:'numeric'}};
+var el=document.getElementById('todayMeta');if(el)el.textContent=d.toLocaleDateString('fr-FR',opts);}})();
+</script>
+</body>
+</html>"""
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(html)
+        print("OK index.html cree avec sidebar")
         return
 
-    print("index.html absent — generation initiale minimale")
-    KNOWN = {f: (t, m) for f, t, m in ANALYSES}
-    pattern    = os.path.join(ROOT_DIR, "yaasap_*.html")
-    found_files = sorted(glob.glob(pattern), reverse=True)
-    analyses_items = ""
-    for i, fpath in enumerate(found_files):
-        fname = os.path.basename(fpath)
-        if fname in KNOWN:
-            title, meta = KNOWN[fname]
-        else:
-            title = fname.replace("yaasap_","").replace(".html","").replace("_"," ").title()
-            meta  = "Analyse YAASAP Notes"
-        badge = '<span class="badge-new">Nouveau</span>' if i < 3 else ''
-        analyses_items += (f'<li><span class="note-bullet">&mdash;</span><div>'
-                           f'<a class="note-link" href="{fname}">{title}{badge}</a>'
-                           f'<span class="li-meta">{meta}</span></div></li>\n')
+    # ── CAS 2 : index.html existe avec marqueurs → remplace le bloc sidebar ──
+    with open(index_path, "r", encoding="utf-8") as f:
+        content = f.read()
 
-    html = f"""<!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAASAP Notes</title>
-<meta http-equiv="refresh" content="0;url=docs/note-du-jour.html">
-</head><body>
-<p><a href="docs/note-du-jour.html">YAASAP Notes — Bulletin du jour</a></p>
-</body></html>"""
+    if "<!-- SIDEBAR_START -->" in content and "<!-- SIDEBAR_END -->" in content:
+        new_content = re.sub(
+            r"<!-- SIDEBAR_START -->.*?<!-- SIDEBAR_END -->",
+            sidebar_html,
+            content,
+            flags=re.DOTALL
+        )
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        count = len([l for l in sidebar_html.split('\n') if 'sb-item' in l and 'href' in l])
+        print(f"OK index.html sidebar mise a jour ({count} notes)")
+        return
+
+    # ── CAS 3 : index.html existe SANS marqueurs ──
+    # Injecter le CSS (une fois) + la sidebar avant </body>
+    if "yaasap-sidebar-css" not in content:
+        content = content.replace("</head>", SIDEBAR_CSS + "\n</head>", 1)
+
+    # Envelopper le contenu principal dans .page-wrap si pas encore fait
+    if "page-wrap" not in content:
+        # Inserer la sidebar juste avant </body>
+        content = content.replace(
+            "</body>",
+            f"\n<!-- Sidebar injectee par generate.py -->\n{sidebar_html}\n</body>",
+            1
+        )
+        print("OK index.html sidebar injectee (premier run sans marqueurs)")
+    else:
+        # page-wrap existe mais pas les marqueurs — inserer dans le wrap
+        content = content.replace(
+            "</body>",
+            f"\n{sidebar_html}\n</body>",
+            1
+        )
+        print("OK index.html sidebar injectee dans page-wrap existant")
+
     with open(index_path, "w", encoding="utf-8") as f:
-        f.write(html)
-    print("OK index.html racine (redirection minimale — a personnaliser)")
+        f.write(content)
 
 
 # =============================================================
@@ -891,15 +1099,16 @@ def main():
         f.write(html)
     print("   OK note-du-jour.html")
 
-    # 5. Archives
-    print("\n5. Mise a jour docs/index.html...")
+    # 5. Archives bulletins quotidiens
+    print("\n5. Mise a jour docs/index.html (archives)...")
     build_docs_index()
 
-    # 6. Index racine (protege)
-    print("\n6. Verification index.html racine...")
-    build_root_index()
+    # 6. Sidebar notes ponctuelles dans index.html racine
+    print("\n6. Mise a jour sidebar index.html racine...")
+    update_root_index_sidebar()
 
-    print(f"\nPublie : https://yaasap.github.io/dailywatch/docs/note-du-jour.html")
+    print(f"\n Publie : https://yaasap.github.io/dailywatch/")
+    print(f"   Bulletins archives : https://yaasap.github.io/dailywatch/docs/index.html")
 
 
 if __name__ == "__main__":
