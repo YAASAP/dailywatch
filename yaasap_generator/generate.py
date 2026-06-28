@@ -1103,9 +1103,8 @@ def main():
     print("\n5. Mise a jour docs/index.html (archives)...")
     build_docs_index()
 
-    # 6. Sidebar notes ponctuelles dans index.html racine
-    print("\n6. Mise a jour sidebar index.html racine...")
-    update_root_index_sidebar()
+   # 6. Sidebar notes ponctuelles dans index.html racine — DESACTIVE
+   # update_root_index_sidebar()
 
     print(f"\n Publie : https://yaasap.github.io/dailywatch/")
     print(f"   Bulletins archives : https://yaasap.github.io/dailywatch/docs/index.html")
