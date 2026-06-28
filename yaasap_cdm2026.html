@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YAASAP Notes — Coupe du Monde 2026 · Algérie · 13 Md$ · Enjeux financiers</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#faf8f4;--cream2:#f3f0ea;--cream3:#ebe6dc;
+  --ink:#18140f;--ink2:#2e2820;--ink3:#5c5548;--ink4:#9a9088;
+  --rule:rgba(0,0,0,.1);--rule2:rgba(0,0,0,.06);
+  --accent:#c8290a;--green:#1a5c32;--amber:#8a5c00;--gold:#b8780a;
+  --blue:#1a3a6c;--dz-green:#006233;--dz-red:#d21034;--dz-white:#fff;
+  --mast:#18140f;
+  --ft-disp:'Cormorant Garamond',Georgia,serif;
+  --ft-body:'EB Garamond',Georgia,serif;
+  --ft-mono:'IBM Plex Mono','Courier New',monospace;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+}
+html,body{background:var(--cream);font-family:var(--ft-body);color:var(--ink);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+/* ── MASTHEAD ── */
+.masthead{background:var(--mast);border-bottom:3px solid var(--accent);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.mast-brand{font-family:var(--ft-disp);font-size:21px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1;flex-shrink:0;}
+.mast-brand em{font-style:italic;color:var(--accent);}
+.mast-center{flex:1;text-align:center;}
+.mast-cat{font-family:var(--ft-mono);font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.12);padding:3px 10px;border-radius:1px;display:inline-block;}
+.mast-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.mast-date{font-family:var(--ft-body);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;}
+.mast-qr-box{background:#fff;padding:3px;border-radius:1px;line-height:0;}
+.mast-qr-lbl{font-family:var(--ft-mono);font-size:5.5px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-top:1px;}
+
+/* ── HERO — plage algérienne + drapeau SVG ── */
+.hero{position:relative;width:100%;height:420px;overflow:hidden;background:#004d28;}
+
+/* Photo plage méditerranéenne : légèrement filtrée pour laisser le drapeau ressortir */
+.hero img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 45%;
+  display:block;
+  filter:brightness(.82) saturate(1.05);
+}
+
+/* Drapeau algérien SVG — couvre tout le hero en transparence */
+.hero-flag-overlay{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+.hero-flag-overlay svg{width:100%;height:100%;display:block;}
+
+/* Gradient texte lisible — uniquement bas de page */
+.hero-overlay{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 38%,
+    rgba(0,20,8,.45) 62%,
+    rgba(0,15,5,.94) 100%
+  );
+}
+
+/* Bandeau fin drapeau tout en haut */
+.hero-flag{
+  position:absolute;top:0;left:0;width:100%;height:5px;
+  background:linear-gradient(to right,var(--dz-green) 50%,var(--dz-red) 50%);
+  z-index:5;
+}
+
+/* Contenu texte au-dessus de tout */
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:24px 28px 22px;z-index:3;}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.hero-tag-dz{font-family:var(--ft-mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--dz-green);color:#fff;padding:3px 10px;border-radius:1px;}
+.hero-tag-fifa{font-family:var(--ft-mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 10px;border-radius:1px;}
+.hero-eyebrow-date{font-family:var(--ft-mono);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.04em;}
+.hero-title{font-family:var(--ft-disp);font-size:clamp(22px,4vw,36px);font-weight:700;font-style:italic;color:#fff;line-height:1.07;margin-bottom:8px;max-width:680px;text-shadow:0 2px 12px rgba(0,0,0,.5);}
+.hero-title em{font-style:normal;color:#6eff9a;}
+.hero-deck{font-family:var(--ft-body);font-size:13.5px;font-style:italic;color:rgba(255,255,255,.65);line-height:1.5;max-width:580px;margin-bottom:16px;text-shadow:0 1px 6px rgba(0,0,0,.4);}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hero-back{font-family:var(--ft-mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:1px;}
+.hero-back:hover{color:rgba(255,255,255,.8);}
+/* Badge DZ haut droite */
+.hero-dz-badge{display:none;}
+
+/* ── KPI STRIP — fond sombre style DZ ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);background:var(--mast);border-bottom:1px solid rgba(255,255,255,.06);}
+.kpi{padding:10px 0 10px 14px;border-right:1px solid rgba(255,255,255,.06);}
+.kpi:last-child{border-right:none;}
+.kpi-v{font-family:var(--ft-mono);font-size:15px;font-weight:700;color:#f0ebe3;line-height:1;display:block;}
+.kpi-v.dz{color:#4ade80;}.kpi-v.am{color:#fbbf24;}.kpi-v.gold{color:var(--gold);}
+.kpi-v.rd{color:#f87171;}
+.kpi-l{font-family:var(--ft-mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:3px;display:block;}
+
+/* ── PAGE LAYOUT ── */
+.page-layout{display:grid;grid-template-columns:1fr 290px;max-width:1280px;margin:0 auto;border-left:1px solid var(--rule);border-right:1px solid var(--rule);}
+
+/* ── COLONNE PRINCIPALE ── */
+.main-col{border-right:1px solid var(--rule);min-width:0;}
+
+/* KICKER SCROLL */
+.kicker{overflow-x:auto;background:var(--cream2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-family:var(--ft-mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;}
+.kk-v{font-family:var(--ft-mono);font-size:13px;font-weight:700;color:var(--ink);line-height:1;}
+.kk-n{font-family:var(--ft-body);font-size:10px;font-style:italic;color:var(--ink4);margin-top:1px;}
+.kk-v.up{color:var(--green);}.kk-v.dn{color:var(--accent);}.kk-v.am{color:var(--amber);}
+
+.content{padding:26px 28px 52px;}
+
+/* SEC */
+.sec{display:flex;align-items:center;gap:8px;margin:24px 0 13px;}
+.sec::before{content:'';width:18px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-txt{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.sec::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+/* DZ BLOCK — mise en avant Algérie */
+.dz-block{background:var(--cream2);border:1px solid var(--rule);border-left:4px solid var(--dz-green);border-radius:0 2px 2px 0;padding:16px 18px;margin-bottom:18px;}
+.dz-block-title{font-family:var(--ft-disp);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.dz-block-sub{font-family:var(--ft-body);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:10px;}
+.dz-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border-radius:1px;overflow:hidden;}
+.dz-stat{background:#fff;padding:9px 12px;text-align:center;}
+.dz-stat-v{font-family:var(--ft-mono);font-size:15px;font-weight:700;color:var(--dz-green);display:block;line-height:1;}
+.dz-stat-l{font-family:var(--ft-mono);font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-top:3px;display:block;}
+
+/* LEAD */
+.lead-hl{font-family:var(--ft-disp);font-size:22px;font-weight:700;line-height:1.15;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--ft-body);font-size:14px;font-style:italic;color:var(--ink3);line-height:1.55;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-p{font-family:var(--ft-body);font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:11px;}
+.body-p strong{font-weight:700;color:var(--ink);}
+
+/* PULL */
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 14px;margin:14px 0;}
+.pull-t{font-family:var(--ft-disp);font-size:16px;font-style:italic;line-height:1.4;color:var(--ink);}
+.pull-a{font-family:var(--ft-mono);font-size:8.5px;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase;margin-top:5px;}
+
+/* GRAPHIQUES */
+.chart-card{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.chart-hd{padding:9px 14px;border-bottom:1px solid var(--rule2);background:var(--cream2);display:flex;justify-content:space-between;align-items:center;}
+.chart-hd-t{font-family:var(--ft-mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);}
+.chart-hd-s{font-family:var(--ft-body);font-size:9.5px;font-style:italic;color:var(--ink4);}
+.chart-body{padding:14px 16px 10px;}
+.chart-wrap{position:relative;height:190px;}
+.chart-legend{display:flex;gap:12px;padding:8px 16px 12px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:5px;font-family:var(--ft-mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:16px;font-size:12.5px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.tbl th{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--cream2);}
+.tbl td{font-family:var(--ft-body);font-size:13px;padding:7px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--cream2);}
+.b-up{background:rgba(26,92,50,.1);color:var(--green);font-family:var(--ft-mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;}
+.b-am{background:rgba(138,92,0,.1);color:var(--amber);font-family:var(--ft-mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;}
+.b-dn{background:rgba(200,41,10,.1);color:var(--accent);font-family:var(--ft-mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;}
+
+/* REV GRID */
+.rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px;}
+.rev-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;padding:11px 13px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.rev-lbl{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;}
+.rev-val{font-family:var(--ft-mono);font-size:21px;font-weight:700;line-height:1;margin-bottom:2px;}
+.rev-vs{font-family:var(--ft-body);font-size:11px;font-style:italic;color:var(--ink4);}
+.rev-vs strong{font-weight:700;font-style:normal;color:var(--ink3);}
+
+/* ACTIONS GRID */
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border-radius:2px;overflow:hidden;margin-bottom:16px;}
+.ac{background:#fff;padding:11px 13px;}
+.ac-tkr{font-family:var(--ft-mono);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;letter-spacing:.02em;}
+.ac-nm{font-family:var(--ft-body);font-size:11px;font-style:italic;color:var(--ink4);margin-bottom:5px;}
+.ac-body{font-family:var(--ft-body);font-size:12.5px;color:var(--ink2);line-height:1.45;}
+.ac-body strong{font-weight:700;color:var(--ink);}
+.ac-sig{font-family:var(--ft-mono);font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:1px;display:inline-block;margin-top:6px;}
+
+/* VERDICT */
+.verdict{background:var(--mast);border-radius:2px;padding:18px 20px;margin:22px 0;}
+.v-tag{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 8px;border-radius:1px;display:inline-block;margin-bottom:12px;}
+.v-lead{font-family:var(--ft-disp);font-size:16px;font-style:italic;color:rgba(255,255,255,.9);line-height:1.5;margin-bottom:10px;}
+.v-lead strong{font-style:normal;color:#fbbf24;}
+.v-list{border-top:1px solid rgba(255,255,255,.1);padding-top:12px;display:flex;flex-direction:column;gap:6px;}
+.v-li{display:flex;gap:10px;font-family:var(--ft-body);font-size:13px;color:rgba(255,255,255,.75);align-items:baseline;}
+.v-li::before{content:'—';color:#fbbf24;flex-shrink:0;font-family:var(--ft-mono);}
+.v-li strong{color:#fff;font-weight:700;}
+.v-disc{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-family:var(--ft-mono);font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.04em;line-height:1.6;}
+
+/* NL */
+.nl{background:var(--cream3);border-top:2px solid var(--accent);padding:14px 16px;margin-top:22px;border-radius:0 0 2px 2px;}
+.nl-hl{font-family:var(--ft-disp);font-size:15px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:4px;}
+.nl-row{display:flex;gap:6px;margin-top:8px;}
+.nl-input{flex:1;height:38px;padding:0 12px;border:1px solid var(--rule);background:#fff;border-radius:1px;font-family:var(--ft-body);font-size:14px;color:var(--ink);outline:none;transition:border-color .12s;}
+.nl-input::placeholder{color:var(--ink4);}
+.nl-input:focus{border-color:var(--accent);}
+.nl-btn{height:38px;padding:0 14px;background:var(--accent);border:none;border-radius:1px;color:#fff;font-family:var(--ft-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
+.nl-btn:hover{background:#a01e00;}
+.nl-note{font-family:var(--ft-mono);font-size:8px;color:var(--ink4);margin-top:5px;letter-spacing:.04em;}
+#nlm-ok{display:none;font-family:var(--ft-mono);font-size:10px;color:var(--green);margin-top:5px;letter-spacing:.06em;}
+
+/* ── SIDEBAR DROITE ── */
+.sidebar{position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;background:var(--cream2);display:flex;flex-direction:column;}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--cream3);}
+
+.sb-blk{border-bottom:1px solid var(--rule);}
+.sb-hd{padding:9px 14px;background:var(--cream3);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
+.sb-hd::before{content:'';width:14px;height:2px;background:var(--accent);flex-shrink:0;margin-right:6px;}
+.sb-hd-t{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);flex:1;}
+.sb-hd-b{font-family:var(--ft-mono);font-size:8px;color:var(--ink4);background:var(--cream);border:1px solid var(--rule);padding:1px 6px;border-radius:1px;}
+
+/* DZ MINI STATUS */
+.dz-status{padding:12px 14px;}
+.dz-st-title{font-family:var(--ft-disp);font-size:14px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.dz-groupe{display:flex;flex-direction:column;gap:4px;}
+.dz-team{display:flex;justify-content:space-between;align-items:center;padding:5px 8px;border-radius:1px;background:#fff;border:1px solid var(--rule);}
+.dz-team.dz{background:rgba(0,98,51,.06);border-color:rgba(0,98,51,.2);}
+.dz-team-name{font-family:var(--ft-body);font-size:12px;font-weight:600;color:var(--ink);}
+.dz-team.dz .dz-team-name{color:var(--dz-green);}
+.dz-pts{font-family:var(--ft-mono);font-size:11px;font-weight:700;color:var(--ink3);}
+.dz-team.dz .dz-pts{color:var(--dz-green);}
+.dz-next{margin-top:8px;padding:8px 10px;background:rgba(200,41,10,.05);border:1px solid rgba(200,41,10,.15);border-radius:1px;}
+.dz-next-lbl{font-family:var(--ft-mono);font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
+.dz-next-txt{font-family:var(--ft-body);font-size:12px;color:var(--ink2);line-height:1.4;}
+.dz-next-date{font-family:var(--ft-mono);font-size:9px;color:var(--ink4);margin-top:2px;}
+
+/* PORTFOLIO MINI */
+.sb-pf{padding:10px 14px;}
+.sb-pf-lbl{font-family:var(--ft-mono);font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px;}
+.sb-pf-chart{position:relative;height:110px;width:100%;margin-bottom:8px;}
+.sb-pf-rows{display:flex;flex-direction:column;}
+.sb-pf-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--rule2);}
+.sb-pf-row:last-child{border-bottom:none;}
+.sb-pf-tkr{font-family:var(--ft-mono);font-size:11px;font-weight:700;color:var(--ink);}
+.sb-pf-info{font-family:var(--ft-body);font-size:10.5px;font-style:italic;color:var(--ink4);}
+.sb-pf-pnl{font-family:var(--ft-mono);font-size:11px;font-weight:700;}
+.pos{color:var(--green);}.neg{color:var(--accent);}
+
+/* CATALYSEURS */
+.sb-cats{padding:10px 14px;display:flex;flex-direction:column;gap:5px;}
+.cat-item{display:flex;justify-content:space-between;align-items:center;padding:6px 9px;border-radius:1px;border:1px solid;}
+.cat-item.red{background:rgba(200,41,10,.05);border-color:rgba(200,41,10,.15);}
+.cat-item.grn{background:rgba(26,92,50,.05);border-color:rgba(26,92,50,.15);}
+.cat-item.amb{background:rgba(138,92,0,.05);border-color:rgba(138,92,0,.15);}
+.cat-item.blu{background:rgba(26,58,108,.05);border-color:rgba(26,58,108,.15);}
+.cat-nm{font-family:var(--ft-mono);font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.cat-item.red .cat-nm{color:var(--accent);}
+.cat-item.grn .cat-nm{color:var(--green);}
+.cat-item.amb .cat-nm{color:var(--amber);}
+.cat-item.blu .cat-nm{color:var(--blue);}
+.cat-desc{font-family:var(--ft-body);font-size:11px;font-style:italic;color:var(--ink3);margin-top:1px;}
+.cat-date{font-family:var(--ft-mono);font-size:10px;font-weight:700;flex-shrink:0;margin-left:8px;}
+.cat-item.red .cat-date{color:var(--accent);}
+.cat-item.grn .cat-date{color:var(--green);}
+.cat-item.amb .cat-date{color:var(--amber);}
+.cat-item.blu .cat-date{color:var(--blue);}
+
+/* NOTES SIDEBAR */
+.sb-note{display:block;padding:9px 14px;border-bottom:1px solid var(--rule2);border-left:2px solid transparent;text-decoration:none;background:var(--cream2);transition:background .1s;}
+.sb-note:hover{background:#fff;}
+.sb-note-cat{font-family:var(--ft-mono);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border-radius:1px;margin-bottom:3px;display:inline-block;}
+.sb-note-title{font-family:var(--ft-disp);font-size:13px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:2px;}
+.sb-note-date{font-family:var(--ft-mono);font-size:8px;color:var(--ink4);letter-spacing:.04em;}
+.sb-new{font-family:var(--ft-mono);font-size:6.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:1px 4px;border-radius:1px;margin-left:4px;vertical-align:middle;}
+
+/* NL SIDEBAR */
+.sb-nl{padding:14px 16px;}
+.sb-nl-hl{font-family:var(--ft-disp);font-size:15px;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:3px;}
+.sb-nl-sub{font-family:var(--ft-body);font-size:12px;font-style:italic;color:var(--ink3);margin-bottom:9px;line-height:1.4;}
+.sb-nl-row{display:flex;gap:5px;}
+.sb-nl-input{flex:1;height:34px;padding:0 10px;background:#fff;border:1px solid var(--rule);border-radius:1px;font-family:var(--ft-body);font-size:13px;color:var(--ink);outline:none;}
+.sb-nl-input::placeholder{color:var(--ink4);}
+.sb-nl-input:focus{border-color:var(--accent);}
+.sb-nl-btn{height:34px;padding:0 11px;background:var(--accent);border:none;border-radius:1px;font-family:var(--ft-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;cursor:pointer;white-space:nowrap;}
+.sb-nl-ok{display:none;font-family:var(--ft-mono);font-size:10px;color:var(--green);margin-top:5px;letter-spacing:.06em;}
+.sb-nl-note{font-family:var(--ft-mono);font-size:8px;color:var(--ink4);margin-top:5px;letter-spacing:.04em;}
+
+/* FOOTER */
+footer{border-top:2px solid var(--accent);background:var(--mast);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-brand{font-family:var(--ft-disp);font-size:14px;font-weight:700;color:rgba(255,255,255,.3);}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-legal{font-family:var(--ft-mono);font-size:8px;color:rgba(255,255,255,.15);letter-spacing:.04em;}
+.foot-nav{display:flex;gap:14px;flex-wrap:wrap;}
+.foot-nav a{font-family:var(--ft-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;}
+.foot-nav a:hover{color:var(--accent);}
+
+@media(max-width:900px){
+  .page-layout{grid-template-columns:1fr;}
+  .sidebar{position:static;height:auto;}
+  .hero{height:280px;}
+  .kpi-strip{grid-template-columns:repeat(3,1fr);}
+  .rev-grid,.ag{grid-template-columns:1fr;}
+  .dz-stats{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:540px){
+  .kpi-strip{grid-template-columns:repeat(2,1fr);}
+  .dz-stats{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="mast-brand">YAASAP <em>Notes</em></div>
+  </div>
+  <div class="mast-center">
+    <span class="mast-cat">Dossier · Coupe du Monde 2026 · Enjeux financiers</span>
+  </div>
+  <div class="mast-right">
+    <div class="mast-date" id="liveDate">28 juin 2026</div>
+    <div>
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO — Littoral algérien + drapeau DZ en overlay patriotique -->
+<div class="hero">
+  <!-- Photo plage/littoral méditerranéen algérien -->
+  <img
+    id="heroImg"
+    src="https://images.unsplash.com/photo-1593552609340-c78dc3656f71?w=1400&q=90&fit=crop&crop=center"
+    alt="Littoral méditerranéen algérien — Les Fennecs au Mondial 2026"
+    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=85&fit=crop&crop=center'">
+
+  <!-- DRAPEAU ALGÉRIEN EN SVG SEMI-TRANSPARENT sur toute la largeur -->
+  <div class="hero-flag-overlay">
+    <svg viewBox="0 0 2 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+      <!-- Bande verte gauche -->
+      <rect x="0" y="0" width="1" height="1" fill="#006233" opacity="0.72"/>
+      <!-- Bande blanche droite -->
+      <rect x="1" y="0" width="1" height="1" fill="#ffffff" opacity="0.55"/>
+      <!-- Croissant rouge -->
+      <circle cx="1.08" cy="0.5" r="0.22" fill="#d21034" opacity="0.95"/>
+      <circle cx="1.14" cy="0.5" r="0.18" fill="#006233" opacity="0.72"/>
+      <!-- Étoile rouge à 5 branches centrée -->
+      <g transform="translate(1.22,0.5)" opacity="0.95">
+        <polygon points="0,-0.12 0.028,-0.038 0.114,-0.038 0.046,0.014 0.07,0.1 0,-0.045 -0.07,0.1 -0.046,0.014 -0.114,-0.038 -0.028,-0.038" fill="#d21034"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Gradient sombre bas de page pour lisibilité du texte -->
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-tag-dz">🇩🇿 الجزائر · Les Fennecs</span>
+      <span class="hero-tag-fifa">✅ Qualifiés 16ᵉs de finale</span>
+      <span class="hero-eyebrow-date">Mondial 2026 · 5ᵉ participation · Algérie 3–3 Autriche · 27 juin</span>
+    </div>
+    <div class="hero-title"><em>الجزائر</em> en 16ᵉs — et 13 milliards que la FIFA encaisse</div>
+    <div class="hero-deck">Mahrez, Gouiri, Belghali. Les Fennecs arrachent la qualification dans un 3–3 épique contre l'Autriche. Prochain adversaire : la Suisse le 3 juillet. Et en coulisses, le plus grand événement commercial de l'histoire du sport.</div>
+    <div class="hero-actions">
+      <a href="./index.html" class="hero-back">← Accueil YAASAP Notes</a>
+    </div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi"><span class="kpi-v gold">13 Md$</span><span class="kpi-l">Revenus FIFA</span></div>
+  <div class="kpi"><span class="kpi-v am">4,2 Md$</span><span class="kpi-l">Droits TV</span></div>
+  <div class="kpi"><span class="kpi-v am">3 Md$</span><span class="kpi-l">Billetterie +200%</span></div>
+  <div class="kpi"><span class="kpi-v am">2,8 Md$</span><span class="kpi-l">Sponsoring</span></div>
+  <div class="kpi"><span class="kpi-v dz">5ᵉ</span><span class="kpi-l">Participation DZ</span></div>
+  <div class="kpi"><span class="kpi-v rd">Groupe J</span><span class="kpi-l">ARG · AUT · JOR</span></div>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+<!-- ══ COLONNE PRINCIPALE ══ -->
+<div class="main-col">
+
+  <!-- KICKER -->
+  <div class="kicker">
+    <div class="kicker-inner">
+      <div class="kk"><div class="kk-l">Matchs DZ qualifs</div><div class="kk-v dz">22 buts</div><div class="kk-n">Groupe G largement dominé</div></div>
+      <div class="kk"><div class="kk-l">Absence</div><div class="kk-v dn">12 ans</div><div class="kk-n">Depuis le Brésil 2014</div></div>
+      <div class="kk"><div class="kk-l">Qualif. obtenue</div><div class="kk-v dz">Oct. 2025</div><div class="kk-n">vs Ouganda · Groupe G CAF</div></div>
+      <div class="kk"><div class="kk-l">Matchs tournoi</div><div class="kk-v am">104</div><div class="kk-n">vs 64 Qatar 2022 · +62%</div></div>
+      <div class="kk"><div class="kk-l">Droits TV FIFA</div><div class="kk-v am">4,2 Md$</div><div class="kk-n">+100% marché US</div></div>
+      <div class="kk"><div class="kk-l">Nike CDM</div><div class="kk-v am">~1 Md$</div><div class="kk-n">12 équipes · activation 12 sem.</div></div>
+      <div class="kk"><div class="kk-l">Billet finale</div><div class="kk-v dn">1 882$</div><div class="kk-n">Dynamic pricing FIFA</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ALGÉRIE AU MONDIAL -->
+    <div class="sec"><span class="sec-txt">Algérie · Retour sur la scène mondiale après 12 ans</span></div>
+
+    <div class="dz-block">
+      <div class="dz-block-title">🇩🇿 Les Fennecs en 16ᵉs de finale du Mondial 2026</div>
+      <div class="dz-block-sub">Qualifiés comme meilleur 3ᵉ après un match épique Algérie 3–3 Autriche le 27 juin. Mahrez (×2 dont pénalty) et Belghali buteurs. Prochaine étape : Suisse le 3 juillet 2026. 5ᵉ participation algérienne, 12 ans après les 8ᵉs de finale au Brésil 2014 face à l'Allemagne.</div>
+      <div class="dz-stats">
+        <div class="dz-stat"><span class="dz-stat-v">5ᵉ</span><span class="dz-stat-l">Participation CDM</span></div>
+        <div class="dz-stat"><span class="dz-stat-v">3–3</span><span class="dz-stat-l">vs Autriche · Qualif.</span></div>
+        <div class="dz-stat"><span class="dz-stat-v">3 juil.</span><span class="dz-stat-l">vs Suisse · 16ᵉs</span></div>
+      </div>
+    </div>
+
+    <!-- ANALYSE FIFA -->
+    <div class="sec"><span class="sec-txt">Analyse · La FIFA encaisse 13 milliards de dollars</span></div>
+
+    <div class="lead-hl">La FIFA ne vend plus un événement sportif. Elle exploite une plateforme de contenus premium à l'échelle planétaire.</div>
+    <div class="lead-deck">Avec 13 milliards de dollars de revenus sur le cycle 2023-2026, contre 7,5 milliards sur le cycle précédent, la FIFA affiche une croissance de +73% en quatre ans. Organiser le Mondial aux États-Unis — le marché publicitaire le plus rentable du monde — change tout.</div>
+
+    <p class="body-p">Le tournoi passe de 32 à 48 équipes et de 64 à 104 matchs, soit <strong>+62% de contenu à vendre</strong>. Ce volume démultiplie mécaniquement tous les postes de revenus. Le marché américain pèse désormais <strong>52% des revenus sponsoring contre 36% il y a quatre ans.</strong></p>
+
+    <div class="pull">
+      <div class="pull-t">« La FIFA ne vend plus seulement un événement sportif mondial, elle maximise une plateforme de contenus, de prix premium et de rareté. »</div>
+      <div class="pull-a">— Club Patrimoine · Analyse économique CDM 2026 · Juin 2026</div>
+    </div>
+
+    <!-- REVENUS -->
+    <div class="sec"><span class="sec-txt">Revenus · Décomposition des 13 Md$</span></div>
+
+    <div class="chart-card">
+      <div class="chart-hd">
+        <span class="chart-hd-t">Revenus FIFA CDM 2026 — Qatar 2022 vs USA 2026 (Md$)</span>
+        <span class="chart-hd-s">Sources : FIFA · Club Patrimoine · Stratégies</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap"><canvas id="revenusChart"></canvas></div></div>
+      <div class="chart-legend">
+        <div class="cl-item"><div class="cl-dot" style="background:#b8780a;"></div>Droits TV 4,2 Md$</div>
+        <div class="cl-item"><div class="cl-dot" style="background:#1a3a6c;"></div>Billetterie 3 Md$</div>
+        <div class="cl-item"><div class="cl-dot" style="background:#1a5c32;"></div>Sponsoring 2,8 Md$</div>
+        <div class="cl-item"><div class="cl-dot" style="background:#8a5c00;"></div>Autres 3 Md$</div>
+      </div>
+    </div>
+
+    <div class="rev-grid">
+      <div class="rev-card" style="border-top-color:var(--gold);">
+        <div class="rev-lbl">Droits télévisés</div>
+        <div class="rev-val" style="color:var(--gold);">4,2 Md$</div>
+        <div class="rev-vs">vs 2,1 Md$ Qatar · <strong>+100%</strong> marché US</div>
+      </div>
+      <div class="rev-card" style="border-top-color:var(--blue);">
+        <div class="rev-lbl">Billetterie &amp; hospitalité</div>
+        <div class="rev-val" style="color:var(--blue);">3 Md$</div>
+        <div class="rev-vs">vs &lt;1 Md$ Qatar · <strong>+200%</strong> · 6M tickets</div>
+      </div>
+      <div class="rev-card" style="border-top-color:var(--green);">
+        <div class="rev-lbl">Sponsoring</div>
+        <div class="rev-val" style="color:var(--green);">2,8 Md$</div>
+        <div class="rev-vs">+50% · 16 positions sold out avant J</div>
+      </div>
+      <div class="rev-card" style="border-top-color:var(--amber);">
+        <div class="rev-lbl">Autres revenus cycle</div>
+        <div class="rev-val" style="color:var(--amber);">~3 Md$</div>
+        <div class="rev-vs">Digital, FIFA+, licensing, nouvelles compétitions</div>
+      </div>
+    </div>
+
+    <!-- SPONSORS -->
+    <div class="sec"><span class="sec-txt">Sponsors · Pyramide commerciale FIFA</span></div>
+
+    <table class="tbl">
+      <thead><tr><th>Marque</th><th>Niveau</th><th>Budget</th><th>Signal</th><th>Ticker</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nike</strong></td><td>Équipementier</td><td style="font-family:var(--ft-mono);">~1 Md$</td><td><span class="b-up">12 équipes</span></td><td style="font-family:var(--ft-mono);font-size:11px;">NKE</td></tr>
+        <tr><td><strong>Adidas</strong></td><td>FIFA Partner</td><td style="font-family:var(--ft-mono);">150-200 M$/cycle</td><td><span class="b-up">14 équipes</span></td><td style="font-family:var(--ft-mono);font-size:11px;">ADS</td></tr>
+        <tr><td><strong>Coca-Cola</strong></td><td>FIFA Partner</td><td style="font-family:var(--ft-mono);">150-200 M$/cycle</td><td><span class="b-up">Présent depuis 1970s</span></td><td style="font-family:var(--ft-mono);font-size:11px;">KO</td></tr>
+        <tr><td><strong>Visa</strong></td><td>FIFA Partner</td><td style="font-family:var(--ft-mono);">150-200 M$/cycle</td><td><span class="b-up">Paiements stades</span></td><td style="font-family:var(--ft-mono);font-size:11px;">V</td></tr>
+        <tr><td><strong>Bank of America</strong></td><td>World Cup Sponsor</td><td style="font-family:var(--ft-mono);">65-95 M$</td><td><span class="b-am">+ gros budget sport</span></td><td style="font-family:var(--ft-mono);font-size:11px;">BAC</td></tr>
+        <tr><td><strong>Airbnb</strong></td><td>Partenaire logement</td><td style="font-family:var(--ft-mono);">—</td><td><span class="b-up">380-400k réservations</span></td><td style="font-family:var(--ft-mono);font-size:11px;">ABNB</td></tr>
+        <tr><td><strong>Aramco</strong></td><td>FIFA Partner</td><td style="font-family:var(--ft-mono);">Centaines M$/cycle</td><td><span class="b-dn">Controverse ESG</span></td><td style="font-family:var(--ft-mono);font-size:11px;">Ryad</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ACTIONS -->
+    <div class="sec"><span class="sec-txt">Actions · Les gagnants cotés à surveiller</span></div>
+
+    <div class="ag">
+      <div class="ac">
+        <div class="ac-tkr">NKE — Nike</div>
+        <div class="ac-nm">NYSE · Équipementier · 12 équipes</div>
+        <div class="ac-body">Investi <strong>~1 Md$</strong> sur l'événement. Le football devient moteur de croissance pluriannuel pour les chaussures, vêtements et streetwear. Surveiller les ventes Q3 2026 — c'est là que l'impact se matérialise.</div>
+        <span class="ac-sig" style="background:rgba(26,92,50,.1);color:var(--green);">Catalyseur direct · Q3 2026</span>
+      </div>
+      <div class="ac">
+        <div class="ac-tkr">ADS — Adidas</div>
+        <div class="ac-nm">Xetra · FIFA Partner · 14 équipes</div>
+        <div class="ac-body">Partenaire FIFA depuis les années 1970. Habille Argentine, Allemagne, Mexique, Espagne. Les revenus "football" représentent <strong>~35% du CA Adidas</strong>. Chaque finale avec équipe Adidas = pic de ventes maillots.</div>
+        <span class="ac-sig" style="background:rgba(26,92,50,.1);color:var(--green);">Catalyseur direct · Q3 2026</span>
+      </div>
+      <div class="ac">
+        <div class="ac-tkr">ABNB — Airbnb</div>
+        <div class="ac-nm">Nasdaq · Partenaire logement officiel</div>
+        <div class="ac-body"><strong>380 000 à 400 000 réservations</strong> attendues. Les 16 villes hôtes saturent les hôtels. Airbnb est le seul acteur capable de combler structurellement le manque d'hébergement privé sur ce volume.</div>
+        <span class="ac-sig" style="background:rgba(138,92,0,.1);color:var(--amber);">Bénéficiaire indirect quantifiable</span>
+      </div>
+      <div class="ac">
+        <div class="ac-tkr">XLC — ETF Communication</div>
+        <div class="ac-nm">NYSE · Médias US · Alphabet · Meta</div>
+        <div class="ac-body">Inclut YouTube (diffusion), Meta (réseaux sociaux foot) et indirectement Fox Sports/Telemundo (droits US ~425M$). Capture la monétisation publicitaire des <strong>6 milliards de téléspectateurs</strong> sans pari individuel.</div>
+        <span class="ac-sig" style="background:rgba(26,58,108,.1);color:var(--blue);">ETF large · Exposition médias</span>
+      </div>
+      <div class="ac">
+        <div class="ac-tkr">ILF — ETF Latam</div>
+        <div class="ac-nm">NYSE · Mexique + Brésil</div>
+        <div class="ac-body">Mexique : impact PIB +0,2% à +0,5%. Brésil : favori sportif en Jordan Brand (rupture historique avec Nike). <strong>Exposition directe</strong> aux économies footballistiques avec le Mondial chez elles.</div>
+        <span class="ac-sig" style="background:rgba(138,92,0,.1);color:var(--amber);">ETF · Latam direct</span>
+      </div>
+      <div class="ac">
+        <div class="ac-tkr">TTWO — Take-Two</div>
+        <div class="ac-nm">Nasdaq · Gaming · GTA VI 19 nov.</div>
+        <div class="ac-body">La CDM génère du buzz gaming global. EA Sports FC 26 (concurrent) bénéficie directement. Pour TTWO l'effet est indirect : ambiance gaming avant GTA VI le <strong>19 novembre</strong>. Catalyseur principal reste le lancement.</div>
+        <span class="ac-sig" style="background:rgba(26,58,108,.1);color:var(--blue);">Effet sectoriel gaming</span>
+      </div>
+    </div>
+
+    <!-- IMPACT SECTORIEL -->
+    <div class="sec"><span class="sec-txt">Graphique · Impact sectoriel estimé</span></div>
+
+    <div class="chart-card">
+      <div class="chart-hd">
+        <span class="chart-hd-t">Bénéficiaires sectoriels de la CDM 2026</span>
+        <span class="chart-hd-s">Estimation · Indice 0-100</span>
+      </div>
+      <div class="chart-body"><div class="chart-wrap"><canvas id="impactChart"></canvas></div></div>
+    </div>
+
+    <!-- VERDICT -->
+    <div class="verdict">
+      <div class="v-tag">Verdict YAASAP · Par Yacine AOUABED · 28 juin 2026</div>
+      <div class="v-lead">La CDM 2026 est <strong>le plus grand événement commercial de l'histoire du sport</strong>, pas le plus grand événement économique. La nuance est fondamentale. La FIFA gagne 13 milliards. Les pays hôtes beaucoup moins. Pour l'Algérie, le vrai enjeu était <strong>sportif et émotionnel</strong> — et les Fennecs ont répondu présent. Après 12 ans d'absence, Mahrez, Gouiri et Belghali ont arraché la qualification en 16ᵉs lors d'un match de légende 3–3 contre l'Autriche le 27 juin. <strong>Prochain rendez-vous : la Suisse, le 3 juillet.</strong></div>
+      <div class="v-list">
+        <div class="v-li"><strong>NKE / ADS :</strong> surveiller les ventes Q3 2026 — pas pendant le tournoi, après</div>
+        <div class="v-li"><strong>ABNB :</strong> catalyseur réel · 380-400k réservations · bénéficiaire quantifiable</div>
+        <div class="v-li"><strong>ETF XLC :</strong> exposition médias et digital sans risque sponsor individuel</div>
+        <div class="v-li"><strong>ETF ILF :</strong> Mexique +0,2-0,5% PIB · Brésil favori · exposition directe</div>
+        <div class="v-li"><strong>Algérie :</strong> provisoirement éliminée avant Algérie-Autriche · match décisif à venir</div>
+        <div class="v-li"><strong>Éviter :</strong> acheter un sponsor FIFA sur la seule visibilité CDM — déjà dans le cours</div>
+      </div>
+      <div class="v-disc">Sources : Club Patrimoine · Saxo Bank · Stratégies Magazine · France Info · RTBF · FIFA · Wikipedia · TSA Algérie · Juin 2026 · Ne constitue pas un conseil en investissement.</div>
+    </div>
+
+    <div class="nl">
+      <div class="nl-hl">Recevoir les prochaines notes YAASAP</div>
+      <div class="nl-row">
+        <input class="nl-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+        <button class="nl-btn" onclick="nlmSubmit()">S'abonner →</button>
+      </div>
+      <div id="nlm-ok">✓ Inscrit — vérifiez votre boite mail</div>
+      <div class="nl-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-col -->
+
+<!-- ══ SIDEBAR DROITE ══ -->
+<aside class="sidebar">
+
+  <!-- STATUT ALGÉRIE GROUPE J -->
+  <div class="sb-blk">
+    <div class="sb-hd"><span class="sb-hd-t">Algérie · Groupe J · ✅ Qualifiée</span></div>
+    <div class="dz-status">
+      <div class="dz-st-title">🇩🇿 Fennecs en 16ᵉs de finale</div>
+      <div class="dz-groupe">
+        <div class="dz-team"><div><div class="dz-team-name">🇦🇷 Argentine</div></div><div class="dz-pts">6 pts · 1ère</div></div>
+        <div class="dz-team"><div><div class="dz-team-name">🇦🇹 Autriche</div></div><div class="dz-pts">4 pts · 2ème</div></div>
+        <div class="dz-team dz"><div><div class="dz-team-name">🇩🇿 Algérie ✅</div></div><div class="dz-pts">4 pts · 3ème</div></div>
+        <div class="dz-team"><div><div class="dz-team-name">🇯🇴 Jordanie</div></div><div class="dz-pts">0 pt · 4ème</div></div>
+      </div>
+      <div class="dz-next" style="background:rgba(26,92,50,.08);border-color:rgba(26,92,50,.2);">
+        <div class="dz-next-lbl" style="color:var(--green);">✅ Qualifiée — 16ᵉs de finale</div>
+        <div class="dz-next-txt">DZ 3–3 AUT · Mahrez ×2 · Belghali · Meilleur 3ᵉ qualifié. <strong>Prochain adversaire : Suisse</strong> le 3 juillet.</div>
+        <div class="dz-next-date">Résultat · 27 juin 2026 · Algérie sauvée in extremis</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTEFEUILLE -->
+  <div class="sb-blk">
+    <div class="sb-hd"><span class="sb-hd-t">Portefeuille</span><span class="sb-hd-b" id="pfDate">28 juin</span></div>
+    <div class="sb-pf">
+      <div class="sb-pf-lbl">P&L latent &amp; répartition</div>
+      <div class="sb-pf-chart"><canvas id="donutChart"></canvas></div>
+      <div class="sb-pf-rows">
+        <div class="sb-pf-row"><div><div class="sb-pf-tkr">SPCX</div><div class="sb-pf-info">41 actions · PRU 174,44€</div></div><div class="sb-pf-pnl neg">−1 640€</div></div>
+        <div class="sb-pf-row"><div><div class="sb-pf-tkr">TTWO</div><div class="sb-pf-info">6 actions · PRU 195,06€</div></div><div class="sb-pf-pnl pos">+91€</div></div>
+        <div class="sb-pf-row"><div><div class="sb-pf-tkr">SQM</div><div class="sb-pf-info">12 actions · PRU 73,21€</div></div><div class="sb-pf-pnl neg">−45€</div></div>
+        <div class="sb-pf-row"><div><div class="sb-pf-tkr">PFE</div><div class="sb-pf-info">7 actions · PRU 23,49€</div></div><div class="sb-pf-pnl neg">−11€</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATALYSEURS -->
+  <div class="sb-blk">
+    <div class="sb-hd"><span class="sb-hd-t">Catalyseurs à venir</span></div>
+    <div class="sb-cats">
+      <div class="cat-item red"><div><div class="cat-nm">Nasdaq 100</div><div class="cat-desc">SPCX intégration effective</div></div><div class="cat-date">7 juil.</div></div>
+      <div class="cat-item grn"><div><div class="cat-nm">GTA VI</div><div class="cat-desc">Take-Two TTWO lancement</div></div><div class="cat-date">19 nov.</div></div>
+      <div class="cat-item amb"><div><div class="cat-nm">Starpipe</div><div class="cat-desc">Mise en service SpaceX</div></div><div class="cat-date">Jan. 2027</div></div>
+      <div class="cat-item blu"><div><div class="cat-nm">S&P 500</div><div class="cat-desc">SPCX éligibilité GAAP</div></div><div class="cat-date">2027+</div></div>
+    </div>
+  </div>
+
+  <!-- NOTES PONCTUELLES -->
+  <div class="sb-blk">
+    <div class="sb-hd"><span class="sb-hd-t">Notes ponctuelles</span><span class="sb-hd-b">26</span></div>
+  </div>
+
+  <a class="sb-note" href="./yaasap_starpipe.html" style="border-left-color:var(--accent);">
+    <div class="sb-note-cat" style="color:var(--accent);background:rgba(200,41,10,.08);">Flash<span class="sb-new" style="background:var(--accent);">NEW</span></div>
+    <div class="sb-note-title">SpaceX Starpipe — Primeur gazoduc Texas</div>
+    <div class="sb-note-date">25 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_lvmh.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Analyse</div>
+    <div class="sb-note-title">LVMH — −26% YTD · PER 23× · Achat progressif</div>
+    <div class="sb-note-date">22 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_spcx_position.html" style="border-left-color:var(--green);">
+    <div class="sb-note-cat" style="color:var(--green);background:rgba(26,92,50,.08);">Position</div>
+    <div class="sb-note-title">SPCX — PRU 174,44€ · 41 actions · Stop 130€</div>
+    <div class="sb-note-date">28 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_block_sq.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Analyse</div>
+    <div class="sb-note-title">Block XYZ — BPA +25,9% · Stablecoin</div>
+    <div class="sb-note-date">18 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_spacex_ipo.html" style="border-left-color:var(--accent);">
+    <div class="sb-note-cat" style="color:var(--accent);background:rgba(200,41,10,.08);">Flash IPO</div>
+    <div class="sb-note-title">SpaceX IPO — 85,7 Md$ · Nasdaq 7 juil.</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_ttwo.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Analyse</div>
+    <div class="sb-note-title">TTWO — GTA VI 19 nov. · BofA 320$</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_argenx_position.html" style="border-left-color:var(--green);">
+    <div class="sb-note-cat" style="color:var(--green);background:rgba(26,92,50,.08);">Position</div>
+    <div class="sb-note-title">ARGX — Achat 645€ · +20,9% · Conserver</div>
+    <div class="sb-note-date">12 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_volatilite_v4.html" style="border-left-color:var(--amber);">
+    <div class="sb-note-cat" style="color:var(--amber);background:rgba(138,92,0,.08);">Macro</div>
+    <div class="sb-note-title">Minières or — NEM · Barrick · FCF record</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_europe_souscotee.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Sélection</div>
+    <div class="sb-note-title">Europe sous-cotée — Stellantis · Vivendi</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_oscr_position.html" style="border-left-color:var(--accent);">
+    <div class="sb-note-cat" style="color:var(--accent);background:rgba(200,41,10,.08);">Vendre</div>
+    <div class="sb-note-title">OSCR — Verdict vendre · +250€</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_global_souscote.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Sélection</div>
+    <div class="sb-note-title">Tous marchés v5 — PFE · BABA · GM</div>
+    <div class="sb-note-date">15 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_viatris.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Analyse</div>
+    <div class="sb-note-title">Viatris — Attendre 12-13$</div>
+    <div class="sb-note-date">22 juin 2026</div>
+  </a>
+  <a class="sb-note" href="./yaasap_baba_v2.html" style="border-left-color:var(--blue);">
+    <div class="sb-note-cat" style="color:var(--blue);background:rgba(26,58,108,.08);">Analyse</div>
+    <div class="sb-note-title">Alibaba BABA v2 — 40 analystes Buy</div>
+    <div class="sb-note-date">Juin 2026</div>
+  </a>
+
+  <!-- NL SIDEBAR -->
+  <div class="sb-blk" style="margin-top:auto;">
+    <div class="sb-hd"><span class="sb-hd-t">Newsletter gratuite</span><span class="sb-hd-b" style="color:var(--green);">0 €</span></div>
+    <div class="sb-nl">
+      <div class="sb-nl-hl">Recevoir les notes chaque lundi</div>
+      <div class="sb-nl-sub">Analyse + données marché + positions — par Yacine AOUABED</div>
+      <div class="sb-nl-row">
+        <input class="sb-nl-input" type="email" id="sbEmail" placeholder="votre@email.com">
+        <button class="sb-nl-btn" onclick="sbSubmit()">OK →</button>
+      </div>
+      <div class="sb-nl-ok" id="sbOk">✓ Inscrit</div>
+      <div class="sb-nl-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+    </div>
+  </div>
+
+</aside>
+</div><!-- /page-layout -->
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <nav class="foot-nav">
+    <a href="./index.html">Accueil</a>
+    <a href="./yaasap_spcx_position.html">SPCX</a>
+    <a href="./yaasap_lvmh.html">LVMH</a>
+    <a href="./yaasap_ttwo.html">TTWO</a>
+    <a href="./docs/index.html">Archives</a>
+  </nav>
+  <div class="foot-legal">Par Yacine AOUABED · Dossier CDM 2026 · <span id="footDate">28 juin 2026</span> · Ne constitue pas un conseil en investissement</div>
+</footer>
+
+<script>
+/* HERO PHOTO — supporters football vert/blanc mode patriotique */
+(function(){
+  var img=document.getElementById('heroImg');
+  if(!img)return;
+  /* Séquence de fallbacks : supporters stade en vert → ambiance foot → stade nuit */
+  var urls=[
+    'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1400&q=85&fit=crop&crop=center',
+    'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?w=1400&q=85&fit=crop&crop=center',
+    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400&q=85&fit=crop&crop=center',
+    'https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=1400&q=85&fit=crop&crop=center',
+    'https://picsum.photos/seed/algeria2026/1400/400'
+  ];
+  var idx=0;
+  img.onerror=function(){
+    idx++;
+    if(idx<urls.length){this.src=urls[idx];}
+  };
+  if(img.src!==urls[0])img.src=urls[0];
+})();
+(function(){
+  var d=new Date();
+  var s=d.toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var mo=d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+  ['liveDate','footDate'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+  var pf=document.getElementById('pfDate');if(pf)pf.textContent=mo;
+  (function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:'https://yaasap.github.io/dailywatch/yaasap_cdm2026.html',
+      width:36,height:36,colorDark:'#18140f',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+  })();
+})();
+
+/* GRAPHIQUE REVENUS */
+(function(){
+  var ctx=document.getElementById('revenusChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  var tc='#5c5548',tf={size:9,family:"'IBM Plex Mono','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Droits TV','Billetterie','Sponsoring','Autres'],
+      datasets:[
+        {label:'Qatar 2022',data:[2.1,0.9,1.8,2.7],backgroundColor:'rgba(90,80,70,.2)',borderColor:'rgba(90,80,70,.4)',borderWidth:1,borderRadius:1},
+        {label:'USA 2026',data:[4.2,3.0,2.8,3.0],backgroundColor:['rgba(184,120,10,.7)','rgba(26,58,108,.7)','rgba(26,92,50,.7)','rgba(138,92,0,.7)'],borderColor:['#b8780a','#1a3a6c','#1a5c32','#8a5c00'],borderWidth:1.5,borderRadius:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:tc,font:tf,boxWidth:10,padding:10}},
+        tooltip:{backgroundColor:'rgba(24,20,15,.96)',titleColor:'#faf8f4',bodyColor:'rgba(255,255,255,.65)',
+          callbacks:{label:function(c){return ' '+c.dataset.label+' : '+c.parsed.y.toFixed(1)+' Md$';}}}},
+      scales:{x:{ticks:{color:tc,font:tf},grid:{color:'rgba(0,0,0,.04)'}},
+        y:{ticks:{color:tc,font:tf,callback:function(v){return v+' Md$';}},grid:{color:'rgba(0,0,0,.04)'}}}}
+  });
+})();
+
+/* GRAPHIQUE IMPACT SECTORIEL */
+(function(){
+  var ctx=document.getElementById('impactChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  var tc='#5c5548',tf={size:9,family:"'IBM Plex Mono','Courier New',monospace"};
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Équipement sportif','Médias & TV','Tourisme & hôtels','Restauration rapide','Paris sportifs','Jeux vidéo','Grande distribution','Cinémas'],
+      datasets:[{label:'Impact estimé',data:[92,85,78,65,70,55,20,10],
+        backgroundColor:function(c){var v=c.dataset.data[c.dataIndex];return v>60?'rgba(26,92,50,.65)':v>40?'rgba(138,92,0,.65)':'rgba(200,41,10,.65)';},
+        borderWidth:0,borderRadius:2}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false},
+        tooltip:{backgroundColor:'rgba(24,20,15,.96)',titleColor:'#faf8f4',bodyColor:'rgba(255,255,255,.65)',
+          callbacks:{label:function(c){return ' Impact: '+c.parsed.x+'/100';}}}},
+      scales:{x:{max:100,ticks:{color:tc,font:tf,callback:function(v){return v+'/100';}},grid:{color:'rgba(0,0,0,.04)'}},
+        y:{ticks:{color:tc,font:tf},grid:{display:false}}}}
+  });
+})();
+
+/* DONUT PORTEFEUILLE */
+(function(){
+  var ctx=document.getElementById('donutChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  var tc='#5c5548',tf={size:8,family:"'IBM Plex Mono','Courier New',monospace"};
+  new Chart(ctx,{type:'doughnut',
+    data:{labels:['SPCX','TTWO','SQM','PFE'],
+      datasets:[{data:[6342,1261,833,153],
+        backgroundColor:['rgba(200,41,10,.7)','rgba(26,92,50,.7)','rgba(138,92,0,.7)','rgba(26,58,108,.7)'],
+        borderColor:['#c8290a','#1a5c32','#8a5c00','#1a3a6c'],borderWidth:1.5}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',animation:{duration:600},
+      plugins:{legend:{display:true,position:'right',labels:{color:tc,font:tf,boxWidth:8,boxHeight:8,padding:4}},
+        tooltip:{backgroundColor:'rgba(24,20,15,.96)',titleColor:'#faf8f4',bodyColor:'rgba(255,255,255,.65)',
+          callbacks:{label:function(c){return ' '+c.label+' · '+c.parsed.toLocaleString('fr-FR')+'€';}}}}}
+  });
+})();
+
+/* NEWSLETTER */
+function nlmSubmit(){
+  var el=document.getElementById('nlm-email');
+  var email=el?el.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){if(el)el.style.borderColor='rgba(200,41,10,.6)';return;}
+  var body=new FormData();body.append('email',email);body.append('source','yaasap-cdm2026');
+  body.append('_subject','Inscription YAASAP Notes CDM 2026');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){var row=el.parentElement;if(row)row.style.display='none';var ok=document.getElementById('nlm-ok');if(ok)ok.style.display='block';}});
+}
+function sbSubmit(){
+  var el=document.getElementById('sbEmail');
+  var email=el?el.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){if(el)el.style.borderColor='rgba(200,41,10,.6)';return;}
+  var body=new FormData();body.append('email',email);body.append('source','yaasap-cdm2026-sidebar');
+  body.append('_subject','Inscription YAASAP Notes');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){var row=el.parentElement;if(row)row.style.display='none';var ok=document.getElementById('sbOk');if(ok)ok.style.display='block';}});
+}
+</script>
+</body>
+</html>
