@@ -3,655 +3,1189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="YAASAP Notes — Analyse financière indépendante par Yacine AOUABED. Marchés, IPO, actions sous-cotées, stratégie.">
-<meta property="og:title" content="YAASAP Notes · Analyse financière indépendante">
-<meta property="og:url" content="https://yaasap.github.io/dailywatch/">
+<meta name="description" content="YAASAP Notes — Analyse financière indépendante par Yacine AOUABED">
 <title>YAASAP Notes · Analyse financière indépendante</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
+/* ─── RESET ─── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
-  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
-  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
-  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
-  --red:#b01c1c;--blue:#1a3a5c;--purple:#6b21a8;
-  --serif:'Libre Baskerville',Georgia,serif;
-  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
-  --mono:'Source Code Pro','Courier New',monospace;
+  --black:#080a0c;
+  --near-black:#0d1014;
+  --zinc:#1a1d22;
+  --zinc2:#242830;
+  --zinc3:#2e333b;
+  --wire:#333840;
+  --wire2:#414852;
+  --mist:#9aa0aa;
+  --cream:#f0ece4;
+  --cream2:#e8e2d8;
+  --red:#d42b0f;
+  --red2:#ff3d22;
+  --gold:#c8902a;
+  --gold2:#e8a832;
+  --green:#1a8a3a;
+  --amber:#d4880a;
+  --blue:#1a5c9a;
+  --purple:#7c3aed;
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Inter','Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono','Courier New',monospace;
 }
-html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
-
-/* MASTHEAD */
-.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:14px 24px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3);}
-.pub-name{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1;}
-.pub-name em{font-style:italic;color:var(--accent);}
-.pub-tagline{font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
-.masthead-center{text-align:center;flex:1;}
-.issue-line{font-size:8px;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);padding:2px 10px;display:inline-block;font-family:var(--sans);}
-.masthead-right{display:flex;align-items:center;gap:14px;}
-.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.45);font-style:italic;}
-.mast-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
-.mast-qr-box{background:#fff;padding:4px;border-radius:2px;line-height:0;}
-.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.28);letter-spacing:.06em;text-transform:uppercase;}
-
-/* TICKER */
-.ticker-bar{background:var(--accent);overflow:hidden;white-space:nowrap;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.1);}
-.ticker-inner{display:inline-flex;animation:ticker 30s linear infinite;will-change:transform;}
-@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.tick-item{font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;letter-spacing:.04em;padding:0 26px;white-space:nowrap;}
-
-/* HERO */
-.hero{background:var(--ink);padding:28px 24px 0;border-bottom:1px solid rgba(255,255,255,.06);}
-.hero-inner{max-width:100%;margin:0 auto;}
-.hero-eyebrow{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.hero-hl{font-family:var(--serif);font-size:26px;font-weight:700;color:#f0ebe3;line-height:1.12;margin-bottom:10px;max-width:560px;}
-.hero-sub{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.42);line-height:1.6;max-width:520px;margin-bottom:20px;}
-.hero-stats{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding:12px 0 16px;}
-.hero-stat{padding:5px 20px;border-right:1px solid rgba(255,255,255,.08);text-align:center;}
-.hero-stat:first-child{padding-left:0;}.hero-stat:last-child{border-right:none;}
-.hs-val{font-family:var(--mono);font-size:17px;font-weight:600;color:#f0ebe3;line-height:1;}
-.hs-lbl{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-top:3px;font-family:var(--sans);}
-
-/* ═══ LAYOUT DEUX COLONNES ═══ */
-.page-layout{display:flex;gap:0;align-items:flex-start;max-width:1200px;margin:0 auto;}
-.main-col{flex:1;min-width:0;padding:28px 24px 60px;}
-.sidebar-col{width:260px;flex-shrink:0;position:sticky;top:68px;max-height:calc(100vh - 80px);overflow-y:auto;border-left:1px solid var(--rule);background:var(--paper2);}
-.sidebar-col::-webkit-scrollbar{width:3px;}
-.sidebar-col::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:2px;}
-
-/* SIDEBAR HEADER */
-.sb-hd{padding:12px 14px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
-.sb-hd-title{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);}
-.sb-hd-count{font-family:var(--mono);font-size:9px;font-weight:700;color:rgba(255,255,255,.3);background:rgba(255,255,255,.08);padding:1px 6px;border-radius:2px;}
-
-/* SIDEBAR BULLETIN DU JOUR */
-.sb-today{padding:10px 12px;background:#fff;border-bottom:2px solid var(--accent);}
-.sb-today-label{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:flex;align-items:center;gap:5px;}
-.sb-today-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;animation:blink .9s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
-.sb-today-link{font-family:var(--serif);font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;display:block;line-height:1.3;margin-bottom:2px;}
-.sb-today-link:hover{color:var(--accent);}
-.sb-today-meta{font-family:var(--mono);font-size:9px;color:var(--ink4);}
-
-/* SIDEBAR LISTE NOTES */
-.sb-list{display:flex;flex-direction:column;gap:0;}
-.sb-item{display:block;padding:8px 12px;border-bottom:1px solid var(--rule2);border-left:2.5px solid transparent;text-decoration:none;background:#fff;transition:background .12s;}
-.sb-item:hover{background:var(--paper);}
-.sb-cat{font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border-radius:2px;display:inline-block;margin-bottom:3px;}
-.sb-title{font-family:var(--serif);font-size:11.5px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:2px;}
-.sb-date{font-family:var(--mono);font-size:8.5px;color:var(--ink4);}
-.sb-new{font-family:var(--mono);font-size:6.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;padding:1px 4px;border-radius:2px;margin-left:4px;vertical-align:middle;}
-
-/* SEC RULE */
-.sec-rule{display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
-.sec-rule::before{content:'';width:22px;height:2px;background:var(--accent);flex-shrink:0;}
-.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
-.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
-
-/* NOTE EN UNE */
-.note-une{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--red);border-radius:2px;overflow:hidden;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.07);display:grid;grid-template-columns:1fr auto;}
-.une-body{padding:16px 18px;}
-.une-eyebrow{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:5px;display:flex;align-items:center;gap:6px;}
-.une-live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink .9s ease-in-out infinite;flex-shrink:0;}
-.une-title{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:6px;}
-.une-desc{font-family:var(--serif);font-size:12px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:12px;}
-.une-link{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);border-radius:2px;font-family:var(--sans);font-size:12px;font-weight:700;color:#fff;text-decoration:none;}
-.une-link:hover{background:#6a2612;}
-.une-meta{background:var(--ink);padding:16px;min-width:120px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;}
-.une-date{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);}
-.une-badge{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(176,28,28,.25);border:1px solid rgba(176,28,28,.5);color:#f87171;padding:3px 8px;border-radius:2px;margin-top:6px;}
-
-/* LISTE NOTES */
-.notes-list{display:flex;flex-direction:column;gap:0;background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
-.note-row{display:flex;align-items:center;gap:0;border-bottom:1px solid var(--rule2);text-decoration:none;color:inherit;transition:background .12s;}
-.note-row:last-child{border-bottom:none;}
-.note-row:hover{background:var(--paper2);}
-.nr-cat{width:6px;flex-shrink:0;align-self:stretch;}
-.nr-body{flex:1;padding:9px 14px;}
-.nr-title{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:2px;}
-.nr-desc{font-size:11px;color:var(--ink4);font-family:var(--sans);line-height:1.3;}
-.nr-right{display:flex;align-items:center;gap:10px;padding:0 12px;flex-shrink:0;}
-.nr-tag{font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap;}
-.nr-date{font-family:var(--mono);font-size:9px;color:var(--ink4);white-space:nowrap;width:68px;text-align:right;}
-.nr-arrow{color:var(--accent);font-size:12px;flex-shrink:0;}
-.tag-flash{background:rgba(176,28,28,.1);color:var(--red);}
-.tag-position{background:rgba(30,92,50,.1);color:var(--green);}
-.tag-analyse{background:rgba(26,58,92,.1);color:var(--blue);}
-.tag-macro{background:rgba(138,92,0,.1);color:var(--amber);}
-.tag-tech{background:rgba(107,33,168,.1);color:var(--purple);}
-.tag-print{background:rgba(26,26,26,.08);color:var(--ink3);}
-.cat-flash{background:var(--red);}
-.cat-position{background:var(--green);}
-.cat-analyse{background:var(--blue);}
-.cat-macro{background:var(--amber);}
-.cat-tech{background:var(--purple);}
-.cat-print{background:var(--ink4);}
-
-/* NEWSLETTER */
-.yaasap-nl{background:var(--ink);border-radius:3px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.18);margin-bottom:28px;}
-.nl-head{padding:14px 20px 10px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.nl-brand{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff;}
-.nl-brand em{font-style:italic;color:var(--accent);}
-.nl-badge-free{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(30,92,50,.25);border:1px solid rgba(30,92,50,.45);color:#4ade80;padding:2px 9px;border-radius:2px;}
-.nl-intro{padding:12px 20px 8px;}
-.nl-headline{font-family:var(--serif);font-size:16px;font-weight:700;color:#f0ebe3;line-height:1.22;margin-bottom:4px;}
-.nl-sub{font-family:var(--serif);font-size:11px;font-style:italic;color:rgba(255,255,255,.4);line-height:1.55;}
-.nl-perks{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);}
-.nl-perk{padding:8px 10px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}
-.nl-perk:last-child{border-right:none;}
-.nl-perk-icon{font-size:13px;margin-bottom:2px;}
-.nl-perk-txt{font-size:9px;color:rgba(255,255,255,.48);line-height:1.3;}
-.nl-perk-txt strong{color:#f0ebe3;font-weight:700;display:block;}
-.nl-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:12px 20px 0;}
-.nl-plan{border:1.5px solid rgba(255,255,255,.1);border-radius:3px;padding:6px 8px;text-align:center;position:relative;}
-.nl-plan.current{border-color:var(--gold);background:rgba(200,144,42,.07);}
-.nl-plan-nm{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;display:block;}
-.nl-plan-pr{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);margin-top:1px;display:block;}
-.nl-plan.current .nl-plan-pr{color:var(--gold);}
-.nl-plan-soon{position:absolute;top:-7px;right:4px;font-size:7px;font-weight:700;text-transform:uppercase;background:var(--accent);color:#fff;padding:1px 5px;border-radius:2px;}
-.nl-form-zone{padding:14px 20px 10px;}
-.nl-state-el{display:none;}.nl-state-el.visible{display:block;}
-.nl-fields{display:flex;gap:7px;margin-bottom:7px;}
-.nl-field{flex:1;height:42px;padding:0 12px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);border-radius:3px;font-family:var(--sans);font-size:13px;color:#fff;outline:none;transition:border-color .15s;}
-.nl-field::placeholder{color:rgba(255,255,255,.25);}
-.nl-field:focus{border-color:var(--gold);}
-.nl-btn{width:100%;height:43px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-family:var(--serif);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .15s;margin-bottom:8px;}
-.nl-btn:hover{background:#6e2812;}
-.nl-rgpd{font-size:10px;color:rgba(255,255,255,.24);line-height:1.5;font-family:var(--sans);}
-.nl-err{display:none;margin-top:6px;padding:7px 11px;background:rgba(176,28,28,.12);border:1px solid rgba(176,28,28,.28);border-radius:3px;font-size:11px;color:#f87171;font-family:var(--sans);}
-#nl-loading{text-align:center;padding:14px 0;}
-.nl-spinner{width:24px;height:24px;margin:0 auto 8px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--gold);border-radius:50%;animation:spin .65s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-#nl-success{text-align:center;padding:14px 0;}
-.nl-ok-title{font-family:var(--serif);font-size:15px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
-.nl-foot{border-top:1px solid rgba(255,255,255,.06);padding:7px 20px 9px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;}
-.nl-foot-l{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);}
-.nl-foot-l strong{color:rgba(255,255,255,.38);}
-.nl-foot-r{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.16);}
-
-/* FOOTER */
-footer{background:var(--ink);border-top:2px solid var(--accent);padding:18px 24px;text-align:center;}
-.foot-brand{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;}
-.foot-brand em{font-style:italic;color:var(--accent);}
-.foot-author{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);margin-bottom:8px;}
-.foot-legal{font-size:10px;color:rgba(255,255,255,.2);line-height:1.5;max-width:500px;margin:0 auto;font-family:var(--sans);}
-
-@media(max-width:900px){
-  .page-layout{flex-direction:column;}
-  .sidebar-col{width:100%;position:static;max-height:none;border-left:none;border-top:2px solid var(--rule);}
-  .sb-list{display:grid;grid-template-columns:1fr 1fr;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);
+  font-family:var(--body);
+  color:var(--cream);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
 }
-@media(max-width:600px){
-  .hero-hl{font-size:20px;}
-  .note-une{grid-template-columns:1fr;}
-  .une-meta{flex-direction:row;padding:10px 14px;border-top:1px solid rgba(255,255,255,.08);}
-  .nr-desc{display:none;}.nr-date{display:none;}
-  .nl-fields{flex-direction:column;}
-  .nl-perks,.nl-plans{grid-template-columns:1fr;}
-  .sb-list{grid-template-columns:1fr;}
+
+/* ─── MASTHEAD ─── */
+.masthead{
+  background:var(--black);
+  border-bottom:1px solid var(--wire);
+  padding:0 28px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  position:sticky;
+  top:0;
+  z-index:300;
+}
+.mast-brand{
+  font-family:var(--display);
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:-.03em;
+  color:var(--cream);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.mast-brand em{font-style:italic;color:var(--red);}
+.mast-nav{display:flex;gap:2px;flex:1;justify-content:center;}
+.mast-nav a{
+  font-family:var(--mono);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--mist);
+  text-decoration:none;
+  padding:4px 10px;
+  border-radius:2px;
+  transition:color .12s,background .12s;
+}
+.mast-nav a:hover{color:var(--cream);background:var(--zinc);}
+.mast-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.mast-live{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:8px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mist);
+  border:1px solid var(--wire2);
+  padding:3px 8px;border-radius:2px;
+}
+.live-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse .9s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+.mast-qr-box{background:var(--cream);padding:3px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:5.5px;color:var(--wire2);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;text-align:center;}
+
+/* ─── TICKER ─── */
+.ticker-wrap{
+  background:var(--red);
+  overflow:hidden;white-space:nowrap;
+  padding:4px 0;
+  border-bottom:1px solid rgba(0,0,0,.2);
+}
+.ticker-track{display:inline-flex;animation:scroll 40s linear infinite;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tk{font-family:var(--mono);font-size:9.5px;font-weight:600;color:rgba(255,255,255,.9);padding:0 20px;letter-spacing:.02em;}
+.tk.sep{color:rgba(255,255,255,.4);padding:0 4px;}
+
+/* ─── LAYOUT ROOT ─── */
+.root-layout{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  min-height:calc(100vh - 52px);
+  max-width:1380px;
+  margin:0 auto;
+}
+
+/* ═══════════════════════════════════
+   COLONNE GAUCHE
+═══════════════════════════════════ */
+.main-col{border-right:1px solid var(--wire);}
+
+/* ─── HERO PHOTO (change chaque jour) ─── */
+.hero-photo{position:relative;width:100%;height:420px;overflow:hidden;background:var(--near-black);}
+.hero-photo img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 35%;
+  display:block;
+  filter:brightness(.45) saturate(.7);
+  transition:filter .3s;
+}
+.hero-photo:hover img{filter:brightness(.35) saturate(.6);}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(8,10,12,0) 0%,
+    rgba(8,10,12,.1) 40%,
+    rgba(8,10,12,.7) 75%,
+    rgba(8,10,12,.95) 100%
+  );
+}
+.hero-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 28px 24px;
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  background:var(--red);color:#fff;
+  padding:3px 9px;border-radius:1px;
+}
+.hero-dot{width:4px;height:4px;background:var(--red);border-radius:50%;animation:pulse .9s infinite;}
+.hero-eyebrow-date{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.04em;}
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(22px,3.2vw,34px);
+  font-weight:700;
+  font-style:italic;
+  color:#fff;
+  line-height:1.08;
+  margin-bottom:8px;
+  max-width:640px;
+}
+.hero-desc{
+  font-family:var(--body);font-size:13px;
+  color:rgba(255,255,255,.55);line-height:1.55;
+  max-width:560px;margin-bottom:14px;
+}
+.hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 20px;background:var(--red);
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;text-decoration:none;border-radius:1px;
+  transition:background .15s;
+}
+.hero-cta:hover{background:var(--red2);}
+.hero-cta-sec{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.15);
+  padding-bottom:1px;transition:color .12s;
+}
+.hero-cta-sec:hover{color:rgba(255,255,255,.8);}
+/* Caption source photo */
+.hero-photo-src{
+  position:absolute;top:10px;right:12px;
+  font-family:var(--mono);font-size:7.5px;
+  color:rgba(255,255,255,.25);letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+/* ─── SECTION HEADER ─── */
+.sec{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 28px 12px;
+  background:var(--near-black);
+  border-bottom:1px solid var(--wire);
+  border-top:1px solid var(--wire);
+  margin-top:0;
+}
+.sec-rule{flex:1;height:1px;background:var(--wire);}
+.sec-dot{width:3px;height:3px;border-radius:50%;background:var(--red);flex-shrink:0;}
+.sec-txt{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);white-space:nowrap;
+}
+.sec-link{
+  font-family:var(--mono);font-size:8px;
+  color:var(--red);text-decoration:none;
+  letter-spacing:.08em;text-transform:uppercase;
+  border-bottom:1px solid rgba(212,43,15,.3);
+  padding-bottom:1px;transition:opacity .12s;
+}
+.sec-link:hover{opacity:.7;}
+
+/* ─── BULLETINS QUOTIDIENS — LISTE ARCHIVES ─── */
+.archives{display:flex;flex-direction:column;}
+
+/* Entrée today — grande */
+.archive-today{
+  display:grid;
+  grid-template-columns:100px 1fr;
+  border-bottom:1px solid var(--wire);
+  text-decoration:none;
+  background:var(--zinc);
+  transition:background .1s;
+  border-left:3px solid var(--red);
+}
+.archive-today:hover{background:var(--zinc2);}
+.at-date{
+  padding:18px 14px;
+  border-right:1px solid var(--wire);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(212,43,15,.08);
+}
+.at-day{font-family:var(--display);font-size:36px;font-weight:900;color:var(--red);line-height:1;}
+.at-month{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px;}
+.at-year{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.18);}
+.at-body{padding:14px 20px;display:flex;flex-direction:column;justify-content:center;}
+.at-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:7.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(212,43,15,.15);color:var(--red);
+  border:1px solid rgba(212,43,15,.25);
+  padding:2px 7px;border-radius:1px;
+  margin-bottom:6px;width:fit-content;
+}
+.at-badge-dot{width:4px;height:4px;background:var(--red);border-radius:50%;animation:pulse .9s infinite;}
+.at-title{
+  font-family:var(--display);font-size:16px;font-weight:700;
+  color:var(--cream);line-height:1.25;margin-bottom:4px;
+}
+.at-desc{font-family:var(--body);font-size:12px;color:rgba(255,255,255,.4);line-height:1.45;margin-bottom:5px;}
+.at-meta{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.03em;}
+
+/* Entrées archive normales */
+.archive-row{
+  display:grid;
+  grid-template-columns:72px 1fr;
+  border-bottom:1px solid var(--wire);
+  text-decoration:none;
+  transition:background .1s;
+}
+.archive-row:hover{background:var(--zinc);}
+.ar-date{
+  padding:12px 10px;
+  border-right:1px solid var(--wire);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--near-black);
+}
+.ar-day{font-family:var(--display);font-size:22px;font-weight:700;color:rgba(255,255,255,.5);line-height:1;}
+.ar-month{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:2px;}
+.ar-body{padding:10px 18px;display:flex;flex-direction:column;justify-content:center;}
+.ar-badge{
+  font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(26,138,58,.12);color:#4ade80;
+  border:1px solid rgba(26,138,58,.2);
+  padding:1px 6px;border-radius:1px;
+  margin-bottom:4px;width:fit-content;
+}
+.ar-title{
+  font-family:var(--body);font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.75);line-height:1.3;margin-bottom:2px;
+}
+.ar-desc{font-family:var(--body);font-size:11px;color:rgba(255,255,255,.3);line-height:1.4;}
+.ar-time{font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.18);margin-top:3px;}
+
+/* Lien tout voir */
+.archive-more{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;
+  text-decoration:none;
+  background:var(--near-black);
+  border-bottom:1px solid var(--wire);
+  transition:background .1s;
+}
+.archive-more:hover{background:var(--zinc);}
+.archive-more span{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.archive-more em{font-family:var(--mono);font-size:9px;color:var(--red);font-style:normal;}
+
+/* ─── GRILLE THÉMATIQUE ─── */
+.theme-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--wire);
+}
+.tc{
+  background:var(--near-black);
+  padding:16px 18px;
+  text-decoration:none;
+  transition:background .12s;
+  border-top:2px solid transparent;
+  display:flex;flex-direction:column;
+  gap:0;
+}
+.tc:hover{background:var(--zinc);}
+.tc-cat{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:6px;display:flex;align-items:center;gap:5px;
+}
+.tc-cat::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.tc.flash .tc-cat{color:var(--red);}
+.tc.flash .tc-cat::before{background:var(--red);}
+.tc.flash{border-top-color:var(--red);}
+.tc.position .tc-cat{color:#4ade80;}
+.tc.position .tc-cat::before{background:#4ade80;}
+.tc.position{border-top-color:var(--green);}
+.tc.analyse .tc-cat{color:#93c5fd;}
+.tc.analyse .tc-cat::before{background:var(--blue);}
+.tc.analyse{border-top-color:var(--blue);}
+.tc.macro .tc-cat{color:#fbbf24;}
+.tc.macro .tc-cat::before{background:var(--amber);}
+.tc.macro{border-top-color:var(--amber);}
+.tc.tech .tc-cat{color:#c4b5fd;}
+.tc.tech .tc-cat::before{background:var(--purple);}
+.tc.tech{border-top-color:var(--purple);}
+.tc-title{
+  font-family:var(--display);font-size:14px;font-weight:700;
+  color:var(--cream);line-height:1.2;margin-bottom:5px;
+  flex:1;
+}
+.tc-desc{font-family:var(--body);font-size:11.5px;color:rgba(255,255,255,.38);line-height:1.4;margin-bottom:6px;}
+.tc-date{font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.2);}
+
+/* ═══════════════════════════════════
+   SIDEBAR DROITE
+═══════════════════════════════════ */
+.sidebar{
+  position:sticky;
+  top:52px;
+  height:calc(100vh - 52px);
+  overflow-y:auto;
+  background:var(--near-black);
+  display:flex;flex-direction:column;
+}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--wire2);}
+
+/* Section sidebar */
+.sb-sec{border-bottom:1px solid var(--wire);flex-shrink:0;}
+.sb-sec-hd{
+  padding:10px 16px;
+  background:var(--zinc);
+  border-bottom:1px solid var(--wire);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sb-sec-hd-txt{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);
+}
+.sb-sec-badge{
+  font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.2);
+  background:var(--zinc3);padding:1px 6px;border-radius:1px;
+}
+
+/* GRAPHIQUE PORTFOLIO */
+.sb-chart-area{padding:14px 16px 10px;}
+.sb-chart-label{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);
+  margin-bottom:8px;
+}
+.sb-chart-canvas{position:relative;height:130px;width:100%;margin-bottom:10px;}
+.sb-pf-rows{display:flex;flex-direction:column;gap:1px;}
+.sb-pf-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.sb-pf-row:last-child{border-bottom:none;}
+.sb-pf-left{}
+.sb-pf-ticker{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cream);}
+.sb-pf-info{font-family:var(--body);font-size:10px;color:rgba(255,255,255,.28);}
+.sb-pf-pnl{font-family:var(--mono);font-size:11px;font-weight:700;}
+.sb-pf-pnl.pos{color:#4ade80;}.sb-pf-pnl.neg{color:#f87171;}
+
+/* CATALYSEURS */
+.sb-catalysts{padding:10px 16px;display:flex;flex-direction:column;gap:6px;}
+.cat-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 10px;border-radius:1px;
+  border:1px solid;
+}
+.cat-item.urgent{background:rgba(212,43,15,.1);border-color:rgba(212,43,15,.2);}
+.cat-item.positive{background:rgba(26,138,58,.08);border-color:rgba(26,138,58,.15);}
+.cat-item.amber{background:rgba(212,136,10,.08);border-color:rgba(212,136,10,.15);}
+.cat-item.neutral{background:rgba(26,92,154,.06);border-color:rgba(26,92,154,.15);}
+.cat-name{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.cat-item.urgent .cat-name{color:var(--red);}
+.cat-item.positive .cat-name{color:#4ade80;}
+.cat-item.amber .cat-name{color:#fbbf24;}
+.cat-item.neutral .cat-name{color:#93c5fd;}
+.cat-desc{font-family:var(--body);font-size:10px;color:rgba(255,255,255,.5);margin-top:1px;}
+.cat-date{font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0;margin-left:8px;}
+.cat-item.urgent .cat-date{color:var(--red);}
+.cat-item.positive .cat-date{color:#4ade80;}
+.cat-item.amber .cat-date{color:#fbbf24;}
+.cat-item.neutral .cat-date{color:#93c5fd;}
+
+/* NOTES PONCTUELLES */
+.sb-note{
+  display:block;
+  padding:10px 16px;
+  border-bottom:1px solid var(--wire);
+  border-left:2px solid transparent;
+  text-decoration:none;
+  transition:background .1s;
+  flex-shrink:0;
+}
+.sb-note:hover{background:var(--zinc);}
+.sb-note-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sb-note-cat{
+  font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:1px 5px;border-radius:1px;
+}
+.sb-note-new{
+  font-family:var(--mono);font-size:6.5px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;padding:1px 4px;border-radius:1px;
+  flex-shrink:0;
+}
+.sb-note-title{
+  font-family:var(--display);font-size:12px;font-weight:700;
+  color:var(--cream);line-height:1.25;margin-bottom:2px;
+}
+.sb-note-date{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.22);}
+
+/* NEWSLETTER SIDEBAR */
+.sb-nl{padding:14px 16px;}
+.sb-nl-hl{font-family:var(--display);font-size:13px;font-weight:700;font-style:italic;color:var(--cream);margin-bottom:3px;}
+.sb-nl-sub{font-family:var(--body);font-size:10.5px;color:rgba(255,255,255,.35);margin-bottom:10px;line-height:1.4;}
+.sb-nl-row{display:flex;gap:5px;}
+.sb-nl-input{
+  flex:1;height:35px;padding:0 10px;
+  background:var(--zinc);border:1px solid var(--wire2);
+  border-radius:1px;font-family:var(--body);font-size:12px;
+  color:var(--cream);outline:none;transition:border-color .12s;
+}
+.sb-nl-input::placeholder{color:rgba(255,255,255,.2);}
+.sb-nl-input:focus{border-color:var(--red);}
+.sb-nl-btn{
+  height:35px;padding:0 12px;
+  background:var(--red);border:none;border-radius:1px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;cursor:pointer;white-space:nowrap;
+  transition:background .12s;
+}
+.sb-nl-btn:hover{background:var(--red2);}
+.sb-nl-ok{display:none;font-family:var(--mono);font-size:10px;color:#4ade80;margin-top:7px;letter-spacing:.06em;}
+.sb-nl-note{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.18);margin-top:6px;letter-spacing:.04em;}
+
+/* ─── FOOTER ─── */
+footer{
+  grid-column:1/-1;
+  border-top:1px solid var(--wire);
+  background:var(--near-black);
+  padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+}
+.foot-brand{font-family:var(--display);font-size:14px;font-weight:700;color:rgba(255,255,255,.3);}
+.foot-brand em{font-style:italic;color:var(--red);}
+.foot-legal{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.15);letter-spacing:.04em;}
+.foot-nav{display:flex;gap:14px;flex-wrap:wrap;}
+.foot-nav a{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;transition:color .1s;}
+.foot-nav a:hover{color:var(--red);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .root-layout{grid-template-columns:1fr 280px;}
+}
+@media(max-width:768px){
+  .root-layout{grid-template-columns:1fr;}
+  .sidebar{position:static;height:auto;}
+  .hero-photo{height:280px;}
+  .theme-grid{grid-template-columns:1fr;}
+  .mast-nav{display:none;}
+  footer{flex-direction:column;text-align:center;}
+}
+@media(max-width:480px){
+  .archive-today{grid-template-columns:1fr;}
+  .at-date{display:none;}
+  .archive-row{grid-template-columns:60px 1fr;}
+}
+@media(prefers-reduced-motion:reduce){
+  .ticker-track,.live-dot,.at-badge-dot,.hero-dot{animation:none;}
 }
 </style>
 </head>
 <body>
 
+<!-- ── MASTHEAD ── -->
 <div class="masthead">
   <div>
-    <div class="pub-name">YAASAP <em>Notes</em></div>
-    <div class="pub-tagline">Analyse financière indépendante · Par Yacine AOUABED</div>
+    <div class="mast-brand">YAASAP <em>Notes</em></div>
   </div>
-  <div class="masthead-center">
-    <span class="issue-line">yaasap.github.io/dailywatch · Marchés · IPO · Stratégie · Positions</span>
-  </div>
-  <div class="masthead-right">
-    <div class="mast-date" id="mastDate"></div>
-    <div class="mast-qr-wrap">
+  <nav class="mast-nav">
+    <a href="#bulletins">Bulletins</a>
+    <a href="#analyses">Analyses</a>
+    <a href="./docs/index.html">Archives</a>
+    <a href="./yaasap_spcx_position.html">Positions</a>
+  </nav>
+  <div class="mast-right">
+    <div class="mast-live">
+      <div class="live-dot"></div>
+      <span id="mastDate">28 juin 2026</span>
+    </div>
+    <div>
       <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
       <div class="mast-qr-lbl">dailywatch</div>
     </div>
   </div>
 </div>
 
-<div class="ticker-bar">
-  <div class="ticker-inner">
-    <span class="tick-item">PRIMEUR · SpaceX Starpipe · Gazoduc 13km Texas · jan. 2027</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Nasdaq 100 · SPCX intégration 7 juillet 2026 · 4,3 Md$ flux passifs</span>&nbsp;◆&nbsp;
-    <span class="tick-item">LVMH −26% YTD · PER 23× · consensus 590-600€ · PEA éligible</span>&nbsp;◆&nbsp;
-    <span class="tick-item">TTWO · GTA VI 19 nov. 2026 · BofA 320$</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Block XYZ · BPA +25,9% surprise · Stablecoin 60M users</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Or +38,5% YTD · Minières décotées · Goldman 5000$/oz fin 2026</span>&nbsp;◆&nbsp;
-    <span class="tick-item">PRIMEUR · SpaceX Starpipe · Gazoduc 13km Texas · jan. 2027</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Nasdaq 100 · SPCX intégration 7 juillet 2026 · 4,3 Md$ flux passifs</span>&nbsp;◆&nbsp;
-    <span class="tick-item">LVMH −26% YTD · PER 23× · consensus 590-600€ · PEA éligible</span>&nbsp;◆&nbsp;
-    <span class="tick-item">TTWO · GTA VI 19 nov. 2026 · BofA 320$</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Block XYZ · BPA +25,9% surprise · Stablecoin 60M users</span>&nbsp;◆&nbsp;
-    <span class="tick-item">Or +38,5% YTD · Minières décotées · Goldman 5000$/oz fin 2026</span>&nbsp;◆&nbsp;
+<!-- ── TICKER ── -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="tk sep">◆</span>
+    <span class="tk">SPCX ~150$ · Nasdaq 100 intégration <strong>7 juil.</strong> · 4,3 Md$ flux</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">TTWO ~210€ +4,65% · GTA VI 19 nov. 2026 · BofA 320$</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">LVMH ~527€ · −26% YTD · PER 23× · consensus 590-600€</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Block XYZ · BPA +25,9% surprise · Stablecoin 60M users</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Or +38,5% YTD · Goldman 5000$/oz · Minières décotées</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Starpipe · gazoduc 13 km Texas · construction juil. 2026</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">SPCX ~150$ · Nasdaq 100 intégration <strong>7 juil.</strong> · 4,3 Md$ flux</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">TTWO ~210€ +4,65% · GTA VI 19 nov. 2026 · BofA 320$</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">LVMH ~527€ · −26% YTD · PER 23× · consensus 590-600€</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Block XYZ · BPA +25,9% surprise · Stablecoin 60M users</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Or +38,5% YTD · Goldman 5000$/oz · Minières décotées</span>
+    <span class="tk sep">◆</span>
+    <span class="tk">Starpipe · gazoduc 13 km Texas · construction juil. 2026</span>
+    <span class="tk sep">◆</span>
   </div>
 </div>
 
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Intelligence financière indépendante · Juin 2026</div>
-    <div class="hero-hl">L'analyse de marché que votre banque ne vous envoie pas</div>
-    <div class="hero-sub">YAASAP Notes décrypte chaque semaine les marchés mondiaux : actions sous-cotées, IPO, positions personnelles et stratégie — avec des données chiffrées et un verdict clair.</div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hs-val">48</div><div class="hs-lbl">Notes publiées</div></div>
-      <div class="hero-stat"><div class="hs-val">15+</div><div class="hs-lbl">Marchés couverts</div></div>
-      <div class="hero-stat"><div class="hs-val">100%</div><div class="hs-lbl">Indépendant</div></div>
-      <div class="hero-stat"><div class="hs-val">0 €</div><div class="hs-lbl">Gratuit</div></div>
+<!-- ── ROOT LAYOUT ── -->
+<div class="root-layout">
+
+<!-- ════════════════════════════════
+     COLONNE PRINCIPALE
+════════════════════════════════ -->
+<div class="main-col">
+
+  <!-- HERO PHOTO QUI CHANGE CHAQUE JOUR -->
+  <div class="hero-photo" id="heroSection">
+    <img id="heroImg" src="" alt="Photo du jour — marchés financiers">
+    <div class="hero-overlay"></div>
+    <div class="hero-photo-src" id="heroSrc">Unsplash</div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-tag">Primeur</span>
+        <div class="hero-dot"></div>
+        <span class="hero-eyebrow-date">25 juin 2026 · 14h52 · Reuters</span>
+      </div>
+      <div class="hero-title">SpaceX construit "Starpipe" — un gazoduc de 13 km pour alimenter Starship en méthane</div>
+      <div class="hero-desc">Construction juillet 2026 · mise en service 26 jan. 2027 · SpaceX entre dans l'énergie et vise son propre forage de gaz naturel via 100+ baux signés au Texas depuis 2023.</div>
+      <div class="hero-actions">
+        <a href="./yaasap_starpipe.html" class="hero-cta">Lire la note →</a>
+        <a href="./docs/note-du-jour.html" class="hero-cta-sec">Bulletin du jour ↗</a>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ═══ LAYOUT DEUX COLONNES ═══ -->
-<div class="page-layout">
+  <!-- BULLETINS QUOTIDIENS -->
+  <div class="sec" id="bulletins">
+    <div class="sec-rule"></div>
+    <div class="sec-dot"></div>
+    <span class="sec-txt">Bulletins quotidiens automatiques · Archives classées par date</span>
+    <div class="sec-dot"></div>
+    <div class="sec-rule"></div>
+    <a href="./docs/index.html" class="sec-link">Toutes les archives →</a>
+  </div>
 
-  <!-- COLONNE PRINCIPALE -->
-  <div class="main-col">
-
-    <div class="sec-rule"><span class="sec-rule-text">Dernière publication · Primeur · 28 juin 2026</span></div>
-
-    <div class="note-une">
-      <div class="une-body">
-        <div class="une-eyebrow"><div class="une-live-dot"></div>Primeur · Flash breaking · 25 juin 2026 · Reuters</div>
-        <div class="une-title">SpaceX construit "Starpipe" — un gazoduc de 13 km au Texas pour alimenter Starship en méthane</div>
-        <div class="une-desc">Construction début juillet 2026, mise en service 26 jan. 2027. Diamètre 406 mm — capacité supérieure à 25 lancements/an. SpaceX entre dans l'énergie et vise son propre forage de gaz naturel via 100+ baux signés au Texas depuis 2023.</div>
-        <a href="./yaasap_starpipe.html" class="une-link">Lire la primeur →</a>
+  <div class="archives">
+    <!-- SIDEBAR_BULLETINS_START -->
+    <a class="archive-today" href="./docs/note-du-jour.html">
+      <div class="at-date">
+        <div class="at-day" id="todayDay">28</div>
+        <div class="at-month" id="todayMonth">Juin</div>
+        <div class="at-year">2026</div>
       </div>
-      <div class="une-meta">
-        <div class="une-date">25 juin 2026</div>
-        <div class="une-badge">Primeur</div>
+      <div class="at-body">
+        <div class="at-badge"><div class="at-badge-dot"></div>Bulletin auto · Aujourd'hui</div>
+        <div class="at-title">Bulletin du jour — Portefeuille, marchés &amp; analyse éditoriale</div>
+        <div class="at-desc">Cours en temps réel · SPCX · TTWO · SQM · PFE · Indices · Signal du jour par Claude Sonnet</div>
+        <div class="at-meta">Généré automatiquement à 07h00 · yfinance + NewsAPI + Claude Sonnet 4.6</div>
       </div>
-    </div>
+    </a>
 
-    <div class="sec-rule"><span class="sec-rule-text">Newsletter · Recevez les notes chaque lundi</span></div>
-    <div class="yaasap-nl">
-      <div class="nl-head">
-        <div class="nl-brand">YAASAP <em>Notes</em></div>
-        <span class="nl-badge-free">Gratuit · Bêta</span>
+    <a class="archive-row" href="./docs/note-2026-06-27_0700.html">
+      <div class="ar-date">
+        <div class="ar-day">27</div>
+        <div class="ar-month">Juin</div>
       </div>
-      <div class="nl-intro">
-        <div class="nl-headline">Recevez l'analyse financière de la semaine dans votre boîte mail</div>
-        <div class="nl-sub">Chaque lundi matin : marchés, IPO, opportunités et points d'entrée — par Yacine AOUABED.</div>
+      <div class="ar-body">
+        <div class="ar-badge">Auto · 07h00</div>
+        <div class="ar-title">Bulletin du 27 juin — SPCX correction, FTSE Russell ce soir</div>
+        <div class="ar-desc">Cours de clôture · intégration FTSE 26 juin · MSCI 29 juin</div>
       </div>
-      <div class="nl-perks">
-        <div class="nl-perk"><div class="nl-perk-icon">📊</div><div class="nl-perk-txt"><strong>Note hebdo</strong>Marchés &amp; actions</div></div>
-        <div class="nl-perk"><div class="nl-perk-icon">⚡</div><div class="nl-perk-txt"><strong>Flash</strong>Alertes instantanées</div></div>
-        <div class="nl-perk"><div class="nl-perk-icon">🎯</div><div class="nl-perk-txt"><strong>Stop &amp; cibles</strong>Points d'entrée</div></div>
+    </a>
+
+    <a class="archive-row" href="./docs/note-2026-06-26_2129.html">
+      <div class="ar-date">
+        <div class="ar-day">26</div>
+        <div class="ar-month">Juin</div>
       </div>
-      <div class="nl-plans">
-        <div class="nl-plan current"><span class="nl-plan-nm">Gratuit</span><span class="nl-plan-pr">1 note/sem · 0 €</span></div>
-        <div class="nl-plan"><span class="nl-plan-soon">Bientôt</span><span class="nl-plan-nm">Premium</span><span class="nl-plan-pr">Quotidien · 9,90€/mois</span></div>
-        <div class="nl-plan"><span class="nl-plan-soon">Bientôt</span><span class="nl-plan-nm">Pro</span><span class="nl-plan-pr">Alertes · 24,90€/mois</span></div>
+      <div class="ar-body">
+        <div class="ar-badge">Auto · 21h29</div>
+        <div class="ar-title">Bulletin du 26 juin — FTSE Russell jour J, Nasdaq 100 annoncé 7 juil.</div>
+        <div class="ar-desc">284 lignes · SPCX FTSE inclusion effective · cours 150$ après pic 225$</div>
       </div>
-      <div class="nl-form-zone">
-        <div class="nl-state-el visible" id="nl-form">
-          <div class="nl-fields">
-            <input class="nl-field" type="text" id="nl-prenom" placeholder="Prénom (optionnel)" autocomplete="given-name" maxlength="60">
-            <input class="nl-field" type="email" id="nl-email" placeholder="votre@email.com" autocomplete="email" maxlength="120" required>
-          </div>
-          <button class="nl-btn" id="nl-btn" onclick="nlSubmit()"><span>✉</span><span id="nl-btn-lbl">Je m'abonne gratuitement</span></button>
-          <div class="nl-rgpd">Données transmises via Formspree (UE). Désabonnement en 1 clic.</div>
-          <div class="nl-err" id="nl-err"></div>
-        </div>
-        <div class="nl-state-el" id="nl-loading"><div class="nl-spinner"></div></div>
-        <div class="nl-state-el" id="nl-success"><div class="nl-ok-title">✅ Vous êtes inscrit !</div></div>
+    </a>
+
+    <a class="archive-row" href="./docs/note-2026-06-25_0700.html">
+      <div class="ar-date">
+        <div class="ar-day">25</div>
+        <div class="ar-month">Juin</div>
       </div>
-      <div class="nl-foot">
-        <div class="nl-foot-l"><strong>0</strong> abonnés · Rejoignez la communauté</div>
-        <div class="nl-foot-r">✉ Formspree · RGPD conforme</div>
+      <div class="ar-body">
+        <div class="ar-badge">Auto · 07h00</div>
+        <div class="ar-title">Bulletin du 25 juin — Starpipe primeur, MSCI J-4</div>
+        <div class="ar-desc">Flash Starpipe · SPCX ouverture options Cboe · positions portefeuille</div>
       </div>
-    </div>
+    </a>
 
-    <div class="sec-rule"><span class="sec-rule-text">Flash &amp; Breaking · Événements de marché</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_starpipe.html">
-        <div class="nr-cat cat-flash"></div>
-        <div class="nr-body"><div class="nr-title">SpaceX Starpipe — Primeur · Gazoduc 13 km Texas · Construction juil. 2026</div><div class="nr-desc">2,4M litres méthane/lancement · mise en service 26 jan. 2027 · 100+ baux pétroliers Texas</div></div>
-        <div class="nr-right"><span class="nr-tag tag-flash">Primeur</span><span class="nr-date">25 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_spacex_ipo.html">
-        <div class="nr-cat cat-flash"></div>
-        <div class="nr-body"><div class="nr-title">SpaceX SPCX — IPO historique 85,7 Md$ · +19,2% jour J · Nasdaq 100 le 7 juillet</div><div class="nr-desc">12 juin 2026 · 3 intégrations indicielles · 7,3 Md$ flux passifs · flottant 4%</div></div>
-        <div class="nr-right"><span class="nr-tag tag-flash">Flash IPO</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_affiche_spcx.html">
-        <div class="nr-cat cat-print"></div>
-        <div class="nr-body"><div class="nr-title">Affiche print A4 — SpaceX SPCX · Format bibliothèques &amp; banques · QR code 5 cm</div><div class="nr-desc">Synthèse lisible en 15 secondes · format diffusion physique</div></div>
-        <div class="nr-right"><span class="nr-tag tag-print">Print</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+    <a class="archive-row" href="./docs/note-2026-06-24_0700.html">
+      <div class="ar-date">
+        <div class="ar-day">24</div>
+        <div class="ar-month">Juin</div>
+      </div>
+      <div class="ar-body">
+        <div class="ar-badge">Auto · 07h00</div>
+        <div class="ar-title">Bulletin du 24 juin — LVMH analyse, Block XYZ Q2</div>
+        <div class="ar-desc">LVMH −26% YTD · Block XYZ résultats Q2 le 30 juil. · ARGX position</div>
+      </div>
+    </a>
+    <!-- SIDEBAR_BULLETINS_END -->
 
-    <div class="sec-rule"><span class="sec-rule-text">Positions · Analyses de portefeuille personnel</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_spcx_position.html">
-        <div class="nr-cat cat-position"></div>
-        <div class="nr-body"><div class="nr-title">SpaceX SPCX — PRU 174,44€ · 41 actions · Stop 130€ · Nasdaq 100 le 7 juillet</div><div class="nr-desc">+1 144,92 $ réalisés · perte latente ~1 640€ · catalyseur Nasdaq 7 juil.</div></div>
-        <div class="nr-right"><span class="nr-tag tag-position">Position</span><span class="nr-date">28 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_argenx_position.html">
-        <div class="nr-cat cat-position"></div>
-        <div class="nr-body"><div class="nr-title">argenx ARGX — Achat 645€ · Cours 780€ · Conserver · EMPASSION T4 2026</div><div class="nr-desc">+20,9% · stop 680€ · cible 830€ consensus · 1 160€ Stifel</div></div>
-        <div class="nr-right"><span class="nr-tag tag-position">Position</span><span class="nr-date">12 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_oscr_position.html">
-        <div class="nr-cat cat-position"></div>
-        <div class="nr-body"><div class="nr-title">Oscar Health OSCR — Achat 19,28€ · +250€ · Verdict vendre</div><div class="nr-desc">87% au-dessus du consensus · R/R 1:12 défavorable · sortie recommandée</div></div>
-        <div class="nr-right"><span class="nr-tag tag-position">Position</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+    <a class="archive-more" href="./docs/index.html">
+      <span>Voir toutes les archives</span>
+      <em>docs/index.html →</em>
+    </a>
+  </div>
 
-    <div class="sec-rule"><span class="sec-rule-text">Analyses · Fondamentaux &amp; valeurs sous-cotées</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_lvmh.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">LVMH MC — −26% YTD · PER 23× · Accumulation progressive en 3 tranches · PEA</div><div class="nr-desc">Cours ~527€ · consensus 590-600€ (+23%) · cible haute 700€ · stop 440€</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Nouveau</span><span class="nr-date">22 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_viatris.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Viatris VTRS — Thèse valide mais upside réduit · Attendre correction vers 12-13$</div><div class="nr-desc">Cours 16,92$ · consensus 17,17$ · upside +1,5% · CA +8% · EBITDA +10% Q1 2026</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Analyse</span><span class="nr-date">22 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_block_sq.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Block Inc (XYZ) — Square · Cash App · Stablecoin 60M users · BPA +25,9%</div><div class="nr-desc">~70$ · cible Mizuho 110-119$ · 37 analystes Buy · résultats Q2 le 30 juil. 2026</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Analyse</span><span class="nr-date">18 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_ttwo.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Take-Two TTWO — GTA VI 19 nov. 2026 · Achat ~223$ · BofA cible 320$</div><div class="nr-desc">25/28 analystes Buy · CA FY2026 +18% · guidance FY2027 conservatrice</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Analyse</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_semi_smallcap.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Comparables Silvaco SVCO — PLAB · PDFS · FORM · COHU · Semi small-caps</div><div class="nr-desc">SVCO +82% potentiel · PDFS 1er trim GAAP positif · COHU Neon +65% YoY</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Analyse</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_global_souscote.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Tous marchés v5 — PFE · BABA · GM · Comcast · PER bas</div><div class="nr-desc">Pfizer PER 8× dividende 6,4% · BABA +69% · GM PER 7× · Comcast EV/EBITDA 4,7×</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Sélection</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_europe_souscotee.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">Europe sous-cotée — Stellantis · EVS Broadcast · Vivendi · PEA éligible</div><div class="nr-desc">PER &lt;6× · BPA Europe +12% 2026E · Stellantis 44 Md€ liquidités</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Sélection</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_argenx.html">
-        <div class="nr-cat cat-analyse"></div>
-        <div class="nr-body"><div class="nr-title">argenx ARGX — Bollinger · Zone achat 640-680€</div><div class="nr-desc">Pic 934€ → correction −19% → zone achat · EMPASSION MMN catalyseur T4 2026</div></div>
-        <div class="nr-right"><span class="nr-tag tag-analyse">Analyse</span><span class="nr-date">11 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+  <!-- NOTES PAR THEMATIQUE -->
+  <div class="sec" id="analyses">
+    <div class="sec-rule"></div><div class="sec-dot"></div>
+    <span class="sec-txt">Flash &amp; Breaking</span>
+    <div class="sec-dot"></div><div class="sec-rule"></div>
+  </div>
+  <div class="theme-grid">
+    <a class="tc flash" href="./yaasap_starpipe.html">
+      <div class="tc-cat">Primeur</div>
+      <div class="tc-title">SpaceX Starpipe — Gazoduc 13 km Texas</div>
+      <div class="tc-desc">Construction juil. 2026 · mise en service jan. 2027 · 2,4M litres méthane/lancement</div>
+      <div class="tc-date">25 juin 2026</div>
+    </a>
+    <a class="tc flash" href="./yaasap_spacex_ipo.html">
+      <div class="tc-cat">Flash IPO</div>
+      <div class="tc-title">SpaceX SPCX — IPO 85,7 Md$ · Nasdaq 100 le 7 juil.</div>
+      <div class="tc-desc">7,3 Md$ flux passifs FTSE + Nasdaq · flottant 4% · P/S 79×</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+  </div>
 
-    <div class="sec-rule"><span class="sec-rule-text">Sélections · Volatilité &amp; corrections injustifiées</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_volatilite_v4.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Minières or — NEM · Barrick · Agnico Eagle · FCF 6,72 Md$ record</div><div class="nr-desc">Or +38,5% YTD vs minières −15 à −25% · Goldman 5000$/oz</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Sélection v4</span><span class="nr-date">15 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_volatilite_v3.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Sélection v3 — PLTR · CRWD · DDOG · SoFi · IA &amp; fintech en correction</div><div class="nr-desc">PLTR −23% YTD · CRWD split 4:1 juil. · DDOG selloff Claude · SoFi taux</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Sélection v3</span><span class="nr-date">11 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_volatilite_v2.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Sélection v2 — LULU · ON Semi · Oscar Health · Corcept</div><div class="nr-desc">PER 14,7× ROE 41% · ON SiC +209% · CORT golden cross</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Sélection v2</span><span class="nr-date">9 juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+  <div class="sec">
+    <div class="sec-rule"></div><div class="sec-dot"></div>
+    <span class="sec-txt">Positions personnelles</span>
+    <div class="sec-dot"></div><div class="sec-rule"></div>
+  </div>
+  <div class="theme-grid">
+    <a class="tc position" href="./yaasap_spcx_position.html">
+      <div class="tc-cat">Position</div>
+      <div class="tc-title">SPCX — PRU 174,44€ · 41 actions · Stop 130€</div>
+      <div class="tc-desc">P&L latent ~−1 640€ · +1 144$ réalisés · Nasdaq 7 juil.</div>
+      <div class="tc-date">28 juin 2026</div>
+    </a>
+    <a class="tc position" href="./yaasap_argenx_position.html">
+      <div class="tc-cat">Position</div>
+      <div class="tc-title">argenx ARGX — Achat 645€ · +20,9%</div>
+      <div class="tc-desc">Stop 680€ · cible 830€ · Stifel 1 160€ · EMPASSION T4 2026</div>
+      <div class="tc-date">12 juin 2026</div>
+    </a>
+    <a class="tc flash" href="./yaasap_oscr_position.html">
+      <div class="tc-cat">Vendre</div>
+      <div class="tc-title">Oscar Health OSCR — +250€ · Verdict sortir</div>
+      <div class="tc-desc">87% au-dessus du consensus · R/R 1:12 défavorable</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+    <a class="tc position" href="./yaasap_ttwo.html">
+      <div class="tc-cat">Analyse</div>
+      <div class="tc-title">Take-Two TTWO — GTA VI 19 nov. · BofA 320$</div>
+      <div class="tc-desc">25/28 analystes Buy · +91€ latent · marketing pré-lancement</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+  </div>
 
-    <div class="sec-rule"><span class="sec-rule-text">Macro · Géopolitique &amp; secteurs</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_oil_gas.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Pétrole &amp; gaz — TotalEnergies · Shell · BP · ENI</div><div class="nr-desc">Dividendes 5-7% · tarifs Trump · Brent · Ormuz</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Macro</span><span class="nr-date">Juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_poutine_xi.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Russie-Chine · Poutine-Xi · Impact marchés</div><div class="nr-desc">Alliance sino-russe · marchés émergents et commodités</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Géopol.</span><span class="nr-date">Juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_midterms.html">
-        <div class="nr-cat cat-macro"></div>
-        <div class="nr-body"><div class="nr-title">Midterms 2026 · Scénarios Trump · Impact marchés US</div><div class="nr-desc">Analyse des scénarios politiques et implications boursières</div></div>
-        <div class="nr-right"><span class="nr-tag tag-macro">Politique</span><span class="nr-date">Avr. 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+  <div class="sec">
+    <div class="sec-rule"></div><div class="sec-dot"></div>
+    <span class="sec-txt">Analyses fondamentales</span>
+    <div class="sec-dot"></div><div class="sec-rule"></div>
+  </div>
+  <div class="theme-grid">
+    <a class="tc analyse" href="./yaasap_lvmh.html">
+      <div class="tc-cat">Analyse</div>
+      <div class="tc-title">LVMH — −26% YTD · PER 23× · Achat progressif</div>
+      <div class="tc-desc">~527€ · consensus 590-600€ +23% · cible 700€ · PEA</div>
+      <div class="tc-date">22 juin 2026</div>
+    </a>
+    <a class="tc analyse" href="./yaasap_block_sq.html">
+      <div class="tc-cat">Analyse</div>
+      <div class="tc-title">Block XYZ — BPA +25,9% · Stablecoin 60M</div>
+      <div class="tc-desc">~70$ · cible Mizuho 110-119$ · Q2 le 30 juil.</div>
+      <div class="tc-date">18 juin 2026</div>
+    </a>
+    <a class="tc macro" href="./yaasap_viatris.html">
+      <div class="tc-cat">Attendre</div>
+      <div class="tc-title">Viatris VTRS — Upside réduit · Attendre 12-13$</div>
+      <div class="tc-desc">Cours 16,92$ · consensus 17,17$ · CA +8% Q1 2026</div>
+      <div class="tc-date">22 juin 2026</div>
+    </a>
+    <a class="tc analyse" href="./yaasap_global_souscote.html">
+      <div class="tc-cat">Sélection v5</div>
+      <div class="tc-title">Tous marchés — PFE · BABA · GM · Comcast</div>
+      <div class="tc-desc">PER 8× div. 6,4% · BABA +69% · GM PER 7×</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+    <a class="tc analyse" href="./yaasap_europe_souscotee.html">
+      <div class="tc-cat">Sélection PEA</div>
+      <div class="tc-title">Europe sous-cotée — Stellantis · Vivendi</div>
+      <div class="tc-desc">PER &lt;6× · BPA +12% 2026E · 44 Md€ liquidités</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+    <a class="tc analyse" href="./yaasap_semi_smallcap.html">
+      <div class="tc-cat">Analyse</div>
+      <div class="tc-title">SVCO · PDFS · COHU — Semi small-caps</div>
+      <div class="tc-desc">SVCO +82% potentiel · COHU Neon +65% YoY</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+  </div>
 
-    <div class="sec-rule"><span class="sec-rule-text">Tech &amp; Spatial · IA, satellites &amp; exploration</span></div>
-    <div class="notes-list">
-      <a class="note-row" href="./yaasap_spatial_live.html">
-        <div class="nr-cat cat-tech"></div>
-        <div class="nr-body"><div class="nr-title">Secteur spatial coté — ASTS · RKLB · SPCE · post-SpaceX IPO</div><div class="nr-desc">Opportunités et risques dans les actions spatiales</div></div>
-        <div class="nr-right"><span class="nr-tag tag-tech">Spatial</span><span class="nr-date">Juin 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_ecosysteme_ia_v2.html">
-        <div class="nr-cat cat-tech"></div>
-        <div class="nr-body"><div class="nr-title">Écosystème IA v2 — Infrastructure · Modèles · Applications</div><div class="nr-desc">Cartographie de l'écosystème IA investissable en 2026</div></div>
-        <div class="nr-right"><span class="nr-tag tag-tech">IA</span><span class="nr-date">Mai 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-      <a class="note-row" href="./yaasap_gta6_light.html">
-        <div class="nr-cat cat-tech"></div>
-        <div class="nr-body"><div class="nr-title">GTA VI — Cartographie boursière · Take-Two · Rockstar</div><div class="nr-desc">Analyse gaming autour du lancement GTA VI nov. 2026</div></div>
-        <div class="nr-right"><span class="nr-tag tag-tech">Gaming</span><span class="nr-date">Mai 2026</span><span class="nr-arrow">→</span></div>
-      </a>
-    </div>
+  <div class="sec">
+    <div class="sec-rule"></div><div class="sec-dot"></div>
+    <span class="sec-txt">Macro · Tech · Spatial</span>
+    <div class="sec-dot"></div><div class="sec-rule"></div>
+  </div>
+  <div class="theme-grid">
+    <a class="tc macro" href="./yaasap_volatilite_v4.html">
+      <div class="tc-cat">Macro</div>
+      <div class="tc-title">Minières or — NEM · Barrick · FCF record</div>
+      <div class="tc-desc">Or +38,5% YTD vs minières −15 à −25% · Goldman 5000$/oz</div>
+      <div class="tc-date">15 juin 2026</div>
+    </a>
+    <a class="tc macro" href="./yaasap_volatilite_v3.html">
+      <div class="tc-cat">Macro</div>
+      <div class="tc-title">PLTR · CRWD · DDOG · SoFi — IA correction</div>
+      <div class="tc-desc">PLTR −23% YTD · CRWD split 4:1 juil.</div>
+      <div class="tc-date">11 juin 2026</div>
+    </a>
+    <a class="tc tech" href="./yaasap_spatial_live.html">
+      <div class="tc-cat">Spatial</div>
+      <div class="tc-title">Secteur spatial coté — ASTS · RKLB</div>
+      <div class="tc-desc">Post-IPO SpaceX · impacts sur concurrents cotés</div>
+      <div class="tc-date">Juin 2026</div>
+    </a>
+    <a class="tc tech" href="./yaasap_ecosysteme_ia_v2.html">
+      <div class="tc-cat">IA</div>
+      <div class="tc-title">Écosystème IA v2 — LLMs · GPU · Stockage</div>
+      <div class="tc-desc">Cartographie investissable de l'IA en 2026</div>
+      <div class="tc-date">Mai 2026</div>
+    </a>
+    <a class="tc macro" href="./yaasap_oil_gas.html">
+      <div class="tc-cat">Énergie</div>
+      <div class="tc-title">Oil &amp; Gas — TotalEnergies · Shell · BP</div>
+      <div class="tc-desc">Dividendes 5-7% · tarifs Trump · Brent</div>
+      <div class="tc-date">Juin 2026</div>
+    </a>
+    <a class="tc macro" href="./yaasap_poutine_xi.html">
+      <div class="tc-cat">Géopol.</div>
+      <div class="tc-title">Poutine-Xi — Grand échiquier 2026</div>
+      <div class="tc-desc">Alliance sino-russe · commodités · émergents</div>
+      <div class="tc-date">Juin 2026</div>
+    </a>
+  </div>
 
-  </div><!-- /main-col -->
+</div><!-- /main-col -->
 
-  <!-- ═══ COLONNE SIDEBAR — NOTES PONCTUELLES ═══ -->
-  <!-- SIDEBAR_START -->
+<!-- ════════════════════════════════
+     SIDEBAR DROITE — Notes ponctuelles
+════════════════════════════════ -->
+<!-- SIDEBAR_START -->
 <aside class="sidebar">
-  <div class="sb-header">
-    <span class="sb-header-title">Notes ponctuelles</span>
-    <span class="sb-header-count">30</span>
+
+  <!-- GRAPHIQUE PORTEFEUILLE -->
+  <div class="sb-sec">
+    <div class="sb-sec-hd">
+      <span class="sb-sec-hd-txt">Portefeuille</span>
+      <span class="sb-sec-badge" id="pfDate">28 juin 2026</span>
+    </div>
+    <div class="sb-chart-area">
+      <div class="sb-chart-label">Répartition &amp; P&L latent</div>
+      <div class="sb-chart-canvas">
+        <canvas id="donutChart"></canvas>
+      </div>
+      <div class="sb-pf-rows">
+        <div class="sb-pf-row">
+          <div class="sb-pf-left">
+            <div class="sb-pf-ticker">SPCX</div>
+            <div class="sb-pf-info">SpaceX · 41 actions · PRU 174,44€</div>
+          </div>
+          <div class="sb-pf-pnl neg">−1 640€</div>
+        </div>
+        <div class="sb-pf-row">
+          <div class="sb-pf-left">
+            <div class="sb-pf-ticker">TTWO</div>
+            <div class="sb-pf-info">Take-Two · 6 actions · PRU 195,06€</div>
+          </div>
+          <div class="sb-pf-pnl pos">+91€</div>
+        </div>
+        <div class="sb-pf-row">
+          <div class="sb-pf-left">
+            <div class="sb-pf-ticker">SQM</div>
+            <div class="sb-pf-info">SQM ADR · 12 actions · PRU 73,21€</div>
+          </div>
+          <div class="sb-pf-pnl neg">−45€</div>
+        </div>
+        <div class="sb-pf-row">
+          <div class="sb-pf-left">
+            <div class="sb-pf-ticker">PFE</div>
+            <div class="sb-pf-info">Pfizer · 7 actions · PRU 23,49€</div>
+          </div>
+          <div class="sb-pf-pnl neg">−11€</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="sb-list">
-<a class="sb-item" href="./yaasap_starpipe.html" style="border-left-color:#c8290a;">
-  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
-  <div class="sb-title">SpaceX Starpipe — Primeur gazoduc Texas<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#c8290a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
-  <div class="sb-date">25 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_lvmh.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">LVMH — -26% YTD · PER 23x · Achat progressif<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#1a5c9a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
-  <div class="sb-date">22 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_block_sq.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Block XYZ — BPA +25.9% · Stablecoin<span style="font-family:var(--mono,monospace);font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#1a5c9a;color:#fff;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;">NEW</span></div>
-  <div class="sb-date">18 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_spcx_position.html" style="border-left-color:#1a8a3a;">
-  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
-  <div class="sb-title">SPCX — Position · PRU 174.44€ · 41 actions</div>
-  <div class="sb-date">22 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_spacex_ipo.html" style="border-left-color:#c8290a;">
-  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
-  <div class="sb-title">SpaceX IPO — 85.7 Md$ · +19% jour J</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_ttwo.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">TTWO — GTA VI 19 nov. · BofA 320$</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_semi_smallcap.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Silvaco SVCO · PDFS · COHU — Semi small-caps</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_volatilite_v4.html" style="border-left-color:#d4880a;">
-  <div class="sb-cat" style="color:#d4880a;background:rgba(212,136,10,.15);">MACRO</div>
-  <div class="sb-title">Minieres or — NEM · Barrick · FCF record</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_argenx_position.html" style="border-left-color:#1a8a3a;">
-  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
-  <div class="sb-title">ARGX — Achat 645€ · +20.9% · Conserver</div>
-  <div class="sb-date">12 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_oscr_position.html" style="border-left-color:#1a8a3a;">
-  <div class="sb-cat" style="color:#1a8a3a;background:rgba(26,138,58,.15);">POSITION</div>
-  <div class="sb-title">OSCR — Achat 19.28€ · Verdict vendre</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_argenx.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">argenx — Zone achat 640-680€ · Bollinger</div>
-  <div class="sb-date">11 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_affiche_spcx.html" style="border-left-color:#c8290a;">
-  <div class="sb-cat" style="color:#c8290a;background:rgba(200,41,10,.15);">FLASH</div>
-  <div class="sb-title">Affiche print A4 — SPCX · Diffusion physique</div>
-  <div class="sb-date">15 juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_baba_v2.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Alibaba BABA v2 — 40 analystes Buy</div>
-  <div class="sb-date">juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_spatial_live.html" style="border-left-color:#6b21a8;">
-  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
-  <div class="sb-title">Secteur Spatial — RKLB · ASTS · IPO SpaceX</div>
-  <div class="sb-date">juin 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_oil_gas.html" style="border-left-color:#d4880a;">
-  <div class="sb-cat" style="color:#d4880a;background:rgba(212,136,10,.15);">MACRO</div>
-  <div class="sb-title">Oil & Gas — TotalEnergies · Majors</div>
-  <div class="sb-date">mai 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_ecosysteme_ia.html" style="border-left-color:#6b21a8;">
-  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
-  <div class="sb-title">Ecosysteme IA — LLMs · GPU · Stockage</div>
-  <div class="sb-date">avr. 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_gta6_light.html" style="border-left-color:#6b21a8;">
-  <div class="sb-cat" style="color:#6b21a8;background:rgba(107,33,168,.15);">TECH</div>
-  <div class="sb-title">GTA VI — Cartographie boursiere</div>
-  <div class="sb-date">mars 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_value.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Actions sous-cotees — PER bas · FCF</div>
-  <div class="sb-date">avr. 2026</div>
-</a>
-<a class="sb-item" href="./yaasap_baba.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Baba</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_ecosysteme_ia_v2.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Ecosysteme Ia V2</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_eutelsat.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Eutelsat</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_gta6.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Gta6</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_midterms.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Midterms</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_newglenn.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Newglenn</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_poutine_xi.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Poutine Xi</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_spatial.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Spatial</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_spcx_calendrier (1).html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Spcx Calendrier (1)</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_spcx_calendrier.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Spcx Calendrier</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_v3_paysage.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">V3 Paysage</div>
-  <div class="sb-date"></div>
-</a>
-<a class="sb-item" href="./yaasap_volatilite.html" style="border-left-color:#1a5c9a;">
-  <div class="sb-cat" style="color:#1a5c9a;background:rgba(26,92,154,.15);">ANALYSE</div>
-  <div class="sb-title">Volatilite</div>
-  <div class="sb-date"></div>
-</a>
+
+  <!-- CATALYSEURS -->
+  <div class="sb-sec">
+    <div class="sb-sec-hd">
+      <span class="sb-sec-hd-txt">Catalyseurs à venir</span>
+    </div>
+    <div class="sb-catalysts">
+      <div class="cat-item urgent">
+        <div>
+          <div class="cat-name">Nasdaq 100</div>
+          <div class="cat-desc">SPCX intégration effective</div>
+        </div>
+        <div class="cat-date">7 juil.</div>
+      </div>
+      <div class="cat-item positive">
+        <div>
+          <div class="cat-name">GTA VI</div>
+          <div class="cat-desc">Take-Two TTWO lancement</div>
+        </div>
+        <div class="cat-date">19 nov.</div>
+      </div>
+      <div class="cat-item amber">
+        <div>
+          <div class="cat-name">Starpipe</div>
+          <div class="cat-desc">Mise en service gazoduc SpaceX</div>
+        </div>
+        <div class="cat-date">26 jan. 27</div>
+      </div>
+      <div class="cat-item neutral">
+        <div>
+          <div class="cat-name">S&P 500</div>
+          <div class="cat-desc">SPCX éligibilité GAAP</div>
+        </div>
+        <div class="cat-date">2027+</div>
+      </div>
+    </div>
   </div>
+
+  <!-- ARCHIVES BULLETINS -->
+  <div class="sb-sec">
+    <div class="sb-sec-hd">
+      <span class="sb-sec-hd-txt">Archives bulletins</span>
+      <span class="sb-sec-badge" id="sbArchiveCount">—</span>
+    </div>
+  </div>
+
+  <!-- Lien bulletin du jour -->
+  <a class="sb-note" href="./docs/note-du-jour.html" style="border-left-color:var(--red);background:rgba(212,43,15,.06);">
+    <div class="sb-note-top">
+      <span class="sb-note-cat" style="color:var(--red);background:rgba(212,43,15,.15);">Aujourd'hui</span>
+      <span class="sb-note-new" style="background:var(--red);animation:pulse .9s infinite;">LIVE</span>
+    </div>
+    <div class="sb-note-title">Bulletin du jour — Marchés &amp; Analyse</div>
+    <div class="sb-note-date" id="sbTodayDate">Généré à 07h00</div>
+  </a>
+
+  <!-- Liste archives dynamique -->
+  <div id="sbArchiveList"></div>
+
+  <a class="sb-note" href="./docs/index.html" style="border-left-color:var(--wire);background:var(--zinc);">
+    <div class="sb-note-top"><span class="sb-note-cat" style="color:var(--mist);background:var(--zinc);">Archives</span></div>
+    <div class="sb-note-title" style="color:rgba(255,255,255,.4);">→ Voir toutes les archives</div>
+    <div class="sb-note-date">docs/index.html</div>
+  </a>
+
+  <!-- NEWSLETTER -->
+  <div class="sb-sec" style="border-top:1px solid var(--wire);margin-top:auto;">
+    <div class="sb-sec-hd">
+      <span class="sb-sec-hd-txt">Newsletter gratuite</span>
+      <span class="sb-sec-badge" style="color:#4ade80;border:1px solid rgba(26,138,58,.3);">0 €</span>
+    </div>
+    <div class="sb-nl">
+      <div class="sb-nl-hl">Recevez les notes chaque lundi</div>
+      <div class="sb-nl-sub">Analyse + données marché + positions — par Yacine AOUABED.</div>
+      <div class="sb-nl-row">
+        <input class="sb-nl-input" type="email" id="sbEmail" placeholder="votre@email.com" autocomplete="email">
+        <button class="sb-nl-btn" onclick="sbSubmit()">OK →</button>
+      </div>
+      <div class="sb-nl-ok" id="sbOk">✓ INSCRIT</div>
+      <div class="sb-nl-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+    </div>
+  </div>
+
 </aside>
 <!-- SIDEBAR_END -->
 
-</div><!-- /page-layout -->
+  <!-- NEWSLETTER -->
+  <div class="sb-sec" style="border-top:1px solid var(--wire);margin-top:auto;">
+    <div class="sb-sec-hd">
+      <span class="sb-sec-hd-txt">Newsletter gratuite</span>
+      <span class="sb-sec-badge" style="color:#4ade80;border:1px solid rgba(26,138,58,.3);">0 €</span>
+    </div>
+    <div class="sb-nl">
+      <div class="sb-nl-hl">Recevez les notes chaque lundi</div>
+      <div class="sb-nl-sub">Analyse + données marché + positions — par Yacine AOUABED. Désabonnement en 1 clic.</div>
+      <div class="sb-nl-row">
+        <input class="sb-nl-input" type="email" id="sbEmail" placeholder="votre@email.com" autocomplete="email">
+        <button class="sb-nl-btn" onclick="sbSubmit()">OK →</button>
+      </div>
+      <div class="sb-nl-ok" id="sbOk">✓ INSCRIT — vérifiez votre boite mail</div>
+      <div class="sb-nl-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+    </div>
+  </div>
 
+</aside>
+
+<!-- FOOTER -->
 <footer>
   <div class="foot-brand">YAASAP <em>Notes</em></div>
-  <div class="foot-author">Par Yacine AOUABED · Consultant senior · Analyse financière indépendante</div>
-  <div class="foot-legal">Ce site est publié à titre informatif uniquement et ne constitue pas un conseil en investissement. Investir comporte des risques de perte en capital.</div>
+  <nav class="foot-nav">
+    <a href="./docs/note-du-jour.html">Bulletin du jour</a>
+    <a href="./docs/index.html">Archives</a>
+    <a href="./yaasap_spcx_position.html">Position SPCX</a>
+    <a href="./yaasap_lvmh.html">LVMH</a>
+  </nav>
+  <div class="foot-legal">Par Yacine AOUABED · Ne constitue pas un conseil en investissement</div>
 </footer>
 
+</div><!-- /root-layout -->
+
 <script>
+/* ─── DATE ─── */
 (function(){
   var d=new Date();
-  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  var s=d.toLocaleDateString('fr-FR',opts);
-  var el=document.getElementById('mastDate');if(el)el.textContent=s;
-  var sb=document.getElementById('sbTodayDate');if(sb)sb.textContent=s;
+  var months=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var monthsShort=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+  var day=d.getDate(), month=months[d.getMonth()], year=d.getFullYear();
+  var mShort=monthsShort[d.getMonth()];
+  var full=d.toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var el=document.getElementById('mastDate');if(el)el.textContent=full;
+  var pf=document.getElementById('pfDate');if(pf)pf.textContent=day+' '+mShort+' '+year;
+  var td=document.getElementById('todayDay');if(td)td.textContent=day;
+  var tm=document.getElementById('todayMonth');if(tm)tm.textContent=mShort;
 })();
+
+/* ─── QR CODE ─── */
 (function tryQR(){
   var el=document.getElementById('qr-mast');
   if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
-  new QRCode(el,{text:'https://yaasap.github.io/dailywatch/index.html',width:48,height:48,colorDark:'#1c1814',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  new QRCode(el,{text:'https://yaasap.github.io/dailywatch/index.html',
+    width:38,height:38,colorDark:'#080a0c',colorLight:'#f0ece4',
+    correctLevel:QRCode.CorrectLevel.M});
 })();
-var FORMSPREE_URL='https://formspree.io/f/meewwqep';
-function nlShowState(id){
-  ['nl-form','nl-loading','nl-success'].forEach(function(s){var el=document.getElementById(s);if(el)el.classList.remove('visible');});
-  var t=document.getElementById(id);if(t)t.classList.add('visible');
-}
-function nlSubmit(){
-  var email=((document.getElementById('nl-email')||{}).value||'').trim();
-  var prenom=((document.getElementById('nl-prenom')||{}).value||'').trim();
+
+/* ─── PHOTO HÉRO QUI CHANGE CHAQUE JOUR ─── */
+(function(){
+  var img=document.getElementById('heroImg');
+  var srcEl=document.getElementById('heroSrc');
+  if(!img)return;
+
+  /* Sujets financiers — rotation par jour de l'année */
+  var topics=[
+    'stock-market','financial-district','trading-floor',
+    'new-york-city-skyline','wall-street','business-finance',
+    'rocket-launch','space','technology-finance',
+    'oil-refinery','gold','city-lights-night',
+    'tokyo-finance','paris-finance','london-city',
+    'data-center','satellite','electric-vehicle'
+  ];
+  var d=new Date();
+  var dayOfYear=Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);
+  var topic=topics[dayOfYear%topics.length];
+
+  /* Seed Picsum = date YYYYMMDD → image déterministe qui change chaque jour */
+  var seed=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+  /* Unsplash Source (pas de clé API requise) */
+  var unsplashUrl='https://source.unsplash.com/1200x500/?'+topic+'&sig='+seed;
+  /* Fallback Picsum si Unsplash échoue */
+  var picsumUrl='https://picsum.photos/seed/'+seed+'/1200/500';
+
+  img.onerror=function(){
+    this.onerror=null;
+    this.src=picsumUrl;
+    if(srcEl)srcEl.textContent='Picsum Photos';
+  };
+  img.src=unsplashUrl;
+  if(srcEl)srcEl.textContent='Unsplash · '+topic.replace(/-/g,' ');
+})();
+
+/* ─── GRAPHIQUE DONUT PORTFOLIO ─── */
+(function(){
+  var ctx=document.getElementById('donutChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  Chart.defaults.color='rgba(255,255,255,.4)';
+  Chart.defaults.font.family="'JetBrains Mono','Courier New',monospace";
+  new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['SPCX 73%','TTWO 15%','SQM 10%','PFE 2%'],
+      datasets:[{
+        data:[6342,1261,833,153],
+        backgroundColor:[
+          'rgba(212,43,15,.75)',
+          'rgba(26,138,58,.75)',
+          'rgba(212,136,10,.75)',
+          'rgba(26,92,154,.75)'
+        ],
+        borderColor:['#d42b0f','#1a8a3a','#d4880a','#1a5c9a'],
+        borderWidth:1.5,
+        hoverBorderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      animation:{duration:600},
+      plugins:{
+        legend:{
+          display:true,position:'right',
+          labels:{
+            color:'rgba(255,255,255,.4)',
+            font:{size:8,family:"'JetBrains Mono',monospace"},
+            boxWidth:8,boxHeight:8,padding:5
+          }
+        },
+        tooltip:{
+          backgroundColor:'rgba(13,16,20,.97)',
+          titleColor:'#f0ece4',bodyColor:'rgba(255,255,255,.6)',
+          borderColor:'rgba(255,255,255,.1)',borderWidth:1,padding:8,
+          callbacks:{
+            label:function(ctx){
+              return ' '+ctx.label+' · '+ctx.parsed.toLocaleString('fr-FR')+'€';
+            }
+          }
+        }
+      },
+      cutout:'62%'
+    }
+  });
+})();
+
+/* ─── NEWSLETTER ─── */
+function sbSubmit(){
+  var emailEl=document.getElementById('sbEmail');
+  var email=emailEl?emailEl.value.trim():'';
   if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    var err=document.getElementById('nl-err');if(err){err.textContent='⚠ Email invalide.';err.style.display='block';setTimeout(function(){err.style.display='none';},4000);}return;
+    if(emailEl){emailEl.style.borderColor='rgba(212,43,15,.8)';}return;
   }
-  var btn=document.getElementById('nl-btn'),lbl=document.getElementById('nl-btn-lbl');
-  if(btn)btn.disabled=true;if(lbl)lbl.textContent='Inscription…';
-  nlShowState('nl-loading');
   var body=new FormData();
-  body.append('email',email);body.append('prenom',prenom);body.append('plan','free');
-  body.append('source','yaasap-index');body.append('_subject','Inscription YAASAP Notes');body.append('_next','false');
-  fetch(FORMSPREE_URL,{method:'POST',body:body,headers:{'Accept':'application/json'}})
-  .then(function(res){
-    if(res.ok){nlShowState('nl-success');}
-    else{nlShowState('nl-form');if(btn)btn.disabled=false;if(lbl)lbl.textContent='Je m\'abonne gratuitement';}
-  }).catch(function(){nlShowState('nl-form');if(btn)btn.disabled=false;if(lbl)lbl.textContent='Je m\'abonne gratuitement';});
+  body.append('email',email);
+  body.append('source','yaasap-index-sidebar');
+  body.append('_subject','Inscription YAASAP Notes');
+  body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{
+    method:'POST',body:body,headers:{'Accept':'application/json'}
+  }).then(function(r){
+    if(r.ok){
+      var row=emailEl.parentElement;if(row)row.style.display='none';
+      var ok=document.getElementById('sbOk');if(ok)ok.style.display='block';
+    }
+  }).catch(function(){});
 }
-document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&(document.activeElement.id==='nl-email'||document.activeElement.id==='nl-prenom'))nlSubmit();});
+
+/* ─── ARCHIVES SIDEBAR ─── */
+(function(){
+  var months=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+
+  var d=new Date();
+  var sbDate=document.getElementById('sbTodayDate');
+  if(sbDate)sbDate.textContent='Aujourd\'hui '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear()+' · 07h00';
+
+  fetch('https://api.github.com/repos/YAASAP/dailywatch/contents/docs?ref=main',
+    {headers:{'Accept':'application/vnd.github.v3+json'}})
+  .then(function(r){return r.json();})
+  .then(function(files){
+    var notes=files.filter(function(f){
+      return f.type==='file'&&f.name.startsWith('note-2')&&f.name.endsWith('.html');
+    });
+    notes.sort(function(a,b){return b.name.localeCompare(a.name);});
+
+    var count=document.getElementById('sbArchiveCount');
+    if(count)count.textContent=notes.length;
+
+    var list=document.getElementById('sbArchiveList');
+    if(!list)return;
+    list.innerHTML='';
+
+    /* Afficher les 15 derniers dans la sidebar */
+    notes.slice(0,15).forEach(function(f){
+      var m=f.name.match(/note-(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})\.html/);
+      if(!m)return;
+      var day=parseInt(m[3]),mo=months[parseInt(m[2])-1],yr=m[1],h=m[4],mn=m[5];
+      var a=document.createElement('a');
+      a.className='sb-note';
+      a.href='./docs/'+f.name;
+      a.style.cssText='border-left-color:var(--green);';
+      a.innerHTML=
+        '<div class="sb-note-top">'+
+          '<span class="sb-note-cat" style="color:#4ade80;background:rgba(26,138,58,.15);">Auto</span>'+
+        '</div>'+
+        '<div class="sb-note-title">Bulletin du '+day+' '+mo+' '+yr+'</div>'+
+        '<div class="sb-note-date">'+h+'h'+mn+'</div>';
+      list.appendChild(a);
+    });
+  })
+  .catch(function(){
+    var count=document.getElementById('sbArchiveCount');
+    if(count)count.textContent='?';
+  });
+})();
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='sbEmail')sbSubmit();
+});
 </script>
 </body>
 </html>
