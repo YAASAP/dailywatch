@@ -37,6 +37,6 @@ jobs:
         run: |
           git config user.name "YAASAP Bot"
           git config user.email "bot@yaasap.fr"
-          git add docs/ index.html
+          git add docs/
           git diff --staged --quiet || git commit -m "Bulletin automatique du $(date +'%d %B %Y')"
           git push
