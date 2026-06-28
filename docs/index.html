@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YAASAP Notes · Archives des bulletins quotidiens</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#080a0c;--near:#0d1014;--zinc:#1a1d22;--wire:#333840;
+  --cream:#f0ece4;--red:#d42b0f;--green:#1a8a3a;--gold:#c8902a;
+  --mist:#9aa0aa;
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Inter',Arial,sans-serif;
+  --mono:'JetBrains Mono','Courier New',monospace;
+}
+html,body{background:var(--black);font-family:var(--body);color:var(--cream);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.masthead{background:var(--black);border-bottom:1px solid var(--wire);padding:0 24px;height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:100;}
+.mast-brand{font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:-.02em;color:var(--cream);}
+.mast-brand em{font-style:italic;color:var(--red);}
+.mast-back{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);text-decoration:none;border:1px solid var(--wire);padding:3px 10px;border-radius:1px;transition:color .12s,border-color .12s;}
+.mast-back:hover{color:var(--cream);border-color:var(--mist);}
+
+.hero{background:var(--zinc);border-bottom:1px solid var(--wire);padding:24px 28px 20px;}
+.hero-eyebrow{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.hero-title{font-family:var(--display);font-size:clamp(22px,4vw,32px);font-weight:900;font-style:italic;color:var(--cream);line-height:1.05;margin-bottom:6px;}
+.hero-sub{font-family:var(--body);font-size:13px;color:rgba(255,255,255,.4);line-height:1.5;}
+.hero-stats{display:flex;gap:24px;margin-top:14px;flex-wrap:wrap;}
+.hs{text-align:center;}
+.hs-v{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--cream);display:block;line-height:1;}
+.hs-l{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:3px;display:block;}
+
+.container{max-width:680px;margin:0 auto;padding:28px 24px 60px;}
+
+/* TODAY BOX */
+.today-box{
+  background:var(--zinc);border:1px solid var(--wire);
+  border-left:3px solid var(--red);border-radius:1px;
+  margin-bottom:20px;overflow:hidden;
+  text-decoration:none;display:block;transition:background .1s;
+}
+.today-box:hover{background:#1e2228;}
+.today-inner{padding:16px 20px;}
+.today-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:7.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(212,43,15,.15);color:var(--red);
+  border:1px solid rgba(212,43,15,.25);
+  padding:2px 8px;border-radius:1px;margin-bottom:8px;
+}
+.today-dot{width:4px;height:4px;background:var(--red);border-radius:50%;animation:blink .9s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+.today-title{font-family:var(--display);font-size:18px;font-weight:700;color:var(--cream);line-height:1.2;margin-bottom:4px;}
+.today-desc{font-family:var(--body);font-size:12px;color:rgba(255,255,255,.4);line-height:1.45;margin-bottom:8px;}
+.today-meta{font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.2);letter-spacing:.03em;}
+.today-arrow{
+  background:var(--red);padding:8px 20px;
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  display:flex;justify-content:space-between;align-items:center;
+}
+
+/* SECTION */
+.sec{display:flex;align-items:center;gap:8px;margin:24px 0 12px;}
+.sec-line{flex:1;height:1px;background:var(--wire);}
+.sec-dot{width:3px;height:3px;border-radius:50%;background:var(--red);}
+.sec-txt{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);white-space:nowrap;}
+.sec-count{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.2);background:var(--zinc);padding:1px 6px;border-radius:1px;}
+
+/* LISTE ARCHIVES */
+.archive-list{display:flex;flex-direction:column;background:var(--near);border:1px solid var(--wire);border-radius:1px;overflow:hidden;}
+.ar{
+  display:grid;grid-template-columns:68px 1fr;
+  border-bottom:1px solid var(--wire);
+  text-decoration:none;transition:background .1s;
+}
+.ar:last-child{border-bottom:none;}
+.ar:hover{background:var(--zinc);}
+.ar-date{
+  padding:12px 10px;border-right:1px solid var(--wire);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--black);
+}
+.ar-day{font-family:var(--display);font-size:20px;font-weight:900;color:rgba(255,255,255,.45);line-height:1;}
+.ar-month{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:2px;}
+.ar-body{padding:10px 16px;display:flex;flex-direction:column;justify-content:center;}
+.ar-badge{
+  font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(26,138,58,.12);color:#4ade80;
+  border:1px solid rgba(26,138,58,.18);
+  padding:1px 6px;border-radius:1px;
+  margin-bottom:4px;width:fit-content;
+}
+.ar-title{font-family:var(--body);font-size:13px;font-weight:600;color:rgba(255,255,255,.7);line-height:1.3;margin-bottom:2px;}
+.ar-desc{font-family:var(--body);font-size:11px;color:rgba(255,255,255,.28);line-height:1.4;}
+.ar-time{font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.18);margin-top:3px;}
+
+/* VIDE */
+.empty{
+  padding:40px 20px;text-align:center;
+  border:1px dashed var(--wire);border-radius:1px;
+}
+.empty-icon{font-size:28px;margin-bottom:10px;opacity:.3;}
+.empty-title{font-family:var(--display);font-size:16px;color:rgba(255,255,255,.3);margin-bottom:4px;}
+.empty-desc{font-family:var(--body);font-size:12px;color:rgba(255,255,255,.2);}
+
+footer{border-top:1px solid var(--wire);padding:14px 24px;text-align:center;background:var(--near);}
+.foot-brand{font-family:var(--display);font-size:13px;color:rgba(255,255,255,.25);}
+.foot-brand em{font-style:italic;color:var(--red);}
+.foot-legal{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.14);letter-spacing:.04em;margin-top:3px;}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="mast-brand">YAASAP <em>Notes</em></div>
+  <a href="../index.html" class="mast-back">← Accueil</a>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Archives · Bulletins quotidiens automatiques</div>
+  <div class="hero-title">Tous les bulletins,<br>classés par date</div>
+  <div class="hero-sub">Générés automatiquement chaque matin à 07h00 · yfinance + NewsAPI + Claude Sonnet · Portefeuille en temps réel</div>
+  <div class="hero-stats">
+    <div class="hs"><span class="hs-v" id="noteCount">—</span><span class="hs-l">Bulletins archivés</span></div>
+    <div class="hs"><span class="hs-v">07h00</span><span class="hs-l">Heure génération</span></div>
+    <div class="hs"><span class="hs-v">Lun–Ven</span><span class="hs-l">Fréquence</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- BULLETIN DU JOUR -->
+  <a class="today-box" href="./note-du-jour.html">
+    <div class="today-inner">
+      <div class="today-badge"><div class="today-dot"></div>Bulletin du jour · En direct</div>
+      <div class="today-title">Bulletin quotidien — Portefeuille, marchés &amp; analyse</div>
+      <div class="today-desc">Cours en temps réel · SPCX · TTWO · SQM · PFE · Indices mondiaux · Signal éditorial du jour par Claude Sonnet</div>
+      <div class="today-meta" id="todayMeta">Généré automatiquement à 07h00 · Mis à jour chaque matin</div>
+    </div>
+    <div class="today-arrow">
+      <span>Lire le bulletin d'aujourd'hui</span>
+      <span>→</span>
+    </div>
+  </a>
+
+  <!-- ARCHIVES -->
+  <div class="sec">
+    <div class="sec-line"></div><div class="sec-dot"></div>
+    <span class="sec-txt">Archives · Du plus récent au plus ancien</span>
+    <div class="sec-dot"></div><div class="sec-line"></div>
+    <span class="sec-count" id="archiveCount">0</span>
+  </div>
+
+  <div class="archive-list" id="archiveList">
+    <div class="empty">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">Chargement des archives…</div>
+      <div class="empty-desc">Les bulletins apparaîtront ici après le premier run GitHub Actions</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-legal">Archives automatiques · Par Yacine AOUABED · Ne constitue pas un conseil en investissement</div>
+</footer>
+
+<script>
+/* DATE */
+(function(){
+  var d=new Date();
+  var s=d.toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var el=document.getElementById('todayMeta');
+  if(el)el.textContent='Bulletin du '+s+' · Généré à 07h00';
+})();
+
+/* CHARGER LES ARCHIVES VIA API GITHUB */
+(function(){
+  var months=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+  var monthsFull=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+  function parseDateFromFilename(fn){
+    /* note-2026-06-26_2129.html */
+    var m=fn.match(/note-(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})\.html/);
+    if(!m)return null;
+    return {
+      year:parseInt(m[1]),month:parseInt(m[2]),day:parseInt(m[3]),
+      hour:m[4],min:m[5],
+      label:parseInt(m[3])+' '+monthsFull[parseInt(m[2])-1]+' '+m[1],
+      shortMonth:months[parseInt(m[2])-1],
+      time:m[4]+'h'+m[5]
+    };
+  }
+
+  function buildRow(file){
+    var fn=file.name;
+    var d=parseDateFromFilename(fn);
+    if(!d)return null;
+    var el=document.createElement('a');
+    el.className='ar';
+    el.href='./'+fn;
+    el.innerHTML=
+      '<div class="ar-date">'+
+        '<div class="ar-day">'+d.day+'</div>'+
+        '<div class="ar-month">'+d.shortMonth+'</div>'+
+      '</div>'+
+      '<div class="ar-body">'+
+        '<div class="ar-badge">Auto · '+d.time+'</div>'+
+        '<div class="ar-title">Bulletin du '+d.label+'</div>'+
+        '<div class="ar-desc">Portefeuille · marchés · signal éditorial · Claude Sonnet</div>'+
+        '<div class="ar-time">Généré à '+d.time+' · yfinance + NewsAPI</div>'+
+      '</div>';
+    return el;
+  }
+
+  /* API GitHub — liste des fichiers dans /docs */
+  fetch('https://api.github.com/repos/YAASAP/dailywatch/contents/docs?ref=main',
+    {headers:{'Accept':'application/vnd.github.v3+json'}})
+  .then(function(r){return r.json();})
+  .then(function(files){
+    /* Filtrer note-*.html sauf note-du-jour.html */
+    var notes=files.filter(function(f){
+      return f.type==='file'&&
+             f.name.startsWith('note-2')&&
+             f.name.endsWith('.html');
+    });
+    /* Trier du plus récent au plus ancien */
+    notes.sort(function(a,b){return b.name.localeCompare(a.name);});
+
+    var list=document.getElementById('archiveList');
+    var count=document.getElementById('archiveCount');
+    var noteCount=document.getElementById('noteCount');
+    if(count)count.textContent=notes.length;
+    if(noteCount)noteCount.textContent=notes.length;
+
+    if(notes.length===0){return;}
+
+    list.innerHTML='';
+    notes.forEach(function(f){
+      var row=buildRow(f);
+      if(row)list.appendChild(row);
+    });
+  })
+  .catch(function(){
+    /* Fallback si API inaccessible */
+    var list=document.getElementById('archiveList');
+    if(list){
+      list.innerHTML=
+        '<a class="ar" href="./note-du-jour.html">'+
+          '<div class="ar-date"><div class="ar-day">—</div><div class="ar-month">Auj.</div></div>'+
+          '<div class="ar-body">'+
+            '<div class="ar-badge">Bulletin du jour</div>'+
+            '<div class="ar-title">Accéder au bulletin d\'aujourd\'hui</div>'+
+            '<div class="ar-desc">Les archives se chargent via l\'API GitHub · vérifiez votre connexion</div>'+
+          '</div>'+
+        '</a>';
+    }
+  });
+})();
+</script>
+</body>
+</html>
