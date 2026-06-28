@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1c1814">
+<title>YAASAP Notes — Coupe du Monde 2026 · 13 Md$ · Enjeux financiers &amp; actions à surveiller</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,0.12);--rule2:rgba(0,0,0,0.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;
+  --red:#b01c1c;--blue:#1a3a5c;--fifa:#1a5c1a;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--paper);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);border-bottom:3px double rgba(255,255,255,.15);padding:12px 22px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-name{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-size:7.5px;color:rgba(255,255,255,.35);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;font-family:var(--sans);}
+.mast-center{text-align:center;flex:1;}
+.mast-tag{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);padding:2px 10px;display:inline-block;}
+.mast-right{display:flex;align-items:center;gap:10px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.42);font-style:italic;}
+.mast-qr-box{background:#fff;padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.22);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;text-align:center;}
+
+/* HERO */
+.hero{background:var(--ink);padding:0;border-bottom:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;}
+.hero-img{width:100%;height:260px;object-fit:cover;object-position:center 30%;display:block;filter:brightness(.45) saturate(.7);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,24,20,0) 0%,rgba(28,24,20,.7) 60%,rgba(28,24,20,.95) 100%);}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 22px 18px;}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.hero-tag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--fifa);color:#fff;padding:2px 9px;border-radius:2px;}
+.hero-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+.hero-eyebrow-date{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.4);}
+.hero-title{font-family:var(--serif);font-size:clamp(20px,4vw,30px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:6px;max-width:600px;}
+.hero-deck{font-family:var(--serif);font-size:12.5px;font-style:italic;color:rgba(255,255,255,.5);line-height:1.5;max-width:560px;}
+
+/* KPI STRIP */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--ink);border-bottom:1px solid rgba(255,255,255,.06);}
+.kpi{padding:10px 0 10px 14px;border-right:1px solid rgba(255,255,255,.06);}
+.kpi:last-child{border-right:none;}
+.kpi-v{font-family:var(--mono);font-size:16px;font-weight:700;color:#f0ebe3;line-height:1;display:block;}
+.kpi-v.up{color:#4ade80;}.kpi-v.am{color:#fbbf24;}.kpi-v.gold{color:var(--gold);}
+.kpi-l{font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:3px;display:block;}
+
+/* KICKER */
+.kicker{overflow-x:auto;background:var(--paper2);border-bottom:1px solid var(--rule);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 16px;min-width:max-content;}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;font-family:var(--sans);}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1;}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:1px;font-family:var(--sans);}
+.up{color:var(--green);}.dn{color:var(--red);}.am{color:var(--amber);}
+
+/* CONTENT */
+.content{max-width:720px;margin:0 auto;padding:24px 22px 52px;}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:26px 0 14px;}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0;}
+.sec-rule-text{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--sans);}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.lead-hl{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px;}
+.lead-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2);}
+.body-p{font-size:13.5px;color:var(--ink2);line-height:1.7;font-family:var(--sans);margin-bottom:10px;}
+.body-p strong{font-weight:700;color:var(--ink);}
+
+/* PULL */
+.pull{border-top:2px solid var(--accent);border-bottom:1px solid var(--rule);padding:10px 13px;margin:14px 0;}
+.pull-t{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.45;color:var(--ink);}
+.pull-a{font-size:9px;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;font-family:var(--sans);}
+
+/* CHART */
+.chart-card{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.chart-header{padding:10px 14px;border-bottom:1px solid var(--rule2);background:var(--paper2);display:flex;justify-content:space-between;align-items:center;}
+.chart-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);}
+.chart-sub{font-size:9px;color:var(--ink4);font-style:italic;font-family:var(--sans);}
+.chart-body{padding:14px 16px 10px;}
+.chart-wrap{position:relative;height:200px;}
+.chart-legend{display:flex;gap:12px;padding:8px 16px 12px;flex-wrap:wrap;border-top:1px solid var(--rule2);}
+.cl-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);font-size:12.5px;margin-bottom:18px;}
+.data-table th{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);font-family:var(--sans);}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;font-family:var(--sans);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--paper2);}
+.badge-up{background:rgba(30,92,50,.1);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;}
+.badge-am{background:rgba(138,92,0,.1);color:var(--amber);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;}
+.badge-dn{background:rgba(176,28,28,.1);color:var(--red);font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;}
+
+/* REVENUS GRID */
+.rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+.rev-card{background:#fff;border:1px solid var(--rule);border-top:3px solid;border-radius:2px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.rev-label{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;font-family:var(--sans);}
+.rev-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;margin-bottom:2px;}
+.rev-vs{font-size:10px;color:var(--ink4);font-family:var(--sans);}
+.rev-vs strong{font-weight:700;}
+
+/* ACTIONS */
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border-radius:2px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.action-card{background:#fff;padding:12px 14px;}
+.ac-ticker{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.ac-name{font-size:11px;color:var(--ink4);margin-bottom:5px;font-family:var(--sans);}
+.ac-lien{font-size:11.5px;color:var(--ink2);line-height:1.45;font-family:var(--sans);}
+.ac-signal{font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;display:inline-block;margin-top:5px;font-family:var(--mono);}
+
+/* VERDICT */
+.verdict{background:var(--ink);border-radius:2px;padding:16px 18px;margin:22px 0;}
+.v-tag{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:10px;font-family:var(--sans);}
+.v-t{font-family:var(--serif);font-size:13px;color:rgba(255,255,255,.88);font-style:italic;line-height:1.6;}
+.v-t strong{font-style:normal;color:var(--gold);}
+.v-t p{margin-bottom:7px;}
+.v-t p:last-child{margin-bottom:0;}
+.v-list{border-top:1px solid rgba(255,255,255,.1);margin-top:13px;padding-top:12px;display:flex;flex-direction:column;gap:5px;}
+.v-li{display:flex;gap:10px;font-size:12.5px;color:rgba(255,255,255,.78);align-items:baseline;font-family:var(--sans);}
+.v-li::before{content:'—';color:var(--gold);flex-shrink:0;}
+.v-li strong{color:#fff;font-weight:700;}
+.v-disclaimer{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3);font-style:italic;font-family:var(--sans);}
+
+/* NL */
+.nl-mini{background:var(--ink);border-top:2px solid var(--accent);padding:14px 16px;margin-top:22px;border-radius:2px;}
+.nl-mini-title{font-family:var(--serif);font-size:13px;font-weight:700;color:#f0ebe3;margin-bottom:4px;}
+.nl-mini-row{display:flex;gap:6px;margin-top:8px;}
+.nl-mini-input{flex:1;height:38px;padding:0 11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);border-radius:3px;font-family:var(--sans);font-size:13px;color:#fff;outline:none;}
+.nl-mini-input::placeholder{color:rgba(255,255,255,.25);}
+.nl-mini-input:focus{border-color:var(--gold);}
+.nl-mini-btn{height:38px;padding:0 14px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;}
+.nl-mini-note{font-size:9.5px;color:rgba(255,255,255,.2);margin-top:5px;font-family:var(--sans);}
+#nlm-ok{display:none;font-size:12px;font-weight:700;color:#4ade80;margin-top:5px;}
+
+footer{background:var(--paper2);border-top:1.5px solid var(--rule);padding:14px 20px;text-align:center;}
+.foot-brand{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--ink);}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-size:10px;color:var(--ink4);font-style:italic;font-family:var(--sans);margin-top:2px;}
+.foot-nav{display:flex;justify-content:center;gap:14px;margin-top:8px;flex-wrap:wrap;}
+.foot-nav a{font-size:11px;color:var(--accent);text-decoration:none;font-family:var(--sans);}
+
+@media(max-width:560px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr);}
+  .rev-grid,.actions-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Analyse financière indépendante · Par Yacine AOUABED</div>
+  </div>
+  <div class="mast-center">
+    <span class="mast-tag">Dossier · Coupe du Monde 2026 · Enjeux financiers · Juin 2026</span>
+  </div>
+  <div class="mast-right">
+    <div class="mast-date" id="liveDate">28 juin 2026</div>
+    <div>
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=1200&q=80&fit=crop" alt="Stade Coupe du Monde 2026" onerror="this.src='https://picsum.photos/seed/cdm2026/1200/260'">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-tag">Dossier économique</span>
+      <div class="hero-dot"></div>
+      <span class="hero-eyebrow-date">11 juin – 19 juillet 2026 · USA · Canada · Mexique · 48 équipes · 104 matchs</span>
+    </div>
+    <div class="hero-title">Coupe du Monde 2026 — 13 milliards de dollars. La machine à cash de la FIFA bat tous les records</div>
+    <div class="hero-deck">48 équipes, 104 matchs, 6 milliards de téléspectateurs. Ce Mondial nord-américain est le plus rentable de l'histoire du sport. Qui gagne vraiment ? Quelles actions surveiller ?</div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi"><span class="kpi-v gold">13 Md$</span><span class="kpi-l">Revenus FIFA cycle</span></div>
+  <div class="kpi"><span class="kpi-v am">4,2 Md$</span><span class="kpi-l">Droits TV</span></div>
+  <div class="kpi"><span class="kpi-v am">3 Md$</span><span class="kpi-l">Billetterie +200%</span></div>
+  <div class="kpi"><span class="kpi-v am">2,8 Md$</span><span class="kpi-l">Sponsoring record</span></div>
+  <div class="kpi"><span class="kpi-v up">6 Md</span><span class="kpi-l">Téléspectateurs</span></div>
+</div>
+
+<!-- KICKER -->
+<div class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Durée tournoi</div><div class="kk-v">39 jours</div><div class="kk-n">11 juin → 19 juillet 2026</div></div>
+    <div class="kk"><div class="kk-l">Matchs (+62%)</div><div class="kk-v am">104</div><div class="kk-n">vs 64 en Qatar 2022</div></div>
+    <div class="kk"><div class="kk-l">Équipes (+50%)</div><div class="kk-v am">48</div><div class="kk-n">vs 32 en Qatar 2022</div></div>
+    <div class="kk"><div class="kk-l">Billets vendus</div><div class="kk-v up">6,5 M</div><div class="kk-n">+40% touristes étrangers</div></div>
+    <div class="kk"><div class="kk-l">Billet finale</div><div class="kk-v dn">1 882$</div><div class="kk-n">Dynamic pricing FIFA</div></div>
+    <div class="kk"><div class="kk-l">Revenu/match</div><div class="kk-v up">29 M$</div><div class="kk-n">vs 14 M$ au Qatar ×2</div></div>
+    <div class="kk"><div class="kk-l">Nike investi</div><div class="kk-v am">~1 Md$</div><div class="kk-n">12 équipes habillées</div></div>
+    <div class="kk"><div class="kk-l">Adidas</div><div class="kk-v am">150-200 M$</div><div class="kk-n">14 équipes · partner FIFA</div></div>
+    <div class="kk"><div class="kk-l">M6 droits France</div><div class="kk-v dn">120 M€</div><div class="kk-n">54 matchs en exclusivité</div></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="sec-rule"><span class="sec-rule-text">Analyse · Le Mondial le plus lucratif de l'histoire</span></div>
+
+  <div class="lead-hl">La FIFA ne vend plus un événement sportif. Elle exploite une plateforme de contenus premium à l'échelle planétaire.</div>
+  <div class="lead-deck">Avec 13 milliards de dollars de revenus attendus sur le cycle 2023-2026, contre 7,5 milliards sur le cycle précédent, la FIFA a réalisé une croissance de +73% en quatre ans. Ce n'est pas du football — c'est du business à une échelle que même les Jeux Olympiques ne peuvent pas égaler.</div>
+
+  <p class="body-p">La Coupe du Monde 2026, débutée le 11 juin aux États-Unis, au Canada et au Mexique, réunit pour la première fois 48 équipes nationales et 104 matchs contre 64 en 2022, soit <strong>+62% de contenu à vendre</strong>. Ce volume démultiplie mécaniquement tous les postes de revenus : droits TV, sponsoring, billetterie, merchandising.</p>
+
+  <p class="body-p">Le vrai changement structurel vient de la localisation. <strong>Le marché américain pèse désormais 52% des revenus sponsoring contre 36% il y a quatre ans.</strong> Organiser le Mondial aux États-Unis — le marché publicitaire le plus rentable du monde — permet à la FIFA de facturer des prix que le Qatar, si rentable qu'il fût, ne pouvait tout simplement pas justifier. Le spot de 20 secondes à la mi-temps d'une finale France-Brésil se négocie jusqu'à 500 000 euros chez M6.</p>
+
+  <div class="pull">
+    <div class="pull-t">« La FIFA ne vend plus seulement un événement sportif mondial, elle maximise une plateforme de contenus, de prix premium et de rareté. »</div>
+    <div class="pull-a">— Club Patrimoine · Analyse économique Coupe du Monde 2026 · Juin 2026</div>
+  </div>
+
+  <!-- GRAPHIQUE REVENUS FIFA -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Décomposition des 13 Md$ FIFA</span></div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Revenus FIFA Coupe du Monde 2026 — Par poste (Md$)</span>
+      <span class="chart-sub">Cycle 2023-2026 · Sources : FIFA, Club Patrimoine, Stratégies</span>
+    </div>
+    <div class="chart-body">
+      <div class="chart-wrap"><canvas id="revenusChart"></canvas></div>
+    </div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-dot" style="background:#c8902a;"></div>Droits TV 4,2 Md$</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#1a5c9a;"></div>Billetterie 3 Md$</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#1e5c32;"></div>Sponsoring 2,8 Md$</div>
+      <div class="cl-item"><div class="cl-dot" style="background:#8a5c00;"></div>Autres 3 Md$</div>
+    </div>
+  </div>
+
+  <!-- REVENUS DETAILLES -->
+  <div class="sec-rule"><span class="sec-rule-text">Décomposition · Les quatre piliers de revenus</span></div>
+
+  <div class="rev-grid">
+    <div class="rev-card" style="border-top-color:var(--gold);">
+      <div class="rev-label">Droits télévisés</div>
+      <div class="rev-val" style="color:var(--gold);">4,2 Md$</div>
+      <div class="rev-vs">vs 2,1 Md$ Qatar 2022 · <strong>+100%</strong> marché US</div>
+    </div>
+    <div class="rev-card" style="border-top-color:var(--blue);">
+      <div class="rev-label">Billetterie &amp; hospitalité</div>
+      <div class="rev-val" style="color:var(--blue);">3 Md$</div>
+      <div class="rev-vs">vs moins d'1 Md$ Qatar · <strong>+200%</strong> · 6M tickets</div>
+    </div>
+    <div class="rev-card" style="border-top-color:var(--green);">
+      <div class="rev-label">Sponsoring</div>
+      <div class="rev-val" style="color:var(--green);">2,8 Md$</div>
+      <div class="rev-vs">+50% vs 2022 · 16 positions sold out avant le coup d'envoi</div>
+    </div>
+    <div class="rev-card" style="border-top-color:var(--amber);">
+      <div class="rev-label">Autres revenus cycle</div>
+      <div class="rev-val" style="color:var(--amber);">~3 Md$</div>
+      <div class="rev-vs">Digital, FIFA+, nouvelles compétitions, licensing</div>
+    </div>
+  </div>
+
+  <!-- SPONSORS -->
+  <div class="sec-rule"><span class="sec-rule-text">Pyramide sponsors · Qui paie quoi</span></div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Marque</th><th>Niveau</th><th>Investissement</th><th>Signal</th><th>Coté</th></tr>
+    </thead>
+    <tbody>
+      <tr><td style="font-weight:700;">Adidas</td><td>FIFA Partner</td><td style="font-family:var(--mono);">150-200 M$/cycle</td><td><span class="badge-up">14 équipes</span></td><td style="font-family:var(--mono);font-size:11px;">ADS · Xetra</td></tr>
+      <tr><td style="font-weight:700;">Nike</td><td>Équipementier</td><td style="font-family:var(--mono);">~1 Md$ total</td><td><span class="badge-up">12 équipes</span></td><td style="font-family:var(--mono);font-size:11px;">NKE · NYSE</td></tr>
+      <tr><td style="font-weight:700;">Coca-Cola</td><td>FIFA Partner</td><td style="font-family:var(--mono);">150-200 M$/cycle</td><td><span class="badge-up">Présent depuis 1970s</span></td><td style="font-family:var(--mono);font-size:11px;">KO · NYSE</td></tr>
+      <tr><td style="font-weight:700;">Visa</td><td>FIFA Partner</td><td style="font-family:var(--mono);">150-200 M$/cycle</td><td><span class="badge-up">Paiements stades</span></td><td style="font-family:var(--mono);font-size:11px;">V · NYSE</td></tr>
+      <tr><td style="font-weight:700;">Bank of America</td><td>World Cup Sponsor</td><td style="font-family:var(--mono);">65-95 M$</td><td><span class="badge-am">Plus gros budget sport</span></td><td style="font-family:var(--mono);font-size:11px;">BAC · NYSE</td></tr>
+      <tr><td style="font-weight:700;">Aramco</td><td>FIFA Partner</td><td style="font-family:var(--mono);">Centaines M$/cycle</td><td><span class="badge-dn">Controverse ESG</span></td><td style="font-family:var(--mono);font-size:11px;">Coté Ryad</td></tr>
+      <tr><td style="font-weight:700;">McDonald's</td><td>World Cup Sponsor</td><td style="font-family:var(--mono);">65-95 M$</td><td><span class="badge-up">Pic fréquentation</span></td><td style="font-family:var(--mono);font-size:11px;">MCD · NYSE</td></tr>
+      <tr><td style="font-weight:700;">Hyundai/Kia</td><td>FIFA Partner</td><td style="font-family:var(--mono);">150-200 M$/cycle</td><td><span class="badge-up">Transports officiels</span></td><td style="font-family:var(--mono);font-size:11px;">005380 · KRX</td></tr>
+      <tr><td style="font-weight:700;">Airbnb</td><td>Partenaire logement</td><td style="font-family:var(--mono);">—</td><td><span class="badge-up">380-400k réservations</span></td><td style="font-family:var(--mono);font-size:11px;">ABNB · Nasdaq</td></tr>
+      <tr><td style="font-weight:700;">DoorDash</td><td>Premier partenaire livraison</td><td style="font-family:var(--mono);">—</td><td><span class="badge-up">Deliveroo + Wolt inclus</span></td><td style="font-family:var(--mono);font-size:11px;">DASH · NYSE</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ACTIONS A SURVEILLER -->
+  <div class="sec-rule"><span class="sec-rule-text">Actions · Les gagnants cotés à surveiller</span></div>
+
+  <div class="actions-grid">
+    <div class="action-card">
+      <div class="ac-ticker">NKE — Nike</div>
+      <div class="ac-name">NYSE · Équipementier officiel</div>
+      <div class="ac-lien">Habille 12 équipes dont USA, France, Brésil, Angleterre. A investi ~1 Md$ sur l'événement avec une campagne d'activation de 12 semaines. Le football devient moteur de croissance pluriannuel pour les chaussures, vêtements et streetwear.</div>
+      <span class="ac-signal" style="background:rgba(30,92,50,.1);color:var(--green);">Catalyseur direct</span>
+    </div>
+    <div class="action-card">
+      <div class="ac-ticker">ADS — Adidas</div>
+      <div class="ac-name">Xetra · FIFA Partner officiel</div>
+      <div class="ac-lien">Partenaire FIFA depuis les années 1970. Habille 14 équipes dont Argentine, Allemagne, Mexique, Espagne. Les revenus "football" représentent ~35% du CA Adidas. Chaque finale avec une équipe Adidas génère un pic de ventes de maillots.</div>
+      <span class="ac-signal" style="background:rgba(30,92,50,.1);color:var(--green);">Catalyseur direct</span>
+    </div>
+    <div class="action-card">
+      <div class="ac-ticker">ABNB — Airbnb</div>
+      <div class="ac-name">Nasdaq · Partenaire logement officiel</div>
+      <div class="ac-lien">380 000 à 400 000 réservations attendues pendant la compétition. Les 16 villes hôtes connaissent une saturation hôtelière sans précédent. Airbnb est le seul acteur capable de combler ce manque structurel en hébergement privé.</div>
+      <span class="ac-signal" style="background:rgba(138,92,0,.1);color:var(--amber);">Bénéficiaire indirect</span>
+    </div>
+    <div class="action-card">
+      <div class="ac-ticker">TTWO — Take-Two</div>
+      <div class="ac-name">Nasdaq · EA FC rival</div>
+      <div class="ac-lien">La Coupe du Monde déclenche un pic de ventes de jeux de football. EA Sports FC 26 (concurrent direct de GTA VI publisher Take-Two) bénéficie directement. Pour TTWO, l'effet est indirect : la Coupe du Monde génère du buzz gaming qui profite à l'ensemble du secteur avant le lancement de GTA VI le 19 nov.</div>
+      <span class="ac-signal" style="background:rgba(26,58,92,.1);color:var(--blue);">Effet sectoriel</span>
+    </div>
+    <div class="action-card">
+      <div class="ac-ticker">XLC — ETF Communication</div>
+      <div class="ac-name">NYSE · Médias US</div>
+      <div class="ac-lien">Inclut Alphabet (YouTube diffusion), Meta (réseaux sociaux foot), et indirectement Fox Sports/Telemundo (droits US ~425M$). L'ETF Communication Services capte la monétisation publicitaire des 6 milliards de téléspectateurs.</div>
+      <span class="ac-signal" style="background:rgba(138,92,0,.1);color:var(--amber);">ETF large</span>
+    </div>
+    <div class="action-card">
+      <div class="ac-ticker">ILF — ETF Latam</div>
+      <div class="ac-name">NYSE · Mexique + Brésil</div>
+      <div class="ac-lien">Le Mexique est le principal bénéficiaire local avec un impact PIB de 0,2% à 0,5%. Le Brésil est favori sportif avec la Seleção en Jordan Brand (rupture historique avec Nike). L'ETF iShares Latin America 40 offre une exposition directe aux économies footballistiques.</div>
+      <span class="ac-signal" style="background:rgba(138,92,0,.1);color:var(--amber);">ETF sectoriel</span>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE IMPACT SECTORIEL -->
+  <div class="sec-rule"><span class="sec-rule-text">Graphique · Impact sectoriel estimé</span></div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <span class="chart-title">Bénéficiaires sectoriels de la Coupe du Monde 2026</span>
+      <span class="chart-sub">Estimation impact · Indice 0 à 100</span>
+    </div>
+    <div class="chart-body">
+      <div class="chart-wrap"><canvas id="impactChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- RISQUES -->
+  <div class="sec-rule"><span class="sec-rule-text">Risques · Ce qui peut décevoir les marchés</span></div>
+
+  <p class="body-p"><strong>L'effet sur le PIB US sera marginal.</strong> Malgré les 14 milliards de dépenses mondiales estimées, la contribution au PIB américain reste autour de 0,05% à 0,1% sur l'année. Les analystes de Saxo Bank parlent eux-mêmes de "macro-événement aux micro-impacts" sur les économies hôtes. Ne pas confondre visibilité médiatique et impact macroéconomique réel.</p>
+
+  <p class="body-p"><strong>Les actions cotées des sponsors ne profitent pas directement.</strong> Nike, Adidas, Coca-Cola ou McDonald's ont des cours déjà intégrant la visibilité mondiale de la compétition depuis des mois. L'annonce d'un partenariat FIFA ne fait pas monter le cours — c'est un investissement marketing, pas un catalyseur financier immédiat. <strong>Surveiller plutôt les ventes de maillots au Q3 2026 pour Adidas et Nike.</strong></p>
+
+  <p class="body-p"><strong>Controverse Aramco-ESG.</strong> Le partenariat avec le pétrolier saoudien génère un bruit médiatique persistant. Le LA Times a publié en avril 2026 une enquête sur l'incompatibilité avec les engagements climatiques de la FIFA. Des appels au boycott de Visa et Coca-Cola circulent sur les droits humains liés aux politiques d'immigration américaines. Impact limité sur les cours mais risque réputationnel à suivre.</p>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="v-tag">Verdict YAASAP · Par Yacine AOUABED</div>
+    <div class="v-t">
+      <p>La Coupe du Monde 2026 est le plus grand événement commercial de l'histoire du sport, pas le plus grand événement économique. La nuance est fondamentale pour l'investisseur. <strong>La FIFA gagne 13 milliards de dollars. Les pays hôtes gagnent beaucoup moins</strong> — Saxo Bank estime l'impact PIB américain à seulement 0,05% sur l'année.</p>
+      <p>Pour les marchés, les opportunités sont ciblées et temporaires. <strong>Adidas et Nike bénéficieront du pic de ventes de maillots au Q3 2026</strong> — c'est là, pas dans le cours pendant le tournoi. Airbnb a un catalyseur réel et quantifiable avec ses 380 000 réservations. Les ETF sectoriels (XLC, ILF) offrent l'exposition la plus propre sans pari individuel sur un sponsor.</p>
+      <p>La vraie leçon de ce Mondial : <strong>la FIFA a transformé le football en infrastructure financière à valorisation premium</strong>. Ce qui ouvre une question pour les prochaines années — le modèle peut-il encore croître à +73% pour la Coupe du Monde 2030 ? La réponse déterminera si le sport professionnel reste un moteur de valorisation ou atteint son plafond de monétisation.</p>
+    </div>
+    <div class="v-list">
+      <div class="v-li"><strong>NKE / ADS :</strong> surveiller les ventes Q3 2026 — c'est là que l'impact Mondial se matérialise</div>
+      <div class="v-li"><strong>ABNB :</strong> catalyseur réel · 380-400k réservations · bénéficiaire direct des 16 villes hôtes</div>
+      <div class="v-li"><strong>ETF XLC :</strong> exposition médias et digital sans risque sponsor individuel</div>
+      <div class="v-li"><strong>ETF ILF :</strong> Mexique PIB +0,2-0,5% · Brésil favori sportif · exposition directe</div>
+      <div class="v-li"><strong>Éviter :</strong> acheter un sponsor FIFA sur la seule visibilité du Mondial — c'est déjà dans le cours</div>
+      <div class="v-li"><strong>Risque Aramco ESG :</strong> bruit médiatique persistant — pas un catalyseur de cours mais risque réputationnel pour la FIFA</div>
+    </div>
+    <div class="v-disclaimer">Sources : Club Patrimoine, Saxo Bank, Stratégies Magazine, France Info, RTBF, WeSave, FIFA · Données au 28 juin 2026. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes.</div>
+  </div>
+
+  <div class="nl-mini">
+    <div class="nl-mini-title">Recevoir les prochaines notes YAASAP</div>
+    <div class="nl-mini-row">
+      <input class="nl-mini-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+      <button class="nl-mini-btn" onclick="nlmSubmit()">S'abonner →</button>
+    </div>
+    <div id="nlm-ok">✅ Inscrit !</div>
+    <div class="nl-mini-note">RGPD · Formspree · yaasap.github.io/dailywatch · Désabonnement en 1 clic</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par <strong>Yacine AOUABED</strong> · Dossier Coupe du Monde 2026 · <span id="liveDateFooter">28 juin 2026</span></div>
+  <div class="foot-nav">
+    <a href="index.html">Accueil</a>
+    <a href="./yaasap_lvmh.html">LVMH</a>
+    <a href="./yaasap_ttwo.html">TTWO</a>
+    <a href="./yaasap_spcx_position.html">Position SPCX</a>
+  </div>
+</footer>
+
+<script>
+/* DATE */
+(function(){
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','liveDateFooter'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=s;});
+  (function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:'https://yaasap.github.io/dailywatch/index.html',width:48,height:48,colorDark:'#1c1814',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  })();
+})();
+
+/* GRAPHIQUE REVENUS DONUT */
+(function(){
+  var ctx=document.getElementById('revenusChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  var gc='rgba(0,0,0,.05)',tc='#9a8f82',tf={size:9,family:"'Source Code Pro',monospace"};
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Droits TV','Billetterie','Sponsoring','Autres revenus'],
+      datasets:[
+        {label:'Qatar 2022',data:[2.1,0.9,1.8,2.7],backgroundColor:'rgba(154,143,130,.3)',borderColor:'rgba(154,143,130,.5)',borderWidth:1},
+        {label:'USA 2026',data:[4.2,3.0,2.8,3.0],backgroundColor:['rgba(200,144,42,.75)','rgba(26,58,92,.75)','rgba(30,92,50,.75)','rgba(138,92,0,.75)'],borderColor:['#c8902a','#1a3a5c','#1e5c32','#8a5c00'],borderWidth:1.5}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:tc,font:tf,boxWidth:10,padding:10}},
+        tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.7)',
+          callbacks:{label:function(ctx){return ' '+ctx.dataset.label+' : '+ctx.parsed.y.toFixed(1)+' Md$';}}}
+      },
+      scales:{
+        x:{ticks:{color:tc,font:tf},grid:{color:gc}},
+        y:{ticks:{color:tc,font:tf,callback:function(v){return v+' Md$';}},grid:{color:gc}}
+      }
+    }
+  });
+})();
+
+/* GRAPHIQUE IMPACT SECTORIEL */
+(function(){
+  var ctx=document.getElementById('impactChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  var tc='#9a8f82',tf={size:9,family:"'Source Code Pro',monospace"};
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Équipement sportif','Médias & TV','Tourisme & hôtels','Restauration rapide','Jeux vidéo','Paris sportifs','Grande distrib.','Cinémas'],
+      datasets:[{
+        label:'Impact estimé (0-100)',
+        data:[92,85,78,65,55,70,20,10],
+        backgroundColor:function(ctx){
+          var v=ctx.dataset.data[ctx.dataIndex];
+          return v>60?'rgba(30,92,50,.7)':v>40?'rgba(138,92,0,.7)':'rgba(176,28,28,.7)';
+        },
+        borderWidth:0,borderRadius:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      indexAxis:'y',
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'rgba(28,24,20,.96)',titleColor:'#f0ebe3',bodyColor:'rgba(255,255,255,.7)',
+          callbacks:{label:function(ctx){return ' Impact: '+ctx.parsed.x+'/100';}}}
+      },
+      scales:{
+        x:{max:100,ticks:{color:tc,font:tf,callback:function(v){return v+'/100';}},grid:{color:'rgba(0,0,0,.06)'}},
+        y:{ticks:{color:tc,font:tf},grid:{display:false}}
+      }
+    }
+  });
+})();
+
+/* NEWSLETTER */
+function nlmSubmit(){
+  var emailEl=document.getElementById('nlm-email');
+  var email=emailEl?emailEl.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){if(emailEl)emailEl.style.borderColor='rgba(255,100,100,.6)';return;}
+  var body=new FormData();
+  body.append('email',email);body.append('source','yaasap-cdm2026');
+  body.append('_subject','Inscription YAASAP Notes — CDM 2026');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){var row=emailEl.parentElement;if(row)row.style.display='none';var ok=document.getElementById('nlm-ok');if(ok)ok.style.display='block';}});
+}
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='nlm-email')nlmSubmit();});
+</script>
+</body>
+</html>
