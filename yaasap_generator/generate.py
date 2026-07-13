@@ -642,17 +642,103 @@ Tu reponds UNIQUEMENT avec le HTML complet, sans backticks, sans texte avant ou 
 
 
 def generate_html(news_text, market_text, images, sources, market):
+    """
+    Architecture en 2 etapes :
+    1. Claude genere UNIQUEMENT le contenu editorial (JSON compact)
+    2. On injecte ce contenu dans le template Python-side
+    => Plus de risque de troncature HTML, plus robuste, moins de tokens
+    """
     client = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
+
+    # ── Etape 1 : Claude genere le contenu editorial en JSON ──
+    prompt_editorial = f"""Tu es l'analyste senior de YAASAP Notes, publication financiere style Financial Times.
+A partir des articles et donnees de marche ci-dessous, genere le contenu editorial du bulletin du {DATE_STR}.
+
+ARTICLES :
+{news_text}
+
+{market_text}
+
+Reponds UNIQUEMENT avec un objet JSON valide (pas de backticks, pas de texte avant/apres) :
+{{
+  "headline": "titre hero 8 mots max",
+  "kicker_items": [
+    {{"label": "LABEL", "value": "VALEUR", "note": "note courte"}},
+    {{"label": "LABEL", "value": "VALEUR", "note": "note courte"}},
+    {{"label": "LABEL", "value": "VALEUR", "note": "note courte"}},
+    {{"label": "LABEL", "value": "VALEUR", "note": "note courte"}}
+  ],
+  "signal_headline": "titre signal principal",
+  "signal_deck": "sous-titre italique 1 phrase",
+  "signal_body": "<p>paragraphe 1 avec <strong>mots cles</strong></p><p>paragraphe 2</p>",
+  "signal_pull": "citation percutante extraite des articles",
+  "signal_pull_source": "source citation",
+  "articles": [
+    {{"sector": "SECTEUR", "title": "titre article 1", "body": "analyse avec <strong>mots cles</strong>"}},
+    {{"sector": "SECTEUR", "title": "titre article 2", "body": "analyse avec <strong>mots cles</strong>"}},
+    {{"sector": "SECTEUR", "title": "titre article 3", "body": "analyse avec <strong>mots cles</strong>"}}
+  ],
+  "verdict": "2-3 phrases synthese avec <strong>points cles</strong> actionnable"
+}}"""
+
+    msg = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": prompt_editorial}]
+    )
+    raw = msg.content[0].text.strip()
+    print(f"   Claude brut (debut): {repr(raw[:120])}")
+
+    # Parser le JSON - robuste face aux balises HTML dans les valeurs
+    import json as _json, re as _re
+    raw_c = raw
+    # Supprimer backticks
+    raw_c = _re.sub(r"^```(?:json)?[ \t]*\n?", "", raw_c, flags=_re.MULTILINE)
+    raw_c = _re.sub(r"[ \t]*```[ \t]*$", "", raw_c, flags=_re.MULTILINE).strip()
+    # Extraire le bloc JSON { ... }
+    m = _re.search(r"\{[\s\S]*\}", raw_c)
+    if m:
+        raw_c = m.group(0)
+    print(f"   JSON nettoye (debut): {repr(raw_c[:120])}")
+    try:
+        data = _json.loads(raw_c)
+        print(f"   OK JSON — {len(data.get('articles', []))} articles")
+    except Exception as e:
+        print(f"   WARN JSON: {e}")
+        print(f"   RAW: {repr(raw_c[:300])}")
+        data = {
+            "headline": "Analyse des marches financiers du jour",
+            "kicker_items": [
+                {"label": "MARCHES", "value": "Bulletin", "note": "Donnees yfinance"},
+                {"label": "DATE", "value": DATE_STR, "note": "Bulletin auto"},
+                {"label": "SOURCE", "value": "NewsAPI", "note": "Actualites"},
+                {"label": "MODELE", "value": "Auto", "note": "Fallback"}
+            ],
+            "signal_headline": "Bulletin automatique YAASAP Notes",
+            "signal_deck": "Donnees de marche et actualites financieres du jour.",
+            "signal_body": f"<p>Bulletin genere automatiquement le {DATE_STR}. Donnees de portefeuille et indices en temps reel via yfinance.</p><p>Actualites financieres via NewsAPI. Analyse editoriale indisponible ce jour.</p>",
+            "signal_pull": "Les marches financiers offrent chaque jour de nouvelles opportunites a celui qui sait lire les donnees.",
+            "signal_pull_source": "YAASAP Notes",
+            "articles": [
+                {"sector": "MARCHES", "title": "Donnees de portefeuille du jour", "body": "Voir la section portefeuille ci-dessus pour les cours en temps reel de SPCX, TTWO, SQM et PFE."},
+                {"sector": "INDICES", "title": "Indices mondiaux", "body": "Voir la section indices ci-dessus pour S&P 500, CAC 40, Stoxx 50, or et petrole."},
+                {"sector": "AGENDA", "title": "Prochains catalyseurs", "body": "<strong>Nasdaq 100 :</strong> SPCX 7 juillet. <strong>GTA VI :</strong> TTWO 19 novembre. <strong>Starpipe :</strong> SpaceX janvier 2027."}
+            ],
+            "verdict": f"Bulletin automatique du {DATE_STR}. Donnees marche disponibles ci-dessus. Analyse editoriale generee par Claude Sonnet habituellement — verifier le credit API Anthropic si ce message apparait."
+        }
+
+    # ── Etape 2 : Injection Python-side dans le template ──
 
     # Images
     hero1_html = ""
     hero2_html = ""
     if images:
         img = images[0]
+        headline = data.get("headline", "Analyse financiere du jour")
         hero1_html = (f'<div class="hero"><img src="{img["url"]}" alt="{img["title"]}" '
                       f'onerror="this.parentElement.style.display=\'none\'">'
                       f'<div class="hero-overlay"><div class="hero-tag">A la une</div>'
-                      f'<div class="hero-title">HEADLINE_FROM_SIGNAL</div>'
+                      f'<div class="hero-title">{headline}</div>'
                       f'<div class="hero-caption">{img["source"]}</div>'
                       f'</div></div>')
     if len(images) >= 2:
@@ -668,13 +754,40 @@ def generate_html(news_text, market_text, images, sources, market):
         pills = "".join(f'<a href="{s["url"]}" target="_blank" class="src-pill">{s["name"]}</a>' for s in sources)
         sources_html = f'<div class="sources"><div class="sources-label">Sources</div><div class="src-list">{pills}</div></div>'
 
-    # Blocs marché déjà calculés
+    # Kicker news
+    kicker_html = ""
+    for ki in data.get("kicker_items", []):
+        kicker_html += (f'<div class="kk"><div class="kk-l">{ki.get("label","")}</div>'
+                        f'<div class="kk-v">{ki.get("value","")}</div>'
+                        f'<div class="kk-n">{ki.get("note","")}</div></div>')
+
+    # Signal
+    signal_html = (f'<div class="signal">'
+                   f'<div class="signal-label">Analyse principale</div>'
+                   f'<div class="signal-headline">{data.get("signal_headline","")}</div>'
+                   f'<div class="signal-deck">{data.get("signal_deck","")}</div>'
+                   f'<div class="signal-body">{data.get("signal_body","")}</div>'
+                   f'<div class="pull"><div class="pull-t">{data.get("signal_pull","")}</div>'
+                   f'<div class="pull-a">{data.get("signal_pull_source","")}</div></div>'
+                   f'</div>')
+
+    # Articles
+    articles_html = ""
+    for art in data.get("articles", []):
+        articles_html += (f'<div class="art"><div class="art-sector">{art.get("sector","")}</div>'
+                          f'<div class="art-h">{art.get("title","")}</div>'
+                          f'<div class="art-b">{art.get("body","")}</div></div>')
+
+    # Verdict
+    verdict_html = data.get("verdict", "")
+
+    # Blocs marche
     portfolio_html = build_portfolio_html(market)
     indices_html   = build_indices_html(market)
     ticker_html    = build_ticker_market(market)
 
-    # Remplacement des placeholders statiques dans le template
-    template = (TEMPLATE
+    # Injection finale dans le template
+    html = (TEMPLATE
         .replace("DATE_PH", DATE_STR)
         .replace("NOTE_NUM_PH", f"Note du {NUM}")
         .replace("HERO1_PH", hero1_html)
@@ -683,54 +796,16 @@ def generate_html(news_text, market_text, images, sources, market):
         .replace("PORTFOLIO_PH", portfolio_html)
         .replace("INDICES_PH", indices_html)
         .replace("MARKET_TICKER_PH", ticker_html)
+        .replace("KICKER_NEWS_PH", kicker_html)
+        .replace("SIGNAL_PH", signal_html)
+        .replace("ARTICLES_PH", articles_html)
+        .replace("VERDICT_PH", verdict_html)
         .replace("FORMSPREE_DATE_PH", TODAY.isoformat())
         .replace("FORMSPREE_ID_PH", FORMSPREE_ID)
     )
 
-    prompt = f"""Articles du {DATE_STR} :
-{news_text}
-
-{market_text}
-
-Remplace CHAQUE placeholder par du contenu editorial reel. HTML complet uniquement.
-
-PLACEHOLDERS a remplacer :
-HEADLINE_FROM_SIGNAL = titre court 8 mots max pour la photo hero
-
-KICKER_NEWS_PH = 4 blocs kicker sur les actualites news (pas le marche, deja present) :
-  <div class="kk"><div class="kk-l">LABEL</div><div class="kk-v">VALEUR</div><div class="kk-n">note</div></div>
-
-SIGNAL_PH = signal principal :
-  <div class="signal"><div class="signal-label">Analyse principale</div>
-  <div class="signal-headline">TITRE</div><div class="signal-deck">sous-titre italique</div>
-  <div class="signal-body"><p>paragraphe 1</p><p>paragraphe 2</p></div>
-  <div class="pull"><div class="pull-t">citation</div><div class="pull-a">source</div></div></div>
-
-ARTICLES_PH = 3 articles sectoriels :
-  <div class="art"><div class="art-sector">SECTEUR</div><div class="art-h">titre</div>
-  <div class="art-b">analyse avec <strong>mots cles</strong></div></div>
-
-VERDICT_PH = 2-3 phrases synthese avec <strong>points cles</strong>
-
-TEMPLATE :
-{template}"""
-
-    msg = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=8000,
-        system=SYSTEM,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    html = msg.content[0].text.strip()
-    if "```" in html:
-        for p in html.split("```"):
-            s = p.strip()
-            if s.startswith("<!") or s.startswith("<html"):
-                return s
-        html = html.split("```")[1]
-        if html.startswith("html\n"):
-            html = html[5:]
-    return html.strip()
+    print(f"   OK contenu editorial genere ({len(data.get('articles',[]))} articles)")
+    return html
 
 
 # =============================================================
@@ -1103,8 +1178,9 @@ def main():
     print("\n5. Mise a jour docs/index.html (archives)...")
     build_docs_index()
 
-   # 6. Sidebar notes ponctuelles dans index.html racine — DESACTIVE
-   # update_root_index_sidebar()
+    # 6. Sidebar notes ponctuelles dans index.html racine
+    print("\n6. Mise a jour sidebar index.html racine...")
+    update_root_index_sidebar()
 
     print(f"\n Publie : https://yaasap.github.io/dailywatch/")
     print(f"   Bulletins archives : https://yaasap.github.io/dailywatch/docs/index.html")
