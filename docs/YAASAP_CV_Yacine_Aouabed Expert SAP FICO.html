@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yacine AOUABED — Consultant SAP S/4HANA FI-CO</title>
+<meta name="description" content="CV de Yacine AOUABED, consultant SAP S/4HANA FI-CO freelance — FI-AA, Fiori, OData.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f9f6f0;--paper2:#f2ede4;--ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;--rule:rgba(0,0,0,.12);--rule2:rgba(0,0,0,.07);--accent:#8b3a1a;--blue:#1a3a5c;--serif:'Libre Baskerville',Georgia,serif;--sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;--mono:'Source Code Pro','Courier New',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+.masthead{background:var(--ink);border-bottom:2px solid var(--accent);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.pub-name{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff}.pub-name span{font-weight:400;color:rgba(255,255,255,.55);font-size:13px;margin-left:8px}
+.mast-r{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+.mast-r a,.mast-r button{color:rgba(255,255,255,.7);text-decoration:none;background:none;border:0;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;margin-left:16px}
+.mast-r a:hover,.mast-r button:hover{color:#fff}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);width:0;z-index:200}
+.layout{max-width:1040px;margin:0 auto;padding:0 22px 48px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:44px}
+.toc{position:sticky;top:64px;align-self:start;padding-top:36px;max-height:calc(100vh - 64px);overflow:auto}
+.toc-t{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px}
+.toc a{display:block;text-decoration:none;color:var(--ink3);font-size:13px;line-height:1.3;padding:5px 0 5px 12px;border-left:2px solid var(--rule)}
+.toc a.sub{font-size:12px;padding:3px 0 3px 22px;color:var(--ink4)}
+.toc a.sub small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:var(--ink4)}
+.toc a:hover{color:var(--ink)}
+.toc a.on{color:var(--ink);font-weight:600;border-left-color:var(--accent)}
+main{padding-top:32px;min-width:0}
+.id{display:flex;gap:22px;align-items:center;padding-bottom:22px;border-bottom:1px solid var(--rule)}
+.id img{width:84px;height:99px;object-fit:cover;border-radius:2px;border:1px solid var(--rule);flex-shrink:0}
+.id h1{font-family:var(--serif);font-size:28px;line-height:1.15}
+.id h2{font-family:var(--serif);font-size:15px;font-weight:400;font-style:italic;color:var(--ink2);margin-top:4px}
+.id p{font-size:13px;color:var(--ink3);margin-top:8px;line-height:1.6}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:30px 0 14px}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0}
+.sec-rule-txt{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule)}
+.body-p{font-family:var(--serif);font-size:14px;color:var(--ink2);line-height:1.75}
+.tbl-card{background:#fff;border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.tbl{width:100%;border-collapse:collapse}
+.tbl td{font-size:13.5px;padding:8px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.5}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:1%}
+.xp{padding:14px 0 12px;border-bottom:1px solid var(--rule2);break-inside:avoid}
+.xp:last-of-type{border-bottom:0}
+.xp-hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.xp-co{font-family:var(--serif);font-weight:700;font-size:15px}
+.xp-role{font-size:13.5px;color:var(--ink2);margin-left:8px}
+.xp-role::before{content:'· ';color:var(--ink4)}
+.xp-dt{font-family:var(--mono);font-size:10px;color:var(--ink3);white-space:nowrap}
+.xp-ctx{font-style:italic;font-size:12.5px;color:var(--ink3);margin:3px 0 7px}
+.xp ul{list-style:none}
+.xp li{font-size:13.5px;line-height:1.55;color:var(--ink2);padding-left:14px;position:relative;margin-bottom:3px}
+.xp li::before{content:'';position:absolute;left:2px;top:.65em;width:4px;height:4px;background:var(--ink4)}
+.xp li strong{color:var(--ink);font-weight:600}
+footer{border-top:1px solid var(--rule);color:var(--ink4);font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:16px 22px;text-align:center}
+@media(max-width:820px){.layout{grid-template-columns:1fr;gap:0}.toc{position:sticky;top:41px;z-index:50;background:var(--paper);padding:8px 0;display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--rule);margin:0 -22px;padding-left:22px}.toc-t,.toc a.sub{display:none}.toc a{border-left:0;border-bottom:2px solid transparent;padding:4px 10px;white-space:nowrap}.toc a.on{border-bottom-color:var(--accent)}html{scroll-padding-top:96px}.xp-hd{flex-direction:column;gap:2px}.xp-role{display:block;margin-left:0}.xp-role::before{content:''}.tbl td:first-child{white-space:normal;width:auto}}
+@media print{.masthead,.toc,.progress,footer{display:none}.layout{display:block;padding:0}main{padding-top:0}body{background:#fff;font-size:11px}.sec-rule{margin:16px 0 8px}.xp{padding:7px 0}.xp li,.tbl td,.body-p{font-size:11px;line-height:1.4}.tbl td{padding:4px 10px}@page{margin:12mm}}
+</style></head><body>
+<div class="progress" id="progress"></div>
+<header class="masthead"><div class="pub-name">Yacine AOUABED<span>Curriculum vitae</span></div><div class="mast-r"><a href="mailto:y.aouabed@hotmail.fr">Contact</a><button onclick="window.print()">Imprimer / PDF</button></div></header>
+<div class="layout">
+<nav class="toc" id="toc" aria-label="Sommaire"><div class="toc-t">Sommaire</div></nav>
+<main>
+<section class="id" id="identite" data-toc="Identité"><img src="data:image/jpeg;base64,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" alt="Yacine AOUABED"><div>
+<h1>Yacine AOUABED</h1><h2>Consultant expert SAP S/4HANA FI-CO — FI-AA, Fiori / OData</h2>
+<p>Freelance (YAASAP) · Bordeaux (Eysines) · Anglais bilingue<br>06 67 47 90 28 · <a href="mailto:y.aouabed@hotmail.fr">y.aouabed@hotmail.fr</a></p></div></section>
+
+<section id="profil" data-toc="Profil"><div class="sec-rule"><span class="sec-rule-txt">Profil</span></div>
+<p class="body-p">Ancien responsable financier devenu consultant SAP FI-CO, avec des missions chez l’éditeur SAP, dans la défense, l’énergie, le secteur public et le e-commerce. Spécialisé S/4HANA, avec une orientation immobilisations (FI-AA) et applications Fiori / services OData, du paramétrage au diagnostic technique (CDS, HANA, ABAP).</p></section>
+
+<section id="competences" data-toc="Compétences"><div class="sec-rule"><span class="sec-rule-txt">Compétences</span></div>
+<div class="tbl-card"><table class="tbl"><tbody>
+<tr><td>Finance SAP</td><td>S/4HANA et ECC 6.0 : GL, AP, AR, TR, CO, FM, FI-CA · ledgers parallèles IFRS · intégration MM / SD</td></tr>
+<tr><td>FI-AA</td><td>New Asset Accounting, multi-référentiels French GAAP / IFRS, détermination des comptes (AO90), types de mouvement, autorisations</td></tr>
+<tr><td>Fiori / OData</td><td>Tuiles Finance, services OData, vues CDS, notes SAP, performance HANA, tests d’API</td></tr>
+<tr><td>Technique</td><td>Workflow flexible, IDoc, LSMW, ABAP (analyse / debug), archivage SARA</td></tr>
+<tr><td>Métier et projet</td><td>Clôtures, fiscalité, consolidation, trésorerie · SF / ST / SP, recette, ateliers MOA, encadrement</td></tr>
+</tbody></table></div></section>
+
+<section id="experience" data-toc="Expérience"><div class="sec-rule"><span class="sec-rule-txt">Expérience professionnelle</span></div>
+<article class="xp" id="xp-cdiscount-via-viseo" data-toc="Cdiscount" data-toc-sub="2026 — Aujourd’hui"><div class="xp-hd"><div><span class="xp-co">Cdiscount (via VISEO)</span><span class="xp-role">Expert SAP S/4HANA FI-CO — Freelance</span></div><span class="xp-dt">2026 — Aujourd’hui</span></div><div class="xp-ctx">Bordeaux · E-commerce multi-sociétés · ACDOCA : 4 milliards de lignes</div><ul><li><strong>FI-AA (New Asset Accounting) :</strong> immobilisations multi-référentiels French GAAP / IFRS (ledger parallèle, plan de comptes alternatif), détermination des comptes pour écritures IFRS (AO90), types et groupes de types de mouvement (T856 / TTGRP), autorisations A_BWART, anomalies d’intégration FI-AA / GL.</li><li><strong>Fiori / OData :</strong> expertise des tuiles Finance (FAGLL03H, F0956 Postes individuels GL, Manage Workflows) ; diagnostic des services OData et vues CDS (C_GLLINEITEMSQ0001), notes SAP correctives, dépassements mémoire HANA, tests d’API via Postman.</li><li><strong>IFRS / Consolidation :</strong> conception de l’architecture cible (ledger IFRS dédié, plan de comptes alternatif, champ spécifique ACDOCA) alimentant OneStream ; paramétrage OB53, OBY7, F.01.</li><li><strong>Facturation électronique 2026 :</strong> spécifications e-invoicing / e-reporting B2B International et B2C (flux 10.1 / 10.3, PDP Tessi), clés de routage (IDoc DEBMAS) ; TVA sur encaissement automatisée sur 10 sociétés.</li><li><strong>Workflows flexibles :</strong> évolution des workflows commandes d’achat et factures bloquées (SWDD_SCENARIO, règles d’agents PFAC, coexistence de versions, forensique SWIA / CDHDR).</li><li><strong>Autres chantiers :</strong> création de société, rapprochements automatiques, automatisation MIRO par BAPI, archivage SARA (9,3 milliards de lignes), analyse de dumps ABAP et optimisation HANA.</li></ul></article><article class="xp" id="xp-ernst-young" data-toc="Ernst &amp; Young" data-toc-sub="Sept. 2023 — 2026"><div class="xp-hd"><div><span class="xp-co">Ernst &amp; Young</span><span class="xp-role">Consultant SAP FI-FM — Team leader TMA</span></div><span class="xp-dt">Sept. 2023 — 2026</span></div><div class="xp-ctx">Bordeaux · Secteur public, norme GBCP · ECC 6.0 et S/4HANA</div><ul><li>Paramétrage FI-FM (intégration MM / SD) et pilotage de la TMA en tant que team leader.</li><li>Analyse des besoins, rédaction DPM / SFD / FTU, animation des COSUI et ateliers de conception, solution cible ; encadrement des consultants juniors.</li></ul></article><article class="xp" id="xp-siae-ministere-des-armee" data-toc="SIAé" data-toc-sub="Oct. 2018 — Sept. 2023"><div class="xp-hd"><div><span class="xp-co">SIAé — Ministère des Armées / DGA</span><span class="xp-role">Responsable solutions SAP FI-CO</span></div><span class="xp-dt">Oct. 2018 — Sept. 2023</span></div><div class="xp-ctx">Bordeaux · DSI / Centre de compétences SAP · ECC 6.0 et S/4HANA, pré-configuration SAP MRO</div><ul><li>Responsable des solutions fonctionnelles FI-CO (intégration MM / SD) : ateliers de conception, solution cible, rédaction DPM / SFD / FTU.</li><li>Pilotage de la TMA ; recettes, intégration et déploiement ; support N2, analyse des anomalies, risques et impacts ; conduite du changement.</li></ul></article><article class="xp" id="xp-eni" data-toc="ENI" data-toc-sub="Fév. 2015 — Sept. 2018"><div class="xp-hd"><div><span class="xp-co">ENI</span><span class="xp-role">Chef de projet SAP FI-CA / SAP CRM</span></div><span class="xp-dt">Fév. 2015 — Sept. 2018</span></div><div class="xp-ctx">Bordeaux · DSI · Contrats Gaz et Électricité, pré-configuration SAP IS-U</div><ul><li>Responsable projet FI-CA et CRM : amélioration des délais de facturation, intégration des flux ERDF / GRDF dans FI-CA.</li><li>Optimisation des processus de saisie et de déversement dans SAP CRM, contrôles de cohérence ; spécifications, tests, animation des comités de pilotage.</li></ul></article><article class="xp" id="xp-sap" data-toc="SAP" data-toc-sub="Août 2013 — Janv. 2015"><div class="xp-hd"><div><span class="xp-co">SAP</span><span class="xp-role">Consultant SAP ERP / FI-CO — CFO Solutions</span></div><span class="xp-dt">Août 2013 — Janv. 2015</span></div><div class="xp-ctx">Barcelone, Espagne · Offres ERP (FI, CO), EPM, BI</div><ul><li>Comptabilité groupe, consolidation financière, reporting de gestion, planification budgétaire, profitabilité et coûts.</li><li>Cycle de vente complet auprès des décideurs (DG, DAF, DSI) : analyse des besoins, offres, dossiers techniques et financiers.</li></ul></article><article class="xp" id="xp-siradel" data-toc="SIRADEL" data-toc-sub="Août 2008 — Fév. 2013"><div class="xp-hd"><div><span class="xp-co">SIRADEL</span><span class="xp-role">Responsable financier</span></div><span class="xp-dt">Août 2008 — Fév. 2013</span></div><div class="xp-ctx">Rennes · Télécoms / R&amp;D · Filiales Canada et Hong Kong</div><ul><li><strong>Comptabilité &amp; contrôle de gestion :</strong> bilan, liasse fiscale, immobilisations, clôtures annuelles et situations intermédiaires ; budgets, prévisions, reportings multi-sites, BFR.</li><li><strong>Financement :</strong> 1,15 M€ obtenus (OSEO 350 k€, COFACE 600 k€, AAP PME 200 k€) ; dossier d’introduction sur Alternext ; relations banques, CAC et administration fiscale.</li><li><strong>Fiscalité &amp; trésorerie :</strong> exonération d’IS Art. 44 CGI (350 k€ sur 3 ans), CIR, JEI, intégration fiscale ; couverture de change et trésorerie devises (EUR, USD, CAD, GBP).</li></ul></article></section>
+
+<section id="formation" data-toc="Formation"><div class="sec-rule"><span class="sec-rule-txt">Formation</span></div>
+<div class="tbl-card"><table class="tbl"><tbody>
+<tr><td>2007 — 2008</td><td>Master 2 Finance de marché et Finance d’entreprise — Sup de Co Rennes. Mémoire : divergences de politiques monétaires FED / BCE.</td></tr>
+<tr><td>2007</td><td>Échange ERASMUS — University of East London ; « Diploma of Higher Education », Open University (Londres).</td></tr>
+<tr><td>2005 — 2006</td><td>École de Commerce — Rennes.</td></tr>
+<tr><td>2002 — 2004</td><td>BTS Action Commerciale — Lycée JB de La Salle, Rennes.</td></tr>
+<tr><td>SAP</td><td>Formations FI AC010 et AC200 (ECC 6.0 et S/4HANA).</td></tr>
+</tbody></table></div></section>
+
+<section id="divers" data-toc="Langues et divers"><div class="sec-rule"><span class="sec-rule-txt">Langues et divers</span></div>
+<div class="tbl-card"><table class="tbl"><tbody>
+<tr><td>Langues</td><td>Anglais bilingue · Espagnol : notions (bonne compréhension orale et écrite).</td></tr>
+<tr><td>Outils</td><td>Office (Excel, Word, PowerPoint, Access), Sage 100, Postman, interfaces OneStream / HFM.</td></tr>
+<tr><td>Intérêts</td><td>Basket-ball (15 saisons — Rennes Avenir) · Économie, géopolitique, marchés financiers · Voyages (USA, Asie, Afrique du Sud).</td></tr>
+</tbody></table></div></section>
+</main></div>
+<footer>Yacine AOUABED · YAASAP · Mis à jour en septembre 2026</footer>
+<script>
+(function(){
+  var toc=document.getElementById('toc'),items=[];
+  document.querySelectorAll('[data-toc]').forEach(function(el){
+    var a=document.createElement('a');a.href='#'+el.id;
+    var sub=el.classList.contains('xp');if(sub)a.className='sub';
+    a.textContent=el.getAttribute('data-toc');
+    if(el.dataset.tocSub){var s=document.createElement('small');s.textContent=el.dataset.tocSub;a.appendChild(s);}
+    toc.appendChild(a);items.push({el:el,a:a});
+  });
+  var bar=document.getElementById('progress');
+  function spy(){
+    var y=window.scrollY+110,cur=items[0];
+    items.forEach(function(i){if(i.el.getBoundingClientRect().top+window.scrollY<=y)cur=i;});
+    if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4)cur=items[items.length-1];
+    items.forEach(function(i){i.a.classList.toggle('on',i===cur);});
+    if(cur.a.scrollIntoView&&window.innerWidth<=820)cur.a.scrollIntoView({block:'nearest',inline:'center'});
+    var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?window.scrollY/h*100:0)+'%';
+  }
+  window.addEventListener('scroll',spy,{passive:true});window.addEventListener('resize',spy);spy();
+})();
+</script></body></html>
