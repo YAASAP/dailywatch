@@ -107,7 +107,7 @@ def fetch_market_data():
             p    = float(info.last_price) if info.last_price else None
             pc   = float(info.previous_close) if info.previous_close else None
             chg  = round(p - pc, 2) if p and pc else None
-            chgp = round((chg / pc) * 100, 2) if chg and pc else None
+            chgp = round((chg / pc) * 100, 2) if chg is not None and pc else None
             return {"price": round(p, 2) if p else None, "change": chg, "change_p": chgp}
         except Exception as e:
             print(f"  ERR {ticker}: {e}")
@@ -204,17 +204,22 @@ def build_ticker_market(market):
         if not p:
             continue
         sym = "€" if d.get("currency") == "EUR" else "$"
-        col = "#1e5c32" if chgp and chgp >= 0 else "#b01c1c"
-        arr = "▲" if chgp and chgp >= 0 else "▼"
+        col = "#1e5c32" if chgp is not None and chgp >= 0 else "#b01c1c"
+        arr = "▲" if chgp is not None and chgp >= 0 else "▼"
         items.append(
             f'<div class="kk"><div class="kk-l">{ticker}</div>'
             f'<div class="kk-v" style="color:{col};">'
             f'{sym}{p:.2f} {arr} {abs(chgp):.1f}%</div></div>'
-            if chgp else
+            if chgp is not None else
             f'<div class="kk"><div class="kk-l">{ticker}</div>'
             f'<div class="kk-v">{sym}{p:.2f}</div></div>'
         )
     return "".join(items)
+
+
+def fnum(v, spec=".2f", default="n/d"):
+    """Formate un nombre ; renvoie « n/d » si la valeur est vide (None)."""
+    return default if v is None else format(v, spec)
 
 
 def format_market_for_claude(market):
@@ -228,7 +233,7 @@ def format_market_for_claude(market):
             pnl = (p - pru) * qty
             total_val += p * qty; total_pnl += pnl
             sg = "+" if pnl >= 0 else ""
-            lines.append(f"  {ticker}: ${p:.2f} ({chgp:+.1f}% jour) | PRU ${pru:.2f} x {qty} | P&L {sg}${pnl:.0f}")
+            lines.append(f"  {ticker}: ${p:.2f} ({fnum(chgp, '+.1f')}% jour) | PRU ${pru:.2f} x {qty} | P&L {sg}${pnl:.0f}")
         else:
             lines.append(f"  {ticker}: indisponible")
     sg = "+" if total_pnl >= 0 else ""
@@ -238,7 +243,7 @@ def format_market_for_claude(market):
         p = d.get("price"); chgp = d.get("change_p")
         if p:
             sym = "€" if d.get("currency") == "EUR" else "$"
-            lines.append(f"  {d['name']}: {sym}{p:,.0f} ({chgp:+.1f}%)")
+            lines.append(f"  {d['name']}: {sym}{p:,.0f} ({fnum(chgp, '+.1f')}%)")
     return "\n".join(lines)
 
 
