@@ -1,31 +1,152 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Carte du marché YAASAP</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YAASAP Notes · Carte du marché — 23 actions, 3 chocs en un mois</title>
+<meta name="description" content="Carte YAASAP du 16 octobre 2026 : 23 actions en tuiles et en radar, potentiel prudent moyen de +18,8 %, causes des mouvements de plus de 5 % et chandeliers pédagogiques.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-/* Mise en page : en-tête éditorial, deux vues du même marché (carte en tuiles, radar circulaire), légende, tableau. */
 :root{
-  --bg:#f5f3ee; --surface:#ffffff; --surface2:#ecebe5; --ink:#14181f; --ink2:#4a5160; --ink3:#6c7384;
-  --rule:rgba(20,24,31,.14); --acc:#1c5cab; --acc-ink:#ffffff; --alert:#c43c2e; --up:#17855a; --dn:#c43c2e;
-  --serif:'Instrument Serif',Georgia,serif; --sans:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif; --mono:'IBM Plex Mono','Courier New',monospace;
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,.12);--rule2:rgba(0,0,0,.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;--blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#090e19;--surface:#0f1726;--surface2:#16203a;--ink:#eef1f6;--ink2:#aab3c5;--ink3:#8791a6;--rule:rgba(238,241,246,.16);--acc:#6da7ec;--acc-ink:#07101f;--alert:#ff7a68;--up:#4cc38a;--dn:#ff7a68;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.masthead{background:var(--ink);border-bottom:3px solid var(--accent);padding:11px 22px 9px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.pub-name{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff}
+.pub-name em{font-style:italic;color:var(--accent)}
+.mast-r{display:flex;align-items:center;gap:14px}
+.mast-date{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+#qr-mast{width:36px;height:36px;background:#fff;padding:2px;line-height:0}
+.hero{position:relative;min-height:280px;background:#1c1814 url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80&fit=crop') center/cover;display:flex;align-items:flex-end}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,24,20,.25) 0%,rgba(28,24,20,.92) 100%)}
+.hero-in{position:relative;padding:28px 22px 24px;max-width:760px;margin:0 auto;width:100%}
+.eyebrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:1px;background:var(--accent);color:#fff}
+.tag.o{background:transparent;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.75)}
+.hero h1{font-family:var(--serif);font-size:28px;line-height:1.15;color:#fff;font-weight:700;margin-bottom:12px}
+.hero .deck{font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.6;color:rgba(255,255,255,.78)}
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);background:var(--ink)}
+.kpi{padding:10px 0 10px 14px;border-right:1px solid rgba(255,255,255,.06)}
+.kpi-v{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1;display:block}
+.kpi-v.up{color:#4ade80}.kpi-v.dn{color:#f87171}.kpi-v.am{color:#fbbf24}.kpi-v.neu{color:#e0d8cc}
+.kpi-l{font-family:var(--mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px;display:block;padding-right:6px}
+.kicker{overflow-x:auto;background:var(--paper2);border-bottom:1px solid var(--rule)}
+.kicker::-webkit-scrollbar{display:none}
+.kicker-inner{display:flex;min-width:max-content}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:2px}
+.wrap{max-width:760px;margin:0 auto;padding:8px 22px 32px}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:30px 0 14px}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0}
+.sec-rule-txt{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule)}
+.lead-hl{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.25;color:var(--ink);margin:22px 0 8px}
+.lead-deck{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ink3);line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2)}
+.body-p{font-family:var(--serif);font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:11px}
+.body-p strong{font-weight:700;color:var(--ink)}
+.pull{border-left:3px solid var(--accent);padding:10px 16px;margin:16px 0;background:var(--paper2)}
+.pull-t{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink);line-height:1.5}
+.pull-a{font-family:var(--mono);font-size:8px;color:var(--ink4);margin-top:5px;letter-spacing:.06em;text-transform:uppercase}
+.chart-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--ink);border-radius:2px;padding:12px 14px 10px;margin:14px 0 16px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.chart-t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.chart-note{font-family:var(--sans);font-size:11px;color:var(--ink4);font-style:italic;margin-top:6px;line-height:1.4}
+.chart-box{position:relative;height:260px}
+.tbl-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--ink);border-radius:2px;overflow:hidden;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tbl-hd{padding:8px 14px;background:var(--paper2);border-bottom:1px solid var(--rule2)}
+.tbl-hd-t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.tbl-scroll{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;min-width:620px}
+.tbl th{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 11px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2);white-space:nowrap}
+.tbl td{font-size:12.5px;padding:7px 11px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.4}
+.tbl td.n{font-family:var(--mono);font-size:11.5px;white-space:nowrap}
+.tbl td.tk strong{color:var(--ink)}
+.b-up,.b-dn,.b-am{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;white-space:nowrap}
+.b-up{background:rgba(30,92,50,.1);color:var(--green)}
+.b-dn{background:rgba(176,28,28,.1);color:var(--red)}
+.b-am{background:rgba(138,92,0,.1);color:var(--amber)}
+.tbl-foot{padding:8px 14px;font-size:11px;color:var(--ink4);font-style:italic;background:var(--paper2);border-top:1px solid var(--rule2);line-height:1.5}
+.verdict{background:var(--ink);border-radius:2px;padding:20px 22px;margin:24px 0}
+.v-tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 8px;border-radius:1px;display:inline-block;margin-bottom:12px}
+.v-hl{font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(255,255,255,.9);line-height:1.45;margin-bottom:12px}
+.v-hl strong{font-style:normal;color:#fbbf24}
+.v-list{border-top:1px solid rgba(255,255,255,.1);padding-top:12px;display:flex;flex-direction:column;gap:7px}
+.v-li{display:flex;gap:10px;font-family:var(--serif);font-size:13.5px;color:rgba(255,255,255,.75);align-items:baseline;line-height:1.55}
+.v-li::before{content:'—';color:#fbbf24;flex-shrink:0;font-family:var(--mono)}
+.v-li strong{color:#fff;font-weight:700}
+.v-disc{margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.04em;line-height:1.7}
+.nl{background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:18px 20px;margin:24px 0}
+.nl-hl{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:10px}
+.nl-row{display:flex;gap:8px;flex-wrap:wrap}
+.nl-input{flex:1;min-width:200px;padding:9px 11px;border:1px solid var(--rule);border-radius:2px;font-family:var(--sans);font-size:14px;background:#fff}
+.nl-btn{padding:9px 16px;background:var(--ink);color:#fff;border:0;border-radius:2px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.nl-ok{display:none;font-family:var(--mono);font-size:11px;color:var(--green);margin-top:6px}
+.footer{background:var(--ink);color:rgba(255,255,255,.55);padding:22px;text-align:center;font-size:12px;line-height:1.8}
+.footer a{color:#e0d8cc;text-decoration:none;margin:0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.footer .fx{margin-top:10px;font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.04em}
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .kpi{padding:10px 0 10px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .hero h1{font-size:23px}
+  .chart-box{height:290px}
+  .mast-date{display:none}
 }
-:root[data-theme="dark"]{--bg:#090e19;--surface:#0f1726;--surface2:#16203a;--ink:#eef1f6;--ink2:#aab3c5;--ink3:#8791a6;--rule:rgba(238,241,246,.16);--acc:#6da7ec;--acc-ink:#07101f;--alert:#ff7a68;--up:#4cc38a;--dn:#ff7a68;color-scheme:dark}
-*{box-sizing:border-box}
+
+:root{--bg:#f9f6f0;--surface:#fff;--surface2:#f2ede4;--acc:#1a3a5c;--acc-ink:#fff;--alert:#b01c1c;--up:#1e5c32;--dn:#b01c1c;--space:#0b1a2e}
+html{scroll-behavior:smooth}
+.masthead{position:sticky;top:0;z-index:200}
+
+.hero{display:flex;flex-direction:column;min-height:560px;position:relative;overflow:hidden;background:linear-gradient(180deg,#040a18 0%,#0b1a34 38%,#1d3a63 82%,#4b5d84 100%)}
+.hero .sky{position:absolute;left:0;right:0;bottom:0;width:100%;height:68%;z-index:0}
+
+.hero:before{content:'';position:absolute;inset:0;z-index:0;background-image:radial-gradient(1.2px 1.2px at 12% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 33% 24%,#fff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 58% 9%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 76% 20%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 91% 14%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 22% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 31%,#fff 50%,transparent 51%);opacity:.6}
+.hero-in{position:relative;z-index:2;padding-top:40px}
+.hero-in h1,.hero-in .deck{text-shadow:0 2px 14px rgba(4,10,24,.9)}
+@media (max-width:560px){.hero{min-height:620px}.hero .sky{height:58%}}
+/* Bandeau déroulant */
+.ticker{position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);background:rgba(5,12,24,.78);backdrop-filter:blur(3px);overflow:hidden;clip-path:inset(0 100% 0 0);animation:reveal 2.8s cubic-bezier(.35,.1,.25,1) .35s forwards}
+@keyframes reveal{to{clip-path:inset(0 0 0 0)}}
+.tk-track{display:flex;width:max-content;animation:scroll 70s linear infinite;animation-delay:3s}
+.ticker:hover .tk-track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.tk{display:flex;align-items:baseline;gap:7px;padding:10px 20px;border-right:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:11px;color:#e0d8cc;white-space:nowrap}
+.tk b{color:#fff;font-weight:600}
+.tk .u{color:#4ade80;font-weight:600}.tk .d{color:#f87171;font-weight:600}.tk .a{color:#fbbf24}
+.tk small{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase}
+.tk-lbl{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;padding:0 12px;background:var(--accent);color:#fff;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.tk-pad{margin-left:92px;overflow:hidden}
+.ticker{min-width:0;width:100%;align-self:stretch}
+/* Roadster volant : animation d'entrée */
+.fly{position:absolute;z-index:4;left:-300px;bottom:2px;width:250px;pointer-events:none;animation:flyin 3.1s cubic-bezier(.3,.12,.22,1) .2s forwards;filter:drop-shadow(0 10px 18px rgba(0,0,0,.5))}
+.fly svg{display:block;width:100%;height:auto;animation:bob 1.1s ease-in-out infinite}
+@keyframes flyin{0%{left:-300px;transform:translateY(34px) rotate(-5deg)}45%{transform:translateY(-26px) rotate(2deg)}100%{left:calc(100% + 60px);transform:translateY(-6px) rotate(-1deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.flame{transform-origin:50% 0;animation:flick .12s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scaleY(.8)}to{transform:scaleY(1.25)}}
+.streak{opacity:.0;animation:streak 3.1s ease-out .2s forwards}
+@keyframes streak{0%{opacity:0}30%{opacity:.9}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.fly{display:none}.ticker{clip-path:none;animation:none}.tk-track{animation:none;overflow-x:auto}.ticker{overflow-x:auto}.flame,.fly svg{animation:none}}
+@media (max-width:560px){.fly{width:170px}}
+/* Carte */
+.cart{margin-top:6px}
+.mvs{margin-top:6px}
+.mvs .row{border-top:1px solid var(--rule)}
+.mvi a{color:var(--blue)}
+.mvs .nm{font-family:var(--sans)}
+.tbl td.n,.tbl th.n{text-align:right;font-family:var(--mono)}
+.chart-box{position:relative;height:260px}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;margin:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
-.wrap{max-width:1100px;margin:0 auto}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,76px);line-height:1;margin:10px 0 12px;letter-spacing:-.01em;text-wrap:balance}
-h1 em{color:var(--acc)}
-.deck{color:var(--ink2);max-width:60ch;margin:0 0 22px;font-size:17px}
-.kpis{display:flex;flex-wrap:wrap;gap:10px 34px;margin-bottom:22px;padding-block:14px;border-block:1px solid var(--rule)}
-.kpi b{display:block;font-family:var(--serif);font-weight:400;font-size:44px;line-height:1}
-.kpi span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
 .bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin-bottom:12px}
 .tabs{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--surface)}
 .tabs button{background:none;border:0;border-right:1px solid var(--rule);padding:9px 16px;font:inherit;color:var(--ink2);cursor:pointer;min-height:42px}
@@ -45,17 +166,8 @@ h1 em{color:var(--acc)}
 .note{color:var(--ink3);font-size:14px;margin:12px 0 0;max-width:80ch}
 details{margin-top:20px;border-top:1px solid var(--rule)}
 summary{cursor:pointer;padding:14px 0;font-weight:600;min-height:44px}
-.tw{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
-th,td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:left}
-th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:400}
-td.n{font-family:var(--mono);text-align:right}
-th.n{text-align:right}
-.foot{font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--ink3);margin-top:24px}
 text{font-family:var(--mono)}
-.tile{cursor:pointer}
-.tile:hover rect,.tile:focus rect{stroke:var(--ink);stroke-width:2}
-.tile:focus{outline:none}
+.tile{cursor:pointer}.tile:hover rect,.tile:focus rect{stroke:var(--ink);stroke-width:2}.tile:focus{outline:none}
 @media (max-width:560px){.grad{width:110px}.kpi b{font-size:36px}}
 .tile{animation:pop .55s cubic-bezier(.2,.8,.2,1) both}
 @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -64,7 +176,7 @@ text{font-family:var(--mono)}
 .hint{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;color:var(--ink2)}
 .hint i{display:inline-block;width:8px;height:18px;border-left:1.5px solid var(--ink2);position:relative;margin-right:6px}
 .hint i:before{content:"";position:absolute;left:-5px;top:4px;width:8px;height:9px;background:var(--up);border-radius:1px}
-.ov{position:fixed;inset:0;background:rgba(5,8,16,.66);display:grid;place-items:center;padding:12px;z-index:50;backdrop-filter:blur(3px)}
+.ov{position:fixed;inset:0;background:rgba(5,8,16,.66);display:grid;place-items:center;padding:12px;z-index:300;backdrop-filter:blur(3px)}
 .dlg{background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:14px;width:min(900px,100%);max-height:calc(100dvh - 24px);overflow:auto;padding:20px 22px 22px;box-shadow:0 24px 80px rgba(0,0,0,.45);animation:pop .3s both}
 .dh{display:flex;gap:14px;align-items:center}
 .dh h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,38px);line-height:1.05;margin:0}
@@ -73,8 +185,8 @@ text{font-family:var(--mono)}
 .stats{display:flex;flex-wrap:wrap;gap:10px 30px;margin:16px 0 12px}
 .stat b{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1;display:block}
 .stat span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
-.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:2px 7px;margin-right:6px}
-.tag.sim{color:var(--alert)}.tag.real{color:var(--up)}
+.mtag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:2px 7px;margin-right:6px}
+.mtag.sim{color:var(--alert)}.mtag.real{color:var(--up)}
 #cs{width:100%;display:block;touch-action:pan-y}
 .cl{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:12px;color:var(--ink2);margin:8px 0}
 .cl s{display:inline-block;width:12px;height:12px;vertical-align:-2px;margin-right:5px;text-decoration:none;border:2px solid;border-radius:2px}
@@ -92,58 +204,189 @@ text{font-family:var(--mono)}
 .mvi a{color:var(--acc)}
 .mvn{color:var(--ink2);font-size:14px;margin:0}
 .mvs{margin-top:28px}
-.mvs h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,42px);margin:0 0 6px}
 .mvs .row{display:grid;grid-template-columns:150px 1fr;gap:4px 18px;padding:10px 0;border-top:1px solid var(--rule);align-items:start}
 .mvs .nm{display:flex;gap:10px;align-items:center;font-weight:600}
 .pill{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink3);color:var(--ink2);border-radius:4px;padding:1px 6px;margin-left:6px}
 @media (max-width:560px){.mvs .row{grid-template-columns:1fr}}
 .err{color:var(--alert);font-size:13px;margin:6px 0 0}
 @media (prefers-reduced-motion: reduce){.tile,.dlg{animation:none}}
-@media (max-width:560px){.dlg{padding:16px}.stat b{font-size:30px}}
+@media (max-width:560px){.dlg{padding:16px}.stat b{font-size:30px}}</style>
+</head>
+<body>
 
-</style>
+<header class="masthead" style="background:var(--space);border-bottom-color:#4a8fd8">
+  <div class="pub-name">YAASAP <em style="color:#7fb2ee">Notes</em></div>
+  <div class="mast-r">
+    <span class="mast-date">16 octobre 2026</span>
+    <div id="qr-mast"></div>
+  </div>
+</header>
 
-<div class="wrap">
-  <div class="eyebrow">Proposition graphique · 16 octobre 2026</div>
-  <h1>Le marché <em>en un coup d'œil</em></h1>
-  <p class="deck">Deux façons de lire les mêmes 23 actions : une carte en tuiles pour comparer vite, un radar circulaire pour voir les secteurs. Plus la couleur est marquée, plus le potentiel prudent est élevé. Cliquez sur une action pour ouvrir son graphique en chandeliers et les causes de ses gros mouvements.</p>
+<section class="hero" id="hero">
+<svg class="sky" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#040a18"/><stop offset=".5" stop-color="#0b1a34"/><stop offset=".82" stop-color="#1d3a63"/><stop offset="1" stop-color="#4b5d84"/></linearGradient>
+<radialGradient id="moon" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".25" stop-color="#cfe2ff" stop-opacity=".25"/><stop offset="1" stop-color="#cfe2ff" stop-opacity="0"/></radialGradient>
+<linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb066" stop-opacity="0"/><stop offset="1" stop-color="#ffb066" stop-opacity=".28"/></linearGradient></defs>
+<g fill="#fff"><circle cx="989" cy="42" r="1" opacity="0.6"/><circle cx="637" cy="171" r="1.2" opacity="0.6"/><circle cx="983" cy="83" r="1" opacity="0.6"/><circle cx="1467" cy="126" r="1.2" opacity="0.9"/><circle cx="1588" cy="116" r="0.8" opacity="0.6"/><circle cx="1110" cy="176" r="1.2" opacity="0.6"/><circle cx="1182" cy="142" r="0.8" opacity="0.9"/><circle cx="664" cy="131" r="0.6" opacity="0.4"/><circle cx="841" cy="135" r="1" opacity="0.6"/><circle cx="556" cy="105" r="0.6" opacity="0.4"/><circle cx="1187" cy="66" r="1.2" opacity="0.4"/><circle cx="1170" cy="71" r="1.2" opacity="0.9"/><circle cx="312" cy="157" r="1" opacity="0.4"/><circle cx="945" cy="178" r="1.2" opacity="0.6"/><circle cx="938" cy="30" r="0.6" opacity="0.6"/><circle cx="174" cy="4" r="0.8" opacity="0.6"/><circle cx="1010" cy="98" r="0.6" opacity="0.4"/><circle cx="585" cy="91" r="0.8" opacity="0.9"/><circle cx="351" cy="82" r="1" opacity="0.9"/><circle cx="1510" cy="94" r="1.2" opacity="0.9"/><circle cx="774" cy="95" r="1" opacity="0.4"/><circle cx="1486" cy="127" r="1" opacity="0.9"/><circle cx="433" cy="68" r="0.6" opacity="0.9"/><circle cx="353" cy="121" r="1" opacity="0.9"/><circle cx="970" cy="173" r="0.8" opacity="0.4"/><circle cx="1240" cy="114" r="1" opacity="0.6"/><circle cx="1107" cy="60" r="1" opacity="0.4"/><circle cx="1519" cy="22" r="1.2" opacity="0.6"/><circle cx="1340" cy="149" r="0.6" opacity="0.9"/><circle cx="1304" cy="132" r="0.6" opacity="0.9"/><circle cx="1563" cy="148" r="1" opacity="0.4"/><circle cx="966" cy="19" r="0.6" opacity="0.4"/><circle cx="983" cy="143" r="0.6" opacity="0.4"/><circle cx="1231" cy="83" r="0.8" opacity="0.9"/><circle cx="449" cy="169" r="1.2" opacity="0.9"/><circle cx="1492" cy="79" r="0.6" opacity="0.4"/><circle cx="1576" cy="108" r="1" opacity="0.9"/><circle cx="426" cy="126" r="1.2" opacity="0.6"/><circle cx="328" cy="90" r="1" opacity="0.4"/><circle cx="958" cy="160" r="1.2" opacity="0.4"/><circle cx="882" cy="89" r="1.2" opacity="0.9"/><circle cx="985" cy="137" r="0.6" opacity="0.4"/><circle cx="1500" cy="8" r="0.8" opacity="0.4"/><circle cx="1458" cy="199" r="1" opacity="0.9"/><circle cx="734" cy="173" r="0.6" opacity="0.6"/><circle cx="1296" cy="123" r="0.8" opacity="0.4"/><circle cx="785" cy="7" r="0.6" opacity="0.6"/><circle cx="471" cy="192" r="0.8" opacity="0.6"/><circle cx="1548" cy="175" r="0.6" opacity="0.4"/><circle cx="526" cy="83" r="0.6" opacity="0.9"/><circle cx="241" cy="164" r="1.2" opacity="0.9"/><circle cx="1194" cy="85" r="1.2" opacity="0.4"/><circle cx="584" cy="30" r="0.8" opacity="0.6"/><circle cx="354" cy="40" r="0.6" opacity="0.4"/><circle cx="603" cy="91" r="0.8" opacity="0.9"/><circle cx="655" cy="42" r="1" opacity="0.6"/><circle cx="218" cy="158" r="1" opacity="0.4"/><circle cx="706" cy="45" r="0.8" opacity="0.4"/><circle cx="49" cy="52" r="1.2" opacity="0.6"/><circle cx="361" cy="122" r="0.6" opacity="0.9"/><circle cx="1267" cy="174" r="0.6" opacity="0.9"/><circle cx="1208" cy="126" r="1.2" opacity="0.4"/><circle cx="755" cy="16" r="1.2" opacity="0.9"/><circle cx="1184" cy="21" r="1.2" opacity="0.9"/><circle cx="886" cy="78" r="1" opacity="0.9"/><circle cx="712" cy="178" r="0.6" opacity="0.9"/><circle cx="1040" cy="195" r="1.2" opacity="0.9"/><circle cx="1375" cy="84" r="1" opacity="0.6"/><circle cx="1475" cy="75" r="0.6" opacity="0.9"/><circle cx="94" cy="109" r="1" opacity="0.9"/><circle cx="921" cy="45" r="1" opacity="0.6"/><circle cx="976" cy="30" r="0.6" opacity="0.6"/><circle cx="685" cy="186" r="0.6" opacity="0.4"/><circle cx="1276" cy="84" r="0.6" opacity="0.4"/><circle cx="1566" cy="151" r="0.8" opacity="0.6"/><circle cx="708" cy="117" r="0.6" opacity="0.4"/><circle cx="1525" cy="140" r="0.6" opacity="0.4"/><circle cx="1355" cy="29" r="1.2" opacity="0.4"/><circle cx="1488" cy="63" r="0.6" opacity="0.6"/><circle cx="722" cy="11" r="1.2" opacity="0.6"/><circle cx="1392" cy="42" r="0.8" opacity="0.4"/><circle cx="371" cy="94" r="1" opacity="0.9"/><circle cx="1222" cy="144" r="1" opacity="0.6"/><circle cx="734" cy="55" r="0.8" opacity="0.6"/><circle cx="917" cy="13" r="0.6" opacity="0.4"/><circle cx="929" cy="40" r="1.2" opacity="0.9"/><circle cx="185" cy="150" r="1" opacity="0.9"/><circle cx="1403" cy="126" r="0.8" opacity="0.6"/><circle cx="996" cy="108" r="1" opacity="0.4"/><circle cx="917" cy="183" r="1" opacity="0.4"/></g>
+<circle cx="1290" cy="95" r="70" fill="url(#moon)"/><circle cx="1290" cy="95" r="17" fill="#f4f1e6"/>
+<rect y="260" width="1600" height="160" fill="url(#glow)"/>
+<g fill="#0e2140"><rect x="-10" y="253" width="35" height="167"/><rect x="25" y="267" width="35" height="153"/><rect x="61" y="234" width="38" height="186"/><rect x="104" y="320" width="54" height="100"/><rect x="160" y="311" width="47" height="109"/><rect x="207" y="281" width="46" height="139"/><rect x="259" y="312" width="36" height="108"/><rect x="297" y="268" width="29" height="152"/><rect x="328" y="298" width="46" height="122"/><rect x="374" y="251" width="37" height="169"/><rect x="412" y="343" width="41" height="77"/><rect x="453" y="315" width="55" height="105"/><rect x="512" y="303" width="45" height="117"/><rect x="560" y="302" width="46" height="118"/><rect x="611" y="344" width="38" height="76"/><rect x="650" y="306" width="30" height="114"/><rect x="681" y="306" width="55" height="114"/><rect x="737" y="294" width="41" height="126"/><rect x="783" y="325" width="57" height="95"/><rect x="846" y="272" width="39" height="148"/><rect x="891" y="221" width="32" height="199"/><rect x="927" y="243" width="48" height="177"/><rect x="981" y="350" width="52" height="70"/><rect x="1035" y="331" width="33" height="89"/><rect x="1074" y="274" width="32" height="146"/><rect x="1106" y="290" width="47" height="130"/><rect x="1154" y="277" width="57" height="143"/><rect x="1212" y="327" width="41" height="93"/><rect x="1254" y="300" width="46" height="120"/><rect x="1301" y="310" width="38" height="110"/><rect x="1339" y="230" width="52" height="190"/><rect x="1392" y="238" width="55" height="182"/><rect x="1451" y="302" width="28" height="118"/><rect x="1483" y="281" width="42" height="139"/><rect x="1530" y="239" width="39" height="181"/><rect x="1571" y="238" width="58" height="182"/></g>
+<g fill="#060d1b"><rect x="-10" y="289" width="57" height="131"/><rect x="48" y="315" width="42" height="105"/><rect x="60.6" y="303" width="16.8" height="12"/><rect x="95" y="319" width="37" height="101"/><rect x="135" y="277" width="45" height="143"/><rect x="148.5" y="265" width="18.0" height="12"/><rect x="184" y="260" width="51" height="160"/><rect x="238" y="319" width="30" height="101"/><rect x="247.0" y="307" width="12.0" height="12"/><rect x="271" y="294" width="46" height="126"/><rect x="284.8" y="282" width="18.400000000000002" height="12"/><rect x="318" y="248" width="54" height="172"/><rect x="375" y="281" width="51" height="139"/><rect x="431" y="225" width="25" height="195"/><rect x="438.5" y="213" width="10.0" height="12"/><rect x="457" y="319" width="46" height="101"/><rect x="506" y="298" width="42" height="122"/><rect x="518.6" y="286" width="16.8" height="12"/><rect x="553" y="219" width="53" height="201"/><rect x="1045" y="287" width="30" height="133"/><rect x="1080" y="311" width="58" height="109"/><rect x="1143" y="307" width="49" height="113"/><rect x="1197" y="301" width="52" height="119"/><rect x="1254" y="267" width="57" height="153"/><rect x="1314" y="300" width="35" height="120"/><rect x="1354" y="260" width="28" height="160"/><rect x="1362.4" y="248" width="11.200000000000001" height="12"/><rect x="1383" y="254" width="43" height="166"/><rect x="1431" y="263" width="49" height="157"/><rect x="1484" y="289" width="29" height="131"/><rect x="1518" y="275" width="38" height="145"/><rect x="1557" y="299" width="48" height="121"/><rect x="770" y="230" width="90" height="190"/><rect x="770" y="185" width="30" height="235"/><rect x="830" y="135" width="30" height="285"/><rect x="800" y="85" width="30" height="335"/><rect x="808" y="35" width="2.4" height="52"/><rect x="820" y="35" width="2.4" height="52"/><polygon points="620,420 694,420 681.0,120 633.0,120"/><rect x="648.0" y="78" width="2.2" height="42"/><rect x="664.0" y="78" width="2.2" height="42"/><rect x="900" y="128" width="46" height="292"/><rect x="911" y="120" width="24" height="8"/><rect x="694" y="185" width="46" height="235"/><rect x="698" y="148" width="38" height="37"/><rect x="703" y="110" width="28" height="38"/><rect x="708" y="82" width="18" height="29"/><rect x="716" y="58" width="2" height="24"/><rect x="1000" y="165" width="42" height="255"/><path d="M1002,165 Q1021,120 1040,165 Z"/><rect x="1020" y="102" width="2" height="22"/><rect x="1058" y="215" width="40" height="205"/><rect x="1063" y="198" width="30" height="17"/><rect x="545" y="230" width="48" height="190"/><rect x="553" y="214" width="32" height="16"/></g>
+<g stroke="#1b3355" stroke-width="1.6" fill="none"><path d="M620.0,420 L690.75,345 M694.0,420 L623.25,345" /><path d="M623.25,345 L687.5,270 M690.75,345 L626.5,270" /><path d="M626.5,270 L684.25,195 M687.5,270 L629.75,195" /><path d="M629.75,195 L681.0,120 M684.25,195 L633.0,120" /></g>
+<path d="M-7,340h3v4h-3zM0,304h3v4h-3zM7,331h3v4h-3zM21,376h3v4h-3zM28,367h3v4h-3zM28,412h3v4h-3zM42,322h3v4h-3zM51,393h3v4h-3zM58,348h3v4h-3zM58,402h3v4h-3zM65,357h3v4h-3zM65,375h3v4h-3zM72,357h3v4h-3zM86,375h3v4h-3zM105,334h3v4h-3zM119,370h3v4h-3zM126,352h3v4h-3zM126,406h3v4h-3zM138,400h3v4h-3zM152,337h3v4h-3zM159,409h3v4h-3zM166,382h3v4h-3zM173,364h3v4h-3zM194,320h3v4h-3zM194,347h3v4h-3zM201,275h3v4h-3zM201,383h3v4h-3zM208,284h3v4h-3zM208,410h3v4h-3zM215,284h3v4h-3zM215,311h3v4h-3zM248,334h3v4h-3zM255,334h3v4h-3zM255,343h3v4h-3zM255,370h3v4h-3zM255,415h3v4h-3zM262,397h3v4h-3zM274,318h3v4h-3zM288,327h3v4h-3zM288,354h3v4h-3zM295,309h3v4h-3zM295,399h3v4h-3zM302,408h3v4h-3zM321,290h3v4h-3zM321,344h3v4h-3zM328,254h3v4h-3zM328,299h3v4h-3zM328,380h3v4h-3zM335,290h3v4h-3zM335,326h3v4h-3zM335,335h3v4h-3zM342,290h3v4h-3zM342,335h3v4h-3zM349,371h3v4h-3zM349,380h3v4h-3zM356,371h3v4h-3zM378,332h3v4h-3zM392,386h3v4h-3zM399,323h3v4h-3zM399,404h3v4h-3zM413,368h3v4h-3zM434,411h3v4h-3zM441,312h3v4h-3zM448,393h3v4h-3zM467,352h3v4h-3zM467,397h3v4h-3zM467,406h3v4h-3zM474,334h3v4h-3zM481,343h3v4h-3zM495,415h3v4h-3zM509,304h3v4h-3zM537,385h3v4h-3zM544,313h3v4h-3zM556,369h3v4h-3zM556,405h3v4h-3zM563,225h3v4h-3zM563,324h3v4h-3zM570,306h3v4h-3zM570,396h3v4h-3zM584,261h3v4h-3zM584,333h3v4h-3zM591,414h3v4h-3zM598,279h3v4h-3zM598,333h3v4h-3zM598,360h3v4h-3zM1048,320h3v4h-3zM1055,338h3v4h-3zM1055,374h3v4h-3zM1062,401h3v4h-3zM1069,410h3v4h-3zM1083,344h3v4h-3zM1097,335h3v4h-3zM1132,407h3v4h-3zM1160,313h3v4h-3zM1160,385h3v4h-3zM1181,313h3v4h-3zM1181,358h3v4h-3zM1200,343h3v4h-3zM1221,343h3v4h-3zM1235,325h3v4h-3zM1242,379h3v4h-3zM1257,273h3v4h-3zM1257,300h3v4h-3zM1271,273h3v4h-3zM1271,309h3v4h-3zM1278,399h3v4h-3zM1292,381h3v4h-3zM1292,399h3v4h-3zM1299,327h3v4h-3zM1299,363h3v4h-3zM1306,336h3v4h-3zM1317,333h3v4h-3zM1317,342h3v4h-3zM1324,387h3v4h-3zM1331,369h3v4h-3zM1338,387h3v4h-3zM1345,414h3v4h-3zM1364,311h3v4h-3zM1371,329h3v4h-3zM1378,311h3v4h-3zM1378,320h3v4h-3zM1378,401h3v4h-3zM1386,296h3v4h-3zM1393,350h3v4h-3zM1393,395h3v4h-3zM1400,278h3v4h-3zM1400,287h3v4h-3zM1400,404h3v4h-3zM1414,278h3v4h-3zM1448,368h3v4h-3zM1462,368h3v4h-3zM1469,296h3v4h-3zM1469,350h3v4h-3zM1476,287h3v4h-3zM1487,304h3v4h-3zM1494,331h3v4h-3zM1508,322h3v4h-3zM1521,281h3v4h-3zM1528,326h3v4h-3zM1528,335h3v4h-3zM1528,344h3v4h-3zM1542,299h3v4h-3zM1549,407h3v4h-3zM1567,305h3v4h-3zM1574,314h3v4h-3zM1574,368h3v4h-3zM1574,377h3v4h-3zM1581,359h3v4h-3zM1581,386h3v4h-3zM1595,305h3v4h-3zM1595,350h3v4h-3zM780,371h3v4h-3zM780,389h3v4h-3zM794,344h3v4h-3zM801,308h3v4h-3zM808,362h3v4h-3zM815,371h3v4h-3zM829,254h3v4h-3zM773,236h3v4h-3zM773,281h3v4h-3zM773,344h3v4h-3zM780,263h3v4h-3zM780,335h3v4h-3zM787,380h3v4h-3zM794,227h3v4h-3zM794,326h3v4h-3zM833,411h3v4h-3zM840,150h3v4h-3zM847,168h3v4h-3zM847,339h3v4h-3zM854,258h3v4h-3zM854,321h3v4h-3zM803,91h3v4h-3zM803,109h3v4h-3zM803,154h3v4h-3zM803,163h3v4h-3zM803,172h3v4h-3zM803,388h3v4h-3zM810,100h3v4h-3zM810,199h3v4h-3zM810,343h3v4h-3zM810,415h3v4h-3zM817,118h3v4h-3zM817,172h3v4h-3zM817,253h3v4h-3zM817,298h3v4h-3zM817,361h3v4h-3zM824,181h3v4h-3zM824,208h3v4h-3zM824,334h3v4h-3zM637,300h3v4h-3zM637,336h3v4h-3zM651,174h3v4h-3zM665,174h3v4h-3zM665,309h3v4h-3zM672,165h3v4h-3zM658,228h3v4h-3zM658,354h3v4h-3zM665,255h3v4h-3zM672,390h3v4h-3zM644,183h3v4h-3zM644,291h3v4h-3zM651,156h3v4h-3zM651,174h3v4h-3zM658,165h3v4h-3zM658,300h3v4h-3zM658,399h3v4h-3zM665,174h3v4h-3zM672,228h3v4h-3zM672,345h3v4h-3zM658,246h3v4h-3zM665,336h3v4h-3zM665,381h3v4h-3zM672,327h3v4h-3zM637,237h3v4h-3zM637,345h3v4h-3zM637,399h3v4h-3zM644,192h3v4h-3zM665,273h3v4h-3zM665,381h3v4h-3zM672,192h3v4h-3zM672,345h3v4h-3zM637,273h3v4h-3zM644,300h3v4h-3zM658,237h3v4h-3zM658,264h3v4h-3zM672,354h3v4h-3zM672,390h3v4h-3zM637,174h3v4h-3zM637,273h3v4h-3zM644,165h3v4h-3zM644,363h3v4h-3zM644,381h3v4h-3zM658,264h3v4h-3zM665,336h3v4h-3zM672,372h3v4h-3zM644,264h3v4h-3zM651,192h3v4h-3zM658,318h3v4h-3zM672,300h3v4h-3zM672,399h3v4h-3zM903,188h3v4h-3zM903,242h3v4h-3zM903,260h3v4h-3zM903,395h3v4h-3zM910,413h3v4h-3zM917,134h3v4h-3zM924,323h3v4h-3zM931,224h3v4h-3zM931,341h3v4h-3zM938,152h3v4h-3zM938,350h3v4h-3zM697,281h3v4h-3zM704,317h3v4h-3zM711,209h3v4h-3zM725,191h3v4h-3zM725,263h3v4h-3zM732,218h3v4h-3zM1003,171h3v4h-3zM1003,261h3v4h-3zM1010,180h3v4h-3zM1010,252h3v4h-3zM1010,261h3v4h-3zM1010,279h3v4h-3zM1010,288h3v4h-3zM1010,315h3v4h-3zM1017,297h3v4h-3zM1017,333h3v4h-3zM1017,360h3v4h-3zM1024,333h3v4h-3zM1024,378h3v4h-3zM1031,342h3v4h-3zM1031,369h3v4h-3zM1038,207h3v4h-3zM1061,329h3v4h-3zM1061,392h3v4h-3zM1068,239h3v4h-3zM1068,338h3v4h-3zM1068,383h3v4h-3zM1075,338h3v4h-3zM1082,257h3v4h-3zM1082,356h3v4h-3zM1089,239h3v4h-3zM1089,266h3v4h-3zM1089,410h3v4h-3zM548,326h3v4h-3zM555,263h3v4h-3zM555,317h3v4h-3zM569,290h3v4h-3z" fill="#ffe9b8" opacity=".8"/><path d="M-7,349h3v4h-3zM-7,358h3v4h-3zM-7,376h3v4h-3zM-7,403h3v4h-3zM-7,412h3v4h-3zM0,295h3v4h-3zM7,349h3v4h-3zM7,358h3v4h-3zM28,322h3v4h-3zM35,304h3v4h-3zM35,385h3v4h-3zM51,411h3v4h-3zM72,348h3v4h-3zM86,339h3v4h-3zM112,361h3v4h-3zM112,406h3v4h-3zM119,352h3v4h-3zM126,379h3v4h-3zM138,283h3v4h-3zM138,328h3v4h-3zM145,337h3v4h-3zM159,319h3v4h-3zM166,319h3v4h-3zM166,364h3v4h-3zM173,373h3v4h-3zM201,356h3v4h-3zM208,293h3v4h-3zM215,293h3v4h-3zM215,320h3v4h-3zM222,293h3v4h-3zM222,365h3v4h-3zM262,343h3v4h-3zM274,345h3v4h-3zM274,354h3v4h-3zM281,399h3v4h-3zM295,354h3v4h-3zM295,408h3v4h-3zM302,363h3v4h-3zM302,381h3v4h-3zM321,254h3v4h-3zM321,353h3v4h-3zM342,254h3v4h-3zM342,407h3v4h-3zM356,263h3v4h-3zM356,344h3v4h-3zM356,362h3v4h-3zM363,254h3v4h-3zM363,308h3v4h-3zM363,326h3v4h-3zM363,344h3v4h-3zM378,287h3v4h-3zM378,323h3v4h-3zM378,341h3v4h-3zM385,314h3v4h-3zM392,350h3v4h-3zM399,332h3v4h-3zM420,368h3v4h-3zM434,321h3v4h-3zM441,240h3v4h-3zM441,303h3v4h-3zM441,357h3v4h-3zM460,379h3v4h-3zM460,406h3v4h-3zM509,385h3v4h-3zM516,349h3v4h-3zM516,385h3v4h-3zM544,403h3v4h-3zM556,270h3v4h-3zM577,324h3v4h-3zM584,414h3v4h-3zM591,234h3v4h-3zM598,315h3v4h-3zM598,396h3v4h-3zM1048,356h3v4h-3zM1062,329h3v4h-3zM1083,380h3v4h-3zM1090,389h3v4h-3zM1097,353h3v4h-3zM1097,389h3v4h-3zM1104,326h3v4h-3zM1104,371h3v4h-3zM1132,344h3v4h-3zM1153,385h3v4h-3zM1174,322h3v4h-3zM1174,349h3v4h-3zM1174,394h3v4h-3zM1181,367h3v4h-3zM1188,313h3v4h-3zM1188,340h3v4h-3zM1188,412h3v4h-3zM1221,397h3v4h-3zM1228,316h3v4h-3zM1228,397h3v4h-3zM1242,307h3v4h-3zM1242,343h3v4h-3zM1257,327h3v4h-3zM1264,408h3v4h-3zM1271,363h3v4h-3zM1271,390h3v4h-3zM1278,327h3v4h-3zM1278,345h3v4h-3zM1285,399h3v4h-3zM1299,390h3v4h-3zM1306,309h3v4h-3zM1317,378h3v4h-3zM1317,387h3v4h-3zM1317,396h3v4h-3zM1324,333h3v4h-3zM1338,351h3v4h-3zM1345,351h3v4h-3zM1364,266h3v4h-3zM1364,320h3v4h-3zM1364,365h3v4h-3zM1378,284h3v4h-3zM1386,314h3v4h-3zM1400,341h3v4h-3zM1407,332h3v4h-3zM1414,323h3v4h-3zM1421,350h3v4h-3zM1434,341h3v4h-3zM1434,359h3v4h-3zM1434,368h3v4h-3zM1434,404h3v4h-3zM1441,269h3v4h-3zM1441,296h3v4h-3zM1448,314h3v4h-3zM1455,278h3v4h-3zM1455,341h3v4h-3zM1455,377h3v4h-3zM1455,404h3v4h-3zM1469,323h3v4h-3zM1476,278h3v4h-3zM1494,376h3v4h-3zM1501,322h3v4h-3zM1501,403h3v4h-3zM1535,281h3v4h-3zM1535,398h3v4h-3zM1542,317h3v4h-3zM1542,335h3v4h-3zM1549,344h3v4h-3zM1549,353h3v4h-3zM1560,314h3v4h-3zM1560,332h3v4h-3zM1560,377h3v4h-3zM1560,386h3v4h-3zM1567,404h3v4h-3zM1574,323h3v4h-3zM1595,323h3v4h-3zM1595,404h3v4h-3zM773,236h3v4h-3zM794,281h3v4h-3zM801,236h3v4h-3zM801,263h3v4h-3zM801,371h3v4h-3zM801,389h3v4h-3zM808,308h3v4h-3zM808,389h3v4h-3zM815,389h3v4h-3zM822,272h3v4h-3zM836,263h3v4h-3zM836,353h3v4h-3zM836,389h3v4h-3zM836,407h3v4h-3zM843,308h3v4h-3zM850,236h3v4h-3zM850,371h3v4h-3zM773,200h3v4h-3zM773,290h3v4h-3zM787,281h3v4h-3zM787,371h3v4h-3zM787,389h3v4h-3zM794,218h3v4h-3zM794,317h3v4h-3zM833,141h3v4h-3zM833,204h3v4h-3zM833,249h3v4h-3zM833,294h3v4h-3zM833,312h3v4h-3zM833,330h3v4h-3zM833,393h3v4h-3zM840,240h3v4h-3zM847,348h3v4h-3zM854,285h3v4h-3zM854,384h3v4h-3zM803,145h3v4h-3zM803,325h3v4h-3zM803,415h3v4h-3zM810,262h3v4h-3zM810,361h3v4h-3zM824,127h3v4h-3zM824,136h3v4h-3zM824,163h3v4h-3zM824,298h3v4h-3zM824,379h3v4h-3zM824,406h3v4h-3zM637,363h3v4h-3zM644,255h3v4h-3zM644,345h3v4h-3zM651,264h3v4h-3zM651,336h3v4h-3zM658,372h3v4h-3zM665,156h3v4h-3zM665,237h3v4h-3zM665,300h3v4h-3zM665,336h3v4h-3zM672,273h3v4h-3zM637,165h3v4h-3zM637,192h3v4h-3zM637,282h3v4h-3zM651,336h3v4h-3zM665,228h3v4h-3zM665,282h3v4h-3zM672,210h3v4h-3zM672,246h3v4h-3zM672,291h3v4h-3zM637,165h3v4h-3zM637,255h3v4h-3zM637,381h3v4h-3zM644,309h3v4h-3zM644,390h3v4h-3zM672,201h3v4h-3zM672,273h3v4h-3zM672,354h3v4h-3zM637,192h3v4h-3zM658,264h3v4h-3zM658,354h3v4h-3zM665,354h3v4h-3zM637,255h3v4h-3zM637,300h3v4h-3zM665,336h3v4h-3zM672,228h3v4h-3zM672,264h3v4h-3zM672,372h3v4h-3zM637,219h3v4h-3zM637,345h3v4h-3zM644,282h3v4h-3zM644,345h3v4h-3zM651,381h3v4h-3zM658,255h3v4h-3zM658,354h3v4h-3zM665,219h3v4h-3zM665,273h3v4h-3zM665,327h3v4h-3zM637,228h3v4h-3zM644,309h3v4h-3zM651,174h3v4h-3zM651,273h3v4h-3zM651,282h3v4h-3zM658,327h3v4h-3zM665,309h3v4h-3zM637,201h3v4h-3zM637,354h3v4h-3zM644,201h3v4h-3zM658,165h3v4h-3zM658,219h3v4h-3zM658,372h3v4h-3zM665,246h3v4h-3zM903,134h3v4h-3zM903,152h3v4h-3zM903,269h3v4h-3zM917,287h3v4h-3zM924,260h3v4h-3zM931,170h3v4h-3zM931,296h3v4h-3zM938,233h3v4h-3zM697,272h3v4h-3zM704,218h3v4h-3zM711,191h3v4h-3zM711,245h3v4h-3zM711,344h3v4h-3zM725,209h3v4h-3zM725,218h3v4h-3zM732,254h3v4h-3zM732,308h3v4h-3zM1003,207h3v4h-3zM1003,351h3v4h-3zM1010,207h3v4h-3zM1010,297h3v4h-3zM1010,306h3v4h-3zM1017,351h3v4h-3zM1024,171h3v4h-3zM1024,180h3v4h-3zM1024,387h3v4h-3zM1031,198h3v4h-3zM1031,225h3v4h-3zM1031,324h3v4h-3zM1038,324h3v4h-3zM1061,383h3v4h-3zM1068,248h3v4h-3zM1075,320h3v4h-3zM1082,275h3v4h-3zM1082,383h3v4h-3zM1089,383h3v4h-3zM548,281h3v4h-3zM548,290h3v4h-3zM555,245h3v4h-3zM562,290h3v4h-3zM562,326h3v4h-3zM562,371h3v4h-3zM576,263h3v4h-3zM583,335h3v4h-3zM583,353h3v4h-3z" fill="#fff3d6" opacity=".8"/><path d="M-7,394h3v4h-3zM0,412h3v4h-3zM7,295h3v4h-3zM7,322h3v4h-3zM14,403h3v4h-3zM21,295h3v4h-3zM21,385h3v4h-3zM21,394h3v4h-3zM28,349h3v4h-3zM51,330h3v4h-3zM58,330h3v4h-3zM58,393h3v4h-3zM58,411h3v4h-3zM72,393h3v4h-3zM79,321h3v4h-3zM79,375h3v4h-3zM105,361h3v4h-3zM112,334h3v4h-3zM126,415h3v4h-3zM138,382h3v4h-3zM145,310h3v4h-3zM159,328h3v4h-3zM166,292h3v4h-3zM187,311h3v4h-3zM187,374h3v4h-3zM194,284h3v4h-3zM208,320h3v4h-3zM222,266h3v4h-3zM222,374h3v4h-3zM229,293h3v4h-3zM229,374h3v4h-3zM229,410h3v4h-3zM241,397h3v4h-3zM274,300h3v4h-3zM281,327h3v4h-3zM281,381h3v4h-3zM309,372h3v4h-3zM321,362h3v4h-3zM328,326h3v4h-3zM342,326h3v4h-3zM349,389h3v4h-3zM392,287h3v4h-3zM399,296h3v4h-3zM399,341h3v4h-3zM399,413h3v4h-3zM406,404h3v4h-3zM413,341h3v4h-3zM420,323h3v4h-3zM434,312h3v4h-3zM434,402h3v4h-3zM448,303h3v4h-3zM448,321h3v4h-3zM448,366h3v4h-3zM460,397h3v4h-3zM467,379h3v4h-3zM474,343h3v4h-3zM495,334h3v4h-3zM495,370h3v4h-3zM523,403h3v4h-3zM530,349h3v4h-3zM537,367h3v4h-3zM544,340h3v4h-3zM556,306h3v4h-3zM556,351h3v4h-3zM556,387h3v4h-3zM556,396h3v4h-3zM570,225h3v4h-3zM570,342h3v4h-3zM577,225h3v4h-3zM577,252h3v4h-3zM577,405h3v4h-3zM584,234h3v4h-3zM584,315h3v4h-3zM591,306h3v4h-3zM598,297h3v4h-3zM1048,311h3v4h-3zM1048,410h3v4h-3zM1090,362h3v4h-3zM1097,380h3v4h-3zM1104,344h3v4h-3zM1104,389h3v4h-3zM1125,398h3v4h-3zM1153,340h3v4h-3zM1153,394h3v4h-3zM1167,322h3v4h-3zM1167,412h3v4h-3zM1174,358h3v4h-3zM1200,370h3v4h-3zM1200,397h3v4h-3zM1207,334h3v4h-3zM1214,379h3v4h-3zM1214,397h3v4h-3zM1221,325h3v4h-3zM1228,406h3v4h-3zM1257,318h3v4h-3zM1264,381h3v4h-3zM1271,381h3v4h-3zM1278,309h3v4h-3zM1285,372h3v4h-3zM1292,282h3v4h-3zM1292,327h3v4h-3zM1292,336h3v4h-3zM1292,345h3v4h-3zM1306,381h3v4h-3zM1317,414h3v4h-3zM1324,306h3v4h-3zM1324,360h3v4h-3zM1324,396h3v4h-3zM1345,306h3v4h-3zM1357,383h3v4h-3zM1364,284h3v4h-3zM1378,365h3v4h-3zM1378,410h3v4h-3zM1386,287h3v4h-3zM1386,341h3v4h-3zM1386,404h3v4h-3zM1393,296h3v4h-3zM1400,323h3v4h-3zM1407,314h3v4h-3zM1414,305h3v4h-3zM1421,305h3v4h-3zM1434,296h3v4h-3zM1441,341h3v4h-3zM1441,350h3v4h-3zM1448,278h3v4h-3zM1448,296h3v4h-3zM1462,350h3v4h-3zM1487,313h3v4h-3zM1487,376h3v4h-3zM1487,412h3v4h-3zM1494,367h3v4h-3zM1494,385h3v4h-3zM1508,295h3v4h-3zM1508,313h3v4h-3zM1508,331h3v4h-3zM1508,367h3v4h-3zM1528,308h3v4h-3zM1535,371h3v4h-3zM1549,281h3v4h-3zM1549,299h3v4h-3zM1560,323h3v4h-3zM1567,332h3v4h-3zM1567,350h3v4h-3zM1588,341h3v4h-3zM1595,395h3v4h-3zM780,290h3v4h-3zM794,245h3v4h-3zM794,371h3v4h-3zM801,299h3v4h-3zM801,335h3v4h-3zM808,254h3v4h-3zM808,281h3v4h-3zM815,299h3v4h-3zM822,254h3v4h-3zM829,272h3v4h-3zM829,335h3v4h-3zM829,407h3v4h-3zM836,290h3v4h-3zM843,371h3v4h-3zM773,218h3v4h-3zM773,335h3v4h-3zM780,281h3v4h-3zM780,353h3v4h-3zM787,200h3v4h-3zM787,245h3v4h-3zM787,344h3v4h-3zM794,272h3v4h-3zM794,299h3v4h-3zM833,177h3v4h-3zM833,195h3v4h-3zM833,231h3v4h-3zM847,186h3v4h-3zM847,294h3v4h-3zM847,321h3v4h-3zM847,330h3v4h-3zM854,177h3v4h-3zM854,204h3v4h-3zM854,231h3v4h-3zM854,303h3v4h-3zM854,393h3v4h-3zM803,208h3v4h-3zM803,244h3v4h-3zM803,271h3v4h-3zM810,226h3v4h-3zM810,406h3v4h-3zM817,262h3v4h-3zM817,334h3v4h-3zM817,397h3v4h-3zM824,262h3v4h-3zM824,289h3v4h-3zM824,316h3v4h-3zM824,343h3v4h-3zM637,228h3v4h-3zM658,291h3v4h-3zM658,381h3v4h-3zM672,282h3v4h-3zM644,156h3v4h-3zM651,255h3v4h-3zM651,264h3v4h-3zM651,273h3v4h-3zM651,408h3v4h-3zM658,273h3v4h-3zM672,237h3v4h-3zM672,363h3v4h-3zM637,264h3v4h-3zM637,408h3v4h-3zM644,273h3v4h-3zM651,201h3v4h-3zM651,228h3v4h-3zM658,408h3v4h-3zM665,210h3v4h-3zM665,282h3v4h-3zM637,264h3v4h-3zM665,228h3v4h-3zM665,237h3v4h-3zM637,183h3v4h-3zM644,354h3v4h-3zM658,192h3v4h-3zM658,210h3v4h-3zM658,309h3v4h-3zM665,156h3v4h-3zM665,327h3v4h-3zM672,255h3v4h-3zM637,363h3v4h-3zM644,174h3v4h-3zM644,408h3v4h-3zM651,210h3v4h-3zM651,363h3v4h-3zM672,237h3v4h-3zM637,237h3v4h-3zM644,345h3v4h-3zM644,408h3v4h-3zM651,336h3v4h-3zM651,408h3v4h-3zM658,408h3v4h-3zM644,345h3v4h-3zM651,255h3v4h-3zM658,354h3v4h-3zM903,359h3v4h-3zM910,332h3v4h-3zM917,179h3v4h-3zM917,251h3v4h-3zM924,143h3v4h-3zM924,287h3v4h-3zM931,143h3v4h-3zM931,161h3v4h-3zM931,305h3v4h-3zM931,359h3v4h-3zM931,413h3v4h-3zM938,143h3v4h-3zM697,335h3v4h-3zM704,200h3v4h-3zM704,326h3v4h-3zM711,200h3v4h-3zM711,371h3v4h-3zM718,209h3v4h-3zM718,227h3v4h-3zM718,281h3v4h-3zM725,308h3v4h-3zM725,362h3v4h-3zM732,191h3v4h-3zM732,227h3v4h-3zM1031,297h3v4h-3zM1031,306h3v4h-3zM1038,243h3v4h-3zM1038,396h3v4h-3zM1061,302h3v4h-3zM1061,311h3v4h-3zM1061,347h3v4h-3zM548,308h3v4h-3zM548,371h3v4h-3zM555,407h3v4h-3zM562,317h3v4h-3zM569,254h3v4h-3zM569,281h3v4h-3zM569,353h3v4h-3zM569,398h3v4h-3zM583,317h3v4h-3z" fill="#9fd4ff" opacity=".8"/><path d="M7,367h3v4h-3zM21,313h3v4h-3zM28,295h3v4h-3zM28,340h3v4h-3zM51,384h3v4h-3zM58,357h3v4h-3zM79,348h3v4h-3zM79,411h3v4h-3zM86,384h3v4h-3zM98,343h3v4h-3zM105,388h3v4h-3zM119,343h3v4h-3zM145,292h3v4h-3zM159,391h3v4h-3zM187,266h3v4h-3zM187,320h3v4h-3zM194,401h3v4h-3zM201,302h3v4h-3zM208,347h3v4h-3zM208,383h3v4h-3zM229,329h3v4h-3zM241,352h3v4h-3zM248,388h3v4h-3zM248,415h3v4h-3zM281,309h3v4h-3zM288,399h3v4h-3zM288,408h3v4h-3zM302,309h3v4h-3zM302,399h3v4h-3zM309,309h3v4h-3zM321,371h3v4h-3zM335,263h3v4h-3zM335,317h3v4h-3zM335,362h3v4h-3zM342,263h3v4h-3zM342,281h3v4h-3zM342,398h3v4h-3zM349,263h3v4h-3zM356,290h3v4h-3zM356,326h3v4h-3zM363,362h3v4h-3zM378,368h3v4h-3zM385,341h3v4h-3zM399,287h3v4h-3zM399,368h3v4h-3zM406,314h3v4h-3zM406,386h3v4h-3zM413,287h3v4h-3zM420,287h3v4h-3zM420,386h3v4h-3zM441,258h3v4h-3zM448,285h3v4h-3zM448,312h3v4h-3zM467,361h3v4h-3zM474,397h3v4h-3zM481,388h3v4h-3zM488,397h3v4h-3zM495,325h3v4h-3zM495,361h3v4h-3zM509,403h3v4h-3zM516,394h3v4h-3zM516,403h3v4h-3zM523,304h3v4h-3zM530,304h3v4h-3zM530,367h3v4h-3zM537,376h3v4h-3zM537,412h3v4h-3zM544,385h3v4h-3zM544,394h3v4h-3zM544,412h3v4h-3zM556,297h3v4h-3zM563,297h3v4h-3zM570,234h3v4h-3zM570,315h3v4h-3zM570,324h3v4h-3zM577,333h3v4h-3zM577,351h3v4h-3zM577,396h3v4h-3zM584,225h3v4h-3zM584,306h3v4h-3zM584,351h3v4h-3zM591,297h3v4h-3zM598,414h3v4h-3zM1048,338h3v4h-3zM1062,302h3v4h-3zM1069,293h3v4h-3zM1069,365h3v4h-3zM1069,401h3v4h-3zM1083,389h3v4h-3zM1111,317h3v4h-3zM1111,389h3v4h-3zM1118,380h3v4h-3zM1132,335h3v4h-3zM1153,412h3v4h-3zM1160,322h3v4h-3zM1160,349h3v4h-3zM1200,307h3v4h-3zM1200,352h3v4h-3zM1207,388h3v4h-3zM1214,334h3v4h-3zM1221,316h3v4h-3zM1235,397h3v4h-3zM1242,316h3v4h-3zM1257,282h3v4h-3zM1257,363h3v4h-3zM1264,309h3v4h-3zM1264,399h3v4h-3zM1285,300h3v4h-3zM1285,327h3v4h-3zM1292,318h3v4h-3zM1292,390h3v4h-3zM1299,291h3v4h-3zM1331,351h3v4h-3zM1331,396h3v4h-3zM1364,302h3v4h-3zM1364,338h3v4h-3zM1364,410h3v4h-3zM1371,284h3v4h-3zM1371,365h3v4h-3zM1371,401h3v4h-3zM1393,323h3v4h-3zM1400,296h3v4h-3zM1400,368h3v4h-3zM1441,287h3v4h-3zM1441,395h3v4h-3zM1441,404h3v4h-3zM1441,413h3v4h-3zM1455,287h3v4h-3zM1455,395h3v4h-3zM1462,314h3v4h-3zM1462,332h3v4h-3zM1462,377h3v4h-3zM1501,340h3v4h-3zM1521,308h3v4h-3zM1528,371h3v4h-3zM1560,350h3v4h-3zM1581,350h3v4h-3zM1581,368h3v4h-3zM1581,413h3v4h-3zM1588,314h3v4h-3zM780,317h3v4h-3zM787,299h3v4h-3zM794,380h3v4h-3zM801,398h3v4h-3zM808,245h3v4h-3zM808,407h3v4h-3zM822,299h3v4h-3zM829,245h3v4h-3zM836,398h3v4h-3zM843,353h3v4h-3zM850,272h3v4h-3zM780,308h3v4h-3zM780,380h3v4h-3zM794,236h3v4h-3zM794,308h3v4h-3zM794,353h3v4h-3zM833,222h3v4h-3zM833,285h3v4h-3zM840,339h3v4h-3zM854,159h3v4h-3zM854,186h3v4h-3zM810,154h3v4h-3zM810,244h3v4h-3zM810,280h3v4h-3zM817,307h3v4h-3zM817,379h3v4h-3zM817,415h3v4h-3zM824,352h3v4h-3zM637,246h3v4h-3zM651,345h3v4h-3zM651,381h3v4h-3zM665,345h3v4h-3zM672,291h3v4h-3zM672,408h3v4h-3zM637,300h3v4h-3zM637,309h3v4h-3zM658,210h3v4h-3zM658,291h3v4h-3zM665,408h3v4h-3zM672,174h3v4h-3zM672,381h3v4h-3zM644,282h3v4h-3zM644,399h3v4h-3zM651,255h3v4h-3zM651,264h3v4h-3zM658,309h3v4h-3zM658,345h3v4h-3zM665,318h3v4h-3zM672,192h3v4h-3zM637,156h3v4h-3zM644,264h3v4h-3zM644,318h3v4h-3zM651,183h3v4h-3zM658,336h3v4h-3zM658,372h3v4h-3zM644,282h3v4h-3zM651,174h3v4h-3zM658,246h3v4h-3zM665,390h3v4h-3zM672,408h3v4h-3zM637,174h3v4h-3zM637,318h3v4h-3zM637,327h3v4h-3zM637,372h3v4h-3zM637,408h3v4h-3zM644,156h3v4h-3zM658,174h3v4h-3zM658,183h3v4h-3zM658,309h3v4h-3zM658,408h3v4h-3zM665,210h3v4h-3zM672,183h3v4h-3zM672,219h3v4h-3zM672,399h3v4h-3zM637,201h3v4h-3zM637,219h3v4h-3zM644,255h3v4h-3zM644,282h3v4h-3zM651,165h3v4h-3zM651,201h3v4h-3zM658,192h3v4h-3zM658,219h3v4h-3zM658,273h3v4h-3zM665,165h3v4h-3zM672,174h3v4h-3zM672,219h3v4h-3zM672,246h3v4h-3zM637,336h3v4h-3zM637,408h3v4h-3zM644,354h3v4h-3zM644,381h3v4h-3zM651,210h3v4h-3zM651,228h3v4h-3zM665,291h3v4h-3zM665,300h3v4h-3zM665,390h3v4h-3zM672,327h3v4h-3zM910,161h3v4h-3zM910,179h3v4h-3zM910,323h3v4h-3zM910,341h3v4h-3zM910,386h3v4h-3zM917,152h3v4h-3zM924,170h3v4h-3zM931,269h3v4h-3zM938,269h3v4h-3zM938,296h3v4h-3zM938,395h3v4h-3zM697,218h3v4h-3zM704,254h3v4h-3zM711,254h3v4h-3zM711,353h3v4h-3zM711,380h3v4h-3zM718,353h3v4h-3zM718,371h3v4h-3zM725,200h3v4h-3zM725,326h3v4h-3zM725,371h3v4h-3zM1003,234h3v4h-3zM1003,342h3v4h-3zM1010,270h3v4h-3zM1010,333h3v4h-3zM1010,351h3v4h-3zM1017,270h3v4h-3zM1024,369h3v4h-3zM1031,180h3v4h-3zM1031,189h3v4h-3zM1038,261h3v4h-3zM1038,270h3v4h-3zM1061,230h3v4h-3zM1061,266h3v4h-3zM1068,275h3v4h-3zM1075,311h3v4h-3zM1089,275h3v4h-3zM548,236h3v4h-3zM548,317h3v4h-3zM562,362h3v4h-3zM569,308h3v4h-3zM583,362h3v4h-3zM583,407h3v4h-3z" fill="#ffd98a" opacity=".8"/><path d="M14,304h3v4h-3zM35,295h3v4h-3zM35,376h3v4h-3zM42,340h3v4h-3zM42,349h3v4h-3zM42,385h3v4h-3zM51,348h3v4h-3zM58,366h3v4h-3zM65,330h3v4h-3zM65,339h3v4h-3zM79,402h3v4h-3zM98,334h3v4h-3zM98,379h3v4h-3zM119,406h3v4h-3zM126,370h3v4h-3zM126,388h3v4h-3zM126,397h3v4h-3zM138,319h3v4h-3zM152,409h3v4h-3zM173,328h3v4h-3zM208,275h3v4h-3zM215,329h3v4h-3zM222,392h3v4h-3zM248,361h3v4h-3zM262,379h3v4h-3zM274,381h3v4h-3zM281,336h3v4h-3zM295,318h3v4h-3zM302,390h3v4h-3zM309,336h3v4h-3zM328,281h3v4h-3zM328,317h3v4h-3zM328,353h3v4h-3zM335,398h3v4h-3zM349,272h3v4h-3zM349,335h3v4h-3zM356,389h3v4h-3zM399,359h3v4h-3zM399,386h3v4h-3zM420,341h3v4h-3zM434,384h3v4h-3zM467,388h3v4h-3zM474,388h3v4h-3zM488,325h3v4h-3zM488,352h3v4h-3zM488,406h3v4h-3zM495,406h3v4h-3zM509,340h3v4h-3zM509,367h3v4h-3zM523,385h3v4h-3zM556,324h3v4h-3zM563,261h3v4h-3zM563,306h3v4h-3zM563,315h3v4h-3zM563,414h3v4h-3zM570,387h3v4h-3zM577,243h3v4h-3zM584,297h3v4h-3zM591,243h3v4h-3zM591,252h3v4h-3zM598,243h3v4h-3zM598,324h3v4h-3zM1048,401h3v4h-3zM1055,293h3v4h-3zM1055,347h3v4h-3zM1055,365h3v4h-3zM1062,356h3v4h-3zM1069,347h3v4h-3zM1069,383h3v4h-3zM1083,398h3v4h-3zM1090,353h3v4h-3zM1097,398h3v4h-3zM1104,398h3v4h-3zM1118,335h3v4h-3zM1118,344h3v4h-3zM1125,317h3v4h-3zM1125,335h3v4h-3zM1125,407h3v4h-3zM1132,317h3v4h-3zM1153,349h3v4h-3zM1167,385h3v4h-3zM1174,403h3v4h-3zM1188,394h3v4h-3zM1200,379h3v4h-3zM1200,388h3v4h-3zM1207,343h3v4h-3zM1221,352h3v4h-3zM1221,370h3v4h-3zM1228,325h3v4h-3zM1228,352h3v4h-3zM1228,388h3v4h-3zM1271,399h3v4h-3zM1285,291h3v4h-3zM1285,390h3v4h-3zM1285,408h3v4h-3zM1299,345h3v4h-3zM1306,300h3v4h-3zM1317,324h3v4h-3zM1317,351h3v4h-3zM1338,315h3v4h-3zM1338,324h3v4h-3zM1338,405h3v4h-3zM1364,374h3v4h-3zM1371,266h3v4h-3zM1371,374h3v4h-3zM1371,383h3v4h-3zM1386,278h3v4h-3zM1386,350h3v4h-3zM1400,305h3v4h-3zM1400,359h3v4h-3zM1421,278h3v4h-3zM1421,287h3v4h-3zM1421,296h3v4h-3zM1421,386h3v4h-3zM1448,359h3v4h-3zM1455,350h3v4h-3zM1462,413h3v4h-3zM1469,359h3v4h-3zM1476,269h3v4h-3zM1494,394h3v4h-3zM1494,412h3v4h-3zM1501,304h3v4h-3zM1501,412h3v4h-3zM1508,304h3v4h-3zM1521,326h3v4h-3zM1535,353h3v4h-3zM1535,407h3v4h-3zM1588,359h3v4h-3zM1588,386h3v4h-3zM773,245h3v4h-3zM773,254h3v4h-3zM787,380h3v4h-3zM794,263h3v4h-3zM801,317h3v4h-3zM801,380h3v4h-3zM808,290h3v4h-3zM815,290h3v4h-3zM815,326h3v4h-3zM822,344h3v4h-3zM829,236h3v4h-3zM829,281h3v4h-3zM836,371h3v4h-3zM843,236h3v4h-3zM850,299h3v4h-3zM850,362h3v4h-3zM773,245h3v4h-3zM773,308h3v4h-3zM780,254h3v4h-3zM780,272h3v4h-3zM780,371h3v4h-3zM787,236h3v4h-3zM787,299h3v4h-3zM794,380h3v4h-3zM833,213h3v4h-3zM840,204h3v4h-3zM847,276h3v4h-3zM847,393h3v4h-3zM854,195h3v4h-3zM803,100h3v4h-3zM803,370h3v4h-3zM810,145h3v4h-3zM810,217h3v4h-3zM810,352h3v4h-3zM817,109h3v4h-3zM824,253h3v4h-3zM637,201h3v4h-3zM644,300h3v4h-3zM644,327h3v4h-3zM651,183h3v4h-3zM651,210h3v4h-3zM651,327h3v4h-3zM651,372h3v4h-3zM658,201h3v4h-3zM658,255h3v4h-3zM665,246h3v4h-3zM665,318h3v4h-3zM637,174h3v4h-3zM637,372h3v4h-3zM644,219h3v4h-3zM644,264h3v4h-3zM651,354h3v4h-3zM658,264h3v4h-3zM665,174h3v4h-3zM665,219h3v4h-3zM665,390h3v4h-3zM672,309h3v4h-3zM637,183h3v4h-3zM651,246h3v4h-3zM651,318h3v4h-3zM658,282h3v4h-3zM658,318h3v4h-3zM658,390h3v4h-3zM665,183h3v4h-3zM672,408h3v4h-3zM644,210h3v4h-3zM644,300h3v4h-3zM651,282h3v4h-3zM651,399h3v4h-3zM665,399h3v4h-3zM637,174h3v4h-3zM637,282h3v4h-3zM637,336h3v4h-3zM644,255h3v4h-3zM651,156h3v4h-3zM658,300h3v4h-3zM665,219h3v4h-3zM665,318h3v4h-3zM665,399h3v4h-3zM672,390h3v4h-3zM637,399h3v4h-3zM644,201h3v4h-3zM644,336h3v4h-3zM658,219h3v4h-3zM665,372h3v4h-3zM665,408h3v4h-3zM672,165h3v4h-3zM672,291h3v4h-3zM672,345h3v4h-3zM672,363h3v4h-3zM637,345h3v4h-3zM637,363h3v4h-3zM665,291h3v4h-3zM665,363h3v4h-3zM672,183h3v4h-3zM672,210h3v4h-3zM672,336h3v4h-3zM672,354h3v4h-3zM637,309h3v4h-3zM637,318h3v4h-3zM644,219h3v4h-3zM651,237h3v4h-3zM651,309h3v4h-3zM658,255h3v4h-3zM672,174h3v4h-3zM910,206h3v4h-3zM910,215h3v4h-3zM910,233h3v4h-3zM917,260h3v4h-3zM917,359h3v4h-3zM931,206h3v4h-3zM931,386h3v4h-3zM938,134h3v4h-3zM697,200h3v4h-3zM697,209h3v4h-3zM697,263h3v4h-3zM697,317h3v4h-3zM704,308h3v4h-3zM704,389h3v4h-3zM711,263h3v4h-3zM711,317h3v4h-3zM711,326h3v4h-3zM725,335h3v4h-3zM725,398h3v4h-3zM1003,306h3v4h-3zM1003,324h3v4h-3zM1017,189h3v4h-3zM1017,243h3v4h-3zM1031,252h3v4h-3zM1031,333h3v4h-3zM1031,387h3v4h-3zM1038,306h3v4h-3zM1038,378h3v4h-3zM1038,387h3v4h-3zM1061,221h3v4h-3zM1061,239h3v4h-3zM1061,248h3v4h-3zM1061,374h3v4h-3zM1061,410h3v4h-3zM1068,221h3v4h-3zM1075,293h3v4h-3zM1075,347h3v4h-3zM1082,284h3v4h-3zM1082,347h3v4h-3zM1082,401h3v4h-3zM1089,230h3v4h-3zM1089,284h3v4h-3zM1089,338h3v4h-3zM548,389h3v4h-3zM569,344h3v4h-3zM576,236h3v4h-3zM576,335h3v4h-3zM583,326h3v4h-3z" fill="#ffcf6b" opacity=".8"/>
+<rect y="414" width="1600" height="6" fill="#02060f"/>
+</svg>
+  <div class="hero-in">
+    <div class="eyebrow">
+      <span class="tag">Dossier thématique</span>
+      <span class="tag o">Carte du marché</span>
+      <span class="tag o">16 octobre 2026</span>
+    </div>
+    <h1>23 actions, +18,8 % de potentiel prudent, 3 chocs en un mois</h1>
+    <p class="deck">Une carte en tuiles et un radar pour lire les 23 valeurs de nos classements d'un coup d'œil. Pour chaque action : le potentiel après décote, la fragilité des données, et la cause des mouvements de plus de 5 %.</p>
+  </div>
+  <div class="ticker" style="margin-top:auto" aria-label="Bandeau des potentiels prudents et des chocs récents">
+    <div class="tk-lbl">Marché</div>
+    <div class="tk-pad"><div class="tk-track" id="tkt"></div></div>
+  </div>
+  <div class="fly" aria-hidden="true">
+    <svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8564a"/><stop offset=".55" stop-color="#b01c1c"/><stop offset="1" stop-color="#6e1010"/></linearGradient>
+        <linearGradient id="gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe6ff"/><stop offset="1" stop-color="#4a7fb8"/></linearGradient>
+        <linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#7fd2ff"/><stop offset="1" stop-color="#2a6cff" stop-opacity="0"/></linearGradient>
+        <linearGradient id="st" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#9fd4ff" stop-opacity=".9"/><stop offset="1" stop-color="#9fd4ff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <g class="streak"><rect x="-120" y="40" width="150" height="2.4" fill="url(#st)"/><rect x="-90" y="50" width="120" height="2" fill="url(#st)"/><rect x="-140" y="58" width="170" height="1.6" fill="url(#st)"/></g>
+      <g class="flame"><path d="M72 66 L66 94 L78 94 Z" fill="url(#fl)" transform="translate(0 -2)"/></g>
+      <g class="flame" style="animation-delay:.05s"><path d="M104 68 L98 98 L110 98 Z" fill="url(#fl)"/></g>
+      <g class="flame" style="animation-delay:.08s"><path d="M196 68 L190 98 L202 98 Z" fill="url(#fl)"/></g>
+      <g class="flame" style="animation-delay:.03s"><path d="M226 66 L220 94 L232 94 Z" fill="url(#fl)"/></g>
+      <path d="M10 58 C34 46 70 34 112 30 C146 28 184 36 218 44 L262 54 C270 56 270 64 262 66 L22 68 C10 68 5 62 10 58 Z" fill="url(#bd)"/>
+      <path d="M14 62 L262 60" stroke="#fff" stroke-opacity=".45" stroke-width="1.6" fill="none"/>
+      <path d="M106 34 C124 14 168 14 192 42 Z" fill="url(#gl)" stroke="#0b1a2e" stroke-opacity=".5" stroke-width="1"/>
+      <path d="M148 18 L152 42" stroke="#0b1a2e" stroke-opacity=".5" stroke-width="1.2"/>
+      <rect x="62" y="66" width="22" height="6" rx="3" fill="#2a3a52"/><rect x="94" y="68" width="22" height="6" rx="3" fill="#2a3a52"/>
+      <rect x="186" y="68" width="22" height="6" rx="3" fill="#2a3a52"/><rect x="216" y="66" width="22" height="6" rx="3" fill="#2a3a52"/>
+      <rect x="252" y="55" width="12" height="4" rx="2" fill="#fff"/>
+      <rect x="10" y="57" width="8" height="3" rx="1.5" fill="#ff6b6b"/>
+    </svg>
+  </div>
+</section>
 
-  <div class="kpis" id="kpis"></div>
+<div class="kpi-strip">
+  <div class="kpi"><span class="kpi-v neu">23</span><span class="kpi-l">Actions suivies</span></div>
+  <div class="kpi"><span class="kpi-v up">+18,8 %</span><span class="kpi-l">Potentiel prudent moyen</span></div>
+  <div class="kpi"><span class="kpi-v dn">9</span><span class="kpi-l">Alertes données fragiles</span></div>
+  <div class="kpi"><span class="kpi-v dn">3</span><span class="kpi-l">Chocs &gt; 5 % ce mois</span></div>
+  <div class="kpi"><span class="kpi-v am">5,24 %</span><span class="kpi-l">T-Note 10 ans (9/10)</span></div>
+  <div class="kpi"><span class="kpi-v am">21/10</span><span class="kpi-l">Premier test · résultats</span></div>
+</div>
 
+<div class="kicker"><div class="kicker-inner">
+  <div class="kk"><div class="kk-l">Puces</div><div class="kk-v">+19,3 %</div><div class="kk-n">6 valeurs · moy. prudent</div></div>
+  <div class="kk"><div class="kk-l">Cloud &amp; IA</div><div class="kk-v">+17,5 %</div><div class="kk-n">3 valeurs</div></div>
+  <div class="kk"><div class="kk-l">Banques</div><div class="kk-v">+16,3 %</div><div class="kk-n">3 valeurs</div></div>
+  <div class="kk"><div class="kk-l">Énergie &amp; réseaux</div><div class="kk-v">+17,9 %</div><div class="kk-n">4 valeurs</div></div>
+  <div class="kk"><div class="kk-l">Industrie</div><div class="kk-v">+19,0 %</div><div class="kk-n">Airbus, Forvia</div></div>
+  <div class="kk"><div class="kk-l">Plateformes</div><div class="kk-v">+20,9 %</div><div class="kk-n">Uber, Netflix, Grab</div></div>
+  <div class="kk"><div class="kk-l">Concentration IA</div><div class="kk-v">13 / 23</div><div class="kk-n">puces, cloud, infra</div></div>
+  <div class="kk"><div class="kk-l">Brent</div><div class="kk-v">≈ 105 $</div><div class="kk-n">octobre 2026</div></div>
+</div></div>
+
+<main class="wrap">
+
+<div class="lead-hl">Le potentiel est partout élevé ; la fragilité des données, elle, ne l'est pas.</div>
+<div class="lead-deck">Neuf actions sur 23 portent une alerte : consensus étroit, révisions fragiles ou bilan sous tension. Lire la couleur sans lire le marqueur « ! » revient à acheter le chiffre sans le risque.</div>
+
+<div class="sec-rule"><span class="sec-rule-txt">La carte · 23 actions par secteur, cliquer pour le détail</span></div>
+
+<div class="cart">
   <div class="bar">
     <div class="tabs" role="tablist" aria-label="Vue">
       <button role="tab" id="t1" aria-selected="true" aria-controls="stage">Carte</button>
       <button role="tab" id="t2" aria-selected="false" aria-controls="stage">Radar</button>
     </div>
     <div class="legend">
-      <span>5 %</span><span class="grad" id="grad" aria-hidden="true"></span><span>22 % de potentiel prudent</span>
-      <span class="alert-k"><i aria-hidden="true">!</i> données fragiles</span>
-      <span class="hint"><i aria-hidden="true"></i>cliquer = chandelier</span>
+      <span>5 %</span><span class="grad" id="grad" aria-hidden="true"></span><span>22 %</span>
+      <span class="alert-k"><i aria-hidden="true">!</i> fragile</span>
+      <span class="hint"><i aria-hidden="true"></i>clic = chandelier</span>
     </div>
   </div>
-
   <div class="stage" id="stage" role="tabpanel">
     <svg id="tm" role="img" aria-label="Carte en tuiles des 23 actions, regroupées par secteur, colorées selon le potentiel prudent"></svg>
     <svg id="rd" role="img" aria-label="Radar circulaire des 23 actions par secteur, longueur proportionnelle au potentiel prudent" hidden></svg>
     <div class="tip" id="tip" hidden></div>
   </div>
   <p class="note" id="note"></p>
-
-  <section class="mvs" aria-labelledby="mvt">
-    <h2 id="mvt">Les gros mouvements, et pourquoi</h2>
-    <p class="note" style="margin-top:0">Variations de plus de 5 % relevées dans la presse financière, de juin à octobre 2026. « Dernier mois » = du 16 septembre au 15 octobre. Je n'ai pas accès aux historiques de cours : l'absence d'une action ne prouve pas qu'elle n'a pas bougé.</p>
-    <div id="mvlist"></div>
-  </section>
-
-  <details>
-    <summary>Voir les données en tableau</summary>
-    <div class="tw"><table id="tbl"></table></div>
-  </details>
-
-  <p class="foot">Potentiel prudent = écart entre le cours et l'objectif moyen des analystes, plafonné à 30 %, moins 8 points. Ce n'est pas une prévision ni un conseil en investissement. Prix et objectifs du 13 au 15 octobre 2026 selon les sources (StockAnalysis, MarketBeat, MarketScreener). Données fragiles : confiance YAASAP de 2 sur 4 ou moins.</p>
 </div>
 
+<p class="body-p" style="margin-top:16px">Le <strong>potentiel prudent</strong> est l'écart entre le cours et l'objectif moyen des analystes, plafonné à 30 %, moins 8 points (l'erreur moyenne mesurée par l'étude EFMA de 2012). La moyenne des 23 valeurs ressort à <strong>+18,8 %</strong>. 13 tuiles sur 23 sont au plafond de 22 % : leur écart brut dépasse 30 %, donc la carte ne les distingue plus entre elles.</p>
+
+<div class="pull">
+  <div class="pull-t">Une couleur foncée dit où l'écart est grand, pas où il est fiable.</div>
+  <div class="pull-a">YAASAP · lecture de la carte</div>
+</div>
+
+<div class="sec-rule"><span class="sec-rule-txt">Potentiel brut vs prudent · moyenne par secteur</span></div>
+<div class="chart-card">
+  <div class="chart-t">Moyenne par secteur (%)</div>
+  <div class="chart-box"><canvas id="chSec"></canvas></div>
+  <div class="chart-note">Brut = écart cours / objectif moyen. Prudent = min(brut ; 30 %) − 8 points. Cours et objectifs du 13 au 15 octobre 2026 selon les sources.</div>
+</div>
+
+<div class="sec-rule"><span class="sec-rule-txt">Chandeliers · une simulation, pas des cours</span></div>
+<p class="body-p">Chaque fiche ouvre un graphique en chandeliers. Je n'ai pas accès aux historiques de cours : le tracé est donc une <strong>trajectoire pédagogique</strong> indexée à 100, qui rejoint l'objectif prudent en 6 mois, avec des bougies plus agitées quand la confiance est basse. Pour afficher les vrais cours, collez un export CSV (Date, Open, High, Low, Close) dans la fiche : le tracé reste dans votre navigateur.</p>
+
+<div class="sec-rule"><span class="sec-rule-txt">Les gros mouvements · juin à octobre 2026, et pourquoi</span></div>
+<p class="body-p">Variations de plus de 5 % relevées dans la presse financière. « Dernier mois » désigne la période du 16 septembre au 15 octobre. Faute d'historiques de cours, l'absence d'une action ne prouve pas qu'elle n'a pas bougé.</p>
+<section class="mvs" aria-label="Mouvements de plus de 5 %"><div id="mvlist"></div></section>
+
+<div class="sec-rule"><span class="sec-rule-txt">Les 23 valeurs en tableau</span></div>
+<div class="tbl-card">
+  <div class="tbl-hd"><span class="tbl-hd-t">Potentiel prudent, brut et confiance YAASAP</span></div>
+  <div class="tbl-scroll"><table class="tbl" id="tbl"></table></div>
+  <div class="tbl-foot" style="padding:8px 14px;font-family:var(--mono);font-size:9px;color:var(--ink4)">Confiance YAASAP de 1 (très fragile) à 4 (haute). Alerte = confiance de 2 ou moins.</div>
+</div>
+
+<div class="verdict" style="background:var(--space)">
+  <div class="v-tag" style="background:#1a3a5c">Verdict YAASAP · Yacine AOUABED · 16 octobre 2026</div>
+  <div class="v-hl"><strong>Attendre</strong> les publications du 21 au 29 octobre, puis accumuler en trois tranches les lignes sans alerte : <strong>BNP Paribas, Airbus, Nvidia, Amazon, Alphabet</strong>.</div>
+  <div class="v-list">
+    <div class="v-li"><span><strong>Attendre</strong> avant toute première tranche : un 10 ans à 5,24 % et un Brent à 105 $ pèsent encore sur les valeurs à longue duration.</span></div>
+    <div class="v-li"><span><strong>Ne pas acheter une tuile foncée pour sa couleur</strong> : 9 alertes (Micron, Oracle, Société Générale, Intesa, Nexans, Forvia, Unibail, Netflix, Grab) signalent des données fragiles.</span></div>
+    <div class="v-li"><span><strong>Chocs du mois</strong> · Nokia −12 % sans cause confirmée, Constellation Energy −13 % (actions Calpine), Forvia −12 % (objectif Jefferies abaissé) : attendre la stabilisation avant d'entrer.</span></div>
+    <div class="v-li"><span><strong>Concentration</strong> · 13 des 23 valeurs dépendent du même cycle d'investissement IA ; ne pas les additionner comme des paris indépendants.</span></div>
+    <div class="v-li"><span><strong>Condition de sortie</strong> : consensus qui baisse deux publications de suite, ou guidance abaissée.</span></div>
+    <div class="v-li"><span><strong>Risque principal</strong> : le coût du capital l'emporte sur la demande ; toutes les tuiles reculent alors, à des amplitudes différentes.</span></div>
+  </div>
+  <div class="v-disc">Sources : StockAnalysis · MarketBeat · MarketScreener · TIKR · Option Finance · Tradingsat · ABC Bourse · Idéal Investisseur · IBTimes · SentiSense · StockTI · Trefis · HeyGoTrade · EFMA 2012 · 13-16 octobre 2026.<br>Chandeliers : simulation pédagogique, pas des cours réels. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes · yaasap.github.io/dailywatch</div>
+</div>
+
+<div class="nl">
+  <div class="nl-hl">Recevoir les prochaines notes YAASAP</div>
+  <div class="nl-row">
+    <input class="nl-input" type="email" id="nlEmail" placeholder="votre@email.com">
+    <button class="nl-btn" onclick="nlSubmit()">S'abonner →</button>
+  </div>
+  <div class="nl-ok" id="nlOk">✓ Inscrit — vérifiez votre boite mail</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div>
+    <a href="./index.html">Accueil</a>
+    <a href="./yaasap_flash_quoi_prendre_oct2026.html">Flash · Quoi prendre</a>
+    <a href="./yaasap_top10_potentiel_hausse_oct2026.html">Top 10 général</a>
+    <a href="./yaasap_top10_ia_oct2026.html">Top 10 IA</a>
+    <a href="./docs/index.html">Archives</a>
+  </div>
+  <div class="fx">YAASAP Notes · Yacine AOUABED · yaasap.github.io/dailywatch</div>
+</footer>
+
 <script>
+
 (function(){
 'use strict';
 var $=function(i){return document.getElementById(i)};
@@ -161,12 +404,13 @@ var D=[
 ['NOKIA','NOKIA','Nokia','telecom',21,29.2,3],
 ['UBER','UBER','Uber','plat',22,41.5,3],['NFLX','NFLX','Netflix','plat',18.6,26.6,2],['GRAB','GRAB','Grab','plat',22,87,2]
 ].map(function(r){return {id:r[0],t:r[1],nm:r[2],th:r[3],net:r[4],brut:r[5],conf:r[6],al:r[6]<=2}});
+window.__D={D:D,TH:TH};
 var CONF=['','très fragile','fragile','moyenne','haute'];
 
 /* Rampe séquentielle à une teinte (bleu). Clair = faible sur fond clair ; sur fond sombre, plus lumineux = plus fort. */
 var RAMP_L=['#cde2fb','#9ec5f4','#6da7ec','#3987e5','#1c5cab','#104281'];
 var RAMP_D=['#184f95','#256abf','#3987e5','#6da7ec','#9ec5f4','#cde2fb'];
-function isDark(){var t=document.documentElement.getAttribute('data-theme');return t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches}
+function isDark(){return false}
 function hex(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)]}
 function mix(a,b,t){return '#'+[0,1,2].map(function(i){var v=Math.round(a[i]+(b[i]-a[i])*t);return ('0'+v.toString(16)).slice(-2)}).join('')}
 function colorFor(net){
@@ -178,9 +422,7 @@ function textOn(bg){var L=lum(bg);return (1.05/(L+0.05)>=(L+0.05)/0.05)?'#ffffff
 function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function fmt(n){return (Math.round(n*10)/10).toString().replace('.',',')}
 
-/* KPI */
 var avg=D.reduce(function(a,b){return a+b.net},0)/D.length;
-$('kpis').innerHTML='<div class="kpi"><b>'+D.length+'</b><span>actions suivies</span></div><div class="kpi"><b>+'+fmt(avg)+' %</b><span>potentiel prudent moyen</span></div><div class="kpi"><b>'+D.filter(function(d){return d.al}).length+'</b><span>alertes données fragiles</span></div>';
 function setGrad(){var R=isDark()?RAMP_D:RAMP_L;$('grad').style.background='linear-gradient(90deg,'+R.join(',')+')'}
 
 
@@ -192,7 +434,7 @@ URW:['#d6001c','#fff','UR'],NOKIA:['#124191','#fff','N'],UBER:['#000','#fff','U'
 function badge(parent,d,cx,cy,s,extra){
   var l=LG[d.id]||['#555','#fff',d.t.slice(0,2)],g=el('g',{},parent);
   el('rect',{x:cx-s/2,y:cy-s/2,width:s,height:s,rx:s*0.28,fill:l[0],stroke:'rgba(255,255,255,.85)','stroke-width':1.5},g);
-  var t=el('text',{x:cx,y:cy+s*0.05,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.round(s*(l[2].length>1?0.42:0.6)),'font-weight':700,fill:l[1],'font-family':'IBM Plex Sans, Arial, sans-serif'},g);t.textContent=l[2];
+  var t=el('text',{x:cx,y:cy+s*0.05,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.round(s*(l[2].length>1?0.42:0.6)),'font-weight':700,fill:l[1],'font-family':'Source Sans 3, Arial, sans-serif'},g);t.textContent=l[2];
   return g;
 }
 
@@ -322,7 +564,7 @@ function mvHTML(d){
 function drawMV(){
   var ids=Object.keys(MV).sort(function(a,b){return (MV[b].some(function(m){return m.rec})?1:0)-(MV[a].some(function(m){return m.rec})?1:0)});
   $('mvlist').innerHTML=ids.map(function(id){var d=D.filter(function(x){return x.id===id})[0],l=LG[id]||['#555','#fff',id.slice(0,2)];
-    return '<div class="row"><div class="nm"><span style="width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:'+l[0]+';color:'+l[1]+';font:700 '+(l[2].length>1?12:16)+'px \'IBM Plex Sans\',Arial,sans-serif" aria-hidden="true">'+l[2]+'</span>'+d.nm+'</div><div>'+mvItems(d)+'</div></div>'}).join('')+
+    return '<div class="row"><div class="nm"><span style="width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:'+l[0]+';color:'+l[1]+';font:700 '+(l[2].length>1?12:16)+'px \'Source Sans 3\',Arial,sans-serif" aria-hidden="true">'+l[2]+'</span>'+d.nm+'</div><div>'+mvItems(d)+'</div></div>'}).join('')+
   '<div class="row"><div class="nm">Sous le seuil</div><div class="mvn">'+Object.keys(NEAR).map(function(k){return '<b>'+k+'</b> : '+NEAR[k]}).join('<br>')+'<br><br>Non vérifiés : Amazon, Alphabet, Lam Research, Airbus, Unibail, Intesa, Grab.</div></div>';
 }
 
@@ -405,7 +647,7 @@ function openD(d,from){
   var l=LG[d.id]||['#555','#fff',d.t.slice(0,2)];
   ov=document.createElement('div');ov.className='ov';
   ov.innerHTML='<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dtt">'+
-   '<div class="dh"><div id="dlogo" style="width:56px;height:56px;border-radius:16px;flex:none;display:grid;place-items:center;font:700 '+(l[2].length>1?22:32)+'px \'IBM Plex Sans\',Arial,sans-serif;background:'+l[0]+';color:'+l[1]+'" aria-hidden="true">'+l[2]+'</div>'+
+   '<div class="dh"><div id="dlogo" style="width:56px;height:56px;border-radius:16px;flex:none;display:grid;place-items:center;font:700 '+(l[2].length>1?22:32)+'px \'Source Sans 3\',Arial,sans-serif;background:'+l[0]+';color:'+l[1]+'" aria-hidden="true">'+l[2]+'</div>'+
    '<div><h2 id="dtt">'+d.nm+'</h2><div class="sub">'+d.t+' · '+TH[d.th]+' · confiance '+CONF[d.conf]+'</div></div>'+
    '<button class="x" id="dx" aria-label="Fermer">×</button></div>'+
    '<div class="stats"><div class="stat"><b>+'+fmt(d.net)+' %</b><span>potentiel prudent</span></div><div class="stat"><b>+'+fmt(d.brut)+' %</b><span>potentiel brut</span></div>'+
@@ -426,7 +668,7 @@ function openD(d,from){
   $('creset').addEventListener('click',function(){candles=simulate(cur);real=false;$('cerr').hidden=true;setMode();drawCandles()});
 }
 function setMode(){
-  $('cmode').innerHTML=real?'<span class="tag real">Cours réels importés</span>':'<span class="tag sim">Simulation pédagogique</span>';
+  $('cmode').innerHTML=real?'<span class="mtag real">Cours réels importés</span>':'<span class="mtag sim">Simulation pédagogique</span>';
   $('cnote').textContent=real?'Cours fournis par vous, tracés tels quels. Les échelles sont en prix.':'Exemple de trajectoire où l’action rejoint l’objectif prudent en 6 mois, indexée à 100 aujourd’hui. Ce ne sont pas des cours passés ni une prévision : la dispersion des bougies reflète seulement le niveau de confiance (plus fragile = plus agitée). En vrai, le chemin n’est jamais droit et l’objectif peut ne jamais être atteint.';
 }
 function closeD(quiet){
@@ -439,7 +681,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeD();
 /* Tableau */
 function drawTable(){
   var rows=D.slice().sort(function(a,b){return b.net-a.net});
-  $('tbl').innerHTML='<thead><tr><th>Action</th><th>Secteur</th><th class="n">Prudent</th><th class="n">Brut</th><th>Confiance</th></tr></thead><tbody>'+rows.map(function(d){return '<tr><td><b>'+d.t+'</b> '+d.nm+'</td><td>'+TH[d.th]+'</td><td class="n">+'+fmt(d.net)+' %</td><td class="n">+'+fmt(d.brut)+' %</td><td>'+CONF[d.conf]+(d.al?' · alerte':'')+'</td></tr>'}).join('')+'</tbody>';
+  $('tbl').innerHTML='<thead><tr><th>Action</th><th>Secteur</th><th class="n">Prudent</th><th class="n">Brut</th><th>Confiance</th></tr></thead><tbody>'+rows.map(function(d){return '<tr><td><b>'+d.t+'</b> '+d.nm+'</td><td>'+TH[d.th]+'</td><td class="n"><span class="b-up">+'+fmt(d.net)+' %</span></td><td class="n">+'+fmt(d.brut)+' %</td><td>'+CONF[d.conf]+(d.al?' <span class="b-dn">alerte</span>':'')+'</td></tr>'}).join('')+'</tbody>';
 }
 
 var view='tm';
@@ -457,6 +699,39 @@ var onT=function(){setTimeout(function(){render();if(ov)drawCandles()},30)};
 if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme: dark)');if(mq.addEventListener)mq.addEventListener('change',onT)}
 new MutationObserver(onT).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 })();
-</script>
 
-</body></html>
+/* Bandeau déroulant */
+(function(){
+  var mv=[['NOKIA','−12 %','d','14/09'],['CEG','−13 %','d','sept.'],['FRVIA','−12 %','d','1 mois']];
+  var D=window.__D.D;var its=D.slice().sort(function(a,b){return b.net-a.net}).map(function(d){return '<span class="tk"><b>'+d.t+'</b><span class="u">+'+(Math.round(d.net*10)/10).toString().replace('.',',')+' %</span><small>potentiel prudent'+(d.al?' · alerte':'')+'</small></span>'});
+  var ms=mv.map(function(m){return '<span class="tk"><b>'+m[0]+'</b><span class="d">'+m[1]+'</span><small>choc '+m[3]+'</small></span>'});
+  var all=its.slice(0,8).concat(ms).concat(its.slice(8)).join('');
+  var el=document.getElementById('tkt');if(el)el.innerHTML=all+all;
+})();
+/* Moyennes par secteur */
+(function init(){
+  if(typeof Chart==='undefined'){setTimeout(init,80);return;}
+  var D2=window.__D,keys=Object.keys(D2.TH);
+  var net=keys.map(function(k){var a=D2.D.filter(function(d){return d.th===k});return Math.round(a.reduce(function(s,d){return s+d.net},0)/a.length*10)/10});
+  var brut=keys.map(function(k){var a=D2.D.filter(function(d){return d.th===k});return Math.round(a.reduce(function(s,d){return s+d.brut},0)/a.length*10)/10});
+  var tc='#6a5f52',tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  new Chart(document.getElementById('chSec'),{type:'bar',data:{labels:keys.map(function(k){return D2.TH[k]}),datasets:[{label:'Brut',data:brut,backgroundColor:'#c9bfae'},{label:'Prudent',data:net,backgroundColor:'#1a3a5c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tc,font:tf,boxWidth:10}},tooltip:{backgroundColor:'rgba(28,24,20,.95)',titleColor:'#f9f6f0',bodyColor:'rgba(255,255,255,.7)',padding:8,callbacks:{label:function(c){return c.dataset.label+' +'+c.raw+' %'}}}},scales:{x:{ticks:{color:tc,font:tf},grid:{display:false}},y:{ticks:{color:tc,font:tf,callback:function(v){return v+' %'}},grid:{color:'rgba(0,0,0,.07)'}}}}});
+})();
+(function tryQR(){
+  var el=document.getElementById('qr-mast');
+  if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+  new QRCode(el,{text:'https://yaasap.github.io/dailywatch/yaasap_carte_marche_oct2026.html',width:32,height:32,colorDark:'#1c1814',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});
+})();
+function nlSubmit(){
+  var el=document.getElementById('nlEmail');
+  var email=el?el.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){if(el)el.style.borderColor='rgba(200,41,10,.6)';return;}
+  var body=new FormData();
+  body.append('email',email);body.append('source','yaasap-carte-marche-oct2026');body.append('_subject','Inscription YAASAP Notes');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){var row=el.parentElement;if(row)row.style.display='none';var ok=document.getElementById('nlOk');if(ok)ok.style.display='block';}});
+}
+
+</script>
+</body>
+</html>
