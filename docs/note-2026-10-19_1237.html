@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0a0c0f">
+<title>YAASAP Notes - 19 October 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700;900&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --void:#0a0c0f;--void2:#111418;--void3:#181c22;--wire:#252a32;
+  --paper:#f5f2ec;--paper2:#ece8df;
+  --ink:#0d0e10;--ink3:#6a6560;--ink4:#9a948e;
+  --accent:#c8290a;--green:#1a8a3a;--amber:#d4880a;--gold:#c8902a;--blue:#1a5c9a;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--void);font-family:var(--sans);color:var(--paper);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+/* ── BARRE URGENCE ── */
+.urgency{background:var(--accent);padding:4px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.urg-left{display:flex;align-items:center;gap:8px;}
+.urg-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .9s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.urg-txt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;}
+.urg-time{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.65);}
+
+/* ── MASTHEAD ── */
+.masthead{background:var(--void);border-bottom:1px solid var(--wire);padding:12px 22px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.5);}
+.pub-name{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--paper);line-height:1;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-family:var(--mono);font-size:7px;color:rgba(255,255,255,.25);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;}
+.mast-center{text-align:center;flex:1;}
+.mast-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--wire);padding:3px 10px;border-radius:2px;}
+.mast-badge-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:blink .9s infinite;}
+.mast-badge-txt{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;}
+.mast-right{display:flex;align-items:center;gap:10px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;}
+.mast-qr-box{background:var(--paper);padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.2);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;text-align:center;}
+
+/* ── TICKER ── */
+.ticker-wrap{background:var(--void2);border-bottom:1px solid var(--wire);overflow:hidden;white-space:nowrap;padding:5px 0;}
+.ticker-inner{display:inline-flex;animation:scroll 35s linear infinite;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tk{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.5);padding:0 22px;}
+.tk.hot{color:var(--accent);font-weight:700;}
+.tk-sep{color:var(--wire);}
+
+/* ── HERO ── */
+.hero{position:relative;width:100%;overflow:hidden;background:var(--void2);}
+.hero img{width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.55) saturate(.8);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,12,15,.8) 0%,transparent 60%,rgba(10,12,15,.4) 100%);}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 22px;}
+.hero-eyebrow{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.hero-title{font-family:var(--serif);font-size:clamp(18px,4vw,26px);font-weight:700;color:#fff;line-height:1.15;max-width:520px;margin-bottom:4px;}
+.hero-caption{font-size:9.5px;color:rgba(255,255,255,.4);font-style:italic;font-family:var(--sans);}
+@media(min-width:640px){.hero img{height:300px;}}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--void2);border-bottom:1px solid var(--wire);}
+.kpi{padding:11px 0 11px 16px;border-right:1px solid var(--wire);}
+.kpi:last-child{border-right:none;}
+.kpi-v{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.kpi-v.up{color:#4ade80;}.kpi-v.dn{color:#f87171;}.kpi-v.am{color:#fbbf24;}
+.kpi-l{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:3px;display:block;}
+
+/* ── SCROLL KICKER ── */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--void3);border-bottom:1px solid var(--wire);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 16px;min-width:max-content;}
+.kk{padding:8px 16px;border-right:1px solid var(--wire);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--paper);line-height:1;}
+.kk-n{font-size:9px;color:rgba(255,255,255,.35);font-style:italic;margin-top:1px;font-family:var(--sans);}
+
+/* ── LAYOUT PRINCIPAL ── */
+.layout{max-width:800px;margin:0 auto;padding:24px 20px 56px;}
+
+/* ── SECTION RULE ── */
+.sec{display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-line{flex:1;height:1px;background:var(--wire);}
+.sec-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.sec-t{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;}
+
+/* ── MARCHÉ — GRILLE ── */
+.mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--wire);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.mkt-cell{background:var(--void2);padding:12px 14px;}
+.mkt-label{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.mkt-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--paper);line-height:1;}
+.mkt-val.up{color:#4ade80;}.mkt-val.dn{color:#f87171;}
+.mkt-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;font-family:var(--sans);}
+
+/* ── TABLES ── */
+.table-wrap{background:var(--void2);border:1px solid var(--wire);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.table-wrap table{width:100%;border-collapse:collapse;}
+.table-wrap th{font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:8px 12px;text-align:left;border-bottom:1px solid var(--wire);background:var(--void3);}
+.table-wrap td{font-size:12px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.75);vertical-align:middle;font-family:var(--sans);}
+.table-wrap tr:last-child td{border-bottom:none;}
+.table-wrap tr:hover td{background:rgba(255,255,255,.02);}
+.badge-up{background:rgba(26,138,58,.2);color:#4ade80;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(26,138,58,.3);}
+.badge-dn{background:rgba(200,41,10,.2);color:#f87171;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(200,41,10,.3);}
+.badge-am{background:rgba(212,136,10,.2);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(212,136,10,.3);}
+
+/* ── SIGNAL ── */
+.signal{background:var(--void2);border:1px solid var(--wire);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;padding:18px 20px;margin-bottom:14px;}
+.signal-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;}
+.signal-headline{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;color:var(--paper);}
+.signal-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.45);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--wire);}
+.signal-body{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.65;font-family:var(--sans);}
+.signal-body strong{font-weight:700;color:var(--paper);}
+.signal-body p{margin-bottom:8px;}
+
+/* ── PULL QUOTE ── */
+.pull{border-left:3px solid var(--gold);background:rgba(200,144,42,.06);padding:12px 16px;margin:14px 0;border-radius:0 2px 2px 0;}
+.pull-t{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.5;color:rgba(255,255,255,.85);}
+.pull-a{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-top:5px;}
+
+/* ── ARTICLES — CARTES COLORÉES ── */
+.arts-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px;}
+.art{background:var(--void2);border:1px solid var(--wire);border-top:2px solid;border-radius:3px;padding:14px 16px;}
+.art:nth-child(1){border-top-color:var(--accent);}
+.art:nth-child(2){border-top-color:var(--blue);}
+.art:nth-child(3){border-top-color:var(--gold);}
+.art-sector{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:5px;color:rgba(255,255,255,.4);}
+.art-h{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--paper);line-height:1.25;margin-bottom:5px;}
+.art-b{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.55;font-family:var(--sans);}
+.art-b strong{color:var(--paper);font-weight:700;}
+
+/* ── HERO 2 ── */
+.hero2{position:relative;width:100%;height:140px;overflow:hidden;border-radius:3px;margin:16px 0;border:1px solid var(--wire);}
+.hero2 img{width:100%;height:140px;object-fit:cover;filter:brightness(.6);}
+.hero2-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(10,12,15,.7);padding:7px 13px;font-size:9.5px;color:rgba(255,255,255,.6);font-style:italic;font-family:var(--sans);}
+
+/* ── VERDICT ── */
+.verdict{background:var(--accent);border-radius:3px;padding:18px 20px;margin:22px 0;position:relative;overflow:hidden;}
+.verdict::before{content:'VERDICT';position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--mono);font-size:72px;letter-spacing:.1em;color:rgba(0,0,0,.15);pointer-events:none;white-space:nowrap;}
+.v-tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px;display:block;}
+.v-t{font-family:var(--serif);font-size:14px;color:#fff;font-style:italic;line-height:1.6;}
+.v-t strong{font-style:normal;font-weight:800;color:#fff;}
+
+/* ── SOURCES ── */
+.sources{background:var(--void3);border:1px solid var(--wire);border-radius:3px;padding:12px 16px;margin:14px 0;}
+.sources-label{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.src-list{display:flex;flex-wrap:wrap;gap:5px;}
+.src-pill{font-size:10px;color:rgba(255,255,255,.5);background:var(--void2);border:1px solid var(--wire);border-radius:20px;padding:3px 10px;text-decoration:none;font-style:italic;font-family:var(--sans);transition:border-color .15s;}
+.src-pill:hover{border-color:var(--accent);color:var(--paper);}
+
+/* ── NEWSLETTER ── */
+.nl-mini{background:var(--void2);border:1px solid var(--wire);border-top:2px solid var(--accent);border-radius:3px;padding:16px 18px;margin-top:24px;}
+.nl-mini-title{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--paper);margin-bottom:4px;}
+.nl-mini-sub{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:10px;font-family:var(--sans);}
+.nl-mini-row{display:flex;gap:6px;}
+.nl-mini-input{flex:1;height:40px;padding:0 12px;border:1px solid var(--wire);background:var(--void);border-radius:3px;font-family:var(--sans);font-size:13px;color:var(--paper);outline:none;transition:border-color .15s;}
+.nl-mini-input::placeholder{color:rgba(255,255,255,.22);}
+.nl-mini-input:focus{border-color:var(--accent);}
+.nl-mini-btn{height:40px;padding:0 16px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.nl-mini-btn:hover{background:#a01e00;}
+.nl-mini-note{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);margin-top:6px;letter-spacing:.04em;}
+#nlm-ok{display:none;font-family:var(--mono);font-size:11px;font-weight:700;color:#4ade80;margin-top:6px;letter-spacing:.06em;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--wire);background:var(--void2);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:rgba(255,255,255,.4);}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.2);letter-spacing:.04em;line-height:1.6;}
+.foot-nav{display:flex;gap:14px;flex-wrap:wrap;}
+.foot-nav a{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .12s;}
+.foot-nav a:hover{color:var(--accent);}
+
+@media(max-width:480px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr);}
+  .mkt-grid{grid-template-columns:1fr;}
+  .nl-mini-row{flex-direction:column;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- BARRE URGENCE -->
+<div class="urgency">
+  <div class="urg-left">
+    <div class="urg-dot"></div>
+    <span class="urg-txt">Bulletin automatique YAASAP Notes</span>
+  </div>
+  <span class="urg-time" id="urgTime">19 October 2026 · 07h00</span>
+</div>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Bulletin quotidien · Marches · Analyse · Positions</div>
+  </div>
+  <div class="mast-center">
+    <div class="mast-badge">
+      <div class="mast-badge-dot"></div>
+      <span class="mast-badge-txt">Live · 19 October 2026</span>
+    </div>
+  </div>
+  <div class="mast-right">
+    <div class="mast-date" id="liveDate">19 October 2026</div>
+    <div>
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER DEFILANT -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="tk hot">/// YAASAP NOTES ///</span>
+    <div class="kk"><div class="kk-l">SPCX</div><div class="kk-v" style="color:#1e5c32;">$146.03 ▲ 0.4%</div></div><div class="kk"><div class="kk-l">TTWO</div><div class="kk-v" style="color:#b01c1c;">$205.28 ▼ 0.0%</div></div><div class="kk"><div class="kk-l">SQM</div><div class="kk-v" style="color:#b01c1c;">$60.20 ▼ 0.2%</div></div><div class="kk"><div class="kk-l">PFE</div><div class="kk-v" style="color:#1e5c32;">$29.58 ▲ 0.0%</div></div><div class="kk"><div class="kk-l">^GSPC</div><div class="kk-v" style="color:#b01c1c;">$7659.44 ▼ 1.1%</div></div><div class="kk"><div class="kk-l">^FCHI</div><div class="kk-v" style="color:#b01c1c;">€7837.54 ▼ 1.5%</div></div><div class="kk"><div class="kk-l">^STOXX50E</div><div class="kk-v" style="color:#b01c1c;">€6130.27 ▼ 1.2%</div></div><div class="kk"><div class="kk-l">GC=F</div><div class="kk-v" style="color:#b01c1c;">$4186.40 ▼ 0.3%</div></div><div class="kk"><div class="kk-l">CL=F</div><div class="kk-v" style="color:#1e5c32;">$98.35 ▲ 1.0%</div></div><div class="kk"><div class="kk-l">BTC-USD</div><div class="kk-v" style="color:#1e5c32;">$82154.96 ▲ 0.2%</div></div>
+    <span class="tk-sep"> &middot; </span>
+    <div class="kk"><div class="kk-l">S&P 500</div><div class="kk-v">7 659 pts</div><div class="kk-n">−1,1 % séance difficile</div></div><div class="kk"><div class="kk-l">BRENT</div><div class="kk-v">98 $/bbl</div><div class="kk-n">+1,0 % tensions géopolitiques</div></div><div class="kk"><div class="kk-l">OR</div><div class="kk-v">4 186 $/oz</div><div class="kk-n">−0,3 % consolidation</div></div><div class="kk"><div class="kk-l">PORTEFEUILLE</div><div class="kk-v">8 148 $</div><div class="kk-n">P&L −1 217 $ | SPCX résiste</div></div>
+    <span class="tk hot">/// YAASAP NOTES ///</span>
+    <div class="kk"><div class="kk-l">SPCX</div><div class="kk-v" style="color:#1e5c32;">$146.03 ▲ 0.4%</div></div><div class="kk"><div class="kk-l">TTWO</div><div class="kk-v" style="color:#b01c1c;">$205.28 ▼ 0.0%</div></div><div class="kk"><div class="kk-l">SQM</div><div class="kk-v" style="color:#b01c1c;">$60.20 ▼ 0.2%</div></div><div class="kk"><div class="kk-l">PFE</div><div class="kk-v" style="color:#1e5c32;">$29.58 ▲ 0.0%</div></div><div class="kk"><div class="kk-l">^GSPC</div><div class="kk-v" style="color:#b01c1c;">$7659.44 ▼ 1.1%</div></div><div class="kk"><div class="kk-l">^FCHI</div><div class="kk-v" style="color:#b01c1c;">€7837.54 ▼ 1.5%</div></div><div class="kk"><div class="kk-l">^STOXX50E</div><div class="kk-v" style="color:#b01c1c;">€6130.27 ▼ 1.2%</div></div><div class="kk"><div class="kk-l">GC=F</div><div class="kk-v" style="color:#b01c1c;">$4186.40 ▼ 0.3%</div></div><div class="kk"><div class="kk-l">CL=F</div><div class="kk-v" style="color:#1e5c32;">$98.35 ▲ 1.0%</div></div><div class="kk"><div class="kk-l">BTC-USD</div><div class="kk-v" style="color:#1e5c32;">$82154.96 ▲ 0.2%</div></div>
+    <span class="tk-sep"> &middot; </span>
+    <div class="kk"><div class="kk-l">S&P 500</div><div class="kk-v">7 659 pts</div><div class="kk-n">−1,1 % séance difficile</div></div><div class="kk"><div class="kk-l">BRENT</div><div class="kk-v">98 $/bbl</div><div class="kk-n">+1,0 % tensions géopolitiques</div></div><div class="kk"><div class="kk-l">OR</div><div class="kk-v">4 186 $/oz</div><div class="kk-n">−0,3 % consolidation</div></div><div class="kk"><div class="kk-l">PORTEFEUILLE</div><div class="kk-v">8 148 $</div><div class="kk-n">P&L −1 217 $ | SPCX résiste</div></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero"><img src="https://img.etimg.com/thumb/msid-135025587,width-1200,height-900,imgsize-104250,overlay-etmarkets/articleshow.jpg" alt="Jefferies’ Chris Wood says it’s time to diversify beyond AI." onerror="this.parentElement.style.display='none'"><div class="hero-overlay"><div class="hero-tag">A la une</div><div class="hero-title">Au-delà de l'IA : le grand pivot des allocateurs</div><div class="hero-caption">The Times of India</div></div></div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- MARCHE DU JOUR -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Marche du jour · Note du 19/10/2026</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);">Portefeuille · 19 October 2026</span><span style="font-family:var(--mono);font-size:12px;">$8,148 <span style="color:#b01c1c;font-weight:700">$-1,217</span></span></div><div class="table-wrap"><table><thead><tr><th>Ticker</th><th>Valeur</th><th>Cours</th><th>Jour</th><th>PRU x Qte</th><th>P&L latent</th></tr></thead><tbody><tr><td style='font-family:var(--mono);font-weight:700'>SPCX</td><td>SpaceX</td><td style='font-family:var(--mono)'>$146.03</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.38%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$174.44 x 41</td><td><span style="color:#b01c1c;font-weight:700;">$-1,165</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>TTWO</td><td>Take-Two</td><td style='font-family:var(--mono)'>$205.28</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.01%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$195.06 x 6</td><td><span style="color:#1e5c32;font-weight:700;">+$61</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>SQM</td><td>SQM ADR</td><td style='font-family:var(--mono)'>$60.20</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.17%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$73.21 x 12</td><td><span style="color:#b01c1c;font-weight:700;">$-156</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>PFE</td><td>Pfizer</td><td style='font-family:var(--mono)'>$29.58</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.00%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$23.49 x 7</td><td><span style="color:#1e5c32;font-weight:700;">+$43</span></td></tr></tbody></table></div>
+  <div style="margin-top:12px;"><div style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);margin-bottom:6px;">Indices &amp; Surveillance</div><div class="table-wrap"><table><thead><tr><th>Valeur</th><th>Cours</th><th>Variation</th></tr></thead><tbody><tr><td style='font-weight:700'>argenx</td><td style='font-family:var(--mono)'>$819.14</td><td><span style="color:#b01c1c;font-weight:700;">▼ 3.21%</span></td></tr><tr><td style='font-weight:700'>Block Inc</td><td style='font-family:var(--mono)'>$77.89</td><td><span style="color:#1e5c32;font-weight:700;">▲ 1.16%</span></td></tr><tr><td style='font-weight:700'>LVMH</td><td style='font-family:var(--mono)'>€388.00</td><td><span style="color:#b01c1c;font-weight:700;">▼ 2.49%</span></td></tr><tr><td style='font-weight:700'>Viatris</td><td style='font-family:var(--mono)'>$18.66</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.00%</span></td></tr><tr><td style='font-weight:700'>Nvidia</td><td style='font-family:var(--mono)'>$214.13</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.18%</span></td></tr><tr><td style='font-weight:700'>S&P 500</td><td style='font-family:var(--mono)'>$7,659.44</td><td><span style="color:#b01c1c;font-weight:700;">▼ 1.09%</span></td></tr><tr><td style='font-weight:700'>CAC 40</td><td style='font-family:var(--mono)'>€7,837.54</td><td><span style="color:#b01c1c;font-weight:700;">▼ 1.47%</span></td></tr><tr><td style='font-weight:700'>Euro Stoxx 50</td><td style='font-family:var(--mono)'>€6,130.27</td><td><span style="color:#b01c1c;font-weight:700;">▼ 1.18%</span></td></tr><tr><td style='font-weight:700'>Or ($/oz)</td><td style='font-family:var(--mono)'>$4,186.40</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.35%</span></td></tr><tr><td style='font-weight:700'>Brent ($/bbl)</td><td style='font-family:var(--mono)'>$98.35</td><td><span style="color:#1e5c32;font-weight:700;">▲ 1.02%</span></td></tr><tr><td style='font-weight:700'>Bitcoin</td><td style='font-family:var(--mono)'>$82,154.96</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.18%</span></td></tr></tbody></table></div></div>
+
+  <!-- SIGNAL -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Signal du jour</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div class="signal"><div class="signal-label">Analyse principale</div><div class="signal-headline">Chris Wood sonne la retraite de l'IA : diversifier ou périr</div><div class="signal-deck">Jefferies alerte sur le ralentissement brutal des bénéfices des méga-caps technologiques, ouvrant une fenêtre historique vers des actifs délaissés.</div><div class="signal-body"><p>Le stratégiste vedette de Jefferies, <strong>Chris Wood</strong>, a franchi le Rubicon cette semaine en recommandant explicitement aux investisseurs institutionnels de <strong>réduire leur exposition aux valeurs d'intelligence artificielle</strong>. L'argument est arithmétique autant que structurel : la croissance des bénéfices du complexe IA mondial devrait décélérer <strong>brutalement</strong> au cours des six à douze prochains trimestres, tandis que les valorisations restent tendues sur des multiples qui ne tolèrent aucune déception. Le signal vient au pire moment pour un S&P 500 qui cède 1,1 % sur la séance et qui reste concentré à hauteur de près de 30 % sur cinq titres technologiques.</p><p>La question que pose Wood — <em>où aller ensuite ?</em> — n'est pas rhétorique. Les flux commencent à tâtonner vers les marchés émergents, l'énergie et les commodités industrielles. Notre ligne <strong>SQM</strong> (lithium, −0,2 % ce jour) illustre parfaitement le paradoxe : le sous-jacent thématique est solide, mais la compression de valeur à court terme (PRU 73,21 $, cours 60,20 $) rappelle que la rotation sectorielle se paye avant de se monnaie. La patience décrite par <strong>Nicholas Sleep</strong> dans ses lettres du Nomad Investment Partnership n'est pas une posture philosophique — c'est une nécessité mécanique dans un environnement de réévaluation.</p></div><div class="pull"><div class="pull-t">« Les valorisations de l'IA ne tolèrent désormais plus aucune déception sur les bénéfices — et les déceptions arrivent. »</div><div class="pull-a">Chris Wood, Jefferies — The Times of India, 18 oct. 2026</div></div></div>
+
+  <!-- ANALYSES -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Analyses sectorielles</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div class="arts-grid"><div class="art"><div class="art-sector">GÉOPOLITIQUE & MONÉTAIRE</div><div class="art-h">Iran, pétrodollar et le nouveau risque systémique</div><div class="art-b">Le conflit iranien de février 2026 a ouvert une brèche inattendue dans <strong>l'architecture du système monétaire international</strong>. Selon Activistpost, les écrans de trading de Singapour à Chicago ont clignoté simultanément dans une nuit qui a remodelé les flux de règlement en devises. Le <strong>Brent à 98 $/bbl</strong> ce lundi — en hausse de 1 % — témoigne que la prime géopolitique n'est pas résorbée. Pour les portefeuilles exposés aux matières premières, le risque est double : <strong>upside sur l'énergie, downside sur la demande industrielle</strong>. La ligne de fracture passe désormais par la capacité des banques centrales à absorber des chocs d'offre répétés sans relancer l'inflation.</div></div><div class="art"><div class="art-sector">TECH & DISRUPTION</div><div class="art-h">SpaceX contre les opérateurs télécoms : un pari à 100 milliards</div><div class="art-b">L'analyste Walter Piecyk (LightShed Partners) décortique pour The Verge l'ambition de <strong>SpaceX de concurrencer AT&T, T-Mobile et Verizon</strong> via une offre cellulaire Starlink directe au consommateur. Le modèle est séduisant sur le papier — couverture universelle, infrastructure spatiale amortie — mais le coût de déploiement reste <strong>astronomique et le délai de rentabilité incertain</strong>. L'investissement thématique dans l'espace reste hautement spéculatif. Ce qui est certain : si Starlink s'impose comme quatrième opérateur américain, la destruction de valeur pour les telcos traditionnels sera <strong>rapide et non linéaire</strong>. Un risque à intégrer pour tout portefeuille long sur les infrastructures de communication.</div></div><div class="art"><div class="art-sector">MARCHÉS INDIENS & IPO</div><div class="art-h">Jio IPO : l'événement qui peut redéfinir les flux vers les émergents</div><div class="art-b">Business Standard place l'introduction en bourse de <strong>Jio Platforms</strong> au rang de catalyseur majeur pour les prochaines semaines. L'opération combinerait l'appétit pour les actifs technologiques à croissance émergente avec la narrativité de la <strong>montée en puissance numérique de l'Inde</strong>. Dans un contexte où les investisseurs étrangers cherchent à diversifier hors IA américaine — précisément ce que prône Chris Wood — le timing est stratégique. Les résultats trimestriels et la trajectoire du brut constitueront les autres variables-clés de la semaine. Une <strong>sursouscription de Jio</strong> serait un signal fort de réallocation vers l'Asie du Sud.</div></div></div>
+  <div class="hero2"><img src="https://bsmedia.business-standard.com/_media/bs/img/article/2026-06/23/thumb/fitandfill/1200X628/1782183646-0501.jpg" alt="Earnings, crude oil, Jio IPO key monitorables for investors " onerror="this.parentElement.style.display='none'"><div class="hero2-caption">Business Standard — Earnings, crude oil, Jio IPO key monitorables for investors </div></div>
+
+  <!-- VERDICT -->
+  <div class="verdict"><span class="v-tag">Verdict YAASAP · 19 October 2026</span><div class="v-t">La séance du 19 octobre 2026 cristallise une <strong>inflexion de cycle</strong> : l'hégémonie des valeurs IA vacille sous le poids de valorisations intenables, pendant que le Brent à 98 $ et les tensions géopolitiques réhabilitent les actifs réels. Notre portefeuille (−1 217 $ de P&L cumulé) reflète exactement cette transition douloureuse — <strong>SQM et SPCX sont des positions de conviction à tenir</strong>, non à solder lors d'une rotation encore désordonnée. La patience de Nicholas Sleep s'applique ici : les narratives gagnantes de 2027 se construisent dans l'inconfort d'octobre 2026.</div></div>
+
+  <!-- SOURCES -->
+  <div class="sources"><div class="sources-label">Sources</div><div class="src-list"><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/jefferies-chris-wood-says-its-time-to-diversify-beyond-ai-where-should-investors-look-now/articleshow/135025560.cms" target="_blank" class="src-pill">The Times of India</a><a href="https://www.business-standard.com/markets/news/earnings-crude-oil-jio-ipo-key-monitorables-for-investors-next-week-126101800241_1.html" target="_blank" class="src-pill">Business Standard</a><a href="https://activistpost.com/how-the-iran-conflict-opened-a-new-threat-to-the-global-monetary-system/" target="_blank" class="src-pill">Activistpost.com</a><a href="https://www.theverge.com/podcast/1012416/spacex-starlink-elon-musk-cell-carrier-wireless-mobile-att-verizon-t-mobile" target="_blank" class="src-pill">The Verge</a><a href="https://punchng.com/from-online-maps-to-flying-cars-elon-musks-biggest-innovations/" target="_blank" class="src-pill">The Punch</a></div></div>
+
+  <!-- NEWSLETTER -->
+  <div class="nl-mini">
+    <div class="nl-mini-title">Recevoir ce bulletin chaque matin</div>
+    <div class="nl-mini-sub">Gratuit · Donnees marche en temps reel + analyse editoriale · Desabonnement en 1 clic</div>
+    <div class="nl-mini-row">
+      <input class="nl-mini-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+      <button class="nl-mini-btn" onclick="nlmSubmit()">S'abonner</button>
+    </div>
+    <div id="nlm-ok">INSCRIT</div>
+    <div class="nl-mini-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+  </div>
+
+</div><!-- /layout -->
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par Yacine AOUABED &middot; Note du 19/10/2026 &middot; <span id="liveDateFooter">19 October 2026</span><br>Analyse informative uniquement &mdash; Ne constitue pas un conseil en investissement</div>
+  <nav class="foot-nav">
+    <a href="../index.html">Accueil</a>
+    <a href="index.html">Archives</a>
+    <a href="../yaasap_starpipe.html">Starpipe</a>
+    <a href="../yaasap_lvmh.html">LVMH</a>
+    <a href="../yaasap_spcx_position.html">SPCX</a>
+  </nav>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','liveDateFooter','urgTime'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.textContent=id==='urgTime'?s+' · 07h00':s;
+  });
+  (function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:'https://yaasap.github.io/dailywatch/index.html',
+      width:48,height:48,colorDark:'#0a0c0f',colorLight:'#f5f2ec',
+      correctLevel:QRCode.CorrectLevel.M});
+  })();
+})();
+function nlmSubmit(){
+  var emailEl=document.getElementById('nlm-email');
+  var email=emailEl?emailEl.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    if(emailEl)emailEl.style.borderColor='rgba(200,41,10,.6)';return;
+  }
+  var body=new FormData();
+  body.append('email',email);body.append('source','yaasap-daily-FORMSPREE_19 October 2026');
+  body.append('_subject','Inscription YAASAP Notes Daily');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){
+    var row=emailEl.parentElement;if(row)row.style.display='none';
+    var ok=document.getElementById('nlm-ok');if(ok)ok.style.display='block';
+  }});
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='nlm-email')nlmSubmit();
+});
+</script>
+</body>
+</html>
