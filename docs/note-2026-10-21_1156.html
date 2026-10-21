@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0a0c0f">
+<title>YAASAP Notes - 21 October 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700;900&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --void:#0a0c0f;--void2:#111418;--void3:#181c22;--wire:#252a32;
+  --paper:#f5f2ec;--paper2:#ece8df;
+  --ink:#0d0e10;--ink3:#6a6560;--ink4:#9a948e;
+  --accent:#c8290a;--green:#1a8a3a;--amber:#d4880a;--gold:#c8902a;--blue:#1a5c9a;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+html,body{background:var(--void);font-family:var(--sans);color:var(--paper);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+/* ── BARRE URGENCE ── */
+.urgency{background:var(--accent);padding:4px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.urg-left{display:flex;align-items:center;gap:8px;}
+.urg-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .9s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.urg-txt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;}
+.urg-time{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.65);}
+
+/* ── MASTHEAD ── */
+.masthead{background:var(--void);border-bottom:1px solid var(--wire);padding:12px 22px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.5);}
+.pub-name{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--paper);line-height:1;}
+.pub-name em{font-style:italic;color:var(--accent);}
+.pub-tagline{font-family:var(--mono);font-size:7px;color:rgba(255,255,255,.25);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;}
+.mast-center{text-align:center;flex:1;}
+.mast-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--wire);padding:3px 10px;border-radius:2px;}
+.mast-badge-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:blink .9s infinite;}
+.mast-badge-txt{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;}
+.mast-right{display:flex;align-items:center;gap:10px;}
+.mast-date{font-family:var(--serif);font-size:10px;color:rgba(255,255,255,.35);font-style:italic;}
+.mast-qr-box{background:var(--paper);padding:4px;border-radius:2px;line-height:0;}
+.mast-qr-lbl{font-family:var(--mono);font-size:6px;color:rgba(255,255,255,.2);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;text-align:center;}
+
+/* ── TICKER ── */
+.ticker-wrap{background:var(--void2);border-bottom:1px solid var(--wire);overflow:hidden;white-space:nowrap;padding:5px 0;}
+.ticker-inner{display:inline-flex;animation:scroll 35s linear infinite;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tk{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.5);padding:0 22px;}
+.tk.hot{color:var(--accent);font-weight:700;}
+.tk-sep{color:var(--wire);}
+
+/* ── HERO ── */
+.hero{position:relative;width:100%;overflow:hidden;background:var(--void2);}
+.hero img{width:100%;height:240px;object-fit:cover;display:block;filter:brightness(.55) saturate(.8);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,12,15,.8) 0%,transparent 60%,rgba(10,12,15,.4) 100%);}
+.hero-content{position:absolute;bottom:0;left:0;right:0;padding:20px 22px;}
+.hero-eyebrow{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.hero-title{font-family:var(--serif);font-size:clamp(18px,4vw,26px);font-weight:700;color:#fff;line-height:1.15;max-width:520px;margin-bottom:4px;}
+.hero-caption{font-size:9.5px;color:rgba(255,255,255,.4);font-style:italic;font-family:var(--sans);}
+@media(min-width:640px){.hero img{height:300px;}}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--void2);border-bottom:1px solid var(--wire);}
+.kpi{padding:11px 0 11px 16px;border-right:1px solid var(--wire);}
+.kpi:last-child{border-right:none;}
+.kpi-v{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.kpi-v.up{color:#4ade80;}.kpi-v.dn{color:#f87171;}.kpi-v.am{color:#fbbf24;}
+.kpi-l{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:3px;display:block;}
+
+/* ── SCROLL KICKER ── */
+.kicker{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--void3);border-bottom:1px solid var(--wire);}
+.kicker::-webkit-scrollbar{display:none;}
+.kicker-inner{display:flex;padding:0 16px;min-width:max-content;}
+.kk{padding:8px 16px;border-right:1px solid var(--wire);flex-shrink:0;}
+.kk:last-child{border-right:none;}
+.kk-l{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px;}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--paper);line-height:1;}
+.kk-n{font-size:9px;color:rgba(255,255,255,.35);font-style:italic;margin-top:1px;font-family:var(--sans);}
+
+/* ── LAYOUT PRINCIPAL ── */
+.layout{max-width:800px;margin:0 auto;padding:24px 20px 56px;}
+
+/* ── SECTION RULE ── */
+.sec{display:flex;align-items:center;gap:8px;margin:28px 0 14px;}
+.sec-line{flex:1;height:1px;background:var(--wire);}
+.sec-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.sec-t{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;}
+
+/* ── MARCHÉ — GRILLE ── */
+.mkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--wire);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.mkt-cell{background:var(--void2);padding:12px 14px;}
+.mkt-label{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.mkt-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--paper);line-height:1;}
+.mkt-val.up{color:#4ade80;}.mkt-val.dn{color:#f87171;}
+.mkt-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;font-family:var(--sans);}
+
+/* ── TABLES ── */
+.table-wrap{background:var(--void2);border:1px solid var(--wire);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.table-wrap table{width:100%;border-collapse:collapse;}
+.table-wrap th{font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:8px 12px;text-align:left;border-bottom:1px solid var(--wire);background:var(--void3);}
+.table-wrap td{font-size:12px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.75);vertical-align:middle;font-family:var(--sans);}
+.table-wrap tr:last-child td{border-bottom:none;}
+.table-wrap tr:hover td{background:rgba(255,255,255,.02);}
+.badge-up{background:rgba(26,138,58,.2);color:#4ade80;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(26,138,58,.3);}
+.badge-dn{background:rgba(200,41,10,.2);color:#f87171;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(200,41,10,.3);}
+.badge-am{background:rgba(212,136,10,.2);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid rgba(212,136,10,.3);}
+
+/* ── SIGNAL ── */
+.signal{background:var(--void2);border:1px solid var(--wire);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;padding:18px 20px;margin-bottom:14px;}
+.signal-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;}
+.signal-headline{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;color:var(--paper);}
+.signal-deck{font-family:var(--serif);font-size:13px;font-style:italic;color:rgba(255,255,255,.45);line-height:1.5;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--wire);}
+.signal-body{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.65;font-family:var(--sans);}
+.signal-body strong{font-weight:700;color:var(--paper);}
+.signal-body p{margin-bottom:8px;}
+
+/* ── PULL QUOTE ── */
+.pull{border-left:3px solid var(--gold);background:rgba(200,144,42,.06);padding:12px 16px;margin:14px 0;border-radius:0 2px 2px 0;}
+.pull-t{font-family:var(--serif);font-size:14px;font-style:italic;line-height:1.5;color:rgba(255,255,255,.85);}
+.pull-a{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-top:5px;}
+
+/* ── ARTICLES — CARTES COLORÉES ── */
+.arts-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px;}
+.art{background:var(--void2);border:1px solid var(--wire);border-top:2px solid;border-radius:3px;padding:14px 16px;}
+.art:nth-child(1){border-top-color:var(--accent);}
+.art:nth-child(2){border-top-color:var(--blue);}
+.art:nth-child(3){border-top-color:var(--gold);}
+.art-sector{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:5px;color:rgba(255,255,255,.4);}
+.art-h{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--paper);line-height:1.25;margin-bottom:5px;}
+.art-b{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.55;font-family:var(--sans);}
+.art-b strong{color:var(--paper);font-weight:700;}
+
+/* ── HERO 2 ── */
+.hero2{position:relative;width:100%;height:140px;overflow:hidden;border-radius:3px;margin:16px 0;border:1px solid var(--wire);}
+.hero2 img{width:100%;height:140px;object-fit:cover;filter:brightness(.6);}
+.hero2-caption{position:absolute;bottom:0;left:0;right:0;background:rgba(10,12,15,.7);padding:7px 13px;font-size:9.5px;color:rgba(255,255,255,.6);font-style:italic;font-family:var(--sans);}
+
+/* ── VERDICT ── */
+.verdict{background:var(--accent);border-radius:3px;padding:18px 20px;margin:22px 0;position:relative;overflow:hidden;}
+.verdict::before{content:'VERDICT';position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--mono);font-size:72px;letter-spacing:.1em;color:rgba(0,0,0,.15);pointer-events:none;white-space:nowrap;}
+.v-tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px;display:block;}
+.v-t{font-family:var(--serif);font-size:14px;color:#fff;font-style:italic;line-height:1.6;}
+.v-t strong{font-style:normal;font-weight:800;color:#fff;}
+
+/* ── SOURCES ── */
+.sources{background:var(--void3);border:1px solid var(--wire);border-radius:3px;padding:12px 16px;margin:14px 0;}
+.sources-label{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.src-list{display:flex;flex-wrap:wrap;gap:5px;}
+.src-pill{font-size:10px;color:rgba(255,255,255,.5);background:var(--void2);border:1px solid var(--wire);border-radius:20px;padding:3px 10px;text-decoration:none;font-style:italic;font-family:var(--sans);transition:border-color .15s;}
+.src-pill:hover{border-color:var(--accent);color:var(--paper);}
+
+/* ── NEWSLETTER ── */
+.nl-mini{background:var(--void2);border:1px solid var(--wire);border-top:2px solid var(--accent);border-radius:3px;padding:16px 18px;margin-top:24px;}
+.nl-mini-title{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--paper);margin-bottom:4px;}
+.nl-mini-sub{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:10px;font-family:var(--sans);}
+.nl-mini-row{display:flex;gap:6px;}
+.nl-mini-input{flex:1;height:40px;padding:0 12px;border:1px solid var(--wire);background:var(--void);border-radius:3px;font-family:var(--sans);font-size:13px;color:var(--paper);outline:none;transition:border-color .15s;}
+.nl-mini-input::placeholder{color:rgba(255,255,255,.22);}
+.nl-mini-input:focus{border-color:var(--accent);}
+.nl-mini-btn{height:40px;padding:0 16px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.nl-mini-btn:hover{background:#a01e00;}
+.nl-mini-note{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.2);margin-top:6px;letter-spacing:.04em;}
+#nlm-ok{display:none;font-family:var(--mono);font-size:11px;font-weight:700;color:#4ade80;margin-top:6px;letter-spacing:.06em;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--wire);background:var(--void2);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-brand{font-family:var(--serif);font-size:15px;font-weight:700;color:rgba(255,255,255,.4);}
+.foot-brand em{font-style:italic;color:var(--accent);}
+.foot-note{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.2);letter-spacing:.04em;line-height:1.6;}
+.foot-nav{display:flex;gap:14px;flex-wrap:wrap;}
+.foot-nav a{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .12s;}
+.foot-nav a:hover{color:var(--accent);}
+
+@media(max-width:480px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr);}
+  .mkt-grid{grid-template-columns:1fr;}
+  .nl-mini-row{flex-direction:column;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- BARRE URGENCE -->
+<div class="urgency">
+  <div class="urg-left">
+    <div class="urg-dot"></div>
+    <span class="urg-txt">Bulletin automatique YAASAP Notes</span>
+  </div>
+  <span class="urg-time" id="urgTime">21 October 2026 · 07h00</span>
+</div>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-tagline">Bulletin quotidien · Marches · Analyse · Positions</div>
+  </div>
+  <div class="mast-center">
+    <div class="mast-badge">
+      <div class="mast-badge-dot"></div>
+      <span class="mast-badge-txt">Live · 21 October 2026</span>
+    </div>
+  </div>
+  <div class="mast-right">
+    <div class="mast-date" id="liveDate">21 October 2026</div>
+    <div>
+      <div class="mast-qr-box"><div id="qr-mast" style="line-height:0;"></div></div>
+      <div class="mast-qr-lbl">dailywatch</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER DEFILANT -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="tk hot">/// YAASAP NOTES ///</span>
+    <div class="kk"><div class="kk-l">SPCX</div><div class="kk-v" style="color:#b01c1c;">$147.79 ▼ 7.5%</div></div><div class="kk"><div class="kk-l">TTWO</div><div class="kk-v" style="color:#b01c1c;">$206.70 ▼ 0.4%</div></div><div class="kk"><div class="kk-l">SQM</div><div class="kk-v" style="color:#1e5c32;">$60.05 ▲ 0.8%</div></div><div class="kk"><div class="kk-l">PFE</div><div class="kk-v" style="color:#1e5c32;">$30.11 ▲ 0.9%</div></div><div class="kk"><div class="kk-l">^GSPC</div><div class="kk-v" style="color:#1e5c32;">$7712.57 ▲ 0.3%</div></div><div class="kk"><div class="kk-l">^FCHI</div><div class="kk-v" style="color:#1e5c32;">€7885.38 ▲ 0.5%</div></div><div class="kk"><div class="kk-l">^STOXX50E</div><div class="kk-v" style="color:#1e5c32;">€6164.04 ▲ 0.6%</div></div><div class="kk"><div class="kk-l">GC=F</div><div class="kk-v" style="color:#1e5c32;">$4140.70 ▲ 0.1%</div></div><div class="kk"><div class="kk-l">CL=F</div><div class="kk-v" style="color:#b01c1c;">$99.21 ▼ 0.0%</div></div><div class="kk"><div class="kk-l">BTC-USD</div><div class="kk-v" style="color:#1e5c32;">$83361.06 ▲ 0.5%</div></div>
+    <span class="tk-sep"> &middot; </span>
+    <div class="kk"><div class="kk-l">S&P 500</div><div class="kk-v">7 713 +0,3%</div><div class="kk-n">marché résilient malgré les tensions géo</div></div><div class="kk"><div class="kk-l">OR</div><div class="kk-v">4 141 $/oz +0,1%</div><div class="kk-n">valeur refuge toujours bien orientée</div></div><div class="kk"><div class="kk-l">BRENT</div><div class="kk-v">99 $/bbl</div><div class="kk-n">pression sur marchés émergents Inde</div></div><div class="kk"><div class="kk-l">PORTEFEUILLE</div><div class="kk-v">8 231 $ — 1 134 $</div><div class="kk-n">SPCX plombe la semaine : -7,5%</div></div>
+    <span class="tk hot">/// YAASAP NOTES ///</span>
+    <div class="kk"><div class="kk-l">SPCX</div><div class="kk-v" style="color:#b01c1c;">$147.79 ▼ 7.5%</div></div><div class="kk"><div class="kk-l">TTWO</div><div class="kk-v" style="color:#b01c1c;">$206.70 ▼ 0.4%</div></div><div class="kk"><div class="kk-l">SQM</div><div class="kk-v" style="color:#1e5c32;">$60.05 ▲ 0.8%</div></div><div class="kk"><div class="kk-l">PFE</div><div class="kk-v" style="color:#1e5c32;">$30.11 ▲ 0.9%</div></div><div class="kk"><div class="kk-l">^GSPC</div><div class="kk-v" style="color:#1e5c32;">$7712.57 ▲ 0.3%</div></div><div class="kk"><div class="kk-l">^FCHI</div><div class="kk-v" style="color:#1e5c32;">€7885.38 ▲ 0.5%</div></div><div class="kk"><div class="kk-l">^STOXX50E</div><div class="kk-v" style="color:#1e5c32;">€6164.04 ▲ 0.6%</div></div><div class="kk"><div class="kk-l">GC=F</div><div class="kk-v" style="color:#1e5c32;">$4140.70 ▲ 0.1%</div></div><div class="kk"><div class="kk-l">CL=F</div><div class="kk-v" style="color:#b01c1c;">$99.21 ▼ 0.0%</div></div><div class="kk"><div class="kk-l">BTC-USD</div><div class="kk-v" style="color:#1e5c32;">$83361.06 ▲ 0.5%</div></div>
+    <span class="tk-sep"> &middot; </span>
+    <div class="kk"><div class="kk-l">S&P 500</div><div class="kk-v">7 713 +0,3%</div><div class="kk-n">marché résilient malgré les tensions géo</div></div><div class="kk"><div class="kk-l">OR</div><div class="kk-v">4 141 $/oz +0,1%</div><div class="kk-n">valeur refuge toujours bien orientée</div></div><div class="kk"><div class="kk-l">BRENT</div><div class="kk-v">99 $/bbl</div><div class="kk-n">pression sur marchés émergents Inde</div></div><div class="kk"><div class="kk-l">PORTEFEUILLE</div><div class="kk-v">8 231 $ — 1 134 $</div><div class="kk-n">SPCX plombe la semaine : -7,5%</div></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero"><img src="https://kalkinemedia.com/storage/uploads/original/Healthcarenew_10_19_2026_22_49_39_331746.jpg" alt="Is WELL Health (TSX:WELL) Building Momentum Across Canadian " onerror="this.parentElement.style.display='none'"><div class="hero-overlay"><div class="hero-tag">A la une</div><div class="hero-title">Chine, Espace, Robots : la guerre des ressources</div><div class="hero-caption">Kalkine Media</div></div></div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- MARCHE DU JOUR -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Marche du jour · Note du 21/10/2026</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);">Portefeuille · 21 October 2026</span><span style="font-family:var(--mono);font-size:12px;">$8,231 <span style="color:#b01c1c;font-weight:700">$-1,134</span></span></div><div class="table-wrap"><table><thead><tr><th>Ticker</th><th>Valeur</th><th>Cours</th><th>Jour</th><th>PRU x Qte</th><th>P&L latent</th></tr></thead><tbody><tr><td style='font-family:var(--mono);font-weight:700'>SPCX</td><td>SpaceX</td><td style='font-family:var(--mono)'>$147.79</td><td><span style="color:#b01c1c;font-weight:700;">▼ 7.46%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$174.44 x 41</td><td><span style="color:#b01c1c;font-weight:700;">$-1,093</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>TTWO</td><td>Take-Two</td><td style='font-family:var(--mono)'>$206.70</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.39%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$195.06 x 6</td><td><span style="color:#1e5c32;font-weight:700;">+$70</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>SQM</td><td>SQM ADR</td><td style='font-family:var(--mono)'>$60.05</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.82%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$73.21 x 12</td><td><span style="color:#b01c1c;font-weight:700;">$-158</span></td></tr><tr><td style='font-family:var(--mono);font-weight:700'>PFE</td><td>Pfizer</td><td style='font-family:var(--mono)'>$30.11</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.94%</span></td><td style='font-family:var(--mono);font-size:11px;color:var(--ink3)'>$23.49 x 7</td><td><span style="color:#1e5c32;font-weight:700;">+$46</span></td></tr></tbody></table></div>
+  <div style="margin-top:12px;"><div style="font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:var(--sans);margin-bottom:6px;">Indices &amp; Surveillance</div><div class="table-wrap"><table><thead><tr><th>Valeur</th><th>Cours</th><th>Variation</th></tr></thead><tbody><tr><td style='font-weight:700'>argenx</td><td style='font-family:var(--mono)'>$869.72</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.00%</span></td></tr><tr><td style='font-weight:700'>Block Inc</td><td style='font-family:var(--mono)'>$78.10</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.26%</span></td></tr><tr><td style='font-weight:700'>LVMH</td><td style='font-family:var(--mono)'>€388.10</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.25%</span></td></tr><tr><td style='font-weight:700'>Viatris</td><td style='font-family:var(--mono)'>$18.65</td><td><span style="color:#1e5c32;font-weight:700;">▲ 1.41%</span></td></tr><tr><td style='font-weight:700'>Nvidia</td><td style='font-family:var(--mono)'>$216.47</td><td><span style="color:#b01c1c;font-weight:700;">▼ 2.05%</span></td></tr><tr><td style='font-weight:700'>S&P 500</td><td style='font-family:var(--mono)'>$7,712.57</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.28%</span></td></tr><tr><td style='font-weight:700'>CAC 40</td><td style='font-family:var(--mono)'>€7,885.38</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.54%</span></td></tr><tr><td style='font-weight:700'>Euro Stoxx 50</td><td style='font-family:var(--mono)'>€6,164.04</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.64%</span></td></tr><tr><td style='font-weight:700'>Or ($/oz)</td><td style='font-family:var(--mono)'>$4,140.70</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.12%</span></td></tr><tr><td style='font-weight:700'>Brent ($/bbl)</td><td style='font-family:var(--mono)'>$99.21</td><td><span style="color:#b01c1c;font-weight:700;">▼ 0.04%</span></td></tr><tr><td style='font-weight:700'>Bitcoin</td><td style='font-family:var(--mono)'>$83,361.06</td><td><span style="color:#1e5c32;font-weight:700;">▲ 0.51%</span></td></tr></tbody></table></div></div>
+
+  <!-- SIGNAL -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Signal du jour</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div class="signal"><div class="signal-label">Analyse principale</div><div class="signal-headline">La Chine verrouille les terres rares : la robotique mondiale sous pression</div><div class="signal-deck">Pékin transforme son monopole sur les aimants en arme géopolitique, menaçant directement les chaînes de production de Tesla, Boston Dynamics et de l'ensemble de l'industrie robotique occidentale.</div><div class="signal-body"><p>Le signal est parti il y a moins d'un an : la Chine a imposé des <strong>licences d'exportation obligatoires sur les aimants en terres rares</strong>, composants absolument critiques pour les moteurs de robots humanoïdes et les véhicules électriques. En quelques semaines, <strong>Elon Musk alertait ses investisseurs</strong> sur des retards de production pour l'Optimus de Tesla. Ce n'était qu'un avant-goût. L'industrie robotique mondiale, évaluée à plusieurs centaines de milliards de dollars d'ici 2030, repose sur une dépendance structurelle à des matériaux que Pékin contrôle à plus de 85%.</p><p>Pour l'investisseur, le message est limpide : toute exposition aux <strong>ETF robotique ou aux fabricants de robots occidentaux</strong> comporte désormais un risque géopolitique de premier rang. Notre ligne <strong>SPCX</strong> — Space ETF, fortement corrélée aux nouvelles technologies — en porte déjà les stigmates avec une chute de <strong>-7,5% aujourd'hui seul</strong>, portant la perte latente à -1 093 $. Surveiller de près les acteurs qui sécurisent des sources d'approvisionnement alternatives : le Chili (<strong>SQM</strong>, en portefeuille), le Canada et l'Australie restent les seuls leviers crédibles de diversification à court terme.</p></div><div class="pull"><div class="pull-t">Within weeks of China's export license requirement, Elon Musk was telling investors that production of Tesla's Optimus was at risk.</div><div class="pull-a">OilPrice.com, 20 octobre 2026</div></div></div>
+
+  <!-- ANALYSES -->
+  <div class="sec"><div class="sec-line"></div><div class="sec-dot"></div><span class="sec-t">Analyses sectorielles</span><div class="sec-dot"></div><div class="sec-line"></div></div>
+  <div class="arts-grid"><div class="art"><div class="art-sector">GÉOPOLITIQUE SPATIALE</div><div class="art-h">Espace : Washington sous-estime encore l'avance chinoise</div><div class="art-b">Foreign Policy et Fair Observer sonnent simultanément l'alarme : la Chine n'est plus un suiveur dans la course spatiale, elle est un <strong>compétiteur pair</strong>. Satellites, constellation lunaire, capacités de brouillage — Pékin a méthodiquement comblé son retard. Pour les marchés, cela se traduit par une <strong>prime de risque croissante</strong> sur les actifs spatiaux occidentaux exposés à la compétition directe. Starlink, SpaceX et les ETF du secteur comme SPCX naviguent désormais dans un environnement où <strong>le cadre réglementaire et militaire peut changer du jour au lendemain</strong>. La correction de -7,5% de SPCX ce jour doit être lue dans ce contexte, et non comme un simple accident technique.</div></div><div class="art"><div class="art-sector">TELECOM & ESPACE</div><div class="art-h">Starlink : entre Ambani, Delta et la bataille des marchés émergents</div><div class="art-b">Livemint met le doigt sur la tension structurelle de Starlink : <strong>la croissance future dépend de marchés où les rivaux locaux résistent farouchement</strong>. En Inde, Mukesh Ambani et Reliance Jio bloquent réglementairement l'expansion de SpaceX. Chez les compagnies aériennes, Delta a engagé des négociations tarifaires agressives. Le modèle économique de Starlink, jadis sans concurrent sérieux, entre dans une <strong>phase de maturité compétitive</strong>. Pour les investisseurs exposés à l'écosystème spatial, c'est un signal de vigilance : la croissance des revenus ne sera plus aussi linéaire, et la <strong>pression sur les marges va s'intensifier</strong> à mesure que l'inde, le Brésil et l'Afrique choisissent leurs champions.</div></div><div class="art"><div class="art-sector">SANTÉ CANADA / MARCHÉS ÉMERGENTS</div><div class="art-h">WELL Health et marchés indiens : deux histoires de momentum divergent</div><div class="art-b">Au Canada, <strong>WELL Health (TSX:WELL)</strong> construit discrètement un momentum dans le secteur santé numérique — Kalkine signale des signaux techniques encourageants à surveiller pour un éventuel point d'entrée. En miroir, les marchés indiens souffrent d'un <strong>double choc</strong> : des résultats bancaires décevants des prêteurs privés et un <strong>Brent à 99 $/baril</strong> qui alourdit la facture énergétique d'une économie encore fortement importatrice de pétrole. Seules les banques publiques (PSU) tirent leur épingle du jeu. Notre ligne <strong>PFE</strong> (+0,9% ce jour, +46 $ en latent) illustre que la santé défensive reste une valeur refuge cohérente dans cet environnement de stress géopolitique et énergétique.</div></div></div>
+  <div class="hero2"><img src="https://d32r1sh890xpii.cloudfront.net/article/1200x675/2026-10-19_sy5ye14dxg.jpg" alt="Robot Wars – How China Has the Robotics Industry in Its Grip" onerror="this.parentElement.style.display='none'"><div class="hero2-caption">OilPrice.com — Robot Wars – How China Has the Robotics Industry in Its Grip</div></div>
+
+  <!-- VERDICT -->
+  <div class="verdict"><span class="v-tag">Verdict YAASAP · 21 October 2026</span><div class="v-t">La journée du 21 octobre 2026 cristallise un monde où <strong>la géopolitique des ressources dicte les valorisations</strong> : terres rares chinoises, pétrole à 99 $, course spatiale militarisée. Le portefeuille YAASAP encaisse la correction de <strong>SPCX (-7,5%)</strong> mais conserve des positions défensives solides en PFE et TTWO. <strong>Priorité tactique</strong> : décider si SPCX est un point de renforcement ou une coupe — la réponse dépend de votre horizon sur la souveraineté technologique occidentale face à Pékin.</div></div>
+
+  <!-- SOURCES -->
+  <div class="sources"><div class="sources-label">Sources</div><div class="src-list"><a href="https://kalkinemedia.com/ca/stocks/healthcare/is-well-health-tsxwell-building-momentum-across-canadian-healthcare-stocks" target="_blank" class="src-pill">Kalkine Media</a><a href="https://oilprice.com/Energy/Energy-General/Robot-Wars-How-China-Has-the-Robotics-Industry-in-Its-Grip.html" target="_blank" class="src-pill">OilPrice.com</a><a href="https://economictimes.indiatimes.com/markets/stocks/news/banking-stocks-high-oil-prices-drag-indian-markets-lower/articleshow/135058914.cms" target="_blank" class="src-pill">The Times of India</a><a href="https://www.business-standard.com/markets/news/private-lenders-weigh-on-equity-markets-as-psu-banks-buck-the-selloff-126101901036_1.html" target="_blank" class="src-pill">Business Standard</a><a href="https://www.prnewswire.com/news-releases/cboe-launches-extended-trading-sessions-for-select-single-stock-and-etf-options-302912644.html" target="_blank" class="src-pill">PRNewswire</a><a href="https://www.fairobserver.com/world-news/fo-exclusive-a-space-revolution-is-imminent-are-we-ready/" target="_blank" class="src-pill">Fair Observer</a><a href="http://foreignpolicy.com/2026/10/19/china-space-musk-race-satellites-moon/" target="_blank" class="src-pill">Foreign Policy</a><a href="https://www.livemint.com/companies/starlink-elon-musk-spacex-mukesh-ambani-reliance-jio-satellite-internet-telecom-competition-11792334114634.html" target="_blank" class="src-pill">Livemint</a></div></div>
+
+  <!-- NEWSLETTER -->
+  <div class="nl-mini">
+    <div class="nl-mini-title">Recevoir ce bulletin chaque matin</div>
+    <div class="nl-mini-sub">Gratuit · Donnees marche en temps reel + analyse editoriale · Desabonnement en 1 clic</div>
+    <div class="nl-mini-row">
+      <input class="nl-mini-input" type="email" id="nlm-email" placeholder="votre@email.com" autocomplete="email">
+      <button class="nl-mini-btn" onclick="nlmSubmit()">S'abonner</button>
+    </div>
+    <div id="nlm-ok">INSCRIT</div>
+    <div class="nl-mini-note">RGPD · Formspree · yaasap.github.io/dailywatch</div>
+  </div>
+
+</div><!-- /layout -->
+
+<footer>
+  <div class="foot-brand">YAASAP <em>Notes</em></div>
+  <div class="foot-note">Par Yacine AOUABED &middot; Note du 21/10/2026 &middot; <span id="liveDateFooter">21 October 2026</span><br>Analyse informative uniquement &mdash; Ne constitue pas un conseil en investissement</div>
+  <nav class="foot-nav">
+    <a href="../index.html">Accueil</a>
+    <a href="index.html">Archives</a>
+    <a href="../yaasap_starpipe.html">Starpipe</a>
+    <a href="../yaasap_lvmh.html">LVMH</a>
+    <a href="../yaasap_spcx_position.html">SPCX</a>
+  </nav>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var d=new Date();
+  var opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  var s=d.toLocaleDateString('fr-FR',opts);
+  ['liveDate','liveDateFooter','urgTime'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.textContent=id==='urgTime'?s+' · 07h00':s;
+  });
+  (function tryQR(){
+    var el=document.getElementById('qr-mast');
+    if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+    new QRCode(el,{text:'https://yaasap.github.io/dailywatch/index.html',
+      width:48,height:48,colorDark:'#0a0c0f',colorLight:'#f5f2ec',
+      correctLevel:QRCode.CorrectLevel.M});
+  })();
+})();
+function nlmSubmit(){
+  var emailEl=document.getElementById('nlm-email');
+  var email=emailEl?emailEl.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    if(emailEl)emailEl.style.borderColor='rgba(200,41,10,.6)';return;
+  }
+  var body=new FormData();
+  body.append('email',email);body.append('source','yaasap-daily-FORMSPREE_21 October 2026');
+  body.append('_subject','Inscription YAASAP Notes Daily');body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){
+    var row=emailEl.parentElement;if(row)row.style.display='none';
+    var ok=document.getElementById('nlm-ok');if(ok)ok.style.display='block';
+  }});
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='nlm-email')nlmSubmit();
+});
+</script>
+</body>
+</html>
