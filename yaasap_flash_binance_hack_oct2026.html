@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YAASAP Flash · Binance piraté — 6,3 Md$ en 20 minutes</title>
+<meta name="description" content="Flash YAASAP : le piratage record de Binance (29 octobre 2026), la réaction du marché et le nouveau marché de la sécurité pilotée par l'IA.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --paper:#f9f6f0;--paper2:#f2ede4;--paper3:#e8e1d5;
+  --ink:#1c1814;--ink2:#3a342c;--ink3:#6a5f52;--ink4:#9a8f82;
+  --rule:rgba(0,0,0,.12);--rule2:rgba(0,0,0,.07);
+  --accent:#8b3a1a;--green:#1e5c32;--amber:#8a5c00;--gold:#c8902a;--blue:#1a3a5c;--red:#b01c1c;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  --mono:'Source Code Pro','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+
+/* Masthead */
+.masthead{background:var(--ink);border-bottom:3px solid var(--accent);padding:11px 22px 9px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.pub-name{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff}
+.pub-name em{font-style:italic;color:var(--accent)}
+.pub-sub{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:2px}
+.mast-r{display:flex;align-items:center;gap:12px}
+.mast-date{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase}
+#qr-mast{background:#fff;padding:2px;border-radius:2px;line-height:0}
+
+/* Hero */
+.hero{position:relative;min-height:330px;background:#14100c;overflow:hidden;display:flex;align-items:flex-end}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,.25) 0%,rgba(20,16,12,.92) 100%)}
+.hero-in{position:relative;z-index:2;max-width:760px;margin:0 auto;width:100%;padding:60px 22px 26px}
+.eyebrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:1px;background:var(--accent);color:#fff}
+.tag.alt{background:rgba(255,255,255,.14);color:#f2ede4}
+.hero h1{font-family:var(--serif);font-size:29px;line-height:1.14;color:#fff;font-weight:700;margin-bottom:12px}
+.hero .deck{font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.6;color:rgba(255,255,255,.72)}
+.byline{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:14px}
+
+/* KPI */
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);background:var(--ink)}
+.kpi{padding:10px 0 10px 14px;border-right:1px solid rgba(255,255,255,.06)}
+.kpi-v{font-family:var(--mono);font-size:14px;font-weight:700;line-height:1;display:block}
+.kpi-v.up{color:#4ade80}.kpi-v.dn{color:#f87171}.kpi-v.am{color:#fbbf24}.kpi-v.neu{color:#e0d8cc}
+.kpi-l{font-family:var(--mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px;display:block;padding-right:6px}
+
+/* Kicker */
+.kicker{overflow-x:auto;background:var(--paper2);border-bottom:1px solid var(--rule)}
+.kicker::-webkit-scrollbar{display:none}
+.kicker-inner{display:flex;min-width:max-content}
+.kk{padding:8px 14px;border-right:1px solid var(--rule2);flex-shrink:0}
+.kk-l{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:2px}
+.kk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);line-height:1}
+.kk-n{font-size:9px;color:var(--ink4);font-style:italic;margin-top:2px}
+
+/* Wrap */
+.wrap{max-width:760px;margin:0 auto;padding:6px 22px 40px}
+.sec-rule{display:flex;align-items:center;gap:8px;margin:30px 0 14px}
+.sec-rule::before{content:'';width:20px;height:2px;background:var(--accent);flex-shrink:0}
+.sec-rule-txt{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.sec-rule::after{content:'';flex:1;height:1px;background:var(--rule)}
+.lead-hl{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:8px}
+.lead-deck{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ink3);line-height:1.6;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--rule2)}
+.body-p{font-family:var(--serif);font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:11px}
+.body-p strong{font-weight:700;color:var(--ink)}
+.pull{border-left:3px solid var(--accent);padding:10px 16px;margin:16px 0;background:var(--paper2)}
+.pull-t{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink);line-height:1.5}
+.pull-a{font-family:var(--mono);font-size:8px;color:var(--ink4);margin-top:5px;letter-spacing:.06em;text-transform:uppercase}
+
+/* Charts */
+.chart-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--ink);border-radius:2px;padding:12px 14px 10px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.chart-t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.chart-box{position:relative;height:230px}
+.chart-src{font-family:var(--mono);font-size:7.5px;color:var(--ink4);margin-top:6px;letter-spacing:.04em}
+
+/* Tables */
+.tbl-card{background:#fff;border:1px solid var(--rule);border-top:3px solid var(--ink);border-radius:2px;overflow:hidden;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tbl-hd{padding:8px 14px;background:var(--paper2);border-bottom:1px solid var(--rule2)}
+.tbl-hd-t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.tbl-scroll{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;min-width:520px}
+.tbl th{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding:8px 13px;text-align:left;border-bottom:1.5px solid var(--ink);background:var(--paper2)}
+.tbl td{font-size:13px;padding:8px 13px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.45}
+.tbl td strong{color:var(--ink)}
+.b-up{background:rgba(30,92,50,.1);color:var(--green);font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;white-space:nowrap}
+.b-dn{background:rgba(176,28,28,.1);color:var(--red);font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;white-space:nowrap}
+.b-am{background:rgba(138,92,0,.1);color:var(--amber);font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:1px;white-space:nowrap}
+
+/* Verdict */
+.verdict{background:var(--ink);border-radius:2px;padding:20px 22px;margin:28px 0}
+.v-tag{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;padding:3px 8px;border-radius:1px;display:inline-block;margin-bottom:12px}
+.v-hl{font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(255,255,255,.9);line-height:1.45;margin-bottom:12px}
+.v-hl strong{font-style:normal;color:#fbbf24}
+.v-list{border-top:1px solid rgba(255,255,255,.1);padding-top:12px;display:flex;flex-direction:column;gap:7px}
+.v-li{display:flex;gap:10px;font-family:var(--serif);font-size:13.5px;color:rgba(255,255,255,.75);align-items:baseline;line-height:1.55}
+.v-li::before{content:'—';color:#fbbf24;flex-shrink:0;font-family:var(--mono)}
+.v-li strong{color:#fff;font-weight:700}
+.v-disc{margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.04em;line-height:1.7}
+
+/* Newsletter */
+.nl{background:var(--paper2);border:1px solid var(--rule);border-radius:2px;padding:18px 20px;margin:24px 0}
+.nl-hl{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:10px}
+.nl-row{display:flex;gap:8px;flex-wrap:wrap}
+.nl-input{flex:1;min-width:180px;padding:9px 11px;border:1px solid var(--rule);border-radius:2px;font-family:var(--sans);font-size:14px;background:#fff}
+.nl-btn{padding:9px 16px;background:var(--ink);color:#fff;border:none;border-radius:2px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.nl-btn:hover{background:var(--accent)}
+.nl-ok{display:none;font-family:var(--mono);font-size:11px;color:var(--green);margin-top:6px}
+
+/* Footer */
+footer{background:var(--ink);color:rgba(255,255,255,.5);padding:22px;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;line-height:2}
+footer a{color:rgba(255,255,255,.75);text-decoration:none;margin:0 8px}
+footer a:hover{color:#fbbf24}
+
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .kpi{padding:10px 0 10px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .hero h1{font-size:23px}
+  .hero{min-height:300px}
+  .mast-date{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. MASTHEAD -->
+<header class="masthead">
+  <div>
+    <div class="pub-name">YAASAP <em>Notes</em></div>
+    <div class="pub-sub">Flash · Crypto &amp; Cybersécurité</div>
+  </div>
+  <div class="mast-r">
+    <span class="mast-date" id="mastDate">30 octobre 2026</span>
+    <div id="qr-mast"></div>
+  </div>
+</header>
+
+<!-- 2. HERO -->
+<section class="hero">
+  <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=85&fit=crop" alt="" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80&fit=crop'">
+  <div class="hero-in">
+    <div class="eyebrow">
+      <span class="tag">BNB · BTC · Crypto</span>
+      <span class="tag alt">Flash</span>
+      <span class="tag alt">30 oct. 2026</span>
+    </div>
+    <h1>6,3 Md$ volés à Binance en 20 minutes — porte d'entrée : un laptop</h1>
+    <p class="deck">Le plus gros vol de l'histoire crypto vaut quatre fois le record de Bybit. L'enquête préliminaire pointe l'ordinateur d'un ingénieur, pas la blockchain : c'est là que se crée le prochain marché pour l'IA.</p>
+    <div class="byline">Par Yacine AOUABED · YAASAP Notes · vendredi 30 octobre 2026</div>
+  </div>
+</section>
+
+<!-- 3. KPI STRIP -->
+<section class="kpi-strip">
+  <div class="kpi"><span class="kpi-v am">~6,3 Md$</span><span class="kpi-l">Impact estimé (Binance)</span></div>
+  <div class="kpi"><span class="kpi-v up">~3 Md$</span><span class="kpi-l">Gelés on-chain</span></div>
+  <div class="kpi"><span class="kpi-v dn">76 470 $</span><span class="kpi-l">BTC plus bas (6 sem.)</span></div>
+  <div class="kpi"><span class="kpi-v dn">−8 %</span><span class="kpi-l">BNB au plus bas</span></div>
+  <div class="kpi"><span class="kpi-v dn">1,49 Md$</span><span class="kpi-l">Liquidations 24 h</span></div>
+  <div class="kpi"><span class="kpi-v neu">20 min</span><span class="kpi-l">Durée du gros du vol</span></div>
+</section>
+
+<!-- 4. KICKER -->
+<section class="kicker">
+  <div class="kicker-inner">
+    <div class="kk"><div class="kk-l">Blockchains touchées</div><div class="kk-v">10</div><div class="kk-n">ETH, BTC, Tron, XRP, Solana…</div></div>
+    <div class="kk"><div class="kk-l">Record précédent</div><div class="kk-v">1,5 Md$</div><div class="kk-n">Bybit, fév. 2025</div></div>
+    <div class="kk"><div class="kk-l">Multiple vs Bybit</div><div class="kk-v">≈ 4×</div><div class="kk-n">selon TRM Labs</div></div>
+    <div class="kk"><div class="kk-l">USDT gelés (Tether)</div><div class="kk-v">1,57 Md$</div><div class="kk-n">+ &gt;800 M$ USDC (Circle)</div></div>
+    <div class="kk"><div class="kk-l">Part des longs liquidés</div><div class="kk-v">86,8 %</div><div class="kk-n">243 000 traders</div></div>
+    <div class="kk"><div class="kk-l">Ether</div><div class="kk-v">~2 190 $</div><div class="kk-n">−3 à −5 %</div></div>
+    <div class="kk"><div class="kk-l">Coinbase (après-bourse)</div><div class="kk-v">−4,8 %</div><div class="kk-n">Strategy −6 %</div></div>
+    <div class="kk"><div class="kk-l">BTC sur octobre (en passe de)</div><div class="kk-v">−6,1 %</div><div class="kk-n">« Uptober » raté, 2<sup>e</sup> année</div></div>
+  </div>
+</section>
+
+<!-- 5. WRAP -->
+<main class="wrap">
+
+  <div class="sec-rule"><span class="sec-rule-txt">Les faits · 6,3 Md$ sur 10 blockchains, ~3 Md$ gelés</span></div>
+
+  <h2 class="lead-hl">Binance saigne 6,3 milliards de dollars, et affirme que les clients ne perdront rien.</h2>
+  <p class="lead-deck">Le plus grand vol de cryptomonnaies jamais enregistré a eu lieu jeudi soir. Binance promet de tout couvrir, mais a suspendu dépôts et retraits : la solvabilité n'est pas en cause, la confiance, si.</p>
+
+  <p class="body-p">Le gros de l'attaque s'est joué en <strong>une vingtaine de minutes à partir de 20 h 05 UTC</strong> le 29 octobre, selon TRM Labs, qui chiffre le butin à <strong>6,36 Md$ sur dix blockchains</strong> (Ethereum, Bitcoin, Tron, XRP Ledger, Solana, Arbitrum, Avalanche, Optimism, Base, Polygon). Binance retient <strong>~6,3 Md$ d'impact</strong> et indique avoir fait geler <strong>~3 Md$</strong> avec ses partenaires. Les estimations des analystes vont de 5,3 à 6,4 Md$ selon la méthode : le montant définitif reste à établir.</p>
+
+  <p class="body-p">Côté stablecoins, <strong>Tether a gelé plus de 1,56 Md$ d'USDT</strong> et <strong>Circle plus de 800 M$ d'USDC</strong>. C'est la vraie leçon opérationnelle de la nuit : les émetteurs centralisés ont agi plus vite que n'importe quel protocole décentralisé.</p>
+
+  <div class="pull">
+    <div class="pull-t">« This is unprecedented. »</div>
+    <div class="pull-a">Kevin March, cofondateur de JPEG Trading · via Axios, 29 oct. 2026</div>
+  </div>
+
+  <p class="body-p">Binance dit pouvoir absorber la perte par son assurance et son bilan, et Yi He, co-CEO, a promis de couvrir toutes les pertes des utilisateurs. Changpeng Zhao, qui ne dirige plus la plateforme, a lui aussi estimé que les fonds clients seraient couverts en intégralité. <strong>Binance n'a pas encore publié de post-mortem complet</strong> : tant que ce document n'existe pas, tout chiffre reste provisoire.</p>
+
+  <div class="sec-rule"><span class="sec-rule-txt">Mode opératoire · 50 signatures, une seule suffisait</span></div>
+
+  <h2 class="lead-hl">La blockchain a fonctionné comme prévu. Le maillon faible est en amont de la signature.</h2>
+  <p class="lead-deck">Premier constat de Binance : l'ordinateur d'un ingénieur DevOps compromis, un conteneur de service atteint, des retraits non autorisés soumis depuis l'intérieur. Aucune fuite de clé privée n'a été identifiée à ce stade.</p>
+
+  <p class="body-p">Selon Blockaid, l'attaquant a financé son adresse d'opération via <strong>Tornado Cash dès le 28 octobre</strong>, puis répété la séquence sur ses propres portefeuilles avec des montants de 2 à 6 dollars. À 20 h 20 UTC, une seule transaction a embarqué <strong>50 autorisations EIP-7702</strong> pour le portefeuille chaud « Binance 14 », couvrant 50 nonces consécutifs pour qu'une au moins soit valide. Une l'a été : le portefeuille a été lié à un contrat « balayeur » qui l'a vidé en une transaction.</p>
+
+  <p class="body-p">Prudence sur l'interprétation : l'analyse on-chain décrit EIP-7702, mais <strong>la communication officielle de Binance ne le désigne pas comme cause racine confirmée</strong>, et rien ne montre une faille du réseau Ethereum lui-même. TRM Labs attribue l'opération au groupe nord-coréen TraderTraitor, déjà lié au piratage de Bybit en 2025 ; la Corée du Nord a toujours démenti ce type d'accusations, et certains observateurs rappellent que la preuve définitive manque encore.</p>
+
+  <div class="chart-card">
+    <div class="chart-t">Composition estimée du butin · base 5,3 Md$ (Coinglass)</div>
+    <div class="chart-box"><canvas id="chDonut"></canvas></div>
+    <div class="chart-src">Source : Coinglass via Investing.com, 30 oct. 2026 · « ETH et autres » = solde calculé · BNB non touché</div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-txt">Marché · BTC à 6 semaines de plus bas, 1,5 Md$ liquidés</span></div>
+
+  <h2 class="lead-hl">Une réaction ordonnée, pas une panique : le marché note la solvabilité, pas le montant.</h2>
+  <p class="lead-deck">Le Bitcoin a perdu environ 4 % et BNB jusqu'à 8 %. Plusieurs analystes jugent la baisse contenue pour un vol de cette taille, tant que Binance reste solvable.</p>
+
+  <div class="tbl-card">
+    <div class="tbl-hd"><span class="tbl-hd-t">Réaction des actifs · 29-30 octobre 2026</span></div>
+    <div class="tbl-scroll">
+    <table class="tbl">
+      <thead><tr><th>Actif</th><th>Niveau observé</th><th>Mouvement</th><th>Lecture</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bitcoin</strong></td><td>76 470 – 78 500 $</td><td><span class="b-dn">−2 à −5 %</span></td><td>Plus bas en 6 semaines ; ~80 000 $ avant l'annonce</td></tr>
+        <tr><td><strong>Ether</strong></td><td>2 190 – 2 260 $</td><td><span class="b-dn">−3 à −5 %</span></td><td>Le pirate détiendrait ~195 000 ETH</td></tr>
+        <tr><td><strong>BNB</strong></td><td>~692 – 715 $</td><td><span class="b-dn">−5 à −8 %</span></td><td>Proxy de la confiance dans Binance</td></tr>
+        <tr><td><strong>Coinbase</strong></td><td>après-bourse US</td><td><span class="b-dn">−4,8 %</span></td><td>Crainte de contagion de liquidité</td></tr>
+        <tr><td><strong>Strategy</strong></td><td>après-bourse US</td><td><span class="b-dn">−6 %</span></td><td>Plus gros détenteur corporate de BTC</td></tr>
+        <tr><td><strong>Liquidations</strong></td><td>1,49 Md$ / 24 h</td><td><span class="b-am">86,8 % longs</span></td><td>628 M$ dans la première heure</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <p class="body-p">Les marchés de crédit DeFi (Aave, Kamino) ont restreint ou mis en pause certains marchés par précaution. L'historique des précédents hacks d'exchanges montre un schéma : <strong>ce qui compte pour les cours n'est jamais le montant volé, mais la capacité de la plateforme à rester solvable</strong>. Un analyste de Laevitas juge la réaction « assez contenue » ; un autre estime qu'une nouvelle base de prix ne se formera qu'une fois les actifs dégelés et les détails connus.</p>
+
+  <div class="chart-card">
+    <div class="chart-t">Les plus gros piratages récents · Md$</div>
+    <div class="chart-box"><canvas id="chBar"></canvas></div>
+    <div class="chart-src">Sources : TRM Labs (Binance) · Bybit/Wikipedia · Bitget/Wikipedia · CNBC TV18 (WazirX)</div>
+  </div>
+
+  <div class="sec-rule"><span class="sec-rule-txt">Nouveau business · l'IA, de l'audit de code à la défense temps réel</span></div>
+
+  <h2 class="lead-hl">Le vol est parti d'un poste de travail : le budget sécurité bascule du contrat vers l'opérationnel.</h2>
+  <p class="lead-deck">Les audits de smart contracts, premier marché de l'IA appliquée à la crypto, n'auraient probablement pas empêché ce vol. Le marché qui s'ouvre est plus large : accès privilégiés, infrastructures de signature, détection en temps réel.</p>
+
+  <p class="body-p">Le constat est inconfortable pour l'industrie. Depuis 2025, l'IA s'est installée dans l'audit : <strong>OpenAI et Paradigm ont publié EVMbench en février 2026</strong> pour mesurer la capacité d'agents à détecter, corriger et exploiter des failles, OpenZeppelin vend un programme de sécurité continue avec un auditeur IA, Trail of Bits intègre des agents spécialisés. Mais l'attaque Binance n'est pas un bug de code : c'est <strong>une chaîne d'accès compromise, puis 20 minutes de retraits à vitesse machine</strong>.</p>
+
+  <div class="pull">
+    <div class="pull-t">Vingt minutes pour vider six milliards : aucun humain n'a le temps de réagir. Seul un automate peut arrêter un automate.</div>
+    <div class="pull-a">Thèse YAASAP · 30 oct. 2026</div>
+  </div>
+
+  <p class="body-p">L'IA joue des deux côtés. CertiK recommande désormais de traiter le réaudit comme une exigence récurrente, car les outils d'IA raccourcissent le temps nécessaire aux attaquants pour trouver des failles ; une étude d'Anthropic (décembre 2025) a montré que des agents IA identifiaient 4,6 M$ de vulnérabilités exploitables dans des smart contracts. <strong>La défense doit donc monter en cadence au même rythme que l'attaque.</strong></p>
+
+  <div class="tbl-card">
+    <div class="tbl-hd"><span class="tbl-hd-t">Où se crée la valeur · segments de la sécurité pilotée par l'IA</span></div>
+    <div class="tbl-scroll">
+    <table class="tbl">
+      <thead><tr><th>Segment</th><th>Ce qu'il aurait changé chez Binance</th><th>Maturité</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Détection comportementale temps réel</strong> (flux de retraits, plafonds de vélocité, coupe-circuit)</td><td>Bloquer un balayage de portefeuille chaud en quelques secondes, pas en 20 minutes</td><td><span class="b-am">Émergent</span></td></tr>
+        <tr><td><strong>Sécurité des accès privilégiés</strong> (postes DevOps, secrets, conteneurs de service)</td><td>Couper la porte d'entrée supposée : le laptop compromis</td><td><span class="b-am">À industrialiser</span></td></tr>
+        <tr><td><strong>Surveillance des autorisations de signature</strong> (EIP-7702, délégations)</td><td>Alerter sur 50 délégations en une transaction</td><td><span class="b-am">Émergent</span></td></tr>
+        <tr><td><strong>Traçage et gel on-chain</strong> (Chainalysis, TRM, émetteurs de stablecoins)</td><td>Déjà décisif : ~3 Md$ gelés en quelques heures</td><td><span class="b-up">Opérationnel</span></td></tr>
+        <tr><td><strong>Audit continu de smart contracts</strong> (agents IA)</td><td>Peu d'impact direct sur ce cas ; utile pour le reste de l'écosystème</td><td><span class="b-up">Marché établi</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <p class="body-p">Le financement suit déjà le thème, à petite échelle : Octane Security a levé 6,75 M$ début 2026 auprès d'investisseurs dont Gemini et Circle, et les assureurs commenceraient à exiger une surveillance par IA comme condition de couverture (selon CryptoAIAnalysis, source à recouper). <strong>Aucun de ces acteurs n'est un pari coté et liquide</strong> : l'exposition boursière à ce thème passe plutôt par les grands éditeurs de cybersécurité et les fournisseurs d'infrastructure que par des pure players crypto.</p>
+
+  <div class="sec-rule"><span class="sec-rule-txt">Scénarios · trois issues à 4-6 semaines</span></div>
+
+  <div class="tbl-card">
+    <div class="tbl-hd"><span class="tbl-hd-t">Scénarios nommés · probabilités subjectives YAASAP</span></div>
+    <div class="tbl-scroll">
+    <table class="tbl">
+      <thead><tr><th>Scénario</th><th>Proba.</th><th>Déclencheur</th><th>Effet marché</th></tr></thead>
+      <tbody>
+        <tr><td><strong>« Contenu »</strong></td><td><span class="b-up">50 %</span></td><td>Retraits rouverts sous 1-2 semaines, pertes couvertes, post-mortem publié</td><td>BTC en range 74-82 k$, BNB récupère une partie de la baisse</td></tr>
+        <tr><td><strong>« Fuite de liquidité »</strong></td><td><span class="b-dn">30 %</span></td><td>Retraits suspendus longtemps, retraits massifs vers d'autres plateformes</td><td>Nouvelle vague de liquidations, BTC sous 74 k$</td></tr>
+        <tr><td><strong>« Rebond de purge »</strong></td><td><span class="b-am">20 %</span></td><td>Dégel rapide de l'essentiel, remboursement visible, positionnement short extrême</td><td>Retour vers 80 k$ en quelques jours</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <section class="verdict">
+    <span class="v-tag">Verdict YAASAP · Yacine AOUABED · 30 octobre 2026</span>
+    <p class="v-hl">Le hack de Binance est un <strong>choc de confiance</strong>, pas un choc de solvabilité, et il déplace le budget sécurité de l'audit de code vers la défense opérationnelle pilotée par l'IA.</p>
+    <div class="v-list">
+      <div class="v-li"><span><strong>Bitcoin : Attendre</strong> une reprise au-dessus de 80 000 $ (niveau d'avant l'annonce) ou la publication du post-mortem avant d'entrer ; le plus bas à 76 470 $ n'est pas un support validé.</span></div>
+      <div class="v-li"><span><strong>BNB : Attendre</strong> la réouverture complète des retraits et la confirmation du remboursement des pertes ; ne pas acheter une baisse dont la cause n'est pas documentée.</span></div>
+      <div class="v-li"><span><strong>Exchanges centralisés : Alléger la part laissée en plateforme</strong> ; ne conserver chez un exchange que le montant réellement négocié.</span></div>
+      <div class="v-li"><span><strong>Thème IA et cybersécurité : accumulation progressive en 3 tranches</strong>, via des éditeurs cotés diversifiés, première tranche seulement après les prochains résultats trimestriels du secteur ; pas de pari sur une petite capitalisation crypto-sécurité.</span></div>
+      <div class="v-li"><span><strong>Condition de sortie :</strong> si le post-mortem révèle une défaillance systémique de Binance (fonds clients réellement non couverts), basculer en scénario « Fuite de liquidité » et réduire toute exposition au secteur.</span></div>
+      <div class="v-li"><span><strong>Catalyseurs :</strong> publication du post-mortem, réouverture des retraits, dégel des ~3 Md$, avancées de l'enquête sur l'attribution nord-coréenne.</span></div>
+      <div class="v-li"><span><strong>Risque principal :</strong> montant définitif et cause racine encore incertains ; chaque nouvelle estimation (5,3 à 6,4 Md$) peut relancer la volatilité.</span></div>
+    </div>
+    <div class="v-disc">
+      Sources : TRM Labs · Axios · The Block · FinanceFeeds (Reuters) · Investing.com · Cointelegraph · CoinDesk · Washington Post · Yahoo Finance (AFP) · bitcoin.fr · Blockaid (via Cryptopolitan) · cryptoticker.io · CertiK (via Cointelegraph, 9 juil. 2026) · OpenAI/Paradigm EVMbench · Wikipedia (Bybit, Bitget) · 30 octobre 2026.<br>
+      Les probabilités de scénarios sont des estimations subjectives de l'auteur. Ne constitue pas un conseil en investissement. Par Yacine AOUABED · YAASAP Notes · yaasap.github.io/dailywatch
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="nl">
+    <div class="nl-hl">Recevoir les prochaines notes YAASAP</div>
+    <div class="nl-row">
+      <input class="nl-input" type="email" id="nlEmail" placeholder="votre@email.com">
+      <button class="nl-btn" onclick="nlSubmit()">S'abonner →</button>
+    </div>
+    <div class="nl-ok" id="nlOk">✓ Inscrit — vérifiez votre boite mail</div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div>YAASAP Notes · Analyse financière indépendante · Yacine AOUABED</div>
+  <div>
+    <a href="./index.html">Accueil</a>
+    <a href="./yaasap_spcx_update_aout2026.html">Note tech : SpaceX update</a>
+    <a href="./docs/index.html">Archives</a>
+  </div>
+</footer>
+
+<script>
+// Date masthead
+(function(){
+  var el=document.getElementById('mastDate');
+  if(el){el.textContent='30 octobre 2026';}
+})();
+
+// QR code
+(function tryQR(){
+  var el=document.getElementById('qr-mast');
+  if(!el||typeof QRCode==='undefined'){setTimeout(tryQR,80);return;}
+  new QRCode(el,{
+    text:'https://yaasap.github.io/dailywatch/yaasap_flash_binance_hack_oct2026.html',
+    width:36,height:36,colorDark:'#1c1814',colorLight:'#fff',
+    correctLevel:QRCode.CorrectLevel.M
+  });
+})();
+
+// Charts
+(function initCharts(){
+  if(typeof Chart==='undefined'){setTimeout(initCharts,100);return;}
+  var tc='#6a5f52', tf={size:9,family:"'Source Code Pro','Courier New',monospace"};
+  var tt={backgroundColor:'rgba(28,24,20,.95)',titleColor:'#f9f6f0',bodyColor:'rgba(255,255,255,.7)',borderColor:'rgba(0,0,0,.1)',borderWidth:1,padding:8};
+
+  var d=document.getElementById('chDonut');
+  if(d){
+    new Chart(d,{
+      type:'doughnut',
+      data:{
+        labels:['USDT','Bitcoin','USDC','ETH et autres (solde)'],
+        datasets:[{data:[1.66,1.45,0.767,1.423],backgroundColor:['#1e5c32','#c8902a','#1a3a5c','#8b3a1a'],borderColor:'#fff',borderWidth:2}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,cutout:'58%',
+        plugins:{
+          legend:{position:'right',labels:{color:tc,font:tf,boxWidth:10}},
+          tooltip:Object.assign({},tt,{callbacks:{label:function(c){return ' '+c.label+' : '+c.parsed.toFixed(2)+' Md$';}}})
+        }
+      }
+    });
+  }
+
+  var b=document.getElementById('chBar');
+  if(b){
+    new Chart(b,{
+      type:'bar',
+      data:{
+        labels:['Binance (oct. 2026)','Bybit (fév. 2025)','Bitget (sept. 2026)','WazirX (juil. 2024)'],
+        datasets:[{data:[6.36,1.5,0.39,0.235],backgroundColor:['#b01c1c','#8b3a1a','#c8902a','#9a8f82'],borderWidth:0}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,indexAxis:'y',
+        plugins:{legend:{display:false},tooltip:Object.assign({},tt,{callbacks:{label:function(c){return ' '+c.parsed.x+' Md$';}}})},
+        scales:{
+          x:{ticks:{color:tc,font:tf,callback:function(v){return v+' Md$';}},grid:{color:'rgba(0,0,0,.06)'}},
+          y:{ticks:{color:tc,font:tf},grid:{display:false}}
+        }
+      }
+    });
+  }
+})();
+
+// Newsletter
+function nlSubmit(){
+  var el=document.getElementById('nlEmail');
+  var email=el?el.value.trim():'';
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){if(el)el.style.borderColor='rgba(200,41,10,.6)';return;}
+  var body=new FormData();
+  body.append('email',email);
+  body.append('source','yaasap-flash-binance-hack-oct2026');
+  body.append('_subject','Inscription YAASAP Notes');
+  body.append('_next','false');
+  fetch('https://formspree.io/f/meewwqep',{method:'POST',body:body,headers:{'Accept':'application/json'}})
+  .then(function(r){if(r.ok){
+    var row=el.parentElement;if(row)row.style.display='none';
+    var ok=document.getElementById('nlOk');if(ok)ok.style.display='block';
+  }});
+}
+</script>
+</body>
+</html>
